@@ -1,7 +1,14 @@
 <template>
-    <b-modal id="auth" :title="title" @ok="sendForm" @reset="resetModal" 
-        @cancel="resetModal" :ok-title="btnTitle" >
-        <form @submit.stop.prevent="handleOk">
+
+    <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" 
+        @cancel="resetModal" :ok-title="btnTitle" ref="auth" header-bg-variant="danger" header-text-variant="white">
+
+        <b-alert :variant="type" 
+            dismissible show>
+            {{message}}
+        </b-alert>
+
+        <form @submit.stop.prevent="sendForm">
             <b-form-group label="Nome" v-show="!auth">
                 <b-form-input type="text" placeholder="Nome completo" 
                     v-model="formData.name" required :state="validName"/>
@@ -27,7 +34,9 @@
             <p v-show="auth">Não tem uma conta? Clique aqui para se 
                 <a href="#login" @click="loginOrRegister">registrar</a></p>
         </form>
+
     </b-modal>
+
 </template>
 
 <script>
@@ -35,11 +44,13 @@
         data() {
             return {
                 auth: true,
+                message: '',
+                type: '',
                 formData: {
                     name: '',
                     email: '',
                     password: '',
-                    confirmation: ''
+                    confirmation: '',
                 },
             }
         },
@@ -85,15 +96,30 @@
             },
 
             sendForm() {
-                this.auth ? this.register() : this.authenticate()
+                !this.auth ? this.register() : this.authenticate()
             },
 
             register() {
+                
+                if (this.filledFields) {
+                    let form = new FormData();
+
+                    form.append('name',this.formData.name);
+                    form.append('email',this.formData.email);
+                    form.append('password',this.formData.password);
+
+                    this.$http.post('register',form)
+                    .then(res => {
+                        alert(res.data)
+                        this.resetModal();
+                    })
+                }
 
             },
 
             authenticate() {
-                if (this.filledFields) {
+
+                if (this.validEmail && this.validPassword) {
 
                     let form = new FormData();
                     form.append('email', this.formData.email);
@@ -102,12 +128,17 @@
                     this.$http.post('login',form)
                     .then(res => {
                         
-                        if ('error' in res.data) {
-                            alert(res.data.error)
+                        if ('token' in res.data.response) {
+                            this.$store.dispatch('saveToken',res.data.response.token);
+                            this.$refs['auth'].hide();
+                        } else {
+                            this.message = 'Credenciais inválidas',
+                            this.type = 'danger'
                         }
 
-                        alert(res.data.token)
                     })
+                }else {
+                    alert('Os campos email e senha devem ser preenchidos!')
                 }
             },
 

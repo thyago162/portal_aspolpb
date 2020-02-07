@@ -38,13 +38,13 @@
                     <b-nav-item>
                         <b-button size="sm" class="personal-btn">ASSOCIE-SE</b-button>
                     </b-nav-item>
-                    <b-nav-item v-if="!this.$store.state.token">
+                    <b-nav-item v-if="!this.token">
                         <b-button  v-b-modal.auth size="sm" 
                             class="personal-btn">
                             ACESSO RESTRITO <b-icon icon="lock-fill"></b-icon>
                         </b-button>
                     </b-nav-item>
-                    <b-nav-item-dropdown v-if="this.$store.state.token">
+                    <b-nav-item-dropdown v-if="this.token">
                         <template v-slot:button-content>
                             <b-button size="sm" class="personal-btn">
                                 ACESSO RESTRITO <b-icon icon="unlock-fill"></b-icon>
@@ -72,6 +72,11 @@
     export default {
         components: {
             Auth
+        },
+        computed: {
+            token() {
+                return this.$store.getters.getToken;
+            }
         },
         data() {
             return {

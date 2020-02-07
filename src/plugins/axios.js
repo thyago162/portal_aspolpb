@@ -6,4 +6,5 @@ export default Vue.use({
     install(Vue) {
         Vue.prototype.$http = axios
     }
+
 });

@@ -38,20 +38,20 @@
                     <b-nav-item>
                         <b-button size="sm" class="personal-btn">ASSOCIE-SE</b-button>
                     </b-nav-item>
-                    <b-nav-item v-if="!this.token">
+                    <b-nav-item v-show="!this.token">
                         <b-button  v-b-modal.auth size="sm" 
                             class="personal-btn">
                             ACESSO RESTRITO <b-icon icon="lock-fill"></b-icon>
                         </b-button>
                     </b-nav-item>
-                    <b-nav-item-dropdown v-if="this.token">
+                    <b-nav-item-dropdown v-show="this.token">
                         <template v-slot:button-content>
                             <b-button size="sm" class="personal-btn">
                                 ACESSO RESTRITO <b-icon icon="unlock-fill"></b-icon>
                             </b-button>
                         </template>
                         <b-dropdown-item href="#">Profile</b-dropdown-item>
-                        <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+                        <b-dropdown-item href="#" @click="logout">Sair</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
 
@@ -75,12 +75,19 @@
         },
         computed: {
             token() {
-                return this.$store.getters.getToken;
+                return this.$session.has('jwt');
             }
         },
         data() {
             return {
                 
+            }
+        },
+
+        methods: {
+            logout() {
+                this.$session.destroy();
+                location.reload()
             }
         }
         

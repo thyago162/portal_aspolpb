@@ -1,7 +1,6 @@
 <template>
     <b-container>
-        <h4 v-if="token">{{token}}</h4>
-        <h4 v-else>Não possui token</h4>
+        <h4>{{this.$store.state.loading}}</h4>
     </b-container>    
 </template>
 
@@ -9,7 +8,7 @@
     export default {
         computed: {
             token() {
-                return this.$store.getters.getToken
+                return this.$store.state.loading
             }
         }
         

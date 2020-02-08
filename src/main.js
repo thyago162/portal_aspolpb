@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router/router';
 import store from './vuex/store';
+import VueSession from 'vue-session'
 
 import { BootstrapVue, IconsPlugin} from 'bootstrap-vue';
 
@@ -11,6 +12,7 @@ import './plugins/axios';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(VueSession);
 
 Vue.config.productionTip = false
 

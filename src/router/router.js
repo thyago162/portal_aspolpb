@@ -18,6 +18,7 @@ export default new Router({
             path: '/institucional',
             component: Institucional,
             name: 'institucional'
-        }
+        },
+
     ]
 })

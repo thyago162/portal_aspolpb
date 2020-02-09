@@ -20,7 +20,16 @@
 
 <style scoped>
     .header {
-        background-image: url('../../assets/images/image_background.jpg');
-        height: 300px;
+        background-image: url('../../assets/images/image_background.png');
+        background-repeat: no-repeat;
+        background-size: 100% 300px;
+        height: 400px;
+        background-size: cover;
+        border-bottom: 1px solid black;
+    }
+    @media screen and (max-width: 1234px) {
+        .header {
+            height: 200px;
+        }
     }
 </style>

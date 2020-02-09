@@ -71,10 +71,6 @@
 <script>
     export default {
 
-        components: {
-            
-        },
-
         data() {
             return {
                 auth: true,
@@ -127,7 +123,7 @@
                 let formValidate = this.filledFields()
 
                 if(formValidate) {
-                    this.$store.state.loading = true;
+                    this.$store.dispatch('loading',true);
                     let form = new FormData();
 
                     form.append('name',this.formData.name);
@@ -159,13 +155,15 @@
 
             authenticate() {
 
+                this.$store.dispatch('loading',true);
                 let form = new FormData();
                 form.append('email', this.formData.email);
                 form.append('password',this.formData.password)
 
                 this.$http.post('login',form)
                 .then(res => {
-                        
+                    this.$store.dispatch('loading', false);
+                    
                     if ('token' in res.data.response) {
 
                         this.$session.start();

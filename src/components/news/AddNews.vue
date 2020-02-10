@@ -2,7 +2,6 @@
     <b-modal title="Nova noticia" 
         ref="news" id="news" size="xl">
         <form >
-            {{editorData}}
             <b-container fluid>
                 <b-row>
                     <b-col lg="6">
@@ -23,9 +22,7 @@
                 </b-row>
                 <b-row>
                     <b-col>
-                        <b-form-group label="Conteúdo">
-                            <ckeditor :editor="editor" v-model="editorData" :config="editorConfig" ></ckeditor>
-                        </b-form-group>
+                        <ckeditor :editor="editor" :config="editorConfig"/>
                     </b-col>
                 </b-row>
             </b-container>
@@ -37,13 +34,22 @@
 <script>
     import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     export default {
+        components: {
+        },
+
+        computed: {
+            lista() {
+                return ClassicEditor.builtinPlugins.map( plugin => plugin.pluginName );
+            }
+        },
         data() {
             return {
                 editor: ClassicEditor,
-                editorData: '',
                 editorConfig: {
-
+                    removePlugins: ['Image','ImageCaption','imageStyle','imageToolbar','ImageUpload','Link'],
+                    language: 'pt-br'
                 }
+                
             }
         }
         

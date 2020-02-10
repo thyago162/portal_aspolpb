@@ -3,4 +3,4 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../plugins/axios';
 import '../plugins/vue_bootstrap';
 import '../plugins/vue_session';
-import '../plugins/ckeditor';
+import '../plugins/vue2editor';

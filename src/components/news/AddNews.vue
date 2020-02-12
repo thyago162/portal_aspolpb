@@ -1,8 +1,8 @@
 <template>
     <b-modal title="Nova noticia" 
-        ref="news" id="news" size="xl" header-bg-variant="primary">
-        <form  >
-            {{htmlForEditor}}
+        ref="news" id="news" size="xl" header-bg-variant="primary" @ok="handleOk">
+        <form  @submit.stop.prevent="formSubmited">
+            {{form.content}}
             <b-container fluid>
                 <b-row>
                     <b-col lg="9" md="7">
@@ -20,7 +20,10 @@
                 <b-row>
                     <b-col>
                         <b-form-group label="Conteúdo">
-                            <vue-editor id="editor" :useCustomImageHandler="customHandle" 
+                            <vue-editor id="editor" 
+                                :editorOptions="editorSettings"
+                                :customModules="customModulesForEditor"
+                                :useCustomImageHandler="customHandle" 
                                 @image-added="handleImageAdded" v-model="form.content"
                                 @image-removed="handleImageDeleted"
                                 ></vue-editor>
@@ -34,8 +37,9 @@
 </template>
 
 <script>
-    import { VueEditor } from 'vue2-editor';
-    
+    import { VueEditor } from 'vue2-editor'
+    import { ImageDrop } from 'quill-image-drop-module'
+
     export default {
         components: {
             VueEditor
@@ -51,11 +55,18 @@
                 form: {
                     content: '',
                     title: '',
-                    data: ''
+                    date: ''
                 },
                 customHandle: true,
                 erro: [],
-                validation: {}
+                validation: {},
+                customModulesForEditor: [{ alias: "imageDrop", module: ImageDrop } ],
+                editorSettings: {
+                   modules: {
+                        imageDrop: false,
+                   }
+                },
+                test: {}
             }
         },
 
@@ -72,8 +83,10 @@
                     }
                 })
                 .then(res => {
+                    alert(res.data.url)
                     let url = res.data.url.replace('public/','storage/');
                     Editor.insertEmbed(cursorLocation, "image", url);
+
                 })
                 .catch(err => {
                     this.erro.push(err)
@@ -100,27 +113,66 @@
 
             handleOk: function(bvModalEvt) {
                 bvModalEvt.preventDefault();
-                this.handleImageAdded();
+                this.formSubmited();
             },
 
             formSubmited() {
 
+                this.formValidation();
+
+                if (this.validation.title && this.validation.content) {
+
+                    let formData = new FormData();
+                    formData.append('nm_title',this.form.title);
+                    formData.append('nm_content',this.form.content);
+                    formData.append('dt_date',this.form.date);
+                    
+
+                    this.$http.post('news',formData, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        
+                        if (res.status === 200) {
+                            this.$refs['news'].hide();
+                            this.$state.dispatch('news');
+                        }
+                    })
+                    .catch(err => {
+                        this.erro.push(err)
+                    })
+
+                }else {
+                    alert('Os campos devem ser preenchidos');
+                }
+
             },
 
             formValidation() {
-                
+                this.validateTitle();
+                this.validateContent();
+                this.validateDate();
             },
 
-            validTitle() {
-                return this.form.title > 0 ? 
+            validateTitle() {
+                return this.form.title.length > 0 ? 
                 this.validation.title = true : 
                 this.validation.title = false
             },
 
             validateContent() {
-                return this.form.content > 0 ?
+                return this.form.content.length > 0 ?
                 this.validation.content = true :
-                this.validation.title = false
+                this.validation.content = false
+            },
+
+            validateDate() {
+                if (!this.form.date) {
+                    let date = new Date();
+                    this.form.date = date.getDate();
+                }
             }
         }
         

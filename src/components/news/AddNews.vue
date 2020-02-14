@@ -1,13 +1,16 @@
 <template>
     <b-modal title="Nova noticia" 
         ref="news" id="news" size="xl" header-bg-variant="primary" @ok="handleOk">
-        <form  @submit.stop.prevent="formSubmited">
-            {{form.content}}
+        <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
+        {{form.file}}
             <b-container fluid>
                 <b-row>
                     <b-col lg="9" md="7">
                         <b-form-group label="Título">
-                            <b-form-input type="text" v-model="form.title" required></b-form-input>
+                            <b-form-input 
+                                type="text" 
+                                v-model="form.title" 
+                                required></b-form-input>
                         </b-form-group>
                     </b-col>
 
@@ -17,15 +20,37 @@
                         </b-form-group>
                     </b-col>
                 </b-row>
+
+                <b-row>
+                    <b-col lg="7">
+                        <b-form-group label="Image">
+                            <image-uploader :debug="1" :maxWidth="350" :quality="0.7"
+                                outputFormat="file" :preview="true"
+                                :className="['fileinput', { 'fileinput--loaded' : hasImage }]" 
+                                :capture="false" accept="image/*"
+                                doNotResize="['gif', 'svg']"
+                                @input="setImage"
+
+                             />
+                        </b-form-group>
+                    </b-col>
+                    <b-col lg="5">
+                        <b-form-group label="Posição da imagem">
+                            <b-form-radio-group
+                            id="image_position"
+                            name="image_position"
+                            :options="options" 
+                            v-model="form.imagePosition"></b-form-radio-group>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+
                 <b-row>
                     <b-col>
                         <b-form-group label="Conteúdo">
                             <vue-editor id="editor" 
-                                :editorOptions="editorSettings"
-                                :customModules="customModulesForEditor"
-                                :useCustomImageHandler="customHandle" 
-                                @image-added="handleImageAdded" v-model="form.content"
-                                @image-removed="handleImageDeleted"
+                                :editor-toolbar="customToolbar"
+                                v-model="form.content"
                                 ></vue-editor>
                         </b-form-group>
                     </b-col>
@@ -37,12 +62,13 @@
 </template>
 
 <script>
-    import { VueEditor } from 'vue2-editor'
-    import { ImageDrop } from 'quill-image-drop-module'
+    import { VueEditor } from 'vue2-editor';
+    import ImageUploader from 'vue-image-upload-resize'
 
     export default {
         components: {
-            VueEditor
+            VueEditor,
+            ImageUploader
         },
 
         computed: {
@@ -55,69 +81,52 @@
                 form: {
                     content: '',
                     title: '',
-                    date: ''
+                    date: '',
+                    file: null,
+                    imagePosition: ''
                 },
-                customHandle: true,
+                hasImage: false,
                 erro: [],
                 validation: {},
-                customModulesForEditor: [{ alias: "imageDrop", module: ImageDrop } ],
-                editorSettings: {
-                   modules: {
-                        imageDrop: false,
-                   }
-                },
-                test: {}
+                customToolbar: [
+                    [{ 'font': [] }],
+                    [{ 'header': [false, 1, 2, 3, 4, 5, 6, ] }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{'align': ''}, {'align': 'center'}, {'align': 'right'}, {'align': 'justify'}],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    ['blockquote', 'code-block'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    ['link', 'video',],
+                    [{ 'direction': 'rtl' }],
+                    ['clean'],
+                ],
+                options: [
+                    {text: 'Em cima', value: 1},
+                    {text: 'Direita', value: 2},
+                    {text: 'Esquerda', value: 3},
+                    {text: 'Em baixo', value: 4},
+                ]
             }
         },
 
         methods: {
+
+            setImage: function (file) {
+                this.hasImage = true
+                this.form.file = file
+            },
             
-            handleImageAdded(file, Editor, cursorLocation) {
-
-                var data = new FormData();
-                data.append('image',file);
-
-                this.$http.post('news/image/add',data, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    alert(res.data.url)
-                    let url = res.data.url.replace('public/','storage/');
-                    Editor.insertEmbed(cursorLocation, "image", url);
-
-                })
-                .catch(err => {
-                    this.erro.push(err)
-                })
-            },
-
-            handleImageDeleted(file) {
-
-                let data = new FormData();
-                data.append('image',file.replace('http://localhost:8000/storage/news/',''))
-
-                this.$http.post('news/image/delete',data, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    alert(res.data)
-                })
-                .catch(err => {
-                    this.erro.push(err);
-                })
-            },
-
             handleOk: function(bvModalEvt) {
                 bvModalEvt.preventDefault();
                 this.formSubmited();
             },
 
             formSubmited() {
-
+                
                 this.formValidation();
 
                 if (this.validation.title && this.validation.content) {
@@ -126,11 +135,14 @@
                     formData.append('nm_title',this.form.title);
                     formData.append('nm_content',this.form.content);
                     formData.append('dt_date',this.form.date);
+                    formData.append('nm_image_path',this.form.file),
+                    formData.append('nu_image_position',this.form.imagePosition)
                     
 
                     this.$http.post('news',formData, {
                         headers: {
-                            Authorization: 'Bearer '+this.token
+                            Authorization: 'Bearer '+this.token,
+                            'Content-Type': 'multipart/form-data'
                         }
                     })
                     .then(res => {

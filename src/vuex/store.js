@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import axios from 'axios';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -30,14 +32,10 @@ export default new Vuex.Store({
             commit('setToken',token);
         },
 
-        news({commit},state) {
-            this.$http('news', {
-                headers: {
-                    Authorization: "Bearer "+state.token
-                }
-            })
+        news({commit}) {
+            axios.get('news')
             .then(res => {
-                commit('setNews',res.data.news)
+                commit('setNews',res.data.result.news.data)
             })
         },
 

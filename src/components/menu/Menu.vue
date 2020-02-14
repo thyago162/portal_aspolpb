@@ -12,31 +12,69 @@
 
             <b-collapse id="nav-collapse" is-nav >
                 <b-navbar-nav center class="ml-auto">
-                    <b-nav-item  >
-                        <b-link :to="{name: 'home'}" class="personal-link">
-                            INICIO
-                        </b-link>
-                    </b-nav-item>
-                    <b-nav-item href="#" >
-                        <b-link :to="{name: 'institucional'}" class="personal-link">
-                            INSTITUCIONAL
-                        </b-link>
-                    </b-nav-item>
-                    <b-nav-item href="#" >
-                        <b-link class="personal-link">
-                            NOTÍCIAS
-                        </b-link>
-                    </b-nav-item>
-                    <b-nav-item href="#" >
-                        <b-link class="personal-link">
-                            CONVÊNIOS
-                        </b-link>
-                    </b-nav-item>
-                    <b-nav-item href="#" >
-                        <b-link class="personal-link">
-                            CONTATOS
-                        </b-link>
-                    </b-nav-item>
+                    <nav class="personal-menu">
+                        <b-nav-item  >
+                            <b-link :to="{name: 'home'}" class="personal-link">
+                                INICIO
+                            </b-link>
+                        </b-nav-item>
+                        <b-nav-item href="#" >
+                            <b-link :to="{name: 'institucional'}" class="personal-link">
+                                INSTITUCIONAL
+                            </b-link>
+                        </b-nav-item>
+                        <b-nav-item href="#" >
+                            <b-link class="personal-link">
+                                NOTÍCIAS
+                            </b-link>
+                        </b-nav-item>
+                        <b-nav-item href="#" >
+                            <b-link class="personal-link">
+                                CONVÊNIOS
+                            </b-link>
+                        </b-nav-item>
+                        <b-nav-item href="#" >
+                            <b-link class="personal-link">
+                                CONTATOS
+                            </b-link>
+                        </b-nav-item>
+                    </nav>
+                    <b-nav-item-dropdown class="personal-drop">
+                        <template v-slot:button-content>
+                            <span class="personal-link">MENU</span>
+                        </template>
+
+                        <nav class="personal-drop-item">
+
+                            <b-dropdown-item>
+                                <b-link :to="{name: 'home'}" class="personal-link">
+                                    INICIO
+                                </b-link>
+                            </b-dropdown-item>
+
+                            <b-dropdown-item>
+                                <b-link :to="{name: 'institucional'}" class="personal-link">
+                                    INSTITUCIONAL
+                                </b-link>
+                            </b-dropdown-item>
+                            <b-dropdown-item>
+                            <b-link class="personal-link">
+                                    NOTÍCIAS
+                                </b-link>
+                            </b-dropdown-item>
+                            <b-dropdown-item>
+                                <b-link class="personal-link">
+                                    CONVÊNIOS
+                                </b-link>
+                            </b-dropdown-item>
+                            <b-dropdown-item>
+                                <b-link class="personal-link">
+                                    CONTATOS
+                                </b-link>
+                            </b-dropdown-item>
+                        </nav>
+
+                    </b-nav-item-dropdown>
                     <b-nav-item>
                         <b-button size="sm" class="personal-btn">
                             <span>ASSOCIE-SE</span>
@@ -60,21 +98,25 @@
                                 <b-icon icon="unlock-fill" />
                             </b-button>
                         </template>
-                        <b-dropdown-item href="#">Parceiros e Convênios</b-dropdown-item>
-                        <b-dropdown-item href="#">Acessoria jurídica</b-dropdown-item>
-                        <b-dropdown-item href="#">Aniversariantes</b-dropdown-item>
-                        <b-dropdown-item href="#">Sugestões e Ouvidoria</b-dropdown-item>
-                        <b-dropdown-item href="#">Transparência</b-dropdown-item>
-                        <b-dropdown-item href="#">Banco permutas</b-dropdown-item>
-                        <b-dropdown-item href="#">Assembleia</b-dropdown-item>
-                        <b-dropdown-item href="#">Documentos arquivados</b-dropdown-item>
-                        <b-dropdown-item href="#">Atualização cadastral</b-dropdown-item>
-                        <b-dropdown-item href="#" @click="logout">Sair</b-dropdown-item>
+                        <nav class="restricted-access">
+                            <b-dropdown-item href="#" class="personal-link">PARCEIROS</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">ACESSORIA JURÍDICA</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">ANIVERSARIANTES</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">SUGESTÕES E OUVIDORIA</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">TRANSPARÊNCIA</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">BANCOS E PERMITAS</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">ASSEMBLEIA</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">DOCUMENTOS ARQUIVADOS</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link">ATUALIZAÇÃO CADASTRAL</b-dropdown-item>
+                            <b-dropdown-item href="#" class="personal-link" @click="logout">SAIR</b-dropdown-item>
+
+                        </nav>
+                        
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
 
-                <b-navbar-nav class="ml-auto">
-                     <b-nav-form>
+                <b-navbar-nav >
+                     <b-nav-form class="personal-search">
                          <b-button size="sm" class="btn-search" disabled>
                              <b-icon icon="search" ></b-icon>
                          </b-button>
@@ -122,6 +164,11 @@
         font-family: 'Raleway', sans-serif;
     }
 
+    .personal-menu {
+        display: flex;
+        flex-direction: row;
+    }
+
     .personal-btn {
         background: rgba(138,21,0,1);
         background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
@@ -166,10 +213,19 @@
         position: absolute;
     }
 
-    @media screen and (max-width: 1234px) {
+     .personal-drop {
+        display: none;
+    }
+
+    @media screen and (max-width: 1199px) {
+
+        .personal-drop {
+            display: none;
+        }
 
         .personal-link {
             font-size: 12px;
+            margin-top: 0px;
         }
 
         .personal-btn span {
@@ -180,11 +236,64 @@
             width: 100px;
             height: 35px;
         }
+
+        .restricted-access {
+            height: 55px;
+            overflow: auto;
+        }
+
+        .personal-drop {
+            display: block;
+        }
+
+        .personal-drop-item {
+            height: 55px;
+            overflow: auto;
+        }
+
+        .personal-menu {
+            display: none;
+        }
+
+        .personal-search {
+            margin-top: 2px;
+        }
     }
 
     @media screen and (max-width: 600px) {
+        
+        .personal-search {
+            width: 150px;
+        }
+
         .personal-link {
             font-size: 12px;
+            margin-top: 0px;
+        }
+
+        .dropdown-menu {
+            overflow: auto;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .personal-link {
+            font-size: 10px;
+            margin-top: 0px;
+        }
+
+        .restricted-access {
+            height: 40px;
+            overflow: auto;
+        }
+        
+        .personal-btn span {
+            font-size: 8px;
+        }
+
+        .personal-drop-item {
+            height: 70px;
+            overflow: auto;
         }
     }
 </style>

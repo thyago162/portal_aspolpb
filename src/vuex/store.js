@@ -9,7 +9,8 @@ export default new Vuex.Store({
     state: {
         token: '',
         loading: false,
-        news: []
+        news: [],
+        users: []
     },
 
     getters: {
@@ -25,6 +26,10 @@ export default new Vuex.Store({
         getLoading: state => {
             return state.loading;
         },
+
+        getUsers: state => {
+            return state.users;
+        }
     },
     actions: {
 
@@ -35,7 +40,16 @@ export default new Vuex.Store({
         news({commit}) {
             axios.get('news')
             .then(res => {
-                commit('setNews',res.data.result.news.data)
+                commit('setNews',res.data.result.news.data);
+            })
+        },
+
+        users({commit}, state) {
+            axios.get('users', {
+                Authorization: 'Bearer '+ state.token
+            })
+            .then(res => {
+                commit('setUsers',res.data.result.users);
             })
         },
 
@@ -55,6 +69,10 @@ export default new Vuex.Store({
 
         setNews(state, payload) {
             state.news = payload;
+        },
+
+        setUsers(state, payload) {
+            state.users = payload;
         }
     }
 })

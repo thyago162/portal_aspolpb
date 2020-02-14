@@ -11,7 +11,7 @@
                                 </b-col>
                             </b-row>
 
-                            '<b-row >
+                            <b-row >
                                 <b-col lg="7" class="news-carousel">
                                     <h5>Destaque</h5>
                                     <div class="teste">
@@ -51,9 +51,9 @@
         },
 
         computed: {
-            token() {
-                return this.$store.state.loading;
-            },
+            /*token() {
+                return this.$store.getters.getToken;
+            },*/
 
             news() {
                 return this.$store.getters.getNews;

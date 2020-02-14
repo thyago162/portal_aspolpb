@@ -109,9 +109,19 @@
                             <b-dropdown-item href="#" class="personal-link">DOCUMENTOS ARQUIVADOS</b-dropdown-item>
                             <b-dropdown-item href="#" class="personal-link">ATUALIZAÇÃO CADASTRAL</b-dropdown-item>
                             <b-dropdown-item href="#" class="personal-link" @click="logout">SAIR</b-dropdown-item>
-
                         </nav>
                         
+                    </b-nav-item-dropdown>
+                      
+
+                    <b-nav-item-dropdown>
+                            <template v-slot:button-content>
+                                <span class="personal-link">Administração</span>
+                            </template>
+                            <b-dropdown-item>
+                                <b-link :to="{name: 'user'}">Usuaŕios</b-link>
+                            </b-dropdown-item>
+
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
 

@@ -1,6 +1,6 @@
 <template>
     <b-modal title="Nova noticia" 
-        ref="news" id="news" size="xl" header-bg-variant="primary" @ok="handleOk">
+        ref="add-news" id="addnews" size="xl" header-bg-variant="primary" @ok="handleOk">
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
         {{form.file}}
             <b-container fluid>
@@ -35,13 +35,9 @@
                         </b-form-group>
                     </b-col>
                     <b-col lg="5">
-                        <b-form-group label="Posição da imagem">
-                            <b-form-radio-group
-                            id="image_position"
-                            name="image_position"
-                            :options="options" 
-                            v-model="form.imagePosition"></b-form-radio-group>
-                        </b-form-group>
+                        <b-form-checkbox v-model="highlight" :value="true" :unchecked-value="false">
+                            Destacar?
+                        </b-form-checkbox>
                     </b-col>
                 </b-row>
 
@@ -83,7 +79,7 @@
                     title: '',
                     date: '',
                     file: null,
-                    imagePosition: ''
+                    highlight: ''
                 },
                 hasImage: false,
                 erro: [],
@@ -136,7 +132,7 @@
                     formData.append('nm_content',this.form.content);
                     formData.append('dt_date',this.form.date);
                     formData.append('nm_image_path',this.form.file),
-                    formData.append('nu_image_position',this.form.imagePosition)
+                    formData.append('st_highlight',this.form.highlight)
                     
 
                     this.$http.post('news',formData, {

@@ -2,7 +2,6 @@
   <div class="app">
     
     <Header />
-     <Load v-if="loading === true" />
     <router-view />
    
   </div>
@@ -10,7 +9,6 @@
 
 <script>
   import Header from './components/header/Header.vue';
-  import Load from './components/loader/Loader.vue';
 
   export default {
     name: 'app',
@@ -23,7 +21,6 @@
 
     components: {
       Header,
-      Load,
     }
   }
 </script>

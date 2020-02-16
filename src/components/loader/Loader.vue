@@ -18,9 +18,9 @@
     .loader {
         position: absolute;
         width: 100%;
-        height: 100%;
+        height: 700px;
         z-index: 100000000;
-        margin-top: -300px;
+        margin-top: -750px;
         display: flex;
         flex-direction: column;
         align-items: center;

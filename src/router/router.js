@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 import Home from '../pages/Home';
 import Institucional from '../pages/Institucional';
-import Usuario from '../pages/panel/User.vue';
+
 
 Vue.use(Router);
 
@@ -20,11 +20,6 @@ export default new Router({
             component: Institucional,
             name: 'institucional'
         },
-        {
-            path: '/painel/usuarios',
-            Component: Usuario,
-            name: 'user'
-        }
 
     ]
 })

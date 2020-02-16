@@ -108,7 +108,7 @@
                             </b-link>
                         </b-dropdown-item>
                          <b-dropdown-item c>
-                            <b-link class="personal-link"> 
+                            <b-link class="personal-link" v-b-modal.control-panel> 
                                 <b-icon icon="gear-fill"></b-icon>
                                 ADMINISTRAÇÃO
                             </b-link>
@@ -116,7 +116,7 @@
                     </b-nav-item-dropdown>
 
                     <b-nav-item>
-                        <b-link class="personal-link"> 
+                        <b-link class="personal-link" @click="logout"> 
                             SAIR <b-icon icon="power"></b-icon>
                         </b-link>
                     </b-nav-item>
@@ -126,14 +126,18 @@
             </b-collapse>
         </b-navbar>
         <Auth />
+        <control-pane />
+        
     </div>  
 </template>
 
 <script>
     import Auth from '../auth/Auth';
+    import ControlPane from '../controlpanel/ControlPanel';
     export default {
         components: {
-            Auth
+            Auth,
+            ControlPane
         },
         computed: {
             token() {

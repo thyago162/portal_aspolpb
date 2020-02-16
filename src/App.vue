@@ -1,9 +1,8 @@
 <template>
-  <div >
+  <div class="app">
     
     <Header />
      <Load v-if="loading === true" />
-     <Submenu />
     <router-view />
    
   </div>
@@ -12,7 +11,6 @@
 <script>
   import Header from './components/header/Header.vue';
   import Load from './components/loader/Loader.vue';
-  import Submenu from './components/submenu/Submenu';
 
   export default {
     name: 'app',
@@ -26,11 +24,12 @@
     components: {
       Header,
       Load,
-      Submenu
     }
   }
 </script>
 
 <style>
-
+  .app {
+    overflow-x: hidden;
+  }
 </style>

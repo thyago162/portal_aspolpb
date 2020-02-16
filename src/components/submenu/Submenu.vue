@@ -1,53 +1,122 @@
 <template>
-    <div>
-        <fab :actions="fabActions"
-            @news="news"
-            @users="users"
-        ></fab>
-        <add-news  />
-    </div>
+   
+    <b-nav class="submenu">
+        <b-row style="width:100%;">
+            <b-col lg="6" md="6"  sm="4" xl="6" >
+                <nav class="icons">
+                    <a >
+                        <font-awesome-icon :icon="['fab', 'twitter-square']" 
+                            size="2x" class="icon alt personal-icons" />
+                    </a>
+                    <a >
+                        <font-awesome-icon :icon="['fab', 'instagram-square']" 
+                        size="2x" class="icon alt personal-icons" />
+                    </a>
+                    <a >
+                        <font-awesome-icon size="2x" :icon="['fab', 'facebook-square']" 
+                        class="icon alt personal-icons" />
+                    </a>
+                    <a >
+                        <font-awesome-icon size="2x" :icon="['fab', 'whatsapp-square']" 
+                        class="icont alt personal-icons" />
+                    </a>
+                </nav>
+
+            </b-col>
+            <b-col lg="6" md="6" sm="8" xl="6" >
+                <b-nav-item class="search">
+                    <b-nav-form>
+                        <b-icon icon="search" class="icon-search" rotate="90"></b-icon>
+                        <b-form-input size="sm" class="mr-sm-2 input-search" 
+                            placeholder="Search"></b-form-input>
+                        <b-button size="sm" class="my-2 my-sm-0 btn-search" type="submit" 
+                            variant="default" >BUSCAR</b-button>
+                    </b-nav-form>
+                </b-nav-item>
+
+            </b-col>
+        </b-row>
+        
+            
+        
+    </b-nav>
+        
+        
 </template>
 
-<script>
-    import fab from 'vue-fab';
-    import AddNews from '../news/AddNews';
-    import router from 'vue-router'
+<script>   
     export default {
-        components: {
-            fab,
-            AddNews
-        },
 
-        data() {
-            return {
-                fabActions: [
-                    {
-                        name: 'news',
-                        icon: 'assignment',
-                        tooltip: 'Notícias'
-                    },
-                    {
-                        name: 'users',
-                        icon: 'perm_identity',
-                        tooltip: 'Usuários'
-                    }
-                ]
-            }
-        },
-
-        methods: {
-            news() {
-                this.$bvModal.show('news')
-            },
-            users() {
-                router.push({name: 'user'})
-            }
-        }
-        
     }
 </script>
 
 <style scoped>
+    .submenu {
+        background-color: red;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
 
+    .icons {
+        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .personal-icons {
+        margin: 5px;
+    }
+
+    .btn-search {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .icon-search {
+        position: absolute;
+        color: #000;
+    }
+
+    .input-search {
+        text-indent: 12px;
+    }
+    
+
+    @media screen and (max-width: 576px) {
+
+        .submenu {
+            height: 100px;
+        }
+
+        .icons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .search {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+        }
+
+        .input-search {
+            width: 400px;
+        }
+
+    }
+
+    @media screen and (max-width: 539px), (min-width: 325px){
+        .input-search {
+            width: 180px;
+        }     
+    }
+
+  
     
 </style>

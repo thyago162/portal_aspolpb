@@ -1,8 +1,8 @@
 <template>
     <div class="menu">
         <b-navbar toggleable="xl" type="dark" variant="light">
-            <b-navbar-brand href="#">
-                <img src="../../assets/images/logo_aspolpb.png" alt="Aspolpb" 
+            <b-navbar-brand style="margin-left:45px;">
+                <img src="../../assets/images/logo_aspol_02.png" alt="Aspolpb" 
                     class="d-inline-block align-top logo" >
             </b-navbar-brand>
 
@@ -10,129 +10,117 @@
                 <b-icon icon="list" variant="dark" class="h1 mb-2"></b-icon>
             </b-navbar-toggle>
 
-            <b-collapse id="nav-collapse" is-nav >
-                <b-navbar-nav center class="ml-auto">
-                    <nav class="personal-menu">
-                        <b-nav-item  >
-                            <b-link :to="{name: 'home'}" class="personal-link">
-                                INICIO
-                            </b-link>
-                        </b-nav-item>
-                        <b-nav-item href="#" >
-                            <b-link :to="{name: 'institucional'}" class="personal-link">
-                                INSTITUCIONAL
-                            </b-link>
-                        </b-nav-item>
-                        <b-nav-item href="#" >
-                            <b-link class="personal-link">
-                                NOTÍCIAS
-                            </b-link>
-                        </b-nav-item>
-                        <b-nav-item href="#" >
-                            <b-link class="personal-link">
-                                CONVÊNIOS
-                            </b-link>
-                        </b-nav-item>
-                        <b-nav-item href="#" >
-                            <b-link class="personal-link">
-                                CONTATOS
-                            </b-link>
-                        </b-nav-item>
-                    </nav>
-                    <b-nav-item-dropdown class="personal-drop">
+            <b-collapse id="nav-collapse" is-nav style="margin-left:60px;">
+                <b-navbar-nav  >
+                    <b-nav-item>
+                        <b-link :to="{name: 'home'}" class="personal-link">
+                            INÍCIO
+                        </b-link>
+                    </b-nav-item>
+
+                    <b-nav-item-dropdown>
                         <template v-slot:button-content>
-                            <span class="personal-link">MENU</span>
+                            <span class="personal-link" >INSTITUCIONAL</span>
                         </template>
-
-                        <nav class="personal-drop-item">
-
-                            <b-dropdown-item>
-                                <b-link :to="{name: 'home'}" class="personal-link">
-                                    INICIO
-                                </b-link>
-                            </b-dropdown-item>
-
-                            <b-dropdown-item>
-                                <b-link :to="{name: 'institucional'}" class="personal-link">
-                                    INSTITUCIONAL
-                                </b-link>
-                            </b-dropdown-item>
-                            <b-dropdown-item>
+                        <b-dropdown-item>
                             <b-link class="personal-link">
-                                    NOTÍCIAS
-                                </b-link>
-                            </b-dropdown-item>
-                            <b-dropdown-item>
-                                <b-link class="personal-link">
-                                    CONVÊNIOS
-                                </b-link>
-                            </b-dropdown-item>
-                            <b-dropdown-item>
-                                <b-link class="personal-link">
-                                    CONTATOS
-                                </b-link>
-                            </b-dropdown-item>
-                        </nav>
-
+                                QUEM SOMOS
+                            </b-link> 
+                        </b-dropdown-item>
+                        <b-dropdown-item>
+                            <b-link class="personal-link">
+                                NOSSA HISTÓRIA
+                            </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item>
+                           <b-link class="personal-link">
+                               CAMPANHAS
+                            </b-link> 
+                        </b-dropdown-item>
+                        <b-dropdown-item>
+                            <b-link class="personal-link">
+                                IDENTIDADE VISUAL
+                            </b-link>
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
+
+                    <b-nav-item>
+                        <b-link :to="{name: 'home'}" class="personal-link">
+                            NOTÍCIAS
+                        </b-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <b-link :to="{name: 'home'}" class="personal-link">
+                            CONTATOS
+                        </b-link>
+                    </b-nav-item>
+                    <b-nav-item>
+                        <b-link :to="{name: 'home'}" class="personal-link">
+                            CONVÊNIOS
+                        </b-link>
+
+                    </b-nav-item>
                     <b-nav-item>
                         <b-button size="sm" class="personal-btn">
                             <span>ASSOCIE-SE</span>
                         </b-button>
                     </b-nav-item>
-                    <b-nav-item v-show="!this.token">
-                        <b-button  v-b-modal.auth size="sm" 
-                            class="personal-btn">
+
+                    <b-nav-item v-show="!token" >
+                        <b-button size="sm" class="personal-btn" v-b-modal.auth>
                             <span>
-                            ACESSO RESTRITO 
+                                AREA RESTRITA
+                                <b-icon icon="lock-fill" />
                             </span>
-                            <b-icon icon="lock-fill"></b-icon>
                         </b-button>
                     </b-nav-item>
-                    <b-nav-item-dropdown v-show="this.token">
+
+                     <b-nav-item-dropdown v-show="token">
                         <template v-slot:button-content>
-                            <b-button size="sm" class="personal-btn">
-                               <span>
-                                   ACESSO RESTRITO
+                            <b-button size="sm" class="personal-btn" >
+                                <span>
+                                    AREA RESTRITA
+                                    <b-icon icon="unlock-fill"></b-icon>
                                 </span>
-                                <b-icon icon="unlock-fill" />
                             </b-button>
                         </template>
-                        <nav class="restricted-access">
-                            <b-dropdown-item href="#" class="personal-link">PARCEIROS</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">ACESSORIA JURÍDICA</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">ANIVERSARIANTES</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">SUGESTÕES E OUVIDORIA</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">TRANSPARÊNCIA</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">BANCOS E PERMITAS</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">ASSEMBLEIA</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">DOCUMENTOS ARQUIVADOS</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link">ATUALIZAÇÃO CADASTRAL</b-dropdown-item>
-                            <b-dropdown-item href="#" class="personal-link" @click="logout">SAIR</b-dropdown-item>
-                        </nav>
-                        
+                        <b-dropdown-item >
+                            <b-link class="personal-link"> 
+                                <b-icon icon="book-half-fill"></b-icon>
+                                TRANSPARÊNCIA </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item >
+                            <b-link class="personal-link">
+                                <b-icon icon="chat-fill"></b-icon>
+                                SUGESTÕES
+                            </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item >
+                            <b-link class="personal-link">
+                                <b-icon icon="tag-fill"></b-icon>
+                                ACESSORIA JURÍDICA
+                            </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item >
+                            <b-link class="personal-link">
+                                <b-icon icon="folder-fill"></b-icon>
+                                 ARQUIVOS
+                            </b-link>
+                        </b-dropdown-item>
+                         <b-dropdown-item c>
+                            <b-link class="personal-link"> 
+                                <b-icon icon="gear-fill"></b-icon>
+                                ADMINISTRAÇÃO
+                            </b-link>
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
-                      
 
-                    <b-nav-item-dropdown>
-                            <template v-slot:button-content>
-                                <span class="personal-link">Administração</span>
-                            </template>
-                            <b-dropdown-item>
-                                <b-link :to="{name: 'user'}">Usuaŕios</b-link>
-                            </b-dropdown-item>
+                    <b-nav-item>
+                        <b-link class="personal-link"> 
+                            SAIR <b-icon icon="power"></b-icon>
+                        </b-link>
+                    </b-nav-item>
 
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-
-                <b-navbar-nav >
-                     <b-nav-form class="personal-search">
-                         <b-button size="sm" class="btn-search" disabled>
-                             <b-icon icon="search" ></b-icon>
-                         </b-button>
-                        <b-form-input size="sm" class="mr-sm-4 search" placeholder="Search" ></b-form-input>
-                        
-                    </b-nav-form>
                 </b-navbar-nav>
 
             </b-collapse>
@@ -169,14 +157,24 @@
 </script>
 
 <style scoped>
+
     .menu {
-        margin-top: 30px;
-        font-family: 'Raleway', sans-serif;
+        margin-top: 20px;
     }
 
-    .personal-menu {
-        display: flex;
-        flex-direction: row;
+    .logo {
+        width: 200px;
+        height: 70px;
+        margin-top: -10px;
+    }
+
+    .personal-link {
+        color: #333;
+        text-decoration: none;
+    }
+
+    .personal-link:hover {
+        color: #000;
     }
 
     .personal-btn {
@@ -192,118 +190,22 @@
         margin-top: -4px;
     }
 
-    .logo {
-        width :150px;
-        height: 45px;
-        margin-top: -5px;
-    }
-
-    .personal-link {
-        color:#333333;
-        text-decoration: none;
-        font-size: 14px;
-        margin-top: 15px;
-    }
-
-    .personal-link:hover {
-        color: black;
-    }
-
-    .personal-btn span {
-        font-size: 14px;
-    }
-
-    .search {
-        text-indent: 30px;
-    }
-
-    .btn-search {
-        background-color: gray;
-        border: lightgray 1px solid;
-        position: absolute;
-    }
-
-     .personal-drop {
-        display: none;
-    }
-
     @media screen and (max-width: 1199px) {
-
-        .personal-drop {
-            display: none;
-        }
-
         .personal-link {
-            font-size: 12px;
-            margin-top: 0px;
+            font-size: 14px;
         }
 
-        .personal-btn span {
-            font-size: 10px;
-        }
+    }
+
+
+    @media screen and (max-width: 375px) and (min-width: 320px) {
 
         .logo {
-            width: 100px;
-            height: 35px;
-        }
-
-        .restricted-access {
-            height: 55px;
-            overflow: auto;
-        }
-
-        .personal-drop {
-            display: block;
-        }
-
-        .personal-drop-item {
-            height: 55px;
-            overflow: auto;
-        }
-
-        .personal-menu {
-            display: none;
-        }
-
-        .personal-search {
-            margin-top: 2px;
-        }
-    }
-
-    @media screen and (max-width: 600px) {
-        
-        .personal-search {
             width: 150px;
+            height: 50px;
         }
-
-        .personal-link {
-            font-size: 12px;
-            margin-top: 0px;
-        }
-
-        .dropdown-menu {
-            overflow: auto;
-        }
-    }
-
-    @media screen and (max-width: 500px) {
         .personal-link {
             font-size: 10px;
-            margin-top: 0px;
-        }
-
-        .restricted-access {
-            height: 40px;
-            overflow: auto;
-        }
-        
-        .personal-btn span {
-            font-size: 8px;
-        }
-
-        .personal-drop-item {
-            height: 70px;
-            overflow: auto;
         }
     }
 </style>

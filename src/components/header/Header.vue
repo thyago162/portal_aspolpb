@@ -1,23 +1,33 @@
 <template>
-    <b-container fluid >
+    <div >
         <b-row class="header">
-            <b-col >
+            <b-col>
                 <Menu />
             </b-col>
         </b-row>
         <b-row>
-            <b-col class="banner-message" >
-                <h3>Convocatória assembléia geral extraordinária</h3>
+            <b-col>
+                <Submenu />
             </b-col>
         </b-row>
-    </b-container>
+        <b-row class="banner">
+            <b-col>
+                <h2>CONVOCATÓRIA DE ASSEMBLEIA GERAL EXTRAORDINÁRIA</h2>
+                <h5>Sede das polícia cívil as 14:00 do dia 20/02/2020</h5>
+            </b-col>
+        </b-row>
+        
+    </div>
+    
 </template>
 
 <script>
     import Menu from '../menu/Menu';
+    import Submenu from '../submenu/Submenu';
     export default {
         components: {
             Menu,
+            Submenu
         }
         
     }
@@ -28,14 +38,13 @@
         height: 550px;
         background-image: url('../../assets/images/image_background.png');
         background-repeat: no-repeat;
-        border-bottom: 1px solid black;
         background-size: cover;
         background-position: 50% 50%;
         background-position: center;
     }
 
-    .banner-message {
-        background-color: black;
+    .banner {
+        background-color: #111010;
         height: 150px;
         display: flex;
         flex-direction: column;
@@ -43,35 +52,46 @@
         align-items: center;
     }
 
-    h3 {
-        text-align: center;
+    
+    .banner h2 {
         color: red;
-        
+        font-weight: bold;
+        text-align: center;
+        margin-top: 40px;
     }
+
+    .banner h5 {
+        color: whitesmoke;
+        text-align: center;
+    }
+
     @media screen and (max-width: 1199px) {
         .header {
-            height: 350px;
+            height: 545px;
             background-size: cover;
             background-repeat: no-repeat;
             background-size: 100% 450px;
         }
+    }
 
-        .banner-message {
-            height: 50px;
-        }
-
-        h3 {
-            font-size: 18px;
+    @media screen and (max-width: 948px),(min-width: 580px){
+        .banner h2 {
+            font-size: 24px;
         }
     }
-    @media screen and (max-width: 550px ),(min-width: 500px) {
-        h3 {
-            font-size: 15px;
-            margin-top: 10px;
+
+  
+    @media screen and (max-width: 579px ),(min-width: 500px) {
+        .banner {
+            height: 110px;
+        }
+        .banner h2 {
+            font-size: 18px;
+            margin-top: 30px;
         }
 
-        .banner-message {
-            height: 35px;
+        .banner h5 {
+            font-size: 16px;
         }
 
         .header {
@@ -82,7 +102,7 @@
 
     }
 
-    @media screen and (max-width: 500px ) {
+    @media screen and (max-width: 549px ) {
 
         .header {
             background-position: center;
@@ -116,4 +136,6 @@
         }
 
     }
+
+    
 </style>

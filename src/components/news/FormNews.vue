@@ -1,8 +1,7 @@
 <template>
     <b-modal title="Nova noticia" 
-        ref="add-news" id="addnews" size="xl" header-bg-variant="primary" @ok="handleOk">
+        ref="formnews" id="form-news" size="xl" header-bg-variant="primary" @ok="handleOk">
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
-        {{form.file}}
             <b-container fluid>
                 <b-row>
                     <b-col lg="9" md="7">
@@ -10,7 +9,8 @@
                             <b-form-input 
                                 type="text" 
                                 v-model="form.title" 
-                                required></b-form-input>
+                                required
+                                 ></b-form-input>
                         </b-form-group>
                     </b-col>
 
@@ -24,18 +24,14 @@
                 <b-row>
                     <b-col lg="7">
                         <b-form-group label="Image">
-                            <image-uploader :debug="1" :maxWidth="350" :quality="0.7"
-                                outputFormat="file" :preview="true"
-                                :className="['fileinput', { 'fileinput--loaded' : hasImage }]" 
-                                :capture="false" accept="image/*"
-                                doNotResize="['gif', 'svg']"
-                                @input="setImage"
-
-                             />
+                            <b-form-file v-model="form.file"  
+                                :state="Boolean(form.file)"
+                                placeholder="Escolha uma imagem..."/>
                         </b-form-group>
                     </b-col>
                     <b-col lg="5">
-                        <b-form-checkbox v-model="highlight" :value="true" :unchecked-value="false">
+                        <b-form-checkbox v-model="form.highlight" 
+                            :value="1" :unchecked-value="0">
                             Destacar?
                         </b-form-checkbox>
                     </b-col>
@@ -59,12 +55,16 @@
 
 <script>
     import { VueEditor } from 'vue2-editor';
-    import ImageUploader from 'vue-image-upload-resize'
 
     export default {
+        props: ['item'],
+
         components: {
             VueEditor,
-            ImageUploader
+        },
+
+        updated() {
+            this.validateProps();
         },
 
         computed: {
@@ -79,7 +79,7 @@
                     title: '',
                     date: '',
                     file: null,
-                    highlight: ''
+                    highlight: 0
                 },
                 hasImage: false,
                 erro: [],
@@ -100,21 +100,12 @@
                     [{ 'direction': 'rtl' }],
                     ['clean'],
                 ],
-                options: [
-                    {text: 'Em cima', value: 1},
-                    {text: 'Direita', value: 2},
-                    {text: 'Esquerda', value: 3},
-                    {text: 'Em baixo', value: 4},
-                ]
+                isEdit: false
+            
             }
         },
 
         methods: {
-
-            setImage: function (file) {
-                this.hasImage = true
-                this.form.file = file
-            },
             
             handleOk: function(bvModalEvt) {
                 bvModalEvt.preventDefault();
@@ -122,7 +113,7 @@
             },
 
             formSubmited() {
-                
+
                 this.formValidation();
 
                 if (this.validation.title && this.validation.content) {
@@ -132,26 +123,16 @@
                     formData.append('nm_content',this.form.content);
                     formData.append('dt_date',this.form.date);
                     formData.append('nm_image_path',this.form.file),
-                    formData.append('st_highlight',this.form.highlight)
-                    
+                    formData.append('st_highlights',this.form.highlight);
 
-                    this.$http.post('news',formData, {
-                        headers: {
-                            Authorization: 'Bearer '+this.token,
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
+                    if (!this.isEdit) {
+
+                        this.newNews(formData);
+                    }else {
                         
-                        if (res.status === 200) {
-                            this.$refs['news'].hide();
-                            this.$state.dispatch('news');
-                        }
-                    })
-                    .catch(err => {
-                        this.erro.push(err)
-                    })
-
+                        this.editNews(formData);
+                    }
+                    
                 }else {
                     alert('Os campos devem ser preenchidos');
                 }
@@ -181,6 +162,56 @@
                     let date = new Date();
                     this.form.date = date.getDate();
                 }
+            },
+
+            validateProps() {
+                if (this.item.nm_title.length > 0) {
+
+                    this.form.title = this.item.nm_title;
+                    this.form.date = this.item.dt_date;
+                    this.form.content = this.item.nm_content;
+                    this.form.highlight = this.item.st_highlights;
+
+                    this.edit = true;
+                }
+            },
+
+            newNews(formData) {
+
+                this.$http.post('news',formData, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token,
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(res => {
+                        
+                        if (res.status === 200) {
+                            this.$refs['formnews'].hide();
+                        }
+                    })
+                    .catch(err => {
+                        this.erro.push(err)
+                })
+                
+            },
+
+            editNews(formData) {
+                this.$http.put('news'+this.item.id_news,formData, {
+                    headers: {
+                        Authorization: 'Bearer '+this.token,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then( res => {
+                    if (res.status === 200) {
+                        this.$refs['formnews'].hide();
+                    }
+                })
+                .catch(err => {
+                    this.erro.push(err)
+                })
+
             }
         }
         

@@ -116,7 +116,7 @@
                     </b-nav-item-dropdown>
 
                     <b-nav-item>
-                        <b-link class="personal-link" @click="logout"> 
+                        <b-link class="personal-link" @click="logout" v-show="token"> 
                             SAIR <b-icon icon="power"></b-icon>
                         </b-link>
                     </b-nav-item>

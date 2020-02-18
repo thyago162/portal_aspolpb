@@ -3,8 +3,8 @@
         <b-carousel img-height="100%">
             <b-carousel-slide>
                 <template v-slot:img>
-                    <img :src="highlights.nm_image_path.replace('public','storage')" 
-                    alt="Aspolpb" width="600px" height="350px">
+                    <img :src="image" 
+                    alt="Aspolpb" width="640px" height="350px">
                 </template>
                 <div class="news-title">
                     <h5>{{highlights.nm_title}}</h5>
@@ -20,7 +20,7 @@
 
         computed: {
             image() {
-                return ''
+                return this.highlights.nm_image_path.replace('public','storage');
             }
         }
  
@@ -31,7 +31,7 @@
 
     .highlights {
         border: 1px solid #000;
-        width: 600px;
+        width: 640px;
         height: 350px;
     }
 

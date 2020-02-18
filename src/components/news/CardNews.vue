@@ -1,7 +1,7 @@
 <template>
-    <div class="card-news">
-        <b-card :img-src="cardnews.nm_image_path.replace('public','storage')" 
-            img-left >
+    <div class="card-news" > 
+        <b-card :img-src="image" 
+            img-left class="ml-1" img-height="170px" img-width="250px" >
             <b-card-text>
                 {{cardnews.nm_title}}
             </b-card-text>
@@ -16,7 +16,7 @@
 
         computed: {
             image() {
-                return ''
+                return this.cardnews.nm_image_path.replace('public','storage');
             }
         }
         
@@ -26,6 +26,9 @@
 <style scoped>
     .card-news {
         width: 600px;
+        border-left: 4px solid darkslategrey;
+        margin: 10px;
+        margin-top: 2px;
     }
 
 </style>

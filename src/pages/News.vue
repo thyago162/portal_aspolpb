@@ -12,15 +12,20 @@
                     <highlights-news :highlights="highlights"/>
                 </b-col>
                 <b-col lg="6" class="highlights">
-                    <card-news :cardnews="cardNews"/>
+                    <card-news :cardnews="card" 
+                        v-for="(card, index) in cardNews" :key="index"/>
                 </b-col>
             </b-row>
             <b-row>
-                <b-col>
-                    <div>
-                        <b-icon icon="plus"></b-icon>
-                        <h5>NOTÍCIAS</h5>
-                    </div>
+                <b-col lg="12" class="more-news-title">   
+                    <h5>  <b-icon icon="plus"></b-icon> NOTÍCIAS</h5>
+                </b-col>
+            </b-row>
+
+            <b-row>
+                <b-col lg="12">
+                    <MoreNews :more="more" 
+                    v-for="(more, index) in moreNews" :key="index"/>
                 </b-col>
             </b-row>
        
@@ -31,22 +36,26 @@
 <script>
     import HighlightsNews from '../components/news/HighlightsNews';
     import CardNews from '../components/news/CardNews';
+    import MoreNews from '../components/news/MoreNews';
     export default {
 
         mounted() {
             this.getHighlight();
             this.getCardNews();
+            this.getMoreNews();
         },
 
         components: {
             HighlightsNews,
-            CardNews
+            CardNews,
+            MoreNews
         },
 
         data() {
             return {
                 highlights: [],
                 cardNews: [],
+                moreNews: []
             }
         },
 
@@ -62,9 +71,15 @@
             getCardNews() {
                 this.$http.get('news/cardnews')
                 .then(res => {
-                    this.cardNews = res.data.result.card
+                    this.cardNews = res.data.result.card;
+                })   
+            },
+
+            getMoreNews() {
+                this.$http.get('news/morenews')
+                .then(res => {
+                    this.moreNews = res.data.result.morenews;
                 })
-                
             }
         }
     }
@@ -114,5 +129,19 @@
         margin-top: 20px;
     }
 
+    .more-news-title {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-weight: bolder;
+        text-decoration: underline;
+    }
+
+    .more-news {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
 
 </style>

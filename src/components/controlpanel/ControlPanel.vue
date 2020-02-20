@@ -21,7 +21,7 @@
                     CONTATOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="danger">
+                <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
                     <font-awesome-icon icon="handshake" />
                     CONVÊNIOS
                 </b-button>
@@ -40,15 +40,18 @@
             
         </b-modal>
     <CpNews />
+    <CpPartner />
     </div>
 </template>
 
 <script>
     import CpNews from './CpNews';
+    import CpPartner from './cpPartner';
     export default {
 
         components: {
-            CpNews
+            CpNews,
+            CpPartner
         },
 
         methods: {

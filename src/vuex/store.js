@@ -10,7 +10,8 @@ export default new Vuex.Store({
         token: '',
         loading: false,
         news: [],
-        users: []
+        users: [],
+        partners: []
     },
 
     getters: {
@@ -29,6 +30,10 @@ export default new Vuex.Store({
 
         getUsers: state => {
             return state.users;
+        },
+
+        getPartners: state => {
+            return state.partners;
         }
     },
     actions: {
@@ -53,6 +58,13 @@ export default new Vuex.Store({
             })
         },
 
+        partners({commit}) {
+            axios.get('partner')
+            .then(res => {
+                commit('setPartners',res.data.result.partner);
+            })
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         }   
@@ -73,6 +85,10 @@ export default new Vuex.Store({
 
         setUsers(state, payload) {
             state.users = payload;
+        },
+
+        setPartners(state, payload) {
+            state.partners = payload;
         }
     }
 })

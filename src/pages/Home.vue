@@ -1,11 +1,14 @@
 <template>
     <div>
         <News />
+        <Partner />
+        
     </div>
 </template>
 
 <script>
     import News from './News';
+    import Partner from './Partner';
 
     export default {
 
@@ -14,7 +17,8 @@
         },
 
         components: {
-            News
+            News,
+            Partner
             
         },
 

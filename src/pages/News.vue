@@ -23,9 +23,9 @@
             </b-row>
 
             <b-row>
-                <b-col lg="12">
-                    <MoreNews :more="more" 
-                    v-for="(more, index) in moreNews" :key="index"/>
+                <b-col lg="12" class="more-news">
+                    <MoreNews :morenews="moreNews" 
+                    />
                 </b-col>
             </b-row>
        
@@ -140,8 +140,11 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: flex-start;
+        overflow: auto;
+        height: 170px;
+        border-color: red 1xp solid;
     }
 
 </style>

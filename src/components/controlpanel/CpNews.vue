@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal size="xl" title="Notícias" id="cp-news" ref="cpnews" 
-         hide-footer no-close-on-backdrop>
+         hide-footer no-close-on-backdrop header-bg-variant="primary" header-text-variant="light">
          <b-container fluid>
              <b-row >
 
@@ -19,7 +19,7 @@
                          <b-icon icon="arrow-clockwise"></b-icon>
                      </b-button>
 
-                     <b-button v-b-modal.form-news variant="primary">
+                     <b-button v-b-modal.form-news variant="primary" @click="closeModal">
                          <b-icon icon="plus" ></b-icon>
                      </b-button>
                  </b-col>

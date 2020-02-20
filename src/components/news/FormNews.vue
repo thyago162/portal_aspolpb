@@ -63,7 +63,7 @@
             VueEditor,
         },
 
-        updated() {
+        mounted() {
             this.validateProps();
         },
 
@@ -125,12 +125,12 @@
                     formData.append('nm_image_path',this.form.file),
                     formData.append('st_highlights',this.form.highlight);
 
-                    if (!this.isEdit) {
+                    if (this.isEdit) {
 
-                        this.newNews(formData);
+                        this.editNews(formData);
                     }else {
                         
-                        this.editNews(formData);
+                        this.newNews(formData);
                     }
                     
                 }else {
@@ -165,7 +165,7 @@
             },
 
             validateProps() {
-                if (this.item.nm_title.length > 0) {
+                if (this.item) {
 
                     this.form.title = this.item.nm_title;
                     this.form.date = this.item.dt_date;

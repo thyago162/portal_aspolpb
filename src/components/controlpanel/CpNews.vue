@@ -10,7 +10,7 @@
                  </b-col>
                  <b-col lg="7">
                     <b-form-input type="search" class="news-search" 
-                        placeholder="Buscar notícia" />
+                        placeholder="Buscar notícia" @keypress="searchNews" v-model="search"/>
                     <b-icon icon="search" class="search-icon" font-scale="1.5"></b-icon>
                  </b-col>
                  <b-col lg="2">
@@ -29,20 +29,25 @@
                         :per-page="perPage" :current-page="currentPage" id="table-news">
 
                          <template v-slot:cell(edit)="row">
-                             <b-button size="sm" class="mr-2" @click="editNews(row.item)" 
+                             <b-button size="sm"  @click="editNews(row.item)" 
                                 variant="info" v-b-modal.form-news>
                                  <b-icon icon="pen"></b-icon>
                              </b-button>
                          </template>
 
                           <template v-slot:cell(delete)="row">
-                             <b-button size="sm" class="mr-2" @click="deleteNews(row.item)" variant="danger">
+                             <b-button size="sm"  @click="deleteNews(row.item)" variant="danger">
                                  <b-icon icon="trash"></b-icon>
                              </b-button>
                          </template>
+
+                         <template v-slot:cell(dt_date)="row">
+                             {{row.item.dt_date | date }}
+                         </template>
                      </b-table>
-                     <div class="overflow-auto">
+                     <div >
                         <b-pagination
+                            align="center"
                             v-model="currentPage"
                             :total-rows="rows"
                             :per-page="perPage"
@@ -73,8 +78,8 @@
         data() {
             return {
                 fields: [
-                    {key: 'nm_title', label: 'Título'},
-                    {key: 'dt_date', label: 'Data'},
+                    {key: 'nm_title', label: 'Título', sortable: true},
+                    {key: 'dt_date', label: 'Data', sortable: true},
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
@@ -82,16 +87,31 @@
                 position: 'top-right',
                 perPage: 5,
                 currentPage: 1,
-                newsItem: []
+                search: '',
+                newsItem: [],
+                searchItems: []
             }
         },
 
         computed: {
             news() {
-                return this.$store.getters.getNews;
+               if(this.search.length > 0 ) {
+                   return this.searchItems;
+               } else {
+                   return this.$store.getters.getNews;
+               }
             },
             rows() {  
-                return this.news.length
+                return this.news.length;
+            },
+            itemsBkp() {
+                return this.news;
+            },
+        },
+
+        filters: {
+            date: function (value) {
+                return value.split('-').reverse().join('/')
             }
         },
 
@@ -105,9 +125,25 @@
             },
 
             deleteNews() {},
+
             reload() {
                 this.$store.dispatch('news');
-                
+            },
+
+            searchNews() {
+
+                if (this.search.length > 0) {
+                    
+                    let form = new FormData()
+                    form.append('search',this.search);
+
+                    this.$http.get('news/search',form)
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.searchItems = res.data.result.news
+                        }
+                    })                  
+                }   
             }
         }
 
@@ -122,7 +158,7 @@
 
     .news-search {
         width: 80%;
-        text-indent: 12px;
+        text-indent: 15px;
     }
 
     .search-icon {

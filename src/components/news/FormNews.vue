@@ -1,7 +1,7 @@
 <template>
     <b-modal title="Nova noticia" 
         ref="formnews" id="form-news" size="xl" header-bg-variant="primary" 
-            @ok="handleOk" @show="resetModal" @hidden="resetModal">
+            @ok="handleOk">
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
             <b-container fluid>
                 <b-row>
@@ -9,15 +9,17 @@
                         <b-form-group label="Título">
                             <b-form-input 
                                 type="text" 
-                                v-model="form.title"
+                                v-model="news.nm_title"
                                 required
+                                name="nm_title"
                                  ></b-form-input>
                         </b-form-group>
                     </b-col>
 
                     <b-col lg="3" md="2">
                         <b-form-group label="Data">
-                            <b-form-input type="date" v-model="item.dt_date" required/>
+                            <b-form-input type="date" v-model="news.dt_date" 
+                            name="dt_date" required/>
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -25,13 +27,17 @@
                 <b-row>
                     <b-col lg="7">
                         <b-form-group label="Image">
-                            <b-form-file   
+                            <b-form-file
+                                name="nm_image_path"
+                                v-model="file"
                                 :state="Boolean(file)"
                                 placeholder="Escolha uma imagem..."/>
                         </b-form-group>
                     </b-col>
                     <b-col lg="5">
-                        <b-form-checkbox 
+                        <b-form-checkbox
+                            name="st_highligts"
+                            v-model="news.st_highlights"
                             :value="1" :unchecked-value="0" checked>
                             Destacar?
                         </b-form-checkbox>
@@ -41,9 +47,9 @@
                 <b-row>
                     <b-col>
                         <b-form-group label="Conteúdo">
-                            <vue-editor id="editor" 
+                            <vue-editor id="editor"
                                 :editor-toolbar="customToolbar"
-                                
+                                v-model="news.nm_content"
                                 ></vue-editor>
                         </b-form-group>
                     </b-col>
@@ -64,20 +70,21 @@
             VueEditor,
         },
 
-        mounted() {
-        },
-
         computed: {
             token() {
                 return this.$session.get('jwt');
             },
+
+            news() {
+                return this.item
+            },
+  
+
    
         },
         data() {
             return {
-                form: {
-                    title: this.item.nm_title
-                },
+                form: {},
                 file: null,
                 hasImage: false,
                 erro: [],
@@ -116,17 +123,15 @@
                 if (this.validation.title && this.validation.content) {
 
                     let formData = new FormData();
-                    formData.append('nm_title',this.item.nm_title);
-                    formData.append('nm_content',this.item.nm_content);
-                    formData.append('dt_date',this.item.dt_date);
-                    formData.append('nm_image_path',this.file),
-                    formData.append('st_highlights',this.item.st_highlight);
+                    formData.append('nm_title', this.news.nm_title);
+                    formData.append('nm_content', this.news.nm_content);
+                    formData.append('dt_date', this.news.dt_date);
+                    formData.append('nm_image_path', this.file),
+                    formData.append('st_highlights',this.news.st_highlights);
 
                     if (this.item.id_news) {
-                        alert(formData)
 
-
-                        this.editNews(formData);
+                        this.editNews();
 
                     }else {
                         this.saveNews(formData);
@@ -144,13 +149,13 @@
             },
 
             validateTitle() {
-                return this.item.nm_title.length > 0 ? 
+                return this.news.nm_title.length > 0 ? 
                 this.validation.title = true : 
                 this.validation.title = false
             },
 
             validateContent() {
-                return this.item.nm_content.length > 0 ?
+                return this.news.nm_content.length > 0 ?
                 this.validation.content = true :
                 this.validation.content = false
             },
@@ -160,26 +165,32 @@
                 this.$http.post('news',formData, {
                         headers: {
                             Authorization: 'Bearer '+this.token,
-                            'Content-Type': 'multipart/form-data'
+                            'Content-Type': 'multipart/form-data',
+                            
                         }
-                    })
-                    .then(res => {
+                })
+                .then(res => {
                         
                         if (res.status === 200) {
                             this.$refs['formnews'].hide();
                         }
-                    })
+                })
                     .catch(err => {
                         this.erro.push(err)
                 })
                 
             },
 
-            editNews(formData) {
-                this.$http.put('news/'+this.item.id_news,formData, {
+            editNews() {
+                this.$http.put('news/'+this.item.id_news,{
+                    'nm_title': this.news.nm_title,
+                    'nm_content': this.news.nm_content,
+                    'dt_date': this.news.dt_date,
+                    'st_highlights': this.news.st_highlights,
+                    'nm_image_path' : this.file
+                }, {
                     headers: {
                         Authorization: 'Bearer '+this.token,
-                        'Content-Type': 'multipart/form-data'
                     }
                 })
                 .then( res => {
@@ -193,10 +204,6 @@
                 })
 
             },
-
-            resetModal() {
-                this.item = []
-            }
         
         },
     }

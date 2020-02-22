@@ -17,15 +17,14 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-col lg="12" class="more-news-title">   
-                    <h5>  <b-icon icon="plus"></b-icon> NOTÍCIAS</h5>
+                <b-col lg="12" class="more-news-title ml-4">   
+                    <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
                 </b-col>
             </b-row>
 
             <b-row>
                 <b-col lg="12" class="more-news">
-                    <MoreNews :morenews="moreNews" 
-                    />
+                    <MoreNews/>
                 </b-col>
             </b-row>
        
@@ -42,7 +41,6 @@
         mounted() {
             this.getHighlight();
             this.getCardNews();
-            this.getMoreNews();
         },
 
         components: {
@@ -74,20 +72,13 @@
                     this.cardNews = res.data.result.card;
                 })   
             },
-
-            getMoreNews() {
-                this.$http.get('news/morenews')
-                .then(res => {
-                    this.moreNews = res.data.result.morenews;
-                })
-            }
         }
     }
 </script>
 
 <style scoped>
     .news {
-        height: 700px;
+        height: 760px;
         background-color: lightgray;
     }
 
@@ -143,7 +134,6 @@
         justify-content: flex-start;
         align-items: flex-start;
         overflow: auto;
-        height: 170px;
         border-color: red 1xp solid;
     }
 

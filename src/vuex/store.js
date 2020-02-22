@@ -50,7 +50,7 @@ export default new Vuex.Store({
         },
 
         users({commit}, state) {
-            axios.get('users', {
+            axios.post('users', {
                 Authorization: 'Bearer '+ state.token
             })
             .then(res => {

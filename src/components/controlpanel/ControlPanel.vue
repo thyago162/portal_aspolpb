@@ -31,7 +31,7 @@
                     ASSOCIADOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="dark">
+                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>
                     <font-awesome-icon icon="users" />
                     USUÁRIOS
                 </b-button>
@@ -41,17 +41,20 @@
         </b-modal>
     <CpNews />
     <CpPartner />
+    <CpUser />
     </div>
 </template>
 
 <script>
     import CpNews from './CpNews';
     import CpPartner from './cpPartner';
+    import CpUser from './CpUser';
     export default {
 
         components: {
             CpNews,
-            CpPartner
+            CpPartner,
+            CpUser
         },
 
         methods: {

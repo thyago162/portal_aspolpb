@@ -1,7 +1,7 @@
 <template>
     <div class="card-news" > 
         <b-card :img-src="image" 
-            img-left class="ml-1" img-height="167px" img-width="250px" >
+            img-left class="ml-1" img-height="120px" img-width="150px" >
             <b-card-text>
                 {{cardnews.nm_title}}
             </b-card-text>

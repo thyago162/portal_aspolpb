@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="partner">
         <b-row class="partner-title">
-            <b-col>
+            <b-col class="ml-5">
                 <h4>Parceiros</h4>
             </b-col>
         </b-row>

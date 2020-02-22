@@ -2,13 +2,16 @@
     <div>
         <News />
         <Partner />
-        
+        <SocialNetwork />
+        <Media />   
     </div>
 </template>
 
 <script>
     import News from './News';
     import Partner from './Partner';
+    import SocialNetwork from './SocialNetwork';
+    import Media from './Media';
 
     export default {
 
@@ -18,7 +21,9 @@
 
         components: {
             News,
-            Partner
+            Partner,
+            SocialNetwork,
+            Media
             
         },
 

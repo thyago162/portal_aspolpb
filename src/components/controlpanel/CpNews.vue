@@ -4,7 +4,6 @@
          hide-footer no-close-on-backdrop header-bg-variant="primary" header-text-variant="light">
          <b-container fluid>
              <b-row >
-
                  <b-col lg="3">
                     <font-awesome-icon icon="print" size="2x" class="icon alt mr-3"/>
                     <font-awesome-icon icon="file-csv" size="2x" class="icon alt"/>
@@ -27,7 +26,7 @@
              <b-row class="news-table">
                  <b-col>
                      <b-table :fields="fields" :items="news" striped hover 
-                        :per-page="perPage" :current-page="currentPage">
+                        :per-page="perPage" :current-page="currentPage" id="table-news">
 
                          <template v-slot:cell(edit)="row">
                              <b-button size="sm" class="mr-2" @click="editNews(row.item)" 
@@ -47,7 +46,7 @@
                             v-model="currentPage"
                             :total-rows="rows"
                             :per-page="perPage"
-                            aria-controls="my-table"
+                            aria-controls="table-news"
                         ></b-pagination>
                      </div>
                  </b-col>
@@ -91,9 +90,8 @@
             news() {
                 return this.$store.getters.getNews;
             },
-            rows() {
-                let n = this.news
-                return n.length
+            rows() {  
+                return this.news.length
             }
         },
 

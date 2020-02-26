@@ -1,89 +1,82 @@
 <template>
-   <b-container fluid class="news">
-        <b-row class="news-row">
-            <b-col class="news-head ml-5" lg="12">
+    <b-container fluid class="news">
+        <b-row>
+            <b-col lg="12" class="ml-5 news-head" >
                 <div class="news-title">
                     <h5>NOTÍCIAS</h5>
                 </div>
             </b-col>
-            </b-row>
-            <b-row class="highlights ml-4">
-                <b-col lg="6"> 
-                    <highlights-news :highlights="highlights"/>
-                </b-col>
-                <b-col lg="6" class="highlights">
-                    <card-news :cardnews="card" 
-                        v-for="(card, index) in cardNews" :key="index"/>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col lg="12" class="more-news-title ml-4">   
-                    <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
-                </b-col>
-            </b-row>
-
-            <b-row>
-                <b-col lg="12" class="more-news">
-                    <MoreNews/>
-                </b-col>
-            </b-row>
-       
-   </b-container>
-    
+        </b-row>
+        <b-row>
+            <b-col lg="5" class="panel-news ml-3">
+                <b-table :fields="fields" :items="news" borderless
+                    :per-page="perPage" :current-page="currentPage" id="news"
+                >
+                    <template v-slot:cell(nm_title)="row">
+                        <b-list-group>
+                            <b-list-group-item button class="teste">
+                                {{row.item.nm_title}},
+                                 {{row.item.dt_date}}
+                            </b-list-group-item>
+                        </b-list-group>
+                    </template>
+                </b-table>
+                <div >
+                    <b-pagination
+                        align="center"
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        aria-controls="news"
+                    ></b-pagination>
+                     </div>
+            </b-col>
+            <b-col>
+                <b-card></b-card>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
-    import HighlightsNews from '../components/news/HighlightsNews';
-    import CardNews from '../components/news/CardNews';
-    import MoreNews from '../components/news/MoreNews';
     export default {
 
         mounted() {
-            this.getHighlight();
-            this.getCardNews();
-        },
-
-        components: {
-            HighlightsNews,
-            CardNews,
-            MoreNews
+            this.$store.dispatch('news');
         },
 
         data() {
             return {
-                highlights: [],
-                cardNews: [],
-                moreNews: []
+                error: [],
+                fields: [
+                    {key: 'nm_title', label: ''}
+                ],
+                currentPage: 1,
+                perPage: 5,
+
+            }
+        },
+
+        computed: {
+            news: function() {
+                return this.$store.getters.getNews;
+            },
+
+            rows: function() {
+                return this.news.lenght;
             }
         },
 
         methods: {
-            getHighlight() {
-                this.$http.get('news/highlights')
-                .then(res => {
-                    this.highlights = res.data.result.highlights;
-                })
-                
-            },
-
-            getCardNews() {
-                this.$http.get('news/cardnews')
-                .then(res => {
-                    this.cardNews = res.data.result.card;
-                })   
-            },
+       
         }
+        
     }
 </script>
 
 <style scoped>
     .news {
-        height: 760px;
-        background-color: lightgray;
-    }
-
-    .news-row {
-        width: 95%;
+        height: 700px;
     }
 
     .news-head {
@@ -112,29 +105,16 @@
         margin-top: 10px;
     }
 
-    .news-title h5 {
+    .panel-news {
+    }
+
+    .teste {
+        background-color: red;
+        color: white;
+        font-weight: bolder;
+    }
+
+    h5 {
         margin-top: 10px;
     }
-
-    .highlights {
-        margin-top: 20px;
-    }
-
-    .more-news-title {
-        margin-top: 20px;
-        margin-bottom: 10px;
-        font-weight: bolder;
-        text-decoration: underline;
-    }
-
-    .more-news {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
-        overflow: auto;
-        border-color: red 1xp solid;
-    }
-
 </style>

@@ -172,12 +172,12 @@
                         this.$store.dispatch('saveToken',res.data.response.token);
                         location.reload()
                     } else {
-                        this.errors.push(res.data.response.original.error);
+                        this.errors = res.data.response.original.error;
                         this.visibility = true;
                     }
                     })
                     .catch(err => {
-                        this.errors·push(err)
+                        this.errors = err
                         this.visibility = true;
         
                     })

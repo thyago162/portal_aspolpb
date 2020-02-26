@@ -1,15 +1,13 @@
 <template>
-       <carousel>
-           <slide v-for="(n, index) in news" :key="index" :perPage="2" :autoplay="true">
-               <b-card class="card-more-news">
-                   <b-card-text>
-                       <span>{{n.nm_title}} </span>
-                       <span>- {{n.dt_date}} </span>
-                   </b-card-text>
-               </b-card>
+      <div class="more-news">
+        <b-card class="card-more-news" v-for="(n, index) in news" :key="index">
+            <b-card-text>
+                <span>{{n.nm_title}} </span>
+                <span>- {{n.dt_date}} </span>
+            </b-card-text>
+        </b-card>
+    </div>
 
-           </slide>
-       </carousel>
        
 </template>
 
@@ -52,6 +50,7 @@
         border-left: 2px solid darkslategrey;
         background-color: lightgray;
         height: 100px;
+        width: 650px;
         margin-top: 10px;
     }
 
@@ -61,9 +60,11 @@
         color: blue;
     }
 
-    .teste {
-        background-color: lightgray;
-        margin-top: -20px;
-        border: none;
+    .more-news {
+       display: flex;
+       flex-direction: row;
+       flex-wrap: wrap;
+       justify-content: flex-start;
+       align-items: center;
     }
 </style>

@@ -11,7 +11,7 @@
             </b-form-group>
 
             <b-form-group label="Image do parceiro">
-                <b-form-file v-model="form.file" :state="Boolean(form.file)"></b-form-file>
+                <b-form-file v-model="form.file" :state="Boolean(form.file)" @input="image"></b-form-file>
             </b-form-group>
 
         </b-form>
@@ -97,6 +97,10 @@
                 //   alert('Os campos devem ser preenchidos');
                //}
 
+           },
+
+           image() {
+               
            }
         }
         

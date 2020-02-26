@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 import Home from '../pages/Home';
 import Institucional from '../pages/Institucional';
-import ViewNews from '../pages/ViewNews';
+import News from '../pages/News';
 
 
 Vue.use(Router);
@@ -23,7 +23,7 @@ export default new Router({
         },
         {
             path: '/noticias',
-            component: ViewNews,
+            component: News,
             name: 'noticias'
             
         }

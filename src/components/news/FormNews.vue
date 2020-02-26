@@ -12,7 +12,7 @@
                                 v-model="news.nm_title"
                                 required
                                 name="nm_title"
-                                 ></b-form-input>
+                            ></b-form-input>
                         </b-form-group>
                     </b-col>
 
@@ -25,22 +25,23 @@
                 </b-row>
 
                 <b-row>
-                    <b-col lg="7">
+                    <b-col lg="9">
                         <b-form-group label="Image">
                             <b-form-file
                                 name="nm_image_path"
+                                @input="image"
                                 v-model="file"
                                 :state="Boolean(file)"
                                 placeholder="Escolha uma imagem..."/>
                         </b-form-group>
                     </b-col>
-                    <b-col lg="5">
-                        <b-form-checkbox
-                            name="st_highligts"
-                            v-model="news.st_highlights"
-                            :value="1" :unchecked-value="0" checked>
-                            Destacar?
-                        </b-form-checkbox>
+                    <b-col lg="3">
+                        <b-form-group label="Destacar" class="ml-4">
+                            <b-form-radio-group v-model="news.st_highlights" required>
+                                <b-form-radio :value="0" name="no-highlights" >Não</b-form-radio>
+                                <b-form-radio :value="1" name="yes-highlights">Sim</b-form-radio>
+                            </b-form-radio-group>
+                        </b-form-group>
                     </b-col>
                 </b-row>
 
@@ -78,9 +79,7 @@
             news() {
                 return this.item
             },
-  
 
-   
         },
         data() {
             return {
@@ -126,16 +125,17 @@
                     formData.append('nm_title', this.news.nm_title);
                     formData.append('nm_content', this.news.nm_content);
                     formData.append('dt_date', this.news.dt_date);
-                    formData.append('nm_image_path', this.file),
+                    formData.append('nm_image_path', this.news.nm_image_path),
                     formData.append('st_highlights',this.news.st_highlights);
 
                     if (this.item.id_news) {
-
                         this.editNews();
 
                     }else {
                         this.saveNews(formData);
                     }
+
+                    //location.reload();
                     
                 }else {
                     alert('Os campos devem ser preenchidos');
@@ -165,8 +165,6 @@
                 this.$http.post('news',formData, {
                         headers: {
                             Authorization: 'Bearer '+this.token,
-                            'Content-Type': 'multipart/form-data',
-                            
                         }
                 })
                 .then(res => {
@@ -175,10 +173,9 @@
                             this.$refs['formnews'].hide();
                         }
                 })
-                    .catch(err => {
-                        this.erro.push(err)
-                })
-                
+                .catch(err => {
+                    this.erro.push(err)
+                }) 
             },
 
             editNews() {
@@ -187,7 +184,7 @@
                     'nm_content': this.news.nm_content,
                     'dt_date': this.news.dt_date,
                     'st_highlights': this.news.st_highlights,
-                    'nm_image_path' : this.file
+                    'nm_image_path' : this.nm_image_path
                 }, {
                     headers: {
                         Authorization: 'Bearer '+this.token,
@@ -204,7 +201,50 @@
                 })
 
             },
-        
+
+            image() {
+                if (this.file) {
+                    this.saveImage();
+                } else {
+                    this.deleteImage();
+                }
+            },
+
+            saveImage() {
+                let form = new FormData();
+
+                form.append('file',this.file);
+                form.append('folder','public/news/');
+
+                this.$http.post('storage',form,{
+                    headers: {
+                        Authorization: 'Bearer '+this.token,
+                        'Content-type': 'multipart/form-data'
+                    }
+                })
+                .then(res => {
+
+                    if (res.status === 200) {
+                        this.news.nm_image_path = res.data.result.url.replace('public','storage');
+                    }
+                    
+                })
+                .catch(err => {
+                    this.erro = err;
+                })
+
+            },
+
+            deleteImage() {
+
+               this.$http.delete('news/image/'+this.news.nm_image_path,
+                {
+                   headers: {
+                       Authorization: 'Bearer '+this.token
+                   }
+               })
+
+            }
         },
     }
 </script>

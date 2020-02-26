@@ -11,7 +11,7 @@
                     NOTÍCIAS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="success">
+                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional>
                     <font-awesome-icon  icon="building" class="icon alt"/>
                     INSTITUCIONAL
                 </b-button>
@@ -42,6 +42,7 @@
     <CpNews />
     <CpPartner />
     <CpUser />
+    <CpInstitucional />
     </div>
 </template>
 
@@ -49,12 +50,14 @@
     import CpNews from './CpNews';
     import CpPartner from './cpPartner';
     import CpUser from './CpUser';
+    import CpInstitucional from './CpInstitucional';
     export default {
 
         components: {
             CpNews,
             CpPartner,
-            CpUser
+            CpUser,
+            CpInstitucional
         },
 
         methods: {

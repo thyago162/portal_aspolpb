@@ -45,7 +45,7 @@
                     </b-nav-item-dropdown>
 
                     <b-nav-item>
-                        <b-link :to="{name: 'home'}" class="personal-link">
+                        <b-link :to="{name: 'noticias'}" class="personal-link">
                             NOTÍCIAS
                         </b-link>
                     </b-nav-item>

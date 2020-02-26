@@ -1,7 +1,8 @@
 <template>
-    <div class="card-news" > 
+    <div class="card-news" @click="seeNews" > 
+        
         <b-card :img-src="image" 
-            img-left class="ml-1" img-height="120px" img-width="150px" >
+            img-right class="ml-1" img-height="120px" img-width="150px" >
             <b-card-text>
                 {{cardnews.nm_title}}
             </b-card-text>
@@ -16,7 +17,13 @@
 
         computed: {
             image() {
-                return this.cardnews.nm_image_path.replace('public','storage');
+                return this.cardnews.nm_image_path;
+            }
+        },
+
+        methods: {
+            seeNews() {
+                this.$router.push({name: 'noticias', params: {data: this.cardnews}})
             }
         }
         

@@ -20,8 +20,7 @@
 
         computed: {
             image() {
-                let img = this.highlights.nm_image_path;
-                return img.replace('public','storage');
+                return this.highlights.nm_image_path;
             }
         }
  

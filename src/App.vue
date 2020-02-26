@@ -3,12 +3,14 @@
     
     <Header />
     <router-view />
-   
+    <Footer />
+
   </div>
 </template>
 
 <script>
-  import Header from './components/header/Header.vue';
+  import Header from './components/header/Header';
+  import Footer from './components/footer/Footer';
 
   export default {
     name: 'app',
@@ -21,6 +23,7 @@
 
     components: {
       Header,
+      Footer
     }
   }
 </script>

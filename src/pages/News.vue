@@ -1,38 +1,44 @@
-<template>
+<template >
     <b-container fluid class="news">
+
         <b-row>
             <b-col lg="12" class="ml-5 news-head" >
                 <div class="news-title">
-                    <h5>NOTÍCIAS</h5>
+                    <h5 class="mt-2">NOTÍCIAS</h5>
                 </div>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col lg="5" class="panel-news ml-3">
-                <b-table :fields="fields" :items="news" borderless
-                    :per-page="perPage" :current-page="currentPage" id="news"
-                >
-                    <template v-slot:cell(nm_title)="row">
-                        <b-list-group>
-                            <b-list-group-item button class="teste">
-                                {{row.item.nm_title}},
-                                 {{row.item.dt_date}}
-                            </b-list-group-item>
-                        </b-list-group>
-                    </template>
-                </b-table>
-                <div >
-                    <b-pagination
-                        align="center"
-                        v-model="currentPage"
-                        :total-rows="rows"
-                        :per-page="perPage"
-                        aria-controls="news"
-                    ></b-pagination>
-                     </div>
+
+        <b-row class="news-content">
+            <b-col cols="4">
+                <b-img :src="news.nm_image_path" class="news-image"></b-img>
+                <h6 class="ml-4 mt-2">{{news.dt_date | date}}</h6> 
             </b-col>
+            <b-col cols="8" >
+                <h4 class="mt-4">{{news.nm_title}}</h4>
+                <div v-html="news.nm_content" class="mt-4"></div>
+            </b-col>
+        </b-row>
+
+        <b-row class="mt-2 ml-4">
             <b-col>
-                <b-card></b-card>
+                <h4 class="mt-2">+ NOTICIAS</h4>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col>
+                <carousel>
+                    <slide v-for="(n, index) in allNews" :key="index" @click="seeNews">
+                        <b-card class="card-more-news" >
+                            <b-img src="/aspolicone.ico" width="20" height="20"></b-img>
+                            <span style="float: right">{{n.dt_date | date}}</span>
+                            <b-card-text class="mt-1">
+                                {{n.nm_title}}
+                            </b-card-text>
+                        </b-card>
+
+                    </slide>
+                </carousel>
             </b-col>
         </b-row>
     </b-container>
@@ -41,33 +47,43 @@
 <script>
     export default {
 
+        components: {
+        },
+        
         mounted() {
-            this.$store.dispatch('news');
+           this.getCurrentNews()
         },
 
         data() {
             return {
                 error: [],
-                fields: [
-                    {key: 'nm_title', label: ''}
-                ],
-                currentPage: 1,
-                perPage: 5,
-
+                news: []
             }
         },
 
         computed: {
-            news: function() {
+            allNews: function() {
                 return this.$store.getters.getNews;
-            },
-
-            rows: function() {
-                return this.news.lenght;
             }
         },
 
+
         methods: {
+            getCurrentNews() {
+
+                 this.$http('news/'+this.$route.params.id)
+                .then(res => {
+                    this.news = res.data.result.news;
+                })
+                .catch(err => {
+                    this.error.push(err)
+                })
+
+            },
+
+             seeNews() {
+                this.$route.push({ name: 'noticias', params: {id: this.news.id_news}})
+            }
        
         }
         
@@ -76,7 +92,7 @@
 
 <style scoped>
     .news {
-        height: 700px;
+        height: 750px;
     }
 
     .news-head {
@@ -105,16 +121,41 @@
         margin-top: 10px;
     }
 
-    .panel-news {
+
+    .news-image {
+        width: 450px;
+        height: 300px;
+        margin-left: 30px;
+        margin-top: 30px;
     }
 
-    .teste {
-        background-color: red;
-        color: white;
-        font-weight: bolder;
+    .news-content {
+        height: 430px;
+        overflow: auto;
+        border-bottom: 1px solid lightgray;
+        box-shadow: 1px 2px 2px gray;
     }
 
-    h5 {
+    .card-more-news {
+        border: none;
+        border-left: 2px solid darkslategrey;
+        height: 100px;
+        width: 650px;
         margin-top: 10px;
     }
+
+    .card-text {
+        font-size: 18px;
+        font-weight: bold;
+        color: blue;
+    }
+
+    .more-news {
+       display: flex;
+       flex-direction: row;
+       flex-wrap: wrap;
+       justify-content: flex-start;
+       align-items: center;
+    }
+
 </style>

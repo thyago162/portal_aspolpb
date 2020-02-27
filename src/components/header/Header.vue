@@ -1,9 +1,6 @@
 <template>
     <div >
         <b-row class="header">
-            <b-col>
-                <Menu />
-            </b-col>
         </b-row>
         <b-row>
             <b-col>
@@ -22,11 +19,9 @@
 </template>
 
 <script>
-    import Menu from '../menu/Menu';
     import Submenu from '../submenu/Submenu';
     export default {
         components: {
-            Menu,
             Submenu
         }
         

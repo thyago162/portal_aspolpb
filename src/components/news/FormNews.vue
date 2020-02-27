@@ -135,8 +135,6 @@
                         this.saveNews(formData);
                     }
 
-                    //location.reload();
-                    
                 }else {
                     alert('Os campos devem ser preenchidos');
                 }
@@ -170,6 +168,7 @@
                 .then(res => {
                         
                         if (res.status === 200) {
+                            location.reload(true)
                             this.$refs['formnews'].hide();
                         }
                 })
@@ -204,8 +203,13 @@
 
             image() {
                 if (this.file) {
+
                     this.saveImage();
-                } else {
+
+                } else if (this.file && this.news.nm_image_path) {
+
+                    this.deleteImage();
+                }else {
                     this.deleteImage();
                 }
             },
@@ -214,7 +218,7 @@
                 let form = new FormData();
 
                 form.append('file',this.file);
-                form.append('folder','public/news/');
+                form.append('folder','public/news');
 
                 this.$http.post('storage',form,{
                     headers: {
@@ -237,10 +241,18 @@
 
             deleteImage() {
 
-               this.$http.delete('news/image/'+this.news.nm_image_path,
+               this.$http.delete('storage/',{
+                   'url': this.news.nm_image_path
+               },
                 {
                    headers: {
                        Authorization: 'Bearer '+this.token
+                   }
+               })
+               .then(res => {
+                   
+                   if (res.status === 200) {
+                       alert('Imagem removida');
                    }
                })
 

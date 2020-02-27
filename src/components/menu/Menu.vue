@@ -45,7 +45,7 @@
                     </b-nav-item-dropdown>
 
                     <b-nav-item>
-                        <b-link :to="{name: 'noticias'}" class="personal-link">
+                        <b-link :to="{name: 'noticias', params: {id: 1}}" class="personal-link">
                             NOTÍCIAS
                         </b-link>
                     </b-nav-item>
@@ -163,7 +163,7 @@
 <style scoped>
 
     .menu {
-        margin-top: 20px;
+        width: 100%;
     }
 
     .logo {

@@ -28,20 +28,20 @@
                      <b-table :fields="fields" :items="news" striped hover 
                         :per-page="perPage" :current-page="currentPage" id="table-news">
 
-                         <template v-slot:cell(edit)="row">
+                         <template v-slot:cell(edit)="row" > 
                              <b-button size="sm"  @click="editNews(row.item)" 
-                                variant="info" v-b-modal.form-news>
+                                variant="info" v-b-modal.form-news class="ml-1">
                                  <b-icon icon="pen"></b-icon>
                              </b-button>
                          </template>
 
-                          <template v-slot:cell(delete)="row">
+                          <template v-slot:cell(delete)="row" >
                              <b-button size="sm"  @click="deleteNews(row.item)" variant="danger">
                                  <b-icon icon="trash"></b-icon>
                              </b-button>
                          </template>
 
-                         <template v-slot:cell(dt_date)="row">
+                         <template v-slot:cell(dt_date)="row" >
                              {{row.item.dt_date | date }}
                          </template>
                      </b-table>
@@ -109,11 +109,6 @@
             },
         },
 
-        filters: {
-            date: function (value) {
-                return value.split('-').reverse().join('/')
-            }
-        },
 
         methods: {
             closeModal() {

@@ -133,14 +133,14 @@
                     this.$http.post('register',form)
                     .then(res => {
                         if (res.status === 200 && res.data.response.token) {
-                            this.$store.dispatch('loading', false);
+                            //this.$store.dispatch('loading', false);
                             this.$refs['auth'].hide();
                             this.resetModal();
                             this.auth = true;
                             alert('Usuário cadastrado com sucesso')
                         }else {
                             this.$store.dispatch('loading', false);
-                            this.errors.push(res.data.response.original.error);
+                            this.errors.push(res.data.response.error);
                             this.visibility = true;
                         }
                         
@@ -158,7 +158,7 @@
                 this.$store.dispatch('loading',true);
                 let form = new FormData();
                 form.append('email', this.formData.email);
-                form.append('password',this.formData.password)
+                form.append('password',this.formData.password);
 
                 this.$http.post('login',form)
                 .then(res => {
@@ -172,12 +172,13 @@
                         this.$store.dispatch('saveToken',res.data.response.token);
                         location.reload()
                     } else {
-                        this.errors = res.data.response.original.error;
+                        
+                        this.errors.push(res.data.response.error);
                         this.visibility = true;
                     }
                     })
                     .catch(err => {
-                        this.errors = err
+                        this.errors.push(err)
                         this.visibility = true;
         
                     })

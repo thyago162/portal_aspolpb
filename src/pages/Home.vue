@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Header />
         <MainNews />
         <Partner />
         <SocialNetwork />
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+    import Header from '../components/header/Header';
     import MainNews from '../components/news/MainNews';
     import Partner from './Partner';
     import SocialNetwork from './SocialNetwork';
@@ -23,7 +25,8 @@
             MainNews,
             Partner,
             SocialNetwork,
-            Media
+            Media,
+            Header
             
         },
 

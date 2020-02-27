@@ -9,7 +9,9 @@
             </b-row>
             <b-row class="highlights ml-4">
                 <b-col lg="6"> 
-                    <highlights-news :highlights="highlights"/>
+                    <b-link :to="{ name: 'noticias', params: { id: highlights.id_news, title: highlights.nm_title}}"> 
+                        <highlights-news :highlights="highlights"/>
+                    </b-link>
                 </b-col>
                 <b-col lg="6" class="highlights">
                     <card-news :cardnews="card" 
@@ -72,6 +74,8 @@
                     this.cardNews = res.data.result.card;
                 })   
             },
+
+           
         }
     }
 </script>

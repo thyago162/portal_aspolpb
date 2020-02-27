@@ -22,9 +22,10 @@ export default new Router({
             name: 'institucional'
         },
         {
-            path: '/noticias',
+            path: '/noticias/:id',
             component: News,
-            name: 'noticias'
+            name: 'noticias',
+            props: { default: true, sidebar: false}
             
         }
 

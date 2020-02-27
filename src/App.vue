@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     
-    <Header />
+    <Menu />
     <router-view />
     <Footer />
 
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import Header from './components/header/Header';
+  import Menu from './components/menu/Menu';
   import Footer from './components/footer/Footer';
 
   export default {
@@ -22,8 +22,8 @@
     },
 
     components: {
-      Header,
-      Footer
+      Footer,
+      Menu
     }
   }
 </script>

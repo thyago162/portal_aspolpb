@@ -25,6 +25,7 @@ export default new Router({
             path: '/noticias/:id',
             component: News,
             name: 'noticias',
+            alias: '/noticias/',
             props: { default: true, sidebar: false}
             
         }

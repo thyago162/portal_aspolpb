@@ -36,7 +36,7 @@
                          </template>
 
                           <template v-slot:cell(delete)="row" >
-                             <b-button size="sm"  @click="deleteNews(row.item)" variant="danger">
+                             <b-button size="sm"  @click="deleteNews(row.item.id_news)" variant="danger">
                                  <b-icon icon="trash"></b-icon>
                              </b-button>
                          </template>
@@ -101,12 +101,19 @@
                    return this.$store.getters.getNews;
                }
             },
+
             rows() {  
                 return this.news.length;
             },
+
             itemsBkp() {
                 return this.news;
             },
+
+            token: function() {
+                return this.$session.get('jwt');
+            }
+
         },
 
 
@@ -119,7 +126,19 @@
                 this.newsItem = item;
             },
 
-            deleteNews() {},
+            deleteNews(id) {
+
+                this.$http.delete('news/'+id, {
+                    headers: {
+                        Authorization: 'Bearer '+this.token
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        alert('Notícia removida')
+                    }
+                })
+            },
 
             reload() {
                 this.$store.dispatch('news');

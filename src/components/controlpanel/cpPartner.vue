@@ -52,7 +52,7 @@
             </b-row>
 
         </b-modal>
-        <FormPartner />
+        <FormPartner :partner="partner"/>
     </div>
 </template>
 
@@ -76,7 +76,8 @@
                     {key: 'delete', label: ''}
                 ],
                 perPage: 5,
-                currentPage: 1
+                currentPage: 1,
+                partner: []
             }
         },
 
@@ -86,14 +87,32 @@
             },
             rows() {
                 return ''
+            },
+            token: function() {
+                return this.$session.get('jwt');
             }
         },
 
         methods: {
             reload(){},
             closeModal(){},
-            editPartners(){},
-            deletePartners(){}
+            editPartners(item){
+                this.partner = item;
+
+            },
+            deletePartners(item){
+                this.$http.delete('partner/'+item.id_partner, {
+                    headers: {
+                        Authorization: 'Bearer '+this.token
+                    }
+                })
+                .then(res => {
+                    res
+                })
+                .catch(err => {
+                    err
+                })
+            }
         }
         
     }

@@ -8,9 +8,9 @@
                 </div>
             </b-col>
         </b-row>
-
+        
         <b-row class="news-content">
-            <b-col cols="4">
+            <b-col cols="4" v-if="news.nm_image_path != null">
                 <b-img :src="news.nm_image_path" class="news-image"></b-img>
                 <h6 class="ml-4 mt-2">{{news.dt_date | date}}</h6> 
             </b-col>
@@ -27,15 +27,17 @@
         </b-row>
         <b-row>
             <b-col>
-                <carousel>
-                    <slide v-for="(n, index) in allNews" :key="index" @click="seeNews">
-                        <b-card class="card-more-news" >
-                            <b-img src="/aspolicone.ico" width="20" height="20"></b-img>
-                            <span style="float: right">{{n.dt_date | date}}</span>
-                            <b-card-text class="mt-1">
-                                {{n.nm_title}}
-                            </b-card-text>
-                        </b-card>
+                <carousel >
+                    <slide v-for="(n, index) in allNews" :key="index" >
+                        <b-link @click="seeNews(n.id_news)">
+                            <b-card class="card-more-news"  >
+                                <b-img src="/aspolicone.ico" width="20" height="20"></b-img>
+                                <span style="float: right">{{n.dt_date | date}}</span>
+                                <b-card-text class="mt-1">
+                                    {{n.nm_title}}
+                                </b-card-text>
+                            </b-card>
+                        </b-link>
 
                     </slide>
                 </carousel>
@@ -52,6 +54,7 @@
         
         mounted() {
            this.getCurrentNews()
+           
         },
 
         data() {
@@ -64,7 +67,10 @@
         computed: {
             allNews: function() {
                 return this.$store.getters.getNews;
-            }
+            },
+            title: function() {
+                return this.news.nm_title
+            },
         },
 
 
@@ -81,10 +87,11 @@
 
             },
 
-             seeNews() {
-                this.$route.push({ name: 'noticias', params: {id: this.news.id_news}})
-            }
-       
+            seeNews(id) {
+                this.$router.push({ name: 'noticias', params: {id: id}})
+                location.reload(true)
+            },
+
         }
         
     }

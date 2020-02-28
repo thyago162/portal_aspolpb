@@ -23,12 +23,22 @@
 
                 <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
                     <font-awesome-icon icon="handshake" />
+                    PARCEIROS
+                </b-button>
+
+                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-partner>
+                    <font-awesome-icon icon="handshake" />
                     CONVÊNIOS
                 </b-button>
 
                 <b-button class="control-panel-btn" variant="info">
                     <font-awesome-icon icon="address-card" />
                     ASSOCIADOS
+                </b-button>
+
+                 <b-button class="control-panel-btn" variant="primary" v-b-modal.cp-partner>
+                    <font-awesome-icon icon="handshake" />
+                    AVISOS
                 </b-button>
 
                 <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>

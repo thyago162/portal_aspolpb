@@ -3,15 +3,16 @@
     header-bg-variant="danger" header-text-variant="light" @ok="handleOk">
         <b-form @submit.stop.prevent="formSubmited">
             <b-form-group label="Nome do parceiro">
-                <b-form-input type="text" v-model="form.title"/>
+                <b-form-input type="text" v-model="form.nm_title"/>
             </b-form-group>
 
             <b-form-group label="Link do site">
-                <b-form-input type="text" v-model="form.link" />
+                <b-form-input type="text" v-model="form.nm_link" />
             </b-form-group>
 
             <b-form-group label="Image do parceiro">
-                <b-form-file v-model="form.file" :state="Boolean(form.file)" @input="image"></b-form-file>
+                <b-form-file v-model="file" 
+                    :state="Boolean(file)" @input="image"></b-form-file>
             </b-form-group>
 
         </b-form>
@@ -20,13 +21,12 @@
 
 <script>
     export default {
+
+        props: ['partner'],
+
         data() {
             return {
-                form: {
-                    title: '',
-                    file: null,
-                    link: ''
-                },
+                file: null,
                 error: [],
                 validate:{
                     title: false,
@@ -38,12 +38,16 @@
         computed: {
             token() {
                 return this.$session.get('jwt');
+            },
+
+            form: function() {
+                return this.partner;
             }
         },
 
         methods: {
+
             validateTitle(){
-                alert(this.form.title.length)
                 this.form.title.length > 0 ? 
                 this.validate.title = true : 
                 this.validate.title = false
@@ -73,9 +77,9 @@
                //if (this.validate.form) {
 
                    let formData = new FormData();
-                   formData.append('nm_title',this.form.title);
-                   formData.append('nm_image_path',this.form.file);
-                   formData.append('nm_link',this.form.link);
+                   formData.append('nm_title',this.form.nm_title);
+                   formData.append('nm_image_path',this.form.nm_image_path);
+                   formData.append('nm_link',this.form.nm_link);
 
                    this.$http.post('partner',formData, {
                        headers: {
@@ -100,8 +104,62 @@
            },
 
            image() {
+
+               if (this.file) {
+                   this.saveImage();
+               } else {
+                   this.deleteImage();
+               }
                
-           }
+           },
+
+            saveImage() {
+                let form = new FormData();
+
+                form.append('file',this.file);
+                form.append('folder','public/partner');
+
+                this.$http.post('storage/save',form,{
+                    headers: {
+                        Authorization: 'Bearer '+this.token,
+                        'Content-type': 'multipart/form-data'
+                    }
+                })
+                .then(res => {
+
+                    if (res.status === 200) {
+                        this.form.nm_image_path = res.data.result.url;
+                    }
+                    
+                })
+                .catch(err => {
+                    this.erro = err;
+                })
+
+            },
+
+            deleteImage() {
+
+                let url = this.form.nm_image_path;
+
+                let form = new FormData();
+                form.append('url',url.replace('storage','public'));
+                form.append('folder','public/partner');
+
+               this.$http.post('storage/delete',form,
+                {
+                   headers: {
+                       Authorization: 'Bearer '+this.token
+                   }
+               })
+               .then(res => {
+                   
+                   if (res.status === 200) {
+                       alert('Imagem removida');
+                   }
+               })
+
+            }
         }
         
     }

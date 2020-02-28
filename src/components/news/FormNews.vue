@@ -33,6 +33,7 @@
                                 v-model="file"
                                 :state="Boolean(file)"
                                 placeholder="Escolha uma imagem..."/>
+                                {{news.nm_image_path}}
                         </b-form-group>
                     </b-col>
                     <b-col lg="3">
@@ -49,7 +50,7 @@
                     <b-col>
                         <b-form-group label="Conteúdo">
                             <vue-editor id="editor"
-                                :editor-toolbar="customToolbar"
+                                
                                 v-model="news.nm_content"
                                 ></vue-editor>
                         </b-form-group>
@@ -144,6 +145,7 @@
             formValidation() {
                 this.validateTitle();
                 this.validateContent();
+                this.validationImage();
             },
 
             validateTitle() {
@@ -156,6 +158,12 @@
                 return this.news.nm_content.length > 0 ?
                 this.validation.content = true :
                 this.validation.content = false
+            },
+
+            validationImage() {
+                if (!this.news.nm_image_path) {
+                    this.news.nm_image_path = ''
+                }
             },
 
             saveNews(formData) {
@@ -183,7 +191,7 @@
                     'nm_content': this.news.nm_content,
                     'dt_date': this.news.dt_date,
                     'st_highlights': this.news.st_highlights,
-                    'nm_image_path' : this.nm_image_path
+                    'nm_image_path' : this.news.nm_image_path
                 }, {
                     headers: {
                         Authorization: 'Bearer '+this.token,
@@ -202,14 +210,13 @@
             },
 
             image() {
-                if (this.file) {
+                if ( this.file ) {
 
                     this.saveImage();
+                    
 
-                } else if (this.file && this.news.nm_image_path) {
-
-                    this.deleteImage();
-                }else {
+                } else {
+                    
                     this.deleteImage();
                 }
             },
@@ -220,7 +227,7 @@
                 form.append('file',this.file);
                 form.append('folder','public/news');
 
-                this.$http.post('storage',form,{
+                this.$http.post('storage/save',form,{
                     headers: {
                         Authorization: 'Bearer '+this.token,
                         'Content-type': 'multipart/form-data'
@@ -241,9 +248,13 @@
 
             deleteImage() {
 
-               this.$http.delete('storage/',{
-                   'url': this.news.nm_image_path
-               },
+                let url = this.news.nm_image_path.replace('http://localhost:8080/','')
+
+                let form = new FormData();
+                form.append('url',url.replace('storage','public'));
+                form.append('folder','public/news');
+
+               this.$http.post('storage/delete',form,
                 {
                    headers: {
                        Authorization: 'Bearer '+this.token

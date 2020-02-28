@@ -1,9 +1,12 @@
 <template>
-      <div class="more-news">
-        <b-card class="card-more-news" v-for="(n, index) in news" :key="index">
+      <div class="more-news ml-4">
+        <b-card class="card-more-news" v-for="(n, index) in news" 
+            :key="index" @click="seeNews(n.id_news)">
             <b-card-text>
-                <span>{{n.nm_title}} </span>
-                <span>- {{n.dt_date}} </span>
+                <b-img src="/aspolicone.ico" width="20px" height="20px" />
+                <span style="float: right; color: red;">{{n.dt_date | date}}</span>
+                <b-card-text class="mt-1">{{n.nm_title}} </b-card-text>
+                
             </b-card-text>
         </b-card>
     </div>
@@ -37,6 +40,10 @@
                 .then(res => {
                     this.news = res.data.result.morenews;
                 })
+            },
+
+            seeNews(id) {
+                this.$router.push({ name: 'noticias', params: {id}})
             }
         }
        
@@ -50,14 +57,13 @@
         border-left: 2px solid darkslategrey;
         background-color: lightgray;
         height: 100px;
-        width: 650px;
+        width: 700px;
         margin-top: 10px;
     }
 
     .card-text {
         font-size: 18px;
         font-weight: bold;
-        color: blue;
     }
 
     .more-news {
@@ -66,5 +72,6 @@
        flex-wrap: wrap;
        justify-content: flex-start;
        align-items: center;
+       height: 115px;
     }
 </style>

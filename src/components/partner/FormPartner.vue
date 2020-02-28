@@ -1,7 +1,12 @@
 <template>
    <b-modal id="form-partner" ref="formpartner" size="md" title="Adicionar parceiro"
     header-bg-variant="danger" header-text-variant="light" @ok="handleOk">
+        <b-alert variant="danger" :show="visibility" 
+            v-for="error in errors" :key="error" 
+            dismissible >{{error}}</b-alert>
+
         <b-form @submit.stop.prevent="formSubmited">
+
             <b-form-group label="Nome do parceiro">
                 <b-form-input type="text" v-model="form.nm_title"/>
             </b-form-group>
@@ -27,7 +32,8 @@
         data() {
             return {
                 file: null,
-                error: [],
+                visibility: false,
+                errors: [],
                 validate:{
                     title: false,
                     file:  false
@@ -48,16 +54,22 @@
         methods: {
 
             validateTitle(){
-                this.form.title.length > 0 ? 
-                this.validate.title = true : 
-                this.validate.title = false
+                this.form.nm_title.length > 0 ? 
+                this.validate.title = true :
+                this.errors.push('O campo nome precisa ser preenchido');
+
+                alert(this.validate.title)
             },
+
             validateFile() {
-                this.form.file ? this.validate.file= true : 
-                this.validate.file = false
+                this.file != null ? this.validate.file= true : 
+                this.errors.push('Uma imagem deve ser escolhida');
             },
 
             validateForm() {
+                this.validateTitle();
+                this.validateFile();
+
                 this.validate.title && this.validate.file ? 
                 this.validate.form = true : 
                 this.validate.form = false
@@ -65,55 +77,95 @@
 
             handleOk(bvModalEvt){
                 bvModalEvt.preventDefault();
-                 this.validateForm()
+                this.validateForm()
                 this.formSubmited();
             },
 
            formSubmited() {
 
-                //alert(this.validate.title)
-                //alert(this.validate.file)
+               if (this.validate.form) {
 
-               //if (this.validate.form) {
+                   if (!this.form.id_partner) {
+                       this.save();
 
-                   let formData = new FormData();
-                   formData.append('nm_title',this.form.nm_title);
-                   formData.append('nm_image_path',this.form.nm_image_path);
-                   formData.append('nm_link',this.form.nm_link);
+                   } else {
+                       this.update();
 
-                   this.$http.post('partner',formData, {
-                       headers: {
-                           Authorization: 'Bearer '+this.token,
+                   }
+
+                   
+               }else {
+                   this.visibility = true;
+               }
+           },
+
+           save() {
+
+                let formData = new FormData();
+                formData.append('nm_title',this.form.nm_title);
+                formData.append('nm_image_path',this.form.nm_image_path);
+                formData.append('nm_link',this.form.nm_link);
+
+                this.$http.post('partner',formData, {
+                    headers: {
+                        Authorization: 'Bearer '+this.token,
                         'Content-Type': 'multipart/form-data'
                        }
                    })
-                   .then(res => {
+                .then(res => {
 
-                       if (res.status === 200 ){
-                           this.$refs['formpartner'].hide()
-                       }
+                    if (res.status === 200 ){
+                        this.$refs['formpartner'].hide()
+                        this.$store.dispatch('partners')
+                    }
                        
-                   })
-                   .catch(err => {
-                       err.push()
-                   })
-               //}else {
-                //   alert('Os campos devem ser preenchidos');
-               //}
+                })
+                .catch(err => {
+                    this.errors.push(err)
+                })
+
+           },
+
+           update() {
+
+               this.$http.put('partner/'+this.form.id_partner,{
+                   'nm_title': this.form.nm_title,
+                   'nm_link': this.form.nm_link,
+                   'nm_image_path': this.form.nm_image_path
+               },{
+                   headers: {
+                       Authorization: 'Bearer '+this.token
+                   }
+               })
+               .then(res => {
+
+                   if (res.status === 200) {
+                        this.$refs['formpartner'].hide()
+                        this.$store.dispatch('partners')
+                   }
+
+               })
+               .catch(err => {
+                   this.errors.push(err)
+               })
 
            },
 
            image() {
 
                if (this.file) {
+
                    this.saveImage();
+
                } else {
+                   
                    this.deleteImage();
                }
                
            },
 
             saveImage() {
+
                 let form = new FormData();
 
                 form.append('file',this.file);

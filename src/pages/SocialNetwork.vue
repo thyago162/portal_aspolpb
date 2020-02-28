@@ -19,7 +19,7 @@
 
 <style scoped>
     .social-midia {
-        height: 250px;
+        height: 350px;
         background-color: lightgray;
     }
 

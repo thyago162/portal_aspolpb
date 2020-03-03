@@ -1,6 +1,12 @@
 <template>
     <div >
-        <b-row class="header">
+        <b-row class="header" v-bind:style="{ backgroundImage: 'url('+ image.replace('public','storage') +')'}">
+            <b-col>
+                <b-button variant="warning" @click="editItem" 
+                    v-b-modal.warning-form class="btn-edit" size="sm" v-if="token"> 
+                    <b-icon icon="pencil"></b-icon>
+                </b-button>
+            </b-col>
         </b-row>
         <b-row>
             <b-col>
@@ -9,20 +15,60 @@
         </b-row>
         <b-row class="banner">
             <b-col>
-                <h2>CONVOCATÓRIA DE ASSEMBLEIA GERAL EXTRAORDINÁRIA</h2>
-                <h5>Sede das polícia cívil as 14:00 do dia 20/02/2020</h5>
+                <h2>{{warning.nm_title}}</h2>
+                <h5>{{warning.nm_subtitle}}</h5>
             </b-col>
         </b-row>
-        
+        <WarningForm :item="edit" />
     </div>
     
 </template>
 
 <script>
     import Submenu from '../submenu/Submenu';
+    import WarningForm from '../warning/WarningForm';
+
     export default {
+
         components: {
-            Submenu
+            Submenu,
+            WarningForm
+        },
+
+        mounted() {
+            this.getWarning();
+        },
+
+        computed: {
+            image: function() {
+                return this.warning.nm_image_path;
+            },
+            token: function() {
+                return this.$session.get('jwt')
+            }
+        },
+
+        data() {
+            return {
+                warning: [],
+                edit: []
+            }
+        },
+
+        methods: {
+            getWarning() {
+                this.$http('warning')
+                .then(res => {
+                    this.warning = res.data.result.warning[0];
+                })
+                .catch(err => {
+                    err
+                })
+            },
+
+            editItem() {
+                this.edit = this.warning;
+            }
         }
         
     }
@@ -31,7 +77,6 @@
 <style scoped>
     .header {
         height: 550px;
-        background-image: url('../../assets/images/image_background.png');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: 50% 50%;
@@ -58,6 +103,12 @@
     .banner h5 {
         color: whitesmoke;
         text-align: center;
+    }
+
+    .btn-edit {
+        float: right;
+        margin: 10px;
+        color: #000;
     }
 
     @media screen and (max-width: 1199px) {

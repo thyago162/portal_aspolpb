@@ -16,11 +16,6 @@
                     INSTITUCIONAL
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="warning">
-                    <font-awesome-icon icon="phone"/>
-                    CONTATOS
-                </b-button>
-
                 <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
                     <font-awesome-icon icon="handshake" />
                     PARCEIROS
@@ -36,12 +31,12 @@
                     ASSOCIADOS
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="primary" v-b-modal.cp-partner>
+                 <b-button class="control-panel-btn" variant="primary" v-b-modal.warning-form>
                     <font-awesome-icon icon="bullhorn" />
                     AVISOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-social-network>
+                <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network>
                     <font-awesome-icon icon="tv" />
                     MIDIAS SOCIAIS
                 </b-button>
@@ -75,7 +70,7 @@
             CpPartner,
             CpUser,
             CpInstitucional,
-            CpSocialNetwork
+            CpSocialNetwork,
         },
 
         methods: {

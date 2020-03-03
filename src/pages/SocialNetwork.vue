@@ -7,19 +7,48 @@
                 </div>
             </b-col>
         </b-row>
-        <b-row></b-row>
+        <b-row>
+            <b-col cols="12">
+                <carousel :perPage="3" class="mt-2 ml-4">
+                    <slide v-for="(item, index) in items" :key="index">
+                        <b-img :src="item.nm_image_path.replace('public','storage')" 
+                            :alt="item.nm_title" width="420px" height="260px" />
+                        <h5 class="mt-2">{{item.nm_title}}</h5>
+                    </slide>
+                </carousel>
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
 <script>
     export default {
+
+        created() {
+            this.$store.dispatch('socialNetwork');
+        },
+
+        data() {
+            return {
+
+            }
+        },
+
+        computed: {
+            items: function() {
+                return this.$store.getters.getSocialNetwork
+            }
+        }
+
+      
+
+        
         
     }
 </script>
 
 <style scoped>
     .social-midia {
-        height: 350px;
         background-color: lightgray;
     }
 

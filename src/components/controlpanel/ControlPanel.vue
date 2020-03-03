@@ -27,7 +27,7 @@
                 </b-button>
 
                  <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-partner>
-                    <font-awesome-icon icon="handshake" />
+                    <font-awesome-icon icon="file" />
                     CONVÊNIOS
                 </b-button>
 
@@ -37,8 +37,13 @@
                 </b-button>
 
                  <b-button class="control-panel-btn" variant="primary" v-b-modal.cp-partner>
-                    <font-awesome-icon icon="handshake" />
+                    <font-awesome-icon icon="bullhorn" />
                     AVISOS
+                </b-button>
+
+                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-social-network>
+                    <font-awesome-icon icon="tv" />
+                    MIDIAS SOCIAIS
                 </b-button>
 
                 <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>
@@ -53,6 +58,7 @@
     <CpPartner />
     <CpUser />
     <CpInstitucional />
+    <CpSocialNetwork />
     </div>
 </template>
 
@@ -61,13 +67,15 @@
     import CpPartner from './cpPartner';
     import CpUser from './CpUser';
     import CpInstitucional from './CpInstitucional';
+    import CpSocialNetwork from './CpSocialNetork';
     export default {
 
         components: {
             CpNews,
             CpPartner,
             CpUser,
-            CpInstitucional
+            CpInstitucional,
+            CpSocialNetwork
         },
 
         methods: {
@@ -91,6 +99,6 @@
     .control-panel-btn {
         margin: 5px;
         height: 50px;
-        width: 170px;
+        width: 180px;
     }
 </style>

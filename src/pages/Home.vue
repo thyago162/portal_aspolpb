@@ -31,9 +31,6 @@
         },
 
         computed: {
-            /*token() {
-                return this.$store.getters.getToken;
-            },*/
 
             news() {
                 return this.$store.getters.getNews;

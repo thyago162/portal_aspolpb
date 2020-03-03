@@ -1,44 +1,47 @@
 <template>
     <b-container>
-         <b-row class="mt-2">
+        <b-row class="mt-2">
             <b-col>
-                <b-button variant="primary" v-b-modal.form-media >+ novo</b-button>
+                <b-button variant="primary" v-b-modal.form-social-network>+ novo</b-button>
             </b-col>
         </b-row>
-
-        <b-row class="mt-4">
+        <b-row class="mt-3">
             <b-col>
-                <b-table :fields="fields" :items="media" hover>
+                <b-table :fields="fields" hover :items="item">
 
-                     <template v-slot:cell(edit)="row" > 
+                    <template v-slot:cell(edit)="row" > 
                         <b-button size="sm"  @click="editItem(row.item)" 
-                            variant="info" v-b-modal.form-media class="ml-1">
+                            variant="info" v-b-modal.form-social-network class="ml-1">
                             <b-icon icon="pen"></b-icon>
                         </b-button>
                     </template>
 
                     <template v-slot:cell(delete)="row" >
-                        <b-button size="sm"  @click="deleteItem(row.item.id_media)" variant="danger">
+                        <b-button size="sm"  @click="deleteItem(row.item.id_social_network)" variant="danger">
                             <b-icon icon="trash"></b-icon>
                         </b-button>
+                    </template>
+
+                    <template v-slot:cell(dt_date)="row" >
+                        {{row.item.dt_date | date }}
                     </template>
                 </b-table>
             </b-col>
         </b-row>
-        <FormMedia :media="item"/>
+        <FormSocialNetwork :item="socialNetwork" />
     </b-container>
 </template>
 
 <script>
-    import FormMedia from '../media/FormMedia';
+    import FormSocialNetwork from './FormSocialNetwork';
     export default {
 
         components: {
-            FormMedia
+            FormSocialNetwork
         },
 
         mounted() {
-            this.$store.dispatch('media');
+            this.$store.dispatch('socialNetwork');
         },
 
         data() {
@@ -50,29 +53,22 @@
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
-                item: []
+                socialNetwork: []
             }
         },
 
         computed: {
-            media: function() {
-                return this.$store.getters.getMedia;
+            item: function() {
+                return this.$store.getters.getSocialNetwork
             }
         },
 
         methods: {
-            editItem(item) {
-                this.item = item;
+            editItem(item){
+                this.socialNetwork = item
             },
-
-            deleteItem(id) {
-                id
-            }
+            deleteItem(){}
         }
         
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -13,6 +13,8 @@ export default new Vuex.Store({
         users: [],
         partners: [],
         about: [],
+        socialNetwork: [],
+        media: []
     },
 
     getters: {
@@ -39,6 +41,14 @@ export default new Vuex.Store({
 
         getAbout: state => {
             return state.about;
+        },
+
+        getSocialNetwork: state => {
+            return state.socialNetwork;
+        },
+
+        getMedia: state => {
+            return state.media;
         }
     },
     actions: {
@@ -77,6 +87,20 @@ export default new Vuex.Store({
             })
         },
 
+        socialNetwork({commit}) {
+            axios.get('social-network')
+            .then(res => {
+                commit('setSocialNetwork',res.data.result.socialNetwork);
+            })
+        },
+
+        media({commit}) {
+            axios.get('media')
+            .then(res => {
+                commit('setMedia', res.data.result.media);
+            })
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         }   
@@ -105,6 +129,14 @@ export default new Vuex.Store({
 
         setAbout(state, payload) {
             state.about = payload;
+        },
+
+        setSocialNetwork(state, payload) {
+            state.socialNetwork = payload;
+        },
+
+        setMedia(state, payload) {
+            state.media = payload;
         }
     }
 })

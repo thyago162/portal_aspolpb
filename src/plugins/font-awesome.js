@@ -4,7 +4,7 @@ import {
     faFacebookSquare, 
     faInstagramSquare, 
     faWhatsappSquare, 
-    faTwitterSquare 
+    faTwitterSquare ,
     } from '@fortawesome/free-brands-svg-icons';
 
 import { 
@@ -17,7 +17,8 @@ import {
     faPrint,
     faFileCsv,
     faBullhorn,
-    faFile
+    faFile,
+    faTv
     } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -36,7 +37,8 @@ library.add(
     faPrint,
     faFileCsv,
     faBullhorn,
-    faFile
+    faFile,
+    faTv
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

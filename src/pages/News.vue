@@ -14,7 +14,7 @@
                 <b-img :src="news.nm_image_path" class="news-image"></b-img>
                 <h6 class="ml-4 mt-2">{{news.dt_date | date}}</h6> 
             </b-col>
-            <b-col cols="8" >
+            <b-col cols="8" :class="[!news.nm_image_path ? 'only-text' : '']">
                 <h4 class="mt-4">{{news.nm_title}}</h4>
                 <div v-html="news.nm_content" class="mt-4"></div>
             </b-col>
@@ -53,8 +53,7 @@
         },
         
         mounted() {
-           this.getCurrentNews()
-           
+           this.getCurrentNews()   
         },
 
         data() {
@@ -163,6 +162,11 @@
        flex-wrap: wrap;
        justify-content: flex-start;
        align-items: center;
+    }
+
+    .only-text {
+        text-align: center;
+        margin-left: 18%;
     }
 
 </style>

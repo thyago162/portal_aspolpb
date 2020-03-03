@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid class="media">
+    <b-container fluid >
         <b-row class="media-row">
             <b-col class="media-head ml-5">
                 <div class="media-title">
@@ -7,21 +7,49 @@
                 </div>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col></b-col>
+        <b-row class="mt-3" >
+            <b-col cols="12">
+                <MediaSlide :medias="medias" />
+            </b-col>
         </b-row>
     </b-container>
 </template>
 
 <script>
+    import MediaSlide from '../components/media/MediaSlide';
     export default {
+
+        components: {MediaSlide},
+
+        mounted() {
+            this.getMainMedia();
+        },
+
+        data() {
+            return {
+                medias: []
+            }
+
+        },
+
+        methods: {
+            getMainMedia() {
+                this.$http('media/main-medias')
+                .then(res => {
+                    this.medias = res.data.result.medias;
+                })
+                .catch(err => {
+                    err
+                })
+            }
+        }
         
     }
 </script>
 
 <style scoped>
     .media {
-        height: 250px;
+        height: 500px;
         background-color: whitesmoke;
     }
 

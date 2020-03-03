@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid class="partner">
+    <b-container fluid >
         <b-row class="partner-title">
             <b-col class="ml-5">
                 <h4>Parceiros</h4>
@@ -36,9 +36,6 @@
 
 <style  scoped>
 
-    .partner {
-        height: 260px;
-    }
     .partner-title {
         margin-top: 20px;
         text-decoration: underline;

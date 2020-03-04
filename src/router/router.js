@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '../pages/Home';
 import Institucional from '../pages/Institucional';
 import News from '../pages/News';
+import Contact from '../pages/Contact';
 
 
 Vue.use(Router);
@@ -25,9 +26,12 @@ export default new Router({
             path: '/noticias/:id',
             component: News,
             name: 'noticias',
-            alias: '/noticias/',
-            props: { default: true, sidebar: false}
-            
+            props: { default: true, sidebar: false}   
+        },
+        {
+            path: '/contato',
+            component: Contact,
+            name: 'contato'
         }
 
     ]

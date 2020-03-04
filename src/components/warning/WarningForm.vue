@@ -141,7 +141,7 @@
                 .then(res => {
 
                     if (res.status === 200) {
-                        this.form.nm_image_path = res.data.result.url;
+                        this.form.nm_image_path = res.data.result.url.replace('public','storage');
                     }
                     
                 })

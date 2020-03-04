@@ -1,6 +1,6 @@
 <template>
     <div >
-        <b-row class="header" v-bind:style="{ backgroundImage: 'url('+ image.replace('public','storage') +')'}">
+        <b-row class="header" v-bind:style="{ backgroundImage: 'url('+ image +')'}">
             <b-col>
                 <b-button variant="warning" @click="editItem" 
                     v-b-modal.warning-form class="btn-edit" size="sm" v-if="token"> 

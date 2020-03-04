@@ -50,12 +50,12 @@
                         </b-link>
                     </b-nav-item>
                     <b-nav-item>
-                        <b-link :to="{name: 'home'}" class="personal-link">
+                        <b-link :to="{name: 'contato'}" class="personal-link">
                             CONTATOS
                         </b-link>
                     </b-nav-item>
                     <b-nav-item>
-                        <b-link :to="{name: 'home'}" class="personal-link">
+                        <b-link  class="personal-link">
                             CONVÊNIOS
                         </b-link>
 

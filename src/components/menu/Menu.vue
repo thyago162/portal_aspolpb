@@ -23,7 +23,7 @@
                             <span class="personal-link" >INSTITUCIONAL</span>
                         </template>
                         <b-dropdown-item>
-                            <b-link class="personal-link">
+                            <b-link :to="{name: 'about'}" class="personal-link">
                                 QUEM SOMOS
                             </b-link> 
                         </b-dropdown-item>

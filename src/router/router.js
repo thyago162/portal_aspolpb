@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Home from '../pages/Home';
-import Institucional from '../pages/Institucional';
 import News from '../pages/News';
+import About from '../pages/About';
 import Contact from '../pages/Contact';
 
 
@@ -18,15 +18,15 @@ export default new Router({
             name: 'home'
         },
         {
-            path: '/institucional',
-            component: Institucional,
-            name: 'institucional'
-        },
-        {
             path: '/noticias/:id',
             component: News,
             name: 'noticias',
             props: { default: true, sidebar: false}   
+        },
+        {
+            path: '/quem-somos',
+            component: About,
+            name: 'about'
         },
         {
             path: '/contato',

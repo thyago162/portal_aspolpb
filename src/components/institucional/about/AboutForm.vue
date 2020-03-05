@@ -148,33 +148,68 @@
             },
 
             image() {
-                if (this.file) {
-                    this.saveImage();
-                }
-            },
+
+               if (this.file) {
+
+                   this.saveImage();
+
+               } else {
+                   
+                   this.deleteImage();
+               }
+               
+           },
 
             saveImage() {
 
                 let form = new FormData();
 
                 form.append('file',this.file);
-                form.append('folder','public/about/');
+                form.append('folder','public/about');
 
-                this.$http.post('storage',form, {
+                this.$http.post('storage/save',form,{
                     headers: {
                         Authorization: 'Bearer '+this.token,
                         'Content-type': 'multipart/form-data'
                     }
                 })
                 .then(res => {
+
                     if (res.status === 200) {
-                        this.form.nm_image_path = res.data.result.url.replace('public','storage');
+                        this.form.nm_image_path = res.data.result.url;
                     }
+                    
                 })
                 .catch(err => {
-                    err
+                    this.erro = err;
                 })
+
+            },
+
+            deleteImage() {
+
+                let url = this.form.nm_image_path;
+
+                let form = new FormData();
+                form.append('url',url.replace('storage','public'));
+                form.append('folder','public/about');
+
+               this.$http.post('storage/delete',form,
+                {
+                   headers: {
+                       Authorization: 'Bearer '+this.token
+                   }
+               })
+               .then(res => {
+                   
+                   if (res.status === 200) {
+                       alert('Imagem removida');
+                   }
+               })
+
             }
+
+          
         }
 
         

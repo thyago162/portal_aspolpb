@@ -12,13 +12,13 @@
        <b-row class="mt-3">
            <b-col cols="6">
                <h4 class="ml-5 mt-4" :style="{fontWeight: 'bold'}">FAÇA CONTATO CONOSCO</h4>
-               <form class="ml-5 mt-5">
-                    <b-form-input placeholder="Nome" type="text" class="mt-2"/>
-                    <b-form-input placeholder="Email" type="email" class="mt-2"/>
-                    <b-form-input placeholder="Assunto" type="text" class="mt-2"/>
+               <form class="ml-5 mt-5" @submit.stop.prevent="formSubmited">
+                    <b-form-input placeholder="Nome" type="text" class="mt-2" v-model="form.name"/>
+                    <b-form-input placeholder="Email" type="email" class="mt-2" v-model="form.email"/>
+                    <b-form-input placeholder="Assunto" type="text" class="mt-2" v-model="form.title"/>
                     <b-form-textarea placeholder="Mensagem" class="mt-2" 
-                        rows="6" max-rows="10"></b-form-textarea>
-                    <b-button variant="success" class="mt-2" :style="{width: '100%'}" >Enviar</b-button>
+                        rows="6" max-rows="10" v-model="form.content"></b-form-textarea>
+                    <b-button variant="success" class="mt-2" :style="{width: '100%'}" type="submit">Enviar</b-button>
 
                </form>
            </b-col>
@@ -50,6 +50,41 @@
 <script>
     export default {
         components: {
+        },
+
+        data() {
+            return {
+                form: {
+                    name: '',
+                    email: '',
+                    title: '',
+                    content: ''
+                }
+            }
+        },
+
+        methods: {
+            resetForm() {
+                this.form = {}
+            },
+
+            formSubmited() {
+
+                let form = new FormData();
+                form.append('name', form.name);
+                form.append('email', form.email);
+                form.append('title', form.title);
+                form.append('content', form.content);
+
+                this.$http.post('contact',form)
+                .then(res => {
+                    if (res.status === 200) {
+                        this.resetForm();
+                        alert('Obrigado por nos contatar, entraremos em contato breve');
+                    }
+                })
+
+            }
         }
         
     }
@@ -71,7 +106,6 @@
         background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
         background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
-        border-radius: 6px;
         width: 180px;
         height: 40px;
         color: white;

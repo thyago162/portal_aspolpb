@@ -55,7 +55,7 @@
                     {key: 'nm_name', label: 'Nome', sortable: true},
                     {key: 'nm_office', label: 'Cargo'},
                     {key: 'nm_phone', label: 'Telefone'},
-                    {key: 'fk_about', label: 'Departamento'},
+                    {key: 'nm_advice', label: 'Departamento'},
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
 

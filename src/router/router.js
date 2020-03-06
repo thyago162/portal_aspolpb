@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '../pages/Home';
 import News from '../pages/News';
 import About from '../pages/About';
+import OurHistory from '../pages/OurHistory';
 import Contact from '../pages/Contact';
 
 
@@ -26,7 +27,12 @@ export default new Router({
         {
             path: '/quem-somos',
             component: About,
-            name: 'about'
+            name: 'sobre'
+        },
+        {
+            path: '/nossa-historia',
+            component: OurHistory,
+            name: 'historia'
         },
         {
             path: '/contato',

@@ -3,8 +3,10 @@
         <slide v-for="(media, index) in medias" :key="index" >
 
             <div v-if="media.nu_type === 1">
-                <b-img :src="media.nm_file_path.replace('public','storage')" width="420px" height="300px"></b-img>
-                <h5 class="mt-1" >{{media.nm_title}}</h5>
+                <a @click="redirectTo(media.nm_link)">
+                    <b-img :src="media.nm_file_path.replace('public','storage')" width="420px" height="300px"></b-img>
+                    <h5 class="mt-1" >{{media.nm_title}}</h5>
+                </a>
             </div>
             <div v-if="media.nu_type === 2">
                 <iframe :src="media.nm_link" frameborder="0" 
@@ -23,7 +25,15 @@
 <script>
     export default {
 
-        props: ['medias']
+        props: ['medias'],
+
+        methods: {
+            redirectTo(link) {
+                link.search('http') > 0 ?
+                window.open(link) :
+                window.open('http://'+link)
+            }
+        }
         
     }
 </script>

@@ -6,7 +6,6 @@
                 <b-tab title="Quem somos">
                     <AboutView />
                 </b-tab>
-                <b-tab title="Nossa história"></b-tab>
                 <b-tab title="Campanhas"></b-tab>
                 <b-tab title="Identidade visual"></b-tab>
             </b-tabs>

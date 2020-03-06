@@ -10,10 +10,12 @@
         <b-row>
             <b-col cols="12">
                 <carousel :perPage="3" class="mt-2 ml-4">
-                    <slide v-for="(item, index) in items" :key="index">
+                    <slide v-for="(item, index) in items" :key="index" >
+                        <a @click="redirectTo(item.nm_link)">
                         <b-img :src="item.nm_image_path.replace('public','storage')" 
                             :alt="item.nm_title" width="420px" height="260px" />
                         <h5 class="mt-2">{{item.nm_title}}</h5>
+                        </a>
                     </slide>
                 </carousel>
             </b-col>
@@ -37,6 +39,12 @@
         computed: {
             items: function() {
                 return this.$store.getters.getSocialNetwork
+            }
+        },
+
+        methods: {
+            redirectTo(link) {
+                window.open(link)
             }
         }
 

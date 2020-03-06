@@ -23,12 +23,12 @@
                             <span class="personal-link" >INSTITUCIONAL</span>
                         </template>
                         <b-dropdown-item>
-                            <b-link :to="{name: 'about'}" class="personal-link">
+                            <b-link :to="{name: 'sobre'}" class="personal-link">
                                 QUEM SOMOS
                             </b-link> 
                         </b-dropdown-item>
                         <b-dropdown-item>
-                            <b-link class="personal-link">
+                            <b-link :to="{name: 'historia'}" class="personal-link">
                                 NOSSA HISTÓRIA
                             </b-link>
                         </b-dropdown-item>

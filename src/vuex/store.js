@@ -14,7 +14,8 @@ export default new Vuex.Store({
         partners: [],
         about: [],
         socialNetwork: [],
-        media: []
+        media: [],
+        ourHistory: []
     },
 
     getters: {
@@ -49,6 +50,10 @@ export default new Vuex.Store({
 
         getMedia: state => {
             return state.media;
+        },
+
+        getOurHistory: state => {
+            return state.ourHistory;
         }
     },
     actions: {
@@ -101,6 +106,15 @@ export default new Vuex.Store({
             })
         },
 
+        ourHistory({commit}) {
+            axios.get('our-history')
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setOurHistory', res.data.result.ourHistory[0])
+                }
+            })
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         }   
@@ -137,7 +151,12 @@ export default new Vuex.Store({
 
         setMedia(state, payload) {
             state.media = payload;
+        },
+
+        setOurHistory(state, payload) {
+            state.ourHistory = payload;
         }
+
     }
 })
 

@@ -2,7 +2,7 @@
     <b-container fluid class="news">
 
         <b-row>
-            <b-col lg="12" class="ml-5 news-head" >
+            <b-col lg="12" class="news-head" >
                 <div class="news-title">
                     <h5 class="mt-2">NOTÍCIAS</h5>
                 </div>
@@ -15,8 +15,10 @@
                 <h6 class="ml-4 mt-2">{{news.dt_date | date}}</h6> 
             </b-col>
             <b-col cols="8" :class="[!news.nm_image_path ? 'only-text' : '']">
-                <h4 class="mt-4">{{news.nm_title}}</h4>
-                <div v-html="news.nm_content" class="mt-4"></div>
+                <h4 class="mt-4" :style="{textAlign: 'center'}">{{news.nm_title}}</h4>
+                <div :style="{overflow: 'auto'}" >
+                    <p v-html="news.nm_content" class="mt-4 ml-4"></p>
+                </div>
             </b-col>
         </b-row>
 
@@ -51,9 +53,9 @@
 
         components: {
         },
-        
-        mounted() {
-           this.getCurrentNews()   
+
+        mounted() { 
+            this.getCurrentNews();
         },
 
         data() {
@@ -78,7 +80,10 @@
 
                  this.$http('news/'+this.$route.params.id)
                 .then(res => {
-                    this.news = res.data.result.news;
+                    if (res.status === 200) {
+                        this.news = res.data.result.news;
+                    }
+                    
                 })
                 .catch(err => {
                     this.error.push(err)
@@ -98,7 +103,7 @@
 
 <style scoped>
     .news {
-        height: 750px;
+        width: 95%;
     }
 
     .news-head {
@@ -136,9 +141,6 @@
 
     .news-content {
         height: 430px;
-        overflow: auto;
-        border-bottom: 1px solid lightgray;
-        box-shadow: 1px 2px 2px gray;
     }
 
     .card-more-news {
@@ -164,7 +166,7 @@
     }
 
     .only-text {
-        text-align: center;
+        
         margin-left: 18%;
     }
 

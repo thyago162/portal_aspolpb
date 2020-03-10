@@ -18,7 +18,9 @@ import {
     faFileCsv,
     faBullhorn,
     faFile,
-    faTv
+    faTv,
+    faGlobe,
+    faFilePdf
     } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -38,7 +40,9 @@ library.add(
     faFileCsv,
     faBullhorn,
     faFile,
-    faTv
+    faTv,
+    faGlobe,
+    faFilePdf
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

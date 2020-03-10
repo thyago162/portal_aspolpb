@@ -21,7 +21,7 @@
                     PARCEIROS
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-partner>
+                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement>
                     <font-awesome-icon icon="file" />
                     CONVÊNIOS
                 </b-button>
@@ -54,6 +54,8 @@
     <CpUser />
     <CpInstitucional />
     <CpSocialNetwork />
+    <CpAgreement />
+
     </div>
 </template>
 
@@ -63,6 +65,7 @@
     import CpUser from './CpUser';
     import CpInstitucional from './CpInstitucional';
     import CpSocialNetwork from './CpSocialNetork';
+    import CpAgreement from './CpAgreement';
     export default {
 
         components: {
@@ -71,6 +74,7 @@
             CpUser,
             CpInstitucional,
             CpSocialNetwork,
+            CpAgreement
         },
 
         methods: {

@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Home from '../pages/Home';
 import News from '../pages/News';
 import About from '../pages/About';
+import Agreement from '../pages/Agreement';
 import OurHistory from '../pages/OurHistory';
 import Contact from '../pages/Contact';
 
@@ -33,6 +34,11 @@ export default new Router({
             path: '/nossa-historia',
             component: OurHistory,
             name: 'historia'
+        },
+        {
+            path: '/convênios',
+            component: Agreement,
+            name: 'convênio'
         },
         {
             path: '/contato',

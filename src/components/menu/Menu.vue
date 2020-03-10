@@ -55,7 +55,7 @@
                         </b-link>
                     </b-nav-item>
                     <b-nav-item>
-                        <b-link  class="personal-link">
+                        <b-link :to="{name: 'convênio'}" class="personal-link">
                             CONVÊNIOS
                         </b-link>
 

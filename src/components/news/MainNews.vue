@@ -8,7 +8,7 @@
             </b-col>
             </b-row>
             <b-row class="highlights ml-4">
-                <b-col lg="6"> 
+                <b-col lg="6" > 
                     <b-link :to="{ name: 'noticias', params: { id: highlights.id_news, title: highlights.nm_title}}"> 
                         <highlights-news :highlights="highlights"/>
                     </b-link>
@@ -138,6 +138,10 @@
         align-items: flex-start;
         overflow: auto;
         border-color: red 1xp solid;
+    }
+
+    @media screen and (max-width: 1400) {
+        
     }
 
 </style>

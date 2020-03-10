@@ -3,8 +3,8 @@
         <b-carousel img-height="100%" >
             <b-carousel-slide >
                 <template v-slot:img>
-                    <img :src="image" 
-                    alt="Aspolpb" width="700px" height="450px" />
+                    <img :src="image" class="image-highlights"
+                    alt="Aspolpb"  />
                 </template>
                 <div class="news-title">
                     <h5>{{highlights.nm_title}}</h5>
@@ -41,6 +41,23 @@
 
     .news-title {
         background-color: rgba(0, 0, 0, 0.596);
+    }
+
+    .image-highlights {
+       width: 700px;
+       height: 450px;
+    }
+
+    @media screen and (max-width: 1400px) and (min-width: 992px){
+        .highlights {
+            width: 500px;
+            height: 350px;
+        }
+
+        .image-highlights {
+            width: 500px;
+            height: 350px;
+        }
     }
 
 

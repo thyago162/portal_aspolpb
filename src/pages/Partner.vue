@@ -41,4 +41,20 @@
         text-decoration: underline;
         font-weight: bolder;
     }
+
+     @media screen and (max-width: 1200px){
+        h4 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+    }
+
+
+    @media screen and (max-width: 724px){
+        h4 {
+            font-size: 18px;
+        }
+
+    }
 </style>

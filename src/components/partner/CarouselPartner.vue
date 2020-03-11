@@ -3,7 +3,7 @@
        <carousel :perPage="3">
            <slide v-for="(partner, index) in partners" :key="index">
                <b-img :src="partner.nm_image_path.replace('public','storage')" 
-                width="180px" height="130px" class="ml-5"></b-img>
+                class="ml-5 image-partner"></b-img>
            </slide>
        </carousel>
    </div>
@@ -44,5 +44,36 @@
         justify-content: flex-start;
         align-items: flex-start;
     }
+
+    .image-partner {
+        width: 180px;
+        height: 130px;
+    }
+
+    @media screen and (max-width: 1200px){
+        .image-partner {
+            width: 150px;
+            height: 100px;
+        }
+        
+    }
+
+    @media screen and (max-width: 1000px){
+        .image-partner {
+            width: 120px;
+            height: 80px;
+        }
+        
+    }
+
+    @media screen and (max-width: 724px){
+        .image-partner {
+            width: 100px;
+            height: 50px;
+        }
+
+    }
+
+    
 
 </style>

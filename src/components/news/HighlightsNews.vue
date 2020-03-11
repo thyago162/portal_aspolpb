@@ -1,16 +1,6 @@
 <template>
-    <div class="highlights" >
-        <b-carousel img-height="100%" >
-            <b-carousel-slide >
-                <template v-slot:img>
-                    <img :src="image" class="image-highlights"
-                    alt="Aspolpb"  />
-                </template>
-                <div class="news-title">
-                    <h5>{{highlights.nm_title}}</h5>
-                </div>
-            </b-carousel-slide>
-        </b-carousel>
+    <div class="mt-2 ml-3 highlights" >
+        <b-img fluid-grow :src="image"  alt="Aspolpb" class="image-highlights" />
     </div>
 </template>
 
@@ -33,32 +23,37 @@
 
 <style  scoped>
 
-    .highlights {
-        width: 700px;
-        height: 450px;
-        box-shadow: 2px 2px 2px black;
-    }
-
     .news-title {
         background-color: rgba(0, 0, 0, 0.596);
     }
 
     .image-highlights {
-       width: 700px;
-       height: 450px;
+        height: 450px;
     }
 
-    @media screen and (max-width: 1400px) and (min-width: 992px){
+    @media screen and (max-width: 1400px) and (min-width: 1242px){
+
+        .image-highlights {
+            height: 322px;
+        }
+    }
+
+
+    @media screen and (max-width: 1199px) and (min-width: 1000px){
         .highlights {
-            width: 500px;
-            height: 350px;
+            width: 99%;
+        }
+   
+    }
+
+    @media screen and (max-width: 999px) {
+        .highlights {
+            width: 95%;
         }
 
         .image-highlights {
-            width: 500px;
-            height: 350px;
+            height: auto;
         }
     }
-
 
 </style>

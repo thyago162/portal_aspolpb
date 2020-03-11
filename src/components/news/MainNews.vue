@@ -1,31 +1,31 @@
 <template>
-   <b-container fluid class="news">
+   <b-container fluid class="news mb-3">
         <b-row class="news-row">
-            <b-col class="news-head ml-5" lg="12">
+            <b-col class="news-head ml-4" lg="12">
                 <div class="news-title">
                     <h5>NOTÍCIAS</h5>
                 </div>
             </b-col>
             </b-row>
-            <b-row class="highlights ml-4">
-                <b-col lg="6" > 
+            <b-row  class="highlights">
+                <b-col xl="6" > 
                     <b-link :to="{ name: 'noticias', params: { id: highlights.id_news, title: highlights.nm_title}}"> 
                         <highlights-news :highlights="highlights"/>
                     </b-link>
                 </b-col>
-                <b-col lg="6" class="highlights">
+                <b-col xl="6"  class="highlights">
                     <card-news :cardnews="card" 
                         v-for="(card, index) in cardNews" :key="index"/>
                 </b-col>
             </b-row>
             <b-row>
-                <b-col lg="12" class="more-news-title ml-4">   
+                <b-col class="more-news-title ml-4">   
                     <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
                 </b-col>
             </b-row>
 
             <b-row>
-                <b-col lg="12" class="more-news">
+                <b-col  class="more-news">
                     <MoreNews/>
                 </b-col>
             </b-row>
@@ -82,12 +82,11 @@
 
 <style scoped>
     .news {
-        height: 800px;
         background-color: lightgray;
     }
 
     .news-row {
-        width: 95%;
+        width: 99%;
     }
 
     .news-head {
@@ -117,6 +116,7 @@
 
     .news-title h5 {
         margin-top: 10px;
+        font-weight: bold;
     }
 
     .highlights {
@@ -140,8 +140,39 @@
         border-color: red 1xp solid;
     }
 
-    @media screen and (max-width: 1400) {
+    @media screen and (max-width: 1400px) {
+        .news-title {
+            width: 150px;
+            height: 35px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .news-title {
+            width: 120px;
+            height: 25px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
         
+    }
+
+    @media screen  and (max-width: 575px){
+        .news-title {
+            width: 80px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 12px;
+        }
     }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-      <div class="more-news ml-4">
+      <div class="more-news ml-4 mb-4">
         <b-card class="card-more-news" v-for="(n, index) in news" 
             :key="index" @click="seeNews(n.id_news)">
             <b-card-text>
@@ -56,8 +56,7 @@
         border: none;
         border-left: 2px solid darkslategrey;
         background-color: lightgray;
-        height: 100px;
-        width: 700px;
+ 
         margin-top: 10px;
     }
 
@@ -67,11 +66,49 @@
     }
 
     .more-news {
-       display: flex;
-       flex-direction: row;
-       flex-wrap: wrap;
-       justify-content: flex-start;
-       align-items: center;
-       height: 115px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
     }
+
+  
+
+    @media screen and (max-width: 1191px) {
+      .card-text {
+          font-size: 16px;
+      }
+    }
+
+    @media screen  and (max-width: 1075px){
+        .card-text {
+            font-size: 14px;
+        }
+    }
+
+    @media screen  and (max-width: 955px){
+      .card-text {
+          font-size: 12px;
+      }
+    }
+
+    @media screen and (max-width: 839px) {
+        .card-text {
+            font-size: 10px;
+        }
+    }
+
+    @media screen and (max-width: 723px) {
+        .card-text {
+            font-size: 8px;
+        }
+    }
+
+     @media screen and (max-width: 609px) {
+         .card-text {
+            font-size: 7px;
+         }
+     }
 </style>

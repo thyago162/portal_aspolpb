@@ -1,6 +1,9 @@
 <template>
-    <div class="mt-2 ml-3 highlights" >
+    <div class="mt-4 ml-3 highlights" >
         <b-img fluid-grow :src="image"  alt="Aspolpb" class="image-highlights" />
+        <div class="highlights-title">
+            <h5>{{highlights.nm_title}}</h5>
+        </div>
     </div>
 </template>
 
@@ -23,8 +26,19 @@
 
 <style  scoped>
 
-    .news-title {
-        background-color: rgba(0, 0, 0, 0.596);
+    .highlights-title {
+        height: 90px;
+        background-color: rgba(24, 23, 23, 0.719);
+        position: absolute;
+        margin-top: -90px;
+        width: 94%;
+        
+    }
+
+    .highlights-title h5{
+        color: #ffffff;
+        text-align: center;
+        margin-top: 10px;
     }
 
     .image-highlights {

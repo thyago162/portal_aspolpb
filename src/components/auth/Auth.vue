@@ -156,6 +156,7 @@
             authenticate() {
 
                 this.$store.dispatch('loading',true);
+                
                 let form = new FormData();
                 form.append('email', this.formData.email);
                 form.append('password',this.formData.password);
@@ -168,6 +169,7 @@
 
                         this.$session.start();
                         this.$session.set('jwt',res.data.response.token);
+                        this.$session.set('user',res.data.response.user);
 
                         this.$store.dispatch('saveToken',res.data.response.token);
                         location.reload()

@@ -50,13 +50,17 @@
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
-                item: []
+                item: [],
+                errors: []
             }
         },
 
         computed: {
             media: function() {
                 return this.$store.getters.getMedia;
+            },
+            token: function() {
+                return this.$session.get('jwt');
             }
         },
 
@@ -66,7 +70,19 @@
             },
 
             deleteItem(id) {
-                id
+                this.$http.delete('media/' + id, {
+                    headers: {
+                        Authorization: 'Bearer '+this.token
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        this.$store.dispatch('media')
+                    }
+                })
+                .then(err => {
+                    err
+                })
             }
         }
         

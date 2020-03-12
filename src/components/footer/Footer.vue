@@ -16,50 +16,38 @@
                     </b-col>
                 </b-row>
                 <b-row>
-                    <b-col class="menu-footer">
-                        <b-nav class="ml-4">
-                            <b-nav-item :to="{name: 'home'}" >
-                                <span class="personal-link">
-                                    INICIO
-                                </span>
-                            </b-nav-item>
-
-                            <b-nav-item-dropdown text="INSTITUCIONAL" 
-                                right toggle-class="nav-link-custom" >
-                                <b-dropdown-item>QUEM SOMOS</b-dropdown-item>
-                                <b-dropdown-item>NOSSA HISTÓRIA</b-dropdown-item>
-                                <b-dropdown-item>CAMPANHAS</b-dropdown-item>
-                                <b-dropdown-item>IDENTIDADE VISUAL</b-dropdown-item>
-                            </b-nav-item-dropdown>
-
-                            <b-nav-item :to="{name: 'noticias'}" >
-                                
-                                    <span class="personal-link">NOTÍCIAS</span>
-                            </b-nav-item>
-                            <b-nav-item >
-                                <span class="personal-link">
-                                    CONVÊNIOS
-                                </span>
-                            </b-nav-item>
-                            <b-nav-item>
-                                <span class="personal-link">
-                                    CONTATOS
-                                </span>
-                            </b-nav-item>
-                            <b-nav-item>
-                                <span class="personal-link">
-                                    ASSOCIE-SE
-                                </span>
-                            </b-nav-item>
-                            <b-nav-item>
-                                <span class="personal-link">
-                                    ÁREA RESTRITA 
-                                    <b-icon icon="lock-fill"></b-icon>
-                                </span>
-                            </b-nav-item>
-                        </b-nav>
+                    <b-col >
+                        <nav class="menu-footer ml-5">
+                            <div class="mr-3">
+                                <b-link class="personal-link">INICIO</b-link>
+                            </div>
+                            <div :style="{display: 'flex', flexDirection: 'column'}">
+                                <b-link class="personal-link">INSTITUCIONAL</b-link>
+                                <b-link class="personal-link">QUEM SOMOS</b-link>
+                                <b-link class="personal-link">NOSSA HISTÓRIA</b-link>
+                                <b-link class="personal-link">CAMPANHA</b-link>
+                            </div>
+                            <div class="mr-3">
+                                <b-link class="personal-link">NOÍTICIAS</b-link>
+                            </div>
+                            <div class="mr-3">
+                                <b-link class="personal-link">CONTATOS</b-link>
+                            </div>
+                            <div class="mr-3">
+                                <b-link class="personal-link">CONVÊNIOS</b-link>
+                            </div>
+                            <div :style="{display: 'flex', flexDirection: 'column'}">
+                                <b-link class="personal-link" >ÁREA RESTRITA</b-link>
+                                <b-link class="personal-link">TRANSPARÊNCIA</b-link>
+                                <b-link class="personal-link">SUGESTÕES</b-link>
+                                <b-link class="personal-link">ASSESSORIA JURÍDICA</b-link>
+                                <b-link class="personal-link">ARQUIVOS</b-link>
+                            </div>
+                        </nav>
+                        
                     </b-col>
                 </b-row>
+    
                 <b-row>
                     <b-col class="address-footer">
                         <p>Rua Joaquim Borda Filho, Nº 12 - Sala 201 - Jardim São Paulo</p>
@@ -81,7 +69,6 @@
 
 <style scoped>
     .footer {
-        height: 300px;
         background-color: rgb(42, 44, 44);
         color: white;
         font-weight: bold;
@@ -100,10 +87,6 @@
         border-radius: 50%;
     }
 
-    .menu-footer {
-        margin-top: 50px;
-    }
-
     .address-footer {
         margin-top: 60px;
         text-align: center;
@@ -112,4 +95,11 @@
     .personal-link {
         color: #ffffff;
     }
+
+    .menu-footer {
+        display: flex;
+        flex-direction: row;
+        margin-top: 50px;
+    }
+
 </style>

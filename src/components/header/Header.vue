@@ -13,12 +13,12 @@
                 <Submenu />
             </b-col>
         </b-row>
-        <b-row class="banner">
+       <!-- <b-row class="banner">
             <b-col>
                 <h2>{{warning.nm_title}}</h2>
                 <h5>{{warning.nm_subtitle}}</h5>
             </b-col>
-        </b-row>
+        </b-row> -->
         <WarningForm :item="edit" />
     </div>
     
@@ -29,6 +29,8 @@
     import WarningForm from '../warning/WarningForm';
 
     export default {
+
+        name: 'header',
 
         components: {
             Submenu,
@@ -76,7 +78,7 @@
 
 <style scoped>
     .header {
-        height: 550px;
+        height: 400px;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: 50% 50%;
@@ -113,21 +115,30 @@
 
     @media screen and (max-width: 1199px) {
         .header {
-            height: 545px;
+            height: 450px;
             background-size: cover;
             background-repeat: no-repeat;
             background-size: 100% 450px;
         }
     }
 
-    @media screen and (max-width: 948px),(min-width: 580px){
+    @media screen and (max-width: 948px){
         .banner h2 {
             font-size: 24px;
+        }
+
+        .header {
+            height: 400px;
+            background-image: 400px;
+        }
+
+        .banner {
+            height: 110px;
         }
     }
 
   
-    @media screen and (max-width: 579px ),(min-width: 500px) {
+    @media screen and (max-width: 650px ) {
         .banner {
             height: 110px;
         }
@@ -143,6 +154,8 @@
         .header {
             background-position: center;
             background-size: cover;
+            background-image: 350px;
+            height: 350px;
         }
 
 

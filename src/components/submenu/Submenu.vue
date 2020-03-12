@@ -2,7 +2,7 @@
    
     <b-nav class="submenu">
         <b-row style="width:100%;">
-            <b-col lg="6" md="6"  sm="4" xl="6" >
+            <b-col  >
                 <nav class="icons">
                     <a >
                         <font-awesome-icon :icon="['fab', 'twitter-square']" 
@@ -23,7 +23,7 @@
                 </nav>
 
             </b-col>
-            <b-col lg="6" md="6" sm="8" xl="6" >
+            <b-col  >
                 <b-nav-item class="search">
                     <b-nav-form>
                         <b-icon icon="search" class="icon-search" rotate="90"></b-icon>
@@ -84,19 +84,21 @@
 
     .input-search {
         text-indent: 12px;
+        width: 100px;
     }
     
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 690px) {
 
         .submenu {
-            height: 100px;
+            height: 70px;
         }
 
         .icons {
             display: flex;
             flex-direction: row;
             justify-content: center;
+            font-size: 12px;
         }
 
         .search {
@@ -105,9 +107,10 @@
             justify-content: left;
         }
 
-        .input-search {
-            width: 400px;
+        .icon-search {
+            margin-top: -15px;
         }
+
 
     }
 

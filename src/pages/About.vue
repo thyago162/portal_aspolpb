@@ -10,9 +10,12 @@
         <b-row class="mt-4">
             <b-col>
                 <b-tabs class="ml-4">
+                    <b-tab title="Presidência">
+                        <AboutCard :board="item" v-for="(item, index) in about" :key="index" />
+                    </b-tab>
                     <b-tab title="Diretoria">
                         <div class="about">
-                            <AboutCard :board="item" v-for="(item, index) in about" :key="index" />
+                            
                         </div>
                         
                     </b-tab>

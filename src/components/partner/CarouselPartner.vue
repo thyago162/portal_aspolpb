@@ -1,8 +1,9 @@
 <template>
    <div class="partners">
-       <carousel :perPage="3">
+       <carousel :perPage="3" :autoplay="true" :autoplayTimeout="4000" 
+        paginationColor="#cccccc" :autoplayHoverPause="true" easing> 
            <slide v-for="(partner, index) in partners" :key="index">
-               <b-img :src="partner.nm_image_path.replace('public','storage')" 
+               <b-img fluid :src="partner.nm_image_path.replace('public','storage')" 
                 class="ml-5 image-partner"></b-img>
            </slide>
        </carousel>
@@ -46,8 +47,8 @@
     }
 
     .image-partner {
-        width: 180px;
-        height: 130px;
+        width: 200px;
+        height: 150px;
     }
 
     @media screen and (max-width: 1200px){

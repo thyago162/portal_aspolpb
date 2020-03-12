@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="social-midia">
         <b-row class="social-midia-row">
-            <b-col class="social-midia-head ml-5">
+            <b-col class="social-midia-head ml-4">
                 <div class="social-midia-title ">
                     <h5>REDES SOCIAIS</h5>
                 </div>
@@ -9,11 +9,12 @@
         </b-row>
         <b-row>
             <b-col cols="12">
-                <carousel :perPage="3" class="mt-2 ml-4">
-                    <slide v-for="(item, index) in items" :key="index" >
+                <carousel :perPage="3" class="mt-2" :autoplay="true" :autoplayTimeout="4000" 
+                    paginationColor="#000fff" :autoplayHoverPause="true" >
+                    <slide v-for="(item, index) in items" :key="index" :style="{marginRight: '10px'}">
                         <a @click="redirectTo(item.nm_link)">
-                        <b-img :src="item.nm_image_path.replace('public','storage')" 
-                            :alt="item.nm_title" width="420px" height="260px" />
+                        <b-img fluid :src="item.nm_image_path.replace('public','storage')" 
+                            :alt="item.nm_title" class="social-midia-image" />
                         <h5 class="mt-2">{{item.nm_title}}</h5>
                         </a>
                     </slide>
@@ -46,12 +47,7 @@
             redirectTo(link) {
                 window.open(link)
             }
-        }
-
-      
-
-        
-        
+        } 
     }
 </script>
 
@@ -61,7 +57,7 @@
     }
 
     .social-midia-row {
-        width: 97%;
+        width: 99%;
     }
 
     .social-midia-head {
@@ -92,5 +88,44 @@
 
     h5 {
         margin-top: 10px;
+    }
+
+    .social-midia-image {
+        margin: 5px;
+    }
+
+    @media screen and (max-width: 1400px) {
+        .social-midia-title {
+            width: 150px;
+            height: 35px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .social-media-title {
+            width: 120px;
+            height: 25px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+        
+    }
+
+    @media screen  and (max-width: 575px){
+        .social-media-title {
+            width: 80px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 12px;
+        }
     }
 </style>

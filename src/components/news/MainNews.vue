@@ -19,8 +19,10 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-col class="more-news-title ml-4">   
-                    <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
+                <b-col class="more-news-title ml-4">
+                    <b-link :to="{path: 'noticias/1'}" :style="{color: '#000'}">
+                        <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
+                    </b-link>
                 </b-col>
             </b-row>
 

@@ -115,11 +115,18 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item>
-                        <b-link class="personal-link" @click="logout" v-show="token"> 
-                            SAIR <b-icon icon="power"></b-icon>
-                        </b-link>
-                    </b-nav-item>
+                    <b-nav-item-dropdown  v-show="token">
+                        <template v-slot:button-content>
+                            <span class="personal-link" >
+                                {{user.name | name}}
+                                <b-icon icon="gear-fill" />
+                            </span>
+                        </template>
+                        <b-dropdown-item>Configurações</b-dropdown-item>
+                        <b-dropdown-item @click="logout"> 
+                            SAIR <b-icon icon="power"></b-icon> 
+                        </b-dropdown-item>
+                    </b-nav-item-dropdown>
 
                 </b-navbar-nav>
 
@@ -142,11 +149,9 @@
         computed: {
             token() {
                 return this.$session.has('jwt');
-            }
-        },
-        data() {
-            return {
-                
+            },
+            user: function() {
+                return this.$session.get('user');
             }
         },
 

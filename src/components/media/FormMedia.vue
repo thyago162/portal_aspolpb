@@ -1,6 +1,11 @@
 <template>
     <b-modal id="form-media" ref="media" title="Novo item" 
-        header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-title="Salvar"> 
+        header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-title="Salvar">
+
+        <b-alert variant="danger" :show="visibility" 
+            v-for="(error, index) in errors" :key="index" 
+            dismissible >{{error}}</b-alert>
+
         <form @submit.stop.prevent="formSubmited">
 
             <b-form-group label="Tipo">
@@ -47,7 +52,8 @@
                     {text: 'Audios', value: 3},
                 ],
                 errors: [],
-                file: null
+                file: null,
+                visibility: false
 
             }
         },
@@ -109,12 +115,21 @@
                 .then(res => {
 
                     if (res.status === 200 ) {
-                        this.$http.dispatch('media')
-                        this.$refs['media'].hide();
+
+                        if (res.data.result.error) {
+                            this.errors = res.data.result.error;
+                            this.visibility = true;
+                        } else {
+
+                            this.$store.dispatch('media')
+                            this.$refs['media'].hide();
+                        }
+                        
                     }
                 })
                 .catch(err => {
-                    err
+                    this.errors.push(err)
+                    this.visibility = true;
                 })
             },
             update(){

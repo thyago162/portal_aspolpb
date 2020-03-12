@@ -60,6 +60,10 @@
         height: 20px;
     }
 
+    .card-news-title {
+        font-weight: bolder;
+    }
+
     @media screen and (max-width: 1400px) and (min-width: 1242px) {
         
         .card-news-image {

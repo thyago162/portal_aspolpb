@@ -1,7 +1,7 @@
 <template>
-    <b-container fluid >
+    <b-container fluid class="mb-4">
         <b-row class="media-row">
-            <b-col class="media-head ml-5">
+            <b-col class="media-head ml-4">
                 <div class="media-title">
                     <h5>ASPOL NA MÍDIA</h5>
                 </div>
@@ -49,12 +49,11 @@
 
 <style scoped>
     .media {
-        height: 500px;
         background-color: whitesmoke;
     }
 
     .media-row {
-        width: 97%;
+        width: 99%;
     }
 
     .media-head {
@@ -84,5 +83,40 @@
 
     h5 {
         margin-top: 10px;
+    }
+
+    @media screen and (max-width: 1400px) {
+        .media-title {
+            width: 150px;
+            height: 35px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .media-title {
+            width: 120px;
+            height: 25px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+        
+    }
+
+    @media screen  and (max-width: 575px){
+        .media-title {
+            width: 80px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 12px;
+        }
     }
 </style>

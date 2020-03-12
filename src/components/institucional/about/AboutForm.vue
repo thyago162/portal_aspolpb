@@ -23,9 +23,10 @@
                 </b-form-group>
 
                 <b-form-radio-group class="mt-4" required v-model="form.fk_advice">
-                    <b-form-radio value="1">Diretoria</b-form-radio>
-                    <b-form-radio value="2">Conselho Fiscal</b-form-radio>
-                    <b-form-radio value="3">Diretoria Regional</b-form-radio>
+                    <b-form-radio value="1">Presidência</b-form-radio>
+                    <b-form-radio value="2">Diretoria</b-form-radio>
+                    <b-form-radio value="3">Conselho Fiscal</b-form-radio>
+                    <b-form-radio value="4">Diretoria Regional</b-form-radio>
                 </b-form-radio-group>
 
                 <b-form-group label="Foto" class="mt-4">

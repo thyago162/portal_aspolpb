@@ -118,7 +118,7 @@
                     <b-nav-item-dropdown  v-show="token">
                         <template v-slot:button-content>
                             <span class="personal-link" >
-                                {{user.name | name}}
+                                {{ }}
                                 <b-icon icon="gear-fill" />
                             </span>
                         </template>

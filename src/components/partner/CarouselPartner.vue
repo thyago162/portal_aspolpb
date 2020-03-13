@@ -1,7 +1,7 @@
 <template>
    <div class="partners">
        <carousel :perPage="3" :autoplay="true" :autoplayTimeout="4000" 
-        paginationColor="#cccccc" :autoplayHoverPause="true" easing> 
+        paginationColor="#cccccc" :autoplayHoverPause="true"> 
            <slide v-for="(partner, index) in partners" :key="index">
                <b-img fluid :src="partner.nm_image_path.replace('public','storage')" 
                 class="ml-5 image-partner"></b-img>

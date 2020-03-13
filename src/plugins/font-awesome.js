@@ -20,7 +20,10 @@ import {
     faFile,
     faTv,
     faGlobe,
-    faFilePdf
+    faFilePdf,
+    faPlay,
+    faHeadphones
+
     } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -42,7 +45,9 @@ library.add(
     faFile,
     faTv,
     faGlobe,
-    faFilePdf
+    faFilePdf,
+    faPlay,
+    faHeadphones
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

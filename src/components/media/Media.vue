@@ -44,8 +44,8 @@
         data() {
             return {
                 fields: [
-                    {key: 'nm_title', label: 'Título'},
-                    {key: 'nm_link', label: 'Link'},
+                    {key: 'nm_title', label: 'Título', sortable: true},
+                    {key: 'nm_subtitle', label: 'Subtitulo'},
                     {key: 'dt_date', label: 'Data'},
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}

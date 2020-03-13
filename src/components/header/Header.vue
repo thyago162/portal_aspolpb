@@ -30,8 +30,6 @@
 
     export default {
 
-        name: 'header',
-
         components: {
             Submenu,
             WarningForm

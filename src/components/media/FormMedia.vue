@@ -1,20 +1,18 @@
 <template>
-    <b-modal id="form-media" ref="media" title="Novo item" 
+    <b-modal id="form-media" ref="media" title="Novo item" size="lg" 
         header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-title="Salvar">
-
         <b-alert variant="danger" :show="visibility" 
             v-for="(error, index) in errors" :key="index" 
             dismissible >{{error}}</b-alert>
 
         <form @submit.stop.prevent="formSubmited">
 
-            <b-form-group label="Tipo">
-                <b-form-radio-group :options="options"  v-model="form.nu_type">
-                </b-form-radio-group>
-            </b-form-group>
-
             <b-form-group label="Título">
                 <b-form-input type="text"  v-model="form.nm_title" required/>
+            </b-form-group>
+
+            <b-form-group label="Subtitulo">
+                <b-form-input type="text" v-model="form.nm_subtitle"   required/>
             </b-form-group>
 
             <b-form-group label="Link">
@@ -25,22 +23,49 @@
                 <b-form-input type="date" v-model="form.dt_date"></b-form-input>
             </b-form-group>
 
-            <b-form-group v-if="form.nu_type === 1 || form.nu_type === 3" :label="title">
-                <b-form-file v-model="file" :state="Boolean(file)" @input="image"></b-form-file>
-            </b-form-group>
+            <b-row>
+                <b-col>
+                    <b-form-group label="Imagem">
+                        <image-uploader
+                            :debug="1"
+                            :maxWidth="512"
+                            :maxHeight="272"
+                            :quality="0.7"
+                            :autoRotate="true"
+                            outputFormat="file"
+                            :preview=false
+                            :className="['fileinput', { 'fileinput--loaded' : hasImage }]"
+                            :capture="true"
+                            accept="image/*"
+                            doNotResize="['gif', 'svg']"
+                            @input="setImage"
+                         ></image-uploader>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                     <b-form-group  label="Audio">
+                        <b-form-file v-model="file" :state="Boolean(form.nm_audio_path)" 
+                            @input="setAudio('audios')" accept=".mp3, .wma"></b-form-file>
+                    </b-form-group>
+                </b-col>
+            </b-row>
 
-            <div v-if="form.nu_type === 2 ">
-                <h6>Prévia</h6>
-                <iframe :src="form.nm_link" frameborder="0"  width="465px" height="360px"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
-            </div>
+             <b-form-group label="Tipo">
+                <b-form-radio-group :options="options"  v-model="form.nu_type">
+                </b-form-radio-group>
+            </b-form-group>
 
         </form>
     </b-modal>
 </template>
 
 <script>
+    import ImageUploader from 'vue-image-upload-resize';
     export default {
+
+        components: {
+            ImageUploader
+        },
 
         props: ['media'],
 
@@ -53,6 +78,7 @@
                 ],
                 errors: [],
                 file: null,
+                hasImage: false,
                 visibility: false
 
             }
@@ -72,16 +98,18 @@
 
         methods: {
 
-            validateTitle(){
-                this.form.nm_title.length == 0 ?
-                this.errors.push('O campo título deve ser preenchido') :
-                ''
-            },
+            setImage(file) {
 
-            validateLink() {
-                this.form.nm_link == 0 ?
-                this.errors.push('O campo link deve ser preenchido') :
-                ''
+                let folder = 'images'
+                
+                if(file) {
+                    this.file = file;
+                    this.hasImage = true;
+                    this.storeFile(folder)
+                } else {
+                    this.deleteFile(folder)
+                }
+
             },
 
             handleOk(bvModalEvt){
@@ -102,8 +130,10 @@
             save(){
                 let form = new FormData();
                 form.append('nm_title',this.form.nm_title);
+                form.append('nm_subtitle',this.form.nm_subtitle);
                 form.append('nm_link',this.form.nm_link);
-                form.append('nm_file_path',this.form.nm_file_path);
+                form.append('nm_image_path',this.form.nm_image_path);
+                form.append('nm_audio_path',this.form.nm_audio_path);
                 form.append('dt_date',this.form.dt_date);
                 form.append('nu_type',this.form.nu_type);
 
@@ -153,25 +183,25 @@
                 })
             },
 
-            image() {
+            setAudio(param) {
 
                if (this.file) {
 
-                   this.saveImage();
+                   this.storeFile(param);
 
                } else {
                    
-                   this.deleteImage();
+                   this.deleteFile(param);
                }
                
            },
 
-            saveImage() {
+            storeFile(param) {
 
                 let form = new FormData();
 
                 form.append('file',this.file);
-                form.append('folder','public/media');
+                form.append('folder','public/media/'+param);
 
                 this.$http.post('storage/save',form,{
                     headers: {
@@ -182,7 +212,10 @@
                 .then(res => {
 
                     if (res.status === 200) {
-                        this.form.nm_file_path = res.data.result.url;
+
+                        param === 'images' ?
+                        this.form.nm_image_path = res.data.result.url :
+                        this.form.nm_audio_path = res.data.result.url
                     }
                     
                 })
@@ -192,13 +225,15 @@
 
             },
 
-            deleteImage() {
+            removeFile(param) {
 
-                let url = this.form.nm_image_path;
-
+                let url = param === 'images' ? 
+                    this.form.nm_image_path : 
+                    this.form.nm_audio_path
+                
                 let form = new FormData();
                 form.append('url',url.replace('storage','public'));
-                form.append('folder','public/media');
+                form.append('folder','public/media/'+param);
 
                this.$http.post('storage/delete',form,
                 {

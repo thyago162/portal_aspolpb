@@ -12,6 +12,11 @@
                 <MediaSlide :medias="medias" />
             </b-col>
         </b-row>
+        <b-row>
+            <b-col>
+                <b-link class="personal-link mt-4">+ ASPOL NA MÍDIA</b-link>
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
@@ -83,6 +88,13 @@
 
     h5 {
         margin-top: 10px;
+    }
+
+    a {
+        float: right;
+        color: #000000;
+        font-weight: bolder;
+        font-size: 18px;
     }
 
     @media screen and (max-width: 1400px) {

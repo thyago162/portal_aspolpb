@@ -18,7 +18,7 @@
                 <b-row>
                     <b-col >
                         <nav class="menu-footer ml-5">
-                            <div class="mr-3">
+                            <div class="mr-4">
                                 <b-link class="personal-link">INICIO</b-link>
                             </div>
                             <div :style="{display: 'flex', flexDirection: 'column'}">
@@ -27,13 +27,13 @@
                                 <b-link class="personal-link">NOSSA HISTÓRIA</b-link>
                                 <b-link class="personal-link">CAMPANHA</b-link>
                             </div>
-                            <div class="mr-3">
+                            <div class="mr-4 ml-3">
                                 <b-link class="personal-link">NOÍTICIAS</b-link>
                             </div>
-                            <div class="mr-3">
+                            <div class="mr-4">
                                 <b-link class="personal-link">CONTATOS</b-link>
                             </div>
-                            <div class="mr-3">
+                            <div class="mr-4">
                                 <b-link class="personal-link">CONVÊNIOS</b-link>
                             </div>
                             <div :style="{display: 'flex', flexDirection: 'column'}">

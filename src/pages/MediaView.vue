@@ -1,20 +1,29 @@
 <template>
-    <b-container fluid class="mb-4">
-        <b-row class="media-row">
+    <b-container class="mb-4 mt-2" fluid>
+       <b-row class="media-row">
             <b-col class="media-head ml-4">
                 <div class="media-title">
                     <h5>ASPOL NA MÍDIA</h5>
                 </div>
             </b-col>
         </b-row>
-        <b-row class="mt-3" >
-            <b-col cols="12">
-                <MediaSlide :medias="medias" :perPage="3" />
+        <b-row class="background mt-4">
+            <b-col>
+                <h4 class="title mt-2 ml-2">Aspol no jornal</h4>
+                <MediaSlide :medias="newspapers" :perPage="4"/>
             </b-col>
         </b-row>
-        <b-row>
+        <b-row class="mt-3">
             <b-col>
-                <b-link :to="{name: 'midia'}" class="personal-link mt-2">+ ASPOL NA MÍDIA</b-link>
+                <h4 class="title mt-2 ml-2">Aspol na rádio</h4>
+                <MediaSlide :medias="audios"  :perPage="4"/>
+            </b-col>
+
+        </b-row>
+        <b-row class="background mt-3">
+            <b-col>
+                <h4 class="title mt-2 ml-2">Aspol na TV</h4>
+                <MediaSlide :medias="videos"  :perPage="4"/>
             </b-col>
         </b-row>
     </b-container>
@@ -24,40 +33,60 @@
     import MediaSlide from '../components/media/MediaSlide';
     export default {
 
-        components: {MediaSlide},
+        components: {
+            MediaSlide
+        },
+
 
         mounted() {
-            this.getMainMedia();
+           this.$store.dispatch('media');
         },
 
         data() {
             return {
-                medias: []
             }
+        },
 
+        computed: {
+            media: function() {
+                return this.$store.getters.getMedia;
+            },
+
+            newspapers: function() {
+                let newspaper = this.media.filter((param) => {
+                    return param.nu_type === 1
+                })
+
+                return newspaper
+            },
+
+            audios: function() {
+                let audio = this.media.filter((param) => {
+                    return param.nu_type === 3
+                })
+
+                return audio
+            },
+
+            videos: function() {
+                let video = this.media.filter((param) => {
+                    return param.nu_type === 2
+                })
+
+                return video;
+            }
         },
 
         methods: {
-            getMainMedia() {
-                this.$http('media/main-medias')
-                .then(res => {
-                    this.medias = res.data.result.medias;
-                })
-                .catch(err => {
-                    err
-                })
-            }
+           
         }
-        
+
     }
 </script>
 
 <style scoped>
-    .media {
-        background-color: whitesmoke;
-    }
 
-    .media-row {
+     .media-row {
         width: 99%;
     }
 
@@ -89,46 +118,13 @@
     h5 {
         margin-top: 10px;
     }
+    
+    .background {
+       background-color: lightgray; 
+    }
 
-    a {
-        float: right;
-        color: #000000;
+    .title {
+        text-decoration: underline;
         font-weight: bolder;
-        font-size: 18px;
-    }
-
-    @media screen and (max-width: 1400px) {
-        .media-title {
-            width: 150px;
-            height: 35px;
-        }
-
-        h5 {
-            font-size: 16px;
-            font-weight: bold;
-        }
-    }
-
-    @media screen and (max-width: 1000px) {
-        .media-title {
-            width: 120px;
-            height: 25px;
-        }
-
-        h5 {
-            font-size: 14px;
-        }
-        
-    }
-
-    @media screen  and (max-width: 575px){
-        .media-title {
-            width: 80px;
-            height: 20px;
-        }
-
-        h5 {
-            font-size: 12px;
-        }
     }
 </style>

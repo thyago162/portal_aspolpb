@@ -28,12 +28,12 @@
                     <b-form-group label="Imagem">
                         <image-uploader
                             :debug="1"
-                            :maxWidth="512"
-                            :maxHeight="272"
+                            :maxWidth="550"
+                            :maxHeight="300"
                             :quality="0.7"
                             :autoRotate="true"
                             outputFormat="file"
-                            :preview=false
+                            :preview="true"
                             :className="['fileinput', { 'fileinput--loaded' : hasImage }]"
                             :capture="true"
                             accept="image/*"
@@ -166,8 +166,10 @@
 
                 this.$http.put('media/'+this.form.id_media,{
                     'nm_title': this.form.nm_title,
+                    'nm_subtitle': this.form.nm_subtitle,
                     'nm_link': this.form.nm_link,
-                    'nu_file_path': this.form.nu_file_path,
+                    'nu_image_path': this.form.nu_image_path,
+                    'nu_audio_path': this.form.nu_audio_path,
                     'dt_date': this.form.dt_date,
                     'nu_type': this.form.nu_type
                 },{

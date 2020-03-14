@@ -1,14 +1,28 @@
 <template>
     <b-container>
          <b-row class="mt-2">
+             <b-col>
+                 <b-input-group>
+                     <template v-slot:prepend>
+                         <b-input-group-text>
+                             <b-icon icon="search"></b-icon>
+                         </b-input-group-text>
+                     </template>
+                     <b-form-input v-model="search" />
+                 </b-input-group>
+             </b-col>
+             
             <b-col>
-                <b-button variant="primary" v-b-modal.form-media >+ novo</b-button>
+                <b-button variant="primary" v-b-modal.form-media :style="{float: 'right'}" @click="resetModal()">
+                    + novo item
+                </b-button>
             </b-col>
         </b-row>
 
         <b-row class="mt-4">
             <b-col>
-                <b-table :fields="fields" :items="media" hover>
+                <b-table :fields="fields" :items="media" hover id="media-table" 
+                    :per-page="perPage" :current-page="currentPage">
 
                      <template v-slot:cell(edit)="row" > 
                         <b-button size="sm"  @click="editItem(row.item)" 
@@ -23,6 +37,15 @@
                         </b-button>
                     </template>
                 </b-table>
+                <div class="overflow-auto">
+                    <b-pagination
+                        align="center"
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        aria-controls="media-table"
+                    ></b-pagination>
+                </div>
             </b-col>
         </b-row>
         <FormMedia :media="item"/>
@@ -46,21 +69,36 @@
                 fields: [
                     {key: 'nm_title', label: 'Título', sortable: true},
                     {key: 'nm_subtitle', label: 'Subtitulo'},
-                    {key: 'dt_date', label: 'Data'},
+                    {key: 'dt_date', label: 'Data', sortable: true},
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
                 item: [],
-                errors: []
+                search: '',
+                errors: [],
+                currentPage: 1,
+                perPage: 5
             }
         },
 
         computed: {
             media: function() {
-                return this.$store.getters.getMedia;
+                if (this.search.length > 0) {
+                   
+                   return this.searchItem(this.$store.getters.getMedia);
+
+                }else {
+                    return this.$store.getters.getMedia;
+                }
+                
             },
+
             token: function() {
                 return this.$session.get('jwt');
+            },
+
+            rows: function() {
+                return this.$store.getters.getMedia.length;
             }
         },
 
@@ -70,19 +108,42 @@
             },
 
             deleteItem(id) {
-                this.$http.delete('media/' + id, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
+                if(confirm('Deseja realmente remover?')) {
+
+                    this.$http.delete('media/' + id, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.$store.dispatch('media')
+                        }
+                    })
+                    .then(err => {
+                        err
+                    })
+                }
+                
+            },
+
+            searchItem(arraySearch) {
+               let result = new Array();
+
+                for(var i=0; i < arraySearch.length; i++) {
+                    if(
+                        !arraySearch[i].nm_title.search(this.search) || 
+                        !arraySearch[i].nm_subtitle.search(this.search)
+                    ) {
+                        result.push(arraySearch[i])
                     }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        this.$store.dispatch('media')
-                    }
-                })
-                .then(err => {
-                    err
-                })
+                }
+
+                return result
+            },
+
+            resetModal() {
+               this.item = [];
             }
         }
         

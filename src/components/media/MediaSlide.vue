@@ -1,6 +1,6 @@
 <template>
     <div>
-        <carousel :perPage="3" class="ml-3">
+        <carousel :perPage="perPage" class="ml-2 mt-4">
             <slide v-for="(media, index) in medias" :key="index" class="mr-2" >
 
                 <div v-if="media.nu_type === 1">
@@ -43,7 +43,7 @@
     import AudioPlay from './AudioPlay';
     export default {
 
-        props: ['medias'],
+        props: ['medias','perPage'],
 
         components: {
             AudioPlay
@@ -51,7 +51,8 @@
 
         data() {
             return {
-                item: ''
+                item: '',
+            
             }
         },
 
@@ -83,10 +84,5 @@
     .audio-play:hover {
         color: green;
     }
-
-    .image {
-        height: 272px;
-    }
-
 
 </style>

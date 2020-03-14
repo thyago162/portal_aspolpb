@@ -7,6 +7,7 @@ import About from '../pages/About';
 import Agreement from '../pages/Agreement';
 import OurHistory from '../pages/OurHistory';
 import Contact from '../pages/Contact';
+import MediaView from '../pages/MediaView';
 
 
 Vue.use(Router);
@@ -44,6 +45,11 @@ export default new Router({
             path: '/contato',
             component: Contact,
             name: 'contato'
+        },
+        {
+            path: '/aspol-na-midia',
+            component: MediaView,
+            name: 'midia'
         }
 
     ]

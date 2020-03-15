@@ -1,5 +1,5 @@
 <template>
-    <b-modal title="Nova noticia" 
+    <b-modal title="Nova noticia" header-text-variant="light"
         ref="formnews" id="form-news" size="xl" header-bg-variant="primary" 
             @ok="handleOk">
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
@@ -33,7 +33,6 @@
                                 v-model="file"
                                 :state="Boolean(file)"
                                 placeholder="Escolha uma imagem..."/>
-                                {{news.nm_image_path}}
                         </b-form-group>
                     </b-col>
                     <b-col lg="3">

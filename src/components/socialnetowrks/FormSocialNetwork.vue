@@ -1,9 +1,8 @@
 <template>
     <b-modal id="form-social-network" ref="socialnetwork" title="Novo item" header-bg-variant="success" 
         header-text-variant="light" @ok="handleOk" ok-title="Salvar" ok-only>
-        <b-alert :show="visibility" v-for="(erro, index) in errors" :key="index" variant="danger">
-            {{erro}}
-        </b-alert>
+
+        <ErrorMessage :errors="errors" :visibility="visibility" />
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Titulo">
                 <b-form-input type="text" v-model="form.nm_title"/>
@@ -25,8 +24,14 @@
 </template>
 
 <script>
+    import ErrorMessage from '../error/ErrorMessage';
     export default {
+
         props: ['item'],
+
+        components: {
+            ErrorMessage
+        },
 
         data() {
             return {
@@ -47,30 +52,6 @@
 
         methods: {
 
-            validateTitle() {
-               this.form.nm_title.lenght <= 0 ?
-               this.errors.push('O campo titulo não pode ficar vazio') :
-               ''
-            },
-
-            validateLink() {
-                this.form.nm_link.lenght <= 0 ?
-                this.errors.push('O campo link não pode ficar vazio') :
-                ''
-            },
-
-            validateDate() {
-                this.form.nm_image_path.lenght <= 0 ?
-                this.errors.push('O campo image não pode ficar vazio') :
-                ''
-            },
-
-            validateImage() {
-                this.form.dt_date.lenght <= 0 ?
-                this.errors.push('O campo date não pode ficar vazio') :
-                ''
-            },
-
             handleOk(bvModalEvt){
                 bvModalEvt.preventDefault();
                 this.formSubmited();
@@ -78,23 +59,13 @@
             
             formSubmited() {
 
-                this.validateTitle();
-                this.validateLink();
-                this.validateImage();
-                this.validateDate();
+                if (!this.form.id_social_network) {
+                    this.save();
 
-                if (this.errors.length == 0) {
-
-                    if (!this.form.id_social_network) {
-
-                        this.save();
-                    }else {
-                        this.update();
-                    }
                 }else {
-                    alert('chegou aqui')
-                    this.visibility = true;
+                    this.update();
                 }
+              
             },
             save(){
                 let form = new FormData();
@@ -111,8 +82,16 @@
                 })
                 .then(res => {
                     if (res.status === 200 ) {
-                        this.$store.dispatch('socialNetwork')
-                        this.$refs['socialnetwork'].hide()
+                        this.errors = [];
+
+                        if (res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        } else {
+                            this.$store.dispatch('socialNetwork')
+                            this.$refs['socialnetwork'].hide()
+                        }
                     }
                 })
                 .catch(err => {
@@ -133,8 +112,17 @@
                 })
                  .then(res => {
                     if (res.status === 200 ) {
-                        this.$store.dispatch('socialNetwork')
-                        this.$refs['socialnetwork'].hide()
+                        this.errors = [];
+
+                        if (res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        } else {
+                            this.$store.dispatch('socialNetwork')
+                            this.$refs['socialnetwork'].hide()
+                        }
+                       
                     }
                 })
                 .catch(err => {
@@ -203,10 +191,6 @@
                })
 
             },
-
-            increment() {
-                ++ this.validate 
-            }
         }
         
     }

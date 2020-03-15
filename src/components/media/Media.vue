@@ -21,6 +21,10 @@
 
         <b-row class="mt-4">
             <b-col>
+                <b-alert variant="danger" :show="visibility" 
+                    v-for="(error, index) in errors" :key="index" 
+                    dismissible >{{error}}</b-alert>
+                    
                 <b-table :fields="fields" :items="media" hover id="media-table" 
                     :per-page="perPage" :current-page="currentPage">
 
@@ -77,7 +81,8 @@
                 search: '',
                 errors: [],
                 currentPage: 1,
-                perPage: 5
+                perPage: 5,
+                visibility: false
             }
         },
 
@@ -121,7 +126,8 @@
                         }
                     })
                     .then(err => {
-                        err
+                        this.errors.push(err);
+                        this.visibility = true
                     })
                 }
                 
@@ -143,7 +149,13 @@
             },
 
             resetModal() {
-               this.item = [];
+               this.item.nm_title = '';
+               this.item.nm_subtitle = '';
+               this.item.nm_link = '';
+               this.item.nm_image_path = '';
+               this.item.nm_audio_path = '';
+               this.item.dt_date = '';
+               this.item.nu_type = '';
             }
         }
         

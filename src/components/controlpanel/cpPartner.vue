@@ -3,18 +3,22 @@
         <b-modal id="cp-partner" ref="cppartner"  header-bg-variant="danger" header-text-variant="light"
             title="Parceiros e convênios" size="lg" hide-footer @hidden="resetModal">
             <b-row>
-                <b-col lg="2">
-                    <font-awesome-icon icon="file-csv" size="2x" class="icon alt"/>
-                 </b-col>
                  <b-col lg="8">
-                    <b-form-input type="search" class="partner-search" 
-                        placeholder="Buscar por parceiro" />
-                    <b-icon icon="search" class="search-icon" font-scale="1.5"></b-icon>
+                    <b-input-group>
+                            <template v-slot:prepend>
+                                <b-input-group-text>
+                                    <b-icon icon="search"></b-icon>
+                                </b-input-group-text>
+                            </template>
+                        <b-form-input v-model="search" />
+                    </b-input-group>
                  </b-col>
-                 <b-col lg="2">
+                 <b-col>
                 
-                    <b-button v-b-modal.form-partner variant="primary" @click="resetModal">
+                    <b-button v-b-modal.form-partner variant="primary" 
+                        @click="resetModal" :style="{float: 'right'}">
                          <b-icon icon="plus" ></b-icon>
+                         novo item
                     </b-button>
 
                  </b-col>
@@ -77,25 +81,35 @@
                 ],
                 perPage: 5,
                 currentPage: 1,
-                partner: []
+                partner: [],
+                search: ''
             }
         },
 
         computed: {
+
             partners() {
-                return this.$store.getters.getPartners;
+
+                if (this.search.length > 0 ) {
+
+                   return this.searchItems(this.$store.getters.getPartners);
+               }else {
+
+                    return this.$store.getters.getPartners;
+               }
+                
             },
+
             rows() {
                 return this.partners.length;
             },
+
             token: function() {
                 return this.$session.get('jwt');
             }
         },
 
         methods: {
-
-            reload(){},
 
             resetModal(){
                 this.partner.nm_title = '';
@@ -106,6 +120,7 @@
                 this.partner = item;
 
             },
+
             deletePartners(item){
                 this.$http.delete('partner/'+item.id_partner, {
                     headers: {
@@ -121,6 +136,20 @@
                 .catch(err => {
                     err
                 })
+            },
+
+            searchItems(arraySearch) {
+                let result = new Array();
+
+                for(var i=0; i < arraySearch.length; i++) {
+                    if(
+                        !arraySearch[i].nm_title.search(this.search) 
+                    ) {
+                        result.push(arraySearch[i])
+                    }
+                }
+
+                return result
             }
         }
         

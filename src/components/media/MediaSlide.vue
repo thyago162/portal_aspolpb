@@ -22,7 +22,8 @@
                 </div>
             
                 <div v-if="media.nu_type === 3" >
-                    <b-img class="image" fluid :src="media.nm_image_path.replace('public','storage')" ></b-img>
+                    
+                    <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
                     <h5 class="mt-2">
                         {{media.nm_subtitle}}
                     </h5>

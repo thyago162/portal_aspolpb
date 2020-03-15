@@ -1,9 +1,8 @@
 <template>
     <b-modal id="form-media" ref="media" title="Novo item" size="lg" 
         header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-title="Salvar">
-        <b-alert variant="danger" :show="visibility" 
-            v-for="(error, index) in errors" :key="index" 
-            dismissible >{{error}}</b-alert>
+
+        <ErrorMessage :errors="errors" :visibility="visibility" />
 
         <form @submit.stop.prevent="formSubmited">
 
@@ -61,10 +60,12 @@
 
 <script>
     import ImageUploader from 'vue-image-upload-resize';
+    import ErrorMessage from '../error/ErrorMessage';
     export default {
 
         components: {
-            ImageUploader
+            ImageUploader,
+            ErrorMessage
         },
 
         props: ['media'],
@@ -145,9 +146,11 @@
                 .then(res => {
 
                     if (res.status === 200 ) {
+                        
+                        this.errors = [];
 
                         if (res.data.result.error) {
-                            this.errors = res.data.result.error;
+                            this.errors.push(res.data.result.error);
                             this.visibility = true;
                         } else {
 

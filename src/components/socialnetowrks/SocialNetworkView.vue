@@ -2,7 +2,18 @@
     <b-container>
         <b-row class="mt-2">
             <b-col>
-                <b-button variant="primary" v-b-modal.form-social-network>+ novo</b-button>
+                <b-input-group>
+                     <template v-slot:prepend>
+                         <b-input-group-text>
+                             <b-icon icon="search"></b-icon>
+                         </b-input-group-text>
+                     </template>
+                     <b-form-input v-model="search" />
+                 </b-input-group>
+            </b-col>
+            <b-col>
+                <b-button variant="primary" v-b-modal.form-social-network 
+                    @click="resetModal" :style="{float: 'right'}">+ novo item</b-button>
             </b-col>
         </b-row>
         <b-row class="mt-3">
@@ -47,19 +58,26 @@
         data() {
             return {
                 fields: [
-                    {key: 'nm_title', label: 'Título'},
+                    {key: 'nm_title', label: 'Título', sortable: true},
                     {key: 'nm_link', label: 'Link'},
-                    {key: 'dt_date', label: 'Data'},
+                    {key: 'dt_date', label: 'Data', sortable: true},
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
-                socialNetwork: []
+                socialNetwork: [],
+                errors: [],
+                search: ''
             }
         },
 
         computed: {
             item: function() {
-                return this.$store.getters.getSocialNetwork
+                if (this.search.length > 0) {
+                    return this.searchItem(this.$store.getters.getSocialNetwork);
+
+                }else {
+                    return this.$store.getters.getSocialNetwork;
+                }
             }
         },
 
@@ -67,7 +85,45 @@
             editItem(item){
                 this.socialNetwork = item
             },
-            deleteItem(){}
+
+            deleteItem (id){
+                if(confirm('Deseja realmente excluir?')) {
+                    this.$http.delete('social-network/'+id, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.$store.dispatch('socialNetwork');
+                        }
+                    })
+                    .catch(err => {
+                        this.errors.push(err);
+                    })
+                }
+            },
+
+            resetModal() {
+                this.socialNetwork.nm_title = '';
+                this.socialNetwork.nm_link = '';
+                this.socialNetwork.nm_image_path = '';
+                this.socialNetwork.dt_date = '';
+            },
+
+            searchItem(arraySearch) {
+               let result = new Array();
+
+                for(var i=0; i < arraySearch.length; i++) {
+                    if(
+                        !arraySearch[i].nm_title.search(this.search)
+                    ) {
+                        result.push(arraySearch[i])
+                    }
+                }
+
+                return result
+            },
         }
         
     }

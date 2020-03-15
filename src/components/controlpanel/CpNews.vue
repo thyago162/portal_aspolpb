@@ -3,26 +3,27 @@
         <b-modal size="xl" title="Notícias" id="cp-news" ref="cpnews" 
          hide-footer no-close-on-backdrop header-bg-variant="primary" header-text-variant="light">
          <b-container fluid>
-             <b-row >
-                 <b-col lg="3">
-                    <font-awesome-icon icon="print" size="2x" class="icon alt mr-3"/>
-                    <font-awesome-icon icon="file-csv" size="2x" class="icon alt"/>
-                 </b-col>
-                 <b-col lg="7">
-                    <b-form-input type="search" class="news-search" 
-                        placeholder="Buscar notícia" @keypress="searchNews" v-model="search"/>
-                    <b-icon icon="search" class="search-icon" font-scale="1.5"></b-icon>
-                 </b-col>
-                 <b-col lg="2">
-                     <b-button variant="success" @click="reload"  class="mr-3">
-                         <b-icon icon="arrow-clockwise"></b-icon>
-                     </b-button>
 
-                     <b-button v-b-modal.form-news variant="primary" @click="closeModal">
+             <b-row >
+                 <b-col >
+                    <b-input-group>
+                            <template v-slot:prepend>
+                                <b-input-group-text>
+                                    <b-icon icon="search"></b-icon>
+                                </b-input-group-text>
+                            </template>
+                        <b-form-input v-model="search" />
+                    </b-input-group>
+                 </b-col>
+                 <b-col >
+                     <b-button v-b-modal.form-news variant="primary" 
+                        @click="closeModal" :style="{float: 'right'}">
                          <b-icon icon="plus" ></b-icon>
+                         novo item
                      </b-button>
                  </b-col>
              </b-row>
+
              <b-row class="news-table">
                  <b-col>
                      <b-table :fields="fields" :items="news" striped hover 
@@ -45,7 +46,7 @@
                              {{row.item.dt_date | date }}
                          </template>
                      </b-table>
-                     <div >
+                     <div>
                         <b-pagination
                             align="center"
                             v-model="currentPage"
@@ -89,16 +90,16 @@
                 currentPage: 1,
                 search: '',
                 newsItem: [],
-                searchItems: []
             }
         },
 
         computed: {
             news() {
                if(this.search.length > 0 ) {
-                   return this.searchItems;
-               } else {
-                   return this.$store.getters.getNews;
+
+                   return this.searchItems(this.$store.getters.getNews);
+               }else {
+                    return this.$store.getters.getNews;
                }
             },
 
@@ -118,6 +119,7 @@
 
 
         methods: {
+
             closeModal() {
                 this.$refs['cpnews'].hide();
             },
@@ -140,24 +142,18 @@
                 })
             },
 
-            reload() {
-                this.$store.dispatch('news');
-            },
+            searchItems(arraySearch) {
+                let result = new Array();
 
-            searchNews() {
+                for(var i=0; i < arraySearch.length; i++) {
+                    if(
+                        !arraySearch[i].nm_title.search(this.search) 
+                    ) {
+                        result.push(arraySearch[i])
+                    }
+                }
 
-                if (this.search.length > 0) {
-                    
-                    let form = new FormData()
-                    form.append('search',this.search);
-
-                    this.$http.get('news/search',form)
-                    .then(res => {
-                        if (res.status === 200) {
-                            this.searchItems = res.data.result.news
-                        }
-                    })                  
-                }   
+                return result
             }
         }
 

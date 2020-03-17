@@ -41,6 +41,11 @@
                     MIDIAS SOCIAIS
                 </b-button>
 
+                 <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file>
+                    <b-icon icon="folder-fill" />
+                    ARQUIVOS
+                </b-button>
+
                 <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>
                     <font-awesome-icon icon="users" />
                     USUÁRIOS
@@ -55,6 +60,7 @@
     <CpInstitucional />
     <CpSocialNetwork />
     <CpAgreement />
+    <CpFile />
 
     </div>
 </template>
@@ -66,6 +72,7 @@
     import CpInstitucional from './CpInstitucional';
     import CpSocialNetwork from './CpSocialNetork';
     import CpAgreement from './CpAgreement';
+    import CpFile from './CpFile';
     export default {
 
         components: {
@@ -74,7 +81,8 @@
             CpUser,
             CpInstitucional,
             CpSocialNetwork,
-            CpAgreement
+            CpAgreement,
+            CpFile
         },
 
         methods: {

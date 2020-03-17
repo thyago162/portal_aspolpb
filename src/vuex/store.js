@@ -16,7 +16,8 @@ export default new Vuex.Store({
         socialNetwork: [],
         media: [],
         ourHistory: [],
-        agreement: []
+        agreement: [],
+        file: []
     },
 
     getters: {
@@ -59,6 +60,10 @@ export default new Vuex.Store({
 
         getAgreement: state => {
             return state.agreement;
+        },
+
+        getFile: state => {
+            return state.file;
         }
     },
     actions: {
@@ -129,6 +134,19 @@ export default new Vuex.Store({
             })
         },
 
+        files({commit},state) {
+            axios.get('files', {
+                headers: {
+                    Authorization: 'Bearer '+state.token
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setFile', res.data.result.files)
+                }
+            })
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         }   
@@ -173,6 +191,10 @@ export default new Vuex.Store({
 
         setAgreement(state, payload) {
             state.agreement = payload;
+        },
+
+        setFiles(state, payload) {
+            state.file = payload;
         }
 
     }

@@ -10,36 +10,30 @@
         </b-row>
 
         <b-row class="mt-4">
+            <b-col>
+                <b-form inline :style="{float: 'right'}">
+                    <b-form-group >
+                        <span>Filtrar</span>
+                        <b-form-select class="ml-3"  v-model="selected" >
+                            <b-form-select-option value=""></b-form-select-option>
+                            <b-form-select-option v-for="(citie,index) in cities" 
+                               :value="citie.nm_city" :key="index">
+                                {{citie.nm_city}}
+                            </b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+                </b-form>
+            </b-col>
+        </b-row>
 
-           <b-col lg="2">
-               <b-list-group >
-                   <b-list-group-item button  @click="getAgreement('alimentação')" >Alimentação</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('beleza')" >Beleza</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('educação')" >Educação</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('lazer')">Lazer</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('saúde')" >Saúde</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('serviços')" >Serviços</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('transporte')" >Transporte</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('vestuário')">Vesturário</b-list-group-item>
-                   <b-list-group-item button @click="getAgreement('outros')">Outros</b-list-group-item>
-               </b-list-group>
-           </b-col>
-
-           <b-col>
-              <b-tabs>
-                  <b-tab title="Campina Grande" :style="{overflow: 'auto'}">
-                      <div v-for="(item, index) in agreement" :key="index">
-                          <AgreementCard v-if="item.nm_city == 'Campina Grande'" :item="item" />
-                      </div>
-                  </b-tab>
-                  <b-tab title="João Pessoa" :style="{overflow: 'auto'}">
-                      <div v-for="(item, index) in agreement" :key="index">
-                          <AgreementCard v-if="item.nm_city == 'João Pessoa'" :item="item" />
-                      </div>
-                  </b-tab>
-              </b-tabs>
-               
-           </b-col>
+        <b-row>
+            <b-col>
+                <div class="agreement-card mt-3">
+                    <AgreementCard :item="agreement" 
+                        v-for="(agreement,index) in agreements" :key="index"/>
+                </div>
+                
+            </b-col>
         </b-row>
 
     </b-container>
@@ -55,29 +49,68 @@
         },
 
         mounted() {
-            this.getAgreement();
+            this.$store.dispatch('agreement');
+            this.getAllCitys();
         },
 
         data() {
             return {
-                agreement: []
+                cities: [],
+                selected: '',
+                filter: []
             }
 
         },
 
+        computed: {
+            agreements: function() {
+                if (this.selected) {
+                    let agreement = this.$store.getters.getAgreement
+                    
+                    return agreement.filter((param) => {
+                        return param.nm_city === this.selected
+                    })
+                }else {
+                    return this.$store.getters.getAgreement;
+                }
+
+            }
+        },
+
         methods: {
-            getAgreement(param) {
-                !param ? param = 'alimentação' : ''
-                this.$http.post('agreement/category',{
-                    'nm_category': param
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        this.agreement = res.data.result.category;
-                    }
-                })
+           getAllCitys() {
+               this.$http('agreement/cities')
+               .then(res => {
+                   if (res.status === 200) {
+                       this.cities = res.data.result.cities;
+                   }
+               })
+               .catch(err => {
+                   err
+               })
+           },
+
+            agreementFilter() {
+                if (this.selected) {
+
+                    this.$http.post('agreement/cities', {
+                    'nm_city': this.selected
+                    })
+                    .then(res => {
+                        if (res.status === 200) {
+                            this.agreements = res.data.result.agreements
+                        }
+                    })
+                    .catch(err => {
+                        err
+                    })
+                }else {
+                    this.filter = this.$store.getters.getAgreement;
+                }
             }
         }
+
+
         
     }
 </script>
@@ -113,5 +146,12 @@
         align-items: center;
         margin-left: -15px;
         margin-top: 10px;
+    }
+
+    .agreement-card {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
     }
 </style>

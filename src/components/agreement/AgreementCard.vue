@@ -1,51 +1,70 @@
 <template>
-    <b-card class="mt-3" img-left :style="{overflow: 'auto'}" >
+    <b-card class="mt-3" img-left :style="{overflow: 'auto'}"  >
         <template v-slot:header  v-if="image">
             <b-img :src="image" width="150px" height="130px"></b-img>
         </template>
         <b-card-title class="ml-3">
             {{item.nm_title}}
         </b-card-title>
-    
-        <b-container>
-            <b-row>
-                <b-col lg="9">
-                    <b-button @click="showOrHide" :style="{width: '150px'}"> {{!active ? '+ Detalhes' : '- Detalhes'}}</b-button>
-                </b-col>
-                <b-col lg="3"> 
-                    <b-link  class="mr-2" :style="{color: 'red'}">
-                        <font-awesome-icon size="2x" :icon="['fa','file-pdf']" 
-                            class="icont alt personal-icons " />
-                    </b-link>
+        <b-card-body>
+            <b-container>
+                <b-row>
+                    <b-col>
+                        <b-button @click="showOrHide" 
+                            size="md"> {{!active ? '+ Detalhes' : '- Detalhes'}}</b-button>
+                    </b-col>
+                    <b-col >
+                        <div class="icons">
+                            <b-link  class="mr-2" :style="{color: 'red'}">
+                                <font-awesome-icon size="2x" :icon="['fa','file-pdf']" 
+                                    class="icont alt personal-icons " />
+                            </b-link>
 
-                    <b-link class="mr-2" :to="item.nm_link">
-                        <font-awesome-icon size="2x" :icon="['fa', 'globe']" 
-                            class="icont alt personal-icons" />
-                    </b-link>
+                            <b-link class="mr-2" :to="item.nm_link">
+                                <font-awesome-icon size="2x" :icon="['fa', 'globe']" 
+                                    class="icont alt personal-icons" />
+                            </b-link>
 
-                    <b-link class="mr-2" :style="{color: '#00ACEE'}" :to="twitter">
-                        <font-awesome-icon :icon="['fab', 'twitter-square']" 
-                            size="2x" class="icon alt personal-icons" />
-                    </b-link>
+                            <b-link class="mr-2" :style="{color: '#00ACEE'}" :to="twitter">
+                                <font-awesome-icon :icon="['fab', 'twitter-square']" 
+                                    size="2x" class="icon alt personal-icons" />
+                            </b-link>
 
-                    <b-link class="mr-2" :to="facebook">
-                        <font-awesome-icon size="2x" :icon="['fab', 'facebook-square']" 
-                            class="icon alt personal-icons" />
-                    </b-link>
+                            <b-link class="mr-2" :to="facebook">
+                                <font-awesome-icon size="2x" :icon="['fab', 'facebook-square']" 
+                                    class="icon alt personal-icons" />
+                            </b-link>
 
-                    <b-link :style="{color: '#3f729b'}" :to="instagram">
-                        <font-awesome-icon :icon="['fab', 'instagram-square']" 
-                            size="2x" class="icon alt personal-icons" />
-                    </b-link>
+                            <b-link :style="{color: '#3f729b'}" :to="instagram">
+                                <font-awesome-icon :icon="['fab', 'instagram-square']" 
+                                    size="2x" class="icon alt personal-icons" />
+                            </b-link>
+                        </div>
 
-                </b-col>
-            </b-row>
-            <b-row  class="mt-3" >
-                <b-col :class="active ? 'details-show' : 'details-hide'"  >
-                    <b-card-text v-html="item.nm_content"></b-card-text>
-                </b-col>
-            </b-row>
-        </b-container>
+                    </b-col>
+                </b-row>
+                <b-row  class="mt-3" >
+                    <b-col :class="active ? 'details-show' : 'details-hide'"  >
+                        <b-card-text v-html="item.nm_content"></b-card-text>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </b-card-body>
+        <b-card-footer :class="active ? 'details-show' : 'details-hide'" >
+            <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <b-card-text>
+                           Rua {{item.nm_street}}, Nº {{item.nu_number}}, 
+                            {{item.nm_neighbohood}}
+                        </b-card-text>
+                        <b-card-text>
+                            {{item.nm_city}} / {{item.nm_uf}} - Cep: {{item.nm_cep}}
+                        </b-card-text>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </b-card-footer>
     </b-card>
 </template>
 
@@ -101,5 +120,10 @@
 
     .details-hide {
         display: none;
+    }
+
+    .icons {
+        display: flex;
+        flex-direction: row;
     }
 </style>

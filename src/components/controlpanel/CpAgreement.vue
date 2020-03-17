@@ -5,11 +5,20 @@
            <b-container>
                <b-row>
                    <b-col >   
-                        <b-form-input type="search" placeholder="Buscar..."/>
+                        <b-input-group>
+                            <template v-slot:prepend>
+                                <b-input-group-text>
+                                    <b-icon icon="search"></b-icon>
+                                </b-input-group-text>
+                            </template>
+                        <b-form-input v-model="search" />
+                    </b-input-group>
                    </b-col>
 
                    <b-col>
-                       <b-button variant="primary" v-b-modal.form-agreement>
+                       <b-button variant="primary" v-b-modal.form-agreement 
+                            :style="{float: 'right'}" 
+                        >
                            + Novo item
                        </b-button>
                    </b-col>
@@ -18,7 +27,7 @@
                    <b-col>
                        <b-table :fields="fields" :items="agreement">
                            <template v-slot:cell(edit)="row">
-                               <b-button variant="warning" @click="editItem(row.item)" v-b-modal.form-agreement>
+                               <b-button variant="info" @click="editItem(row.item)" v-b-modal.form-agreement>
                                    <b-icon icon="pencil" ></b-icon>
                                </b-button>
                            </template>
@@ -68,7 +77,8 @@
                     {key: 'edit', label: ''},
                     {key: 'remove', label: ''}
                 ],
-                item: []
+                item: [],
+                search: ''
             }
         },
 
@@ -78,21 +88,23 @@
             },
 
             removeItem(id) {
-                this.$http.delete('agreement/'+id, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    alert(res.status)
-                    if (res.status === 200) {
-                        this.$store.dispatch('agreement')
-                    }
+                if (confirm('Dejesa realmente remover?')) {
+                    this.$http.delete('agreement/'+id, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        alert(res.status)
+                        if (res.status === 200) {
+                            this.$store.dispatch('agreement')
+                        }
 
-                })
-                .catch(err => {
-                    alert(err)
-                })
+                    })
+                    .catch(err => {
+                        alert(err)
+                    })
+                }
             }
         }
     }

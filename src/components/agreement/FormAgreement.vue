@@ -1,10 +1,9 @@
 <template>
    <div>
        <b-modal id="form-agreement" ref="agreement" title="CONVÊNIOS" size="xl" 
-        header-bg-variant="dark" header-text-variant="light" @ok="handleOk">
-           <form >
+        header-bg-variant="dark" header-value-variant="light" @ok="handleOk">
+           <form @submit.stop.prevent="formSubmited">
                <b-container>
-                   {{form.nm_social_network_link}}
                    <b-row>
                        <b-col lg="5"> 
                            <b-form-group label="Nome">
@@ -38,28 +37,61 @@
                            </b-form-group>
                        </b-col>
                        <b-col lg="7">
-                           <b-form-group label="Cidade">
-                               <b-form-select v-model="form.nm_city">
-                                <b-form-select-option value="Campina Grande">Campina Grande</b-form-select-option>
-                                <b-form-select-option value="João Pessoa" >João Pessoa</b-form-select-option>
+                           <b-form-group label="Categoria">
+                               <b-form-select v-model="form.nm_category" :options="options">
+                                
                                </b-form-select>
                            </b-form-group>
-                           <b-form-group label="Categorias">
-                               <b-form-radio-group v-model="form.nm_category">
-                                   <b-form-radio value="alimentação">Alimentação</b-form-radio>
-                                   <b-form-radio value="beleza" >Beleza</b-form-radio>
-                                   <b-form-radio value="educação">Educação</b-form-radio>
-                                   <b-form-radio value="educação">Lazer</b-form-radio>
-                                   <b-form-radio value="saúde">Saúde</b-form-radio>
-                                   <b-form-radio value="educação">Serviços</b-form-radio>
-                                   <b-form-radio value="transporte">Transporte</b-form-radio>
-                                   <b-form-radio value="vestuário">Vestuário</b-form-radio>
-                                   <b-form-radio value="outros">Outros</b-form-radio>
-                               </b-form-radio-group>
-                           </b-form-group>
+                          
                            <b-form-group label="Conteúdo">
                                <VueEditor :editorToolbar="customToolbar" 
                                v-model="form.nm_content"/>
+                           </b-form-group>
+                       </b-col>
+                   </b-row>
+                   <b-row>
+                       <b-col>
+                           <hr />
+                           <h5>Endereço</h5>
+                           <hr />
+                        </b-col>
+                   </b-row>
+                   <b-row>
+                       <b-col xl="2">
+                           <b-form-group label="Cep">
+                               <b-form-input placeholder="Apenas números" v-model="form.nm_cep"/>
+                           </b-form-group>
+                       </b-col>
+                       <b-col>
+                           <b-form-group label="Rua">
+                               <b-form-input v-model="form.nm_street" />
+                           </b-form-group>
+                       </b-col>
+                       <b-col xl="1">
+                           <b-form-group label="Número">
+                               <b-form-input v-model="form.nu_number"/>
+                           </b-form-group>
+                       </b-col>
+                       <b-col xl="3">
+                           <b-form-group label="Complemento">
+                               <b-form-input placeholder="Ex: apt 000" v-model="form.nm_complement"/>
+                           </b-form-group>
+                       </b-col>
+                   </b-row>
+                   <b-row>
+                       <b-col xl="4">
+                           <b-form-group label="Bairro">
+                               <b-form-input v-model="form.nm_neighbohood" />
+                           </b-form-group>
+                       </b-col>
+                       <b-col xl="3">
+                           <b-form-group label="Cidade">
+                               <b-form-input v-model="form.nm_city" />
+                           </b-form-group>
+                       </b-col>
+                       <b-col xl="1">
+                           <b-form-group label="UF">
+                               <b-form-input placeholder="Ex: PB" v-model="form.nm_uf"></b-form-input>
                            </b-form-group>
                        </b-col>
                    </b-row>
@@ -116,6 +148,17 @@
                     [{ 'direction': 'rtl' }],
                     ['clean'],
                 ],
+                options: [
+                    {value: 'Alimentação', text: 'Alimentação'},
+                    {value: 'Beleza', text: 'Beleza'},
+                    {value: 'Educação', text: 'Educação'},
+                    {value: 'Lazer', text: 'Lazer'},
+                    {value: 'Saúde', text: 'Saúde'},
+                    {value: 'Serviços', text: 'Serviços'},
+                    {value: 'Transporte', text: 'Transporte'},
+                    {value: 'Vestuário', text: 'Vestuário'},
+                    {value: 'Outros', text: 'Outros'}
+                ]
             }
         },
 
@@ -155,6 +198,13 @@
                 form.append('nm_social_network_link', this.form.nm_social_network_link);
                 form.append('nm_category',this.form.nm_category);
                 form.append('nm_city', this.form.nm_city);
+                form.append('nm_cep',this.form.nm_cep);
+                form.append('nm_street',this.form.nm_street);
+                form.append('nu_number', this.form.nu_number);
+                form.append('nm_neighbohood', this.form.nm_neighbohood);
+                form.append('nm_complement',this.form.nm_complement);
+                form.append('nm_city', this.form.nm_city);
+                form.append('nm_uf',this.form.nm_uf);
 
                 this.$http.post('agreement',form, {
                     headers: {
@@ -165,7 +215,7 @@
                 .then(res => {
                     if(res.status === 200) {
                         this.$store.dispatch('agreement');
-                        this.$$refs['agreement'].hide();
+                        this.$refs['agreement'].hide();
                     }
                 })
             },

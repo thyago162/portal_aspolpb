@@ -9,4 +9,10 @@ Vue.filter('name', function (value) {
     let userName = value.split(" ");
     return  userName[0].toUpperCase();
         
-})  
+})
+
+Vue.filter('fullDate', function (value) {
+    let date =  value.split(' ')
+
+    return date[0].split('-').reverse().join('/') +' '+ date[1]
+}) 

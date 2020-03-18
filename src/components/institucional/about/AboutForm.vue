@@ -118,6 +118,12 @@
                 .then(res => {
 
                     if (res.status === 200 ){
+                        if (res.data.token) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                        }
                         this.$refs['aboutform'].hide();
                         this.$store.dispatch('about');
                     }

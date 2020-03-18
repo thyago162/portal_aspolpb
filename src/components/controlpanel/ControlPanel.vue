@@ -73,6 +73,7 @@
     import CpSocialNetwork from './CpSocialNetork';
     import CpAgreement from './CpAgreement';
     import CpFile from './CpFile';
+
     export default {
 
         components: {
@@ -85,10 +86,11 @@
             CpFile
         },
 
+
         methods: {
             closeModal() {
                 this.$refs['control-panel'].hide();
-            }
+            },
         }
         
     }

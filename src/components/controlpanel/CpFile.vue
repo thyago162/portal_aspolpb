@@ -1,9 +1,11 @@
 <template>
     <div>
-        <b-modal id="cp-file" ref="cpfile"  header-bg-variant="success" header-text-variant="light"
-            title="Arquivos" size="lg" hide-footer @hidden="resetModal">
+        <b-modal id="cp-file" ref="cpfile"  header-bg-variant="success" 
+            header-text-variant="light" title="Arquivos" 
+                size="lg" hide-footer >
             <b-row>
                  <b-col lg="8">
+
                     <b-input-group>
                             <template v-slot:prepend>
                                 <b-input-group-text>
@@ -16,7 +18,7 @@
                  <b-col>
                 
                     <b-button v-b-modal.form-file variant="primary" 
-                        @click="resetModal" :style="{float: 'right'}">
+                        :style="{float: 'right'}">
                          <b-icon icon="plus" ></b-icon>
                          novo item
                     </b-button>
@@ -25,8 +27,17 @@
             </b-row>
             <b-row>
                 <b-col>
-                    <b-table  striped hover 
-                        :per-page="perPage" :current-page="currentPage" class="file-table">
+                    <b-table  striped hover :fields="fields" :items="file"
+                        :per-page="perPage" :current-page="currentPage" class="file-table"
+                    >
+
+                        <template v-slot:cell(created_at)="row">
+                            <span>{{row.item.created_at | fullDate}}</span>
+                        </template>
+
+                        <template v-slot:cell(updated_at)="row">
+                            <span>{{row.item.updated_at | fullDate}}</span>
+                        </template>
 
                         <template v-slot:cell(edit)="row">
                             <b-button size="sm" class="ml-1" @click="editfiles(row.item)" 
@@ -53,9 +64,9 @@
                     </div>
                 </b-col>
             </b-row>
-
         </b-modal>
-        <FormFile />
+
+        <FormFile :item="file" />
     </div>
 </template>
 
@@ -68,31 +79,37 @@
         },
 
         mounted() {
-            this.$store.dispatch('files');
+            this.$store.dispatch(
+                'file',
+                this.$session.get('jwt')
+                );
         },
 
         data() {
             return {
                 fields: [
-                   
+                    {key: 'nm_name', label: 'Nome'},
+                    {key: 'created_at', label: 'Data de criação'},
+                    {key: 'updated_at', label: 'Última atualização'},
+                    {key: 'edit', label: ''},
+                    {key: 'delete', label: ''}
                 ],
                 perPage: 5,
                 currentPage: 1,
-                file: [],
                 search: ''
             }
         },
 
         computed: {
 
-            files() {
+            file() {
 
                 if (this.search.length > 0 ) {
 
                    return this.searchItems(this.$store.getters.getfile);
                }else {
 
-                    return this.$store.getters.getfile;
+                    return this.$store.getters.getFile;
                }
                 
             },
@@ -108,14 +125,8 @@
 
         methods: {
 
-            resetModal(){
-                this.file.nm_name = '';
-                this.file.nm_file_path = '';
-            },
-
             editfiles(item){
                 this.file = item;
-
             },
 
             deletefiles(item){
@@ -127,7 +138,7 @@
                 .then(res => {
                     
                     if (res.status === 200) {
-                        this.$store.dispatch('files')
+                        this.$store.dispatch('file')
                     }
                 })
                 .catch(err => {
@@ -147,7 +158,9 @@
                 }
 
                 return result
-            }
+            },
+
+
         }
         
     }

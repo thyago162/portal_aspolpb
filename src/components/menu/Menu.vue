@@ -90,20 +90,20 @@
                                 TRANSPARÊNCIA </b-link>
                         </b-dropdown-item>
                         <b-dropdown-item >
-                            <b-link class="personal-link">
+                            <b-link class="personal-link" :to="{name: 'sugestoes'}">
                                 <b-icon icon="chat-fill"></b-icon>
                                 SUGESTÕES
                             </b-link>
                         </b-dropdown-item>
                         <b-dropdown-item >
-                            <b-link class="personal-link">
+                            <b-link class="personal-link" :to="{name: 'assessoria-juridica'}">
                                 <b-icon icon="tag-fill"></b-icon>
                                 ACESSORIA JURÍDICA
                             </b-link>
                         </b-dropdown-item>
                         <b-dropdown-item >
-                            <b-link class="personal-link">
-                                <b-icon icon="folder-fill"></b-icon>
+                            <b-link class="personal-link" :to="{name: 'arquivos'}">
+                                <b-icon icon="folder-fill" ></b-icon>
                                  ARQUIVOS
                             </b-link>
                         </b-dropdown-item>
@@ -115,14 +115,14 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown  v-show="token">
+                    <b-nav-item-dropdown  v-if="user">
                         <template v-slot:button-content>
                             <span class="personal-link" >
-                                {{ }}
+                                {{ user.name}}
                                 <b-icon icon="gear-fill" />
                             </span>
                         </template>
-                        <b-dropdown-item>Configurações</b-dropdown-item>
+                        <b-dropdown-item>Meus dados</b-dropdown-item>
                         <b-dropdown-item @click="logout"> 
                             SAIR <b-icon icon="power"></b-icon> 
                         </b-dropdown-item>

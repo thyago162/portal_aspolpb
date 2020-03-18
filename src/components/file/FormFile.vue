@@ -1,6 +1,6 @@
 <template>
    <b-modal id="form-file" ref="formfile" size="md" title="Adicionar arquivo"
-    header-bg-variant="success" header-text-variant="light" @ok="handleOk">
+    header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-only ok-title="Salvar">
         <b-alert variant="danger" :show="visibility" 
             v-for="error in errors" :key="error" 
             dismissible >{{error}}</b-alert>
@@ -30,6 +30,7 @@
                 file: null,
                 visibility: false,
                 errors: [],
+                value: ''
             }
         },
 
@@ -52,18 +53,17 @@
 
            formSubmited() {
 
-                if (!this.form.id_partner) {
+                if (!this.form.id_file) {
                     this.save();
 
                 } else {
+                    alert('vai atualizar')
                     this.update();
 
                 }
-
            },
 
            save() {
-
                 let formData = new FormData();
                 formData.append('nm_name',this.form.nm_name);
                 formData.append('nm_file_path',this.form.nm_file_path);
@@ -77,7 +77,7 @@
 
                     if (res.status === 200 ){
                         this.$refs['formfile'].hide()
-                        this.$store.dispatch('files')
+                        this.$store.dispatch('file')
                     }
                        
                 })
@@ -100,8 +100,15 @@
                .then(res => {
 
                    if (res.status === 200) {
+                       if (res.data.token) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                        }
+                        
                         this.$refs['formfile'].hide()
-                        this.$store.dispatch('files')
+                        this.$store.dispatch('file')
                    }
 
                })
@@ -114,11 +121,9 @@
            image() {
 
                if (this.file) {
-
                    this.saveImage();
 
                } else {
-                   
                    this.deleteImage();
                }
                
@@ -142,12 +147,10 @@
                     if (res.status === 200) {
                         this.form.nm_file_path = res.data.result.url;
                     }
-                    
                 })
                 .catch(err => {
                     this.erro = err;
                 })
-
             },
 
             deleteImage() {

@@ -95,7 +95,6 @@
                         }
                     })
                     .then(res => {
-                        alert(res.status)
                         if (res.status === 200) {
                             this.$store.dispatch('agreement')
                         }

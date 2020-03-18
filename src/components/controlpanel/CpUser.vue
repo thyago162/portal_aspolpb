@@ -87,13 +87,17 @@
                 return ''
             },
 
+            token: function() {
+                return this.$session.get('jwt')
+            }
+
         },
 
         methods: {
             getUsers() {
                 this.$http.get('users', {
                     headers: {
-                        Authorization: 'Bearer '+this.$session.get('jwt')
+                        Authorization: 'Bearer '+this.token
                     }
                 })
                 .then(res => {

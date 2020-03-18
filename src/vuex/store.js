@@ -7,7 +7,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        token: '',
         loading: false,
         news: [],
         users: [],
@@ -17,14 +16,11 @@ export default new Vuex.Store({
         media: [],
         ourHistory: [],
         agreement: [],
-        file: []
+        file: [],
+        juryAccessory: []
     },
 
     getters: {
-
-        getToken: state => {
-            return state.token;
-        },
 
         getNews: state => {
             return state.news;
@@ -64,13 +60,13 @@ export default new Vuex.Store({
 
         getFile: state => {
             return state.file;
+        },
+
+        getJuryAccessory: state => {
+            return state.juryAccessory;
         }
     },
     actions: {
-
-        saveToken({commit}, token) {
-            commit('setToken',token);
-        },
 
         news({commit}) {
             axios.get('news')
@@ -125,6 +121,19 @@ export default new Vuex.Store({
             })
         },
 
+        logout(token) {
+            axios.post('logout', {
+                headers: {
+                    Authorization: 'Bearer '+token
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    alert('Encerrando sessão!')   
+                }
+            })
+        },
+
         agreement({commit}) {
             axios.get('agreement')
             .then(res => {
@@ -134,28 +143,38 @@ export default new Vuex.Store({
             })
         },
 
-        files({commit},state) {
-            axios.get('files', {
+        file({commit},token) {
+            axios.get('file', {
                 headers: {
-                    Authorization: 'Bearer '+state.token
+                    Authorization: 'Bearer '+token
                 }
             })
             .then(res => {
                 if (res.status === 200) {
-                    commit('setFile', res.data.result.files)
+                    commit('setFile', res.data.result.file)
+                }
+            })
+        },
+
+        juryAccessory({commit}, token) {
+            axios.get('jury-accessory', {
+                headers: {
+                    Authorization: 'Bearer '+token
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setJuryAccessory',res.data.result.juryAccessory);
                 }
             })
         },
 
         loading({commit},load) {
             commit('setLoad',load);
-        }   
+        },
+        
     },
     mutations: {
-
-        setToken(state,payload) {
-            state.token = payload;
-        },
 
         setLoad(state,payload) {
             state.loading = payload;
@@ -193,8 +212,12 @@ export default new Vuex.Store({
             state.agreement = payload;
         },
 
-        setFiles(state, payload) {
+        setFile(state, payload) {
             state.file = payload;
+        },
+
+        setJuryAccessory(state, payload) {
+            state.juryAccessory = payload;
         }
 
     }

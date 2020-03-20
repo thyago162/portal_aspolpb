@@ -134,6 +134,7 @@
         </b-navbar>
         <Auth />
         <control-pane />
+        <ResetPassword />
         
     </div>  
 </template>
@@ -141,10 +142,12 @@
 <script>
     import Auth from '../auth/Auth';
     import ControlPane from '../controlpanel/ControlPanel';
+    import ResetPassword from '../auth/ResetPassword';
     export default {
         components: {
             Auth,
-            ControlPane
+            ControlPane,
+            ResetPassword
         },
         computed: {
             token() {

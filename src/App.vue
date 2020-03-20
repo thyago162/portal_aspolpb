@@ -23,8 +23,9 @@
 
     components: {
       Footer,
-      Menu
-    }
+      Menu,
+    },
+
   }
 </script>
 

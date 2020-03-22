@@ -2,9 +2,8 @@
 
     <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" 
         @cancel="resetModal" :ok-title="btnTitle" ref="auth" header-bg-variant="danger" header-text-variant="white">
-        <b-alert variant="danger" :show="visibility" 
-            v-for="error in errors" :key="error" 
-            dismissible >{{error}}</b-alert>
+        
+        <ErroMessage :errors="errors" :visibility="visibility" />
 
         <form @submit.stop.prevent="sendForm">
             <b-form-group label="Nome" v-show="!auth">
@@ -22,9 +21,9 @@
             <b-form-group label="Senha">
                 <b-input-group>
                     <b-form-input trim placeholder="Minimo de 6 caracteres" 
-                        v-model="formData.password" min="6" id="password"/>
+                        v-model="formData.password" min="6" id="password" :type="type"/>
                     <b-input-group-append>
-                        <b-button variant="dark">
+                        <b-button variant="dark" @click="showPasswordValue">
                             <b-icon icon="eye" v-show="showPassword"></b-icon>
                             <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
                         </b-button>
@@ -52,10 +51,11 @@
             <b-form-group v-show="!auth" label="Confirmar senha">
                 <b-input-group>
                     <b-form-input trim placeholder="Minimo de 6 caracteres" 
-                        v-model="formData.confirmation" min="6" id="password"/>
+                        v-model="formData.confirmation" min="6" id="password" :type="type"/>
                     <b-input-group-append>
                         <b-button variant="dark" @click="showPasswordValue">
-                            <b-icon icon="eye"></b-icon>
+                            <b-icon icon="eye" v-show="showPassword"></b-icon>
+                            <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
                         </b-button>
                     </b-input-group-append>
                 </b-input-group>
@@ -72,8 +72,13 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
     
     export default {
+
+        components: {
+            ErroMessage
+        },
 
         data() {
             return {
@@ -87,7 +92,7 @@
                     confirmation: '',
                 },
                 showPassword: false,
-                showConfirmed: false
+                type: 'password'
             }
         },
 
@@ -106,8 +111,11 @@
         methods: {
 
             showPasswordValue() {
-                this.passwordsMatch = !this.passwordsMatch
+                this.showPassword = !this.showPassword
+                this.showPassword == true ? this.type = 'text' : this.type = 'password'
+                
             },
+
             loginOrRegister() {
                 this.auth = !this.auth;
             },
@@ -115,6 +123,8 @@
             handleOk(bvModalEvt) {
                 bvModalEvt.preventDefault();
                 this.sendForm()
+                
+                
             },
 
             sendForm() {
@@ -123,33 +133,36 @@
 
             register() {
 
-                this.$store.dispatch('loading',true);
-                let form = new FormData();
+                if (this.passwordsMatch()) {
 
-                form.append('name',this.formData.name);
-                form.append('email',this.formData.email);
-                form.append('password',this.formData.password);
+                    //this.$store.dispatch('loading',true);
+                    let form = new FormData();
 
-                this.$http.post('register',form)
-                .then(res => {
-                    if (res.status === 200 && res.data.response.token) {
+                    form.append('name',this.formData.name);
+                    form.append('email',this.formData.email);
+                    form.append('password',this.formData.password);
+
+                    this.$http.post('register',form)
+                    .then(res => {
+                        if (res.status === 200 && res.data.response.token) {
+                            //this.$store.dispatch('loading', false);
+                            this.$refs['auth'].hide();
+                            this.resetModal();
+                            this.auth = true;
+                            alert('Usuário cadastrado com sucesso')
+                        }else {
+                            //this.$store.dispatch('loading', false);
+                            this.errors.push(res.data.response.error);
+                            this.visibility = true;
+                        }
+                            
+                    })
+                    .catch(err => {
                         //this.$store.dispatch('loading', false);
-                        this.$refs['auth'].hide();
-                        this.resetModal();
-                        this.auth = true;
-                        alert('Usuário cadastrado com sucesso')
-                    }else {
-                        this.$store.dispatch('loading', false);
-                        this.errors.push(res.data.response.error);
+                        this.errors.push(err)
                         this.visibility = true;
-                    }
-                        
-                })
-                .catch(err => {
-                    this.$store.dispatch('loading', false);
-                    this.errors.push(err)
-                    this.visibility = true;
-                })
+                    })
+                }
                 
             },
 
@@ -195,10 +208,10 @@
 
             passwordsMatch() {
                 if (this.formData.password != this.formData.confirmation) {
-                    this.errors.push("As senhas não coincidem");
+                    alert('As senhas não coincidem')
 
                 } else {
-                    ''
+                    return true;
                 }
                 
             },

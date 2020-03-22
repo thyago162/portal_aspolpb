@@ -26,7 +26,7 @@
                     CONVÊNIOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="info">
+                <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated>
                     <font-awesome-icon icon="address-card" />
                     ASSOCIADOS
                 </b-button>
@@ -61,6 +61,7 @@
     <CpSocialNetwork />
     <CpAgreement />
     <CpFile />
+    <CpAssociated />
 
     </div>
 </template>
@@ -73,6 +74,7 @@
     import CpSocialNetwork from './CpSocialNetork';
     import CpAgreement from './CpAgreement';
     import CpFile from './CpFile';
+    import CpAssociated from './CpAssociated';
 
     export default {
 
@@ -83,7 +85,8 @@
             CpInstitucional,
             CpSocialNetwork,
             CpAgreement,
-            CpFile
+            CpFile,
+            CpAssociated
         },
 
 

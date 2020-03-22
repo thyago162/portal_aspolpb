@@ -11,7 +11,7 @@ import MediaView from '../pages/MediaView';
 import File from '../pages/acesso_restrito/File';
 import Segment from '../pages/acesso_restrito/Segment';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
-
+import Transparency from '../pages/acesso_restrito/Transparency';
 
 Vue.use(Router);
 
@@ -68,6 +68,11 @@ export default new Router({
             path: '/acesso-restrito/assessoria-juridica',
             component: JuryAccessory,
             name: 'assessoria-juridica'
+        },
+        {
+            path: '/acesso-restrito/transparencia',
+            component: Transparency,
+            name: 'transparencia'
         }
     ]
 

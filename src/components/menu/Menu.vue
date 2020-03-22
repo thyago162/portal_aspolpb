@@ -61,7 +61,7 @@
 
                     </b-nav-item>
                     <b-nav-item>
-                        <b-button size="sm" class="personal-btn">
+                        <b-button size="sm" class="personal-btn" v-b-modal.associated-form>
                             <span>ASSOCIE-SE</span>
                         </b-button>
                     </b-nav-item>
@@ -85,7 +85,7 @@
                             </b-button>
                         </template>
                         <b-dropdown-item >
-                            <b-link class="personal-link"> 
+                            <b-link class="personal-link" :to="{name: 'transparencia'}"> 
                                 <b-icon icon="book-half-fill"></b-icon>
                                 TRANSPARÊNCIA </b-link>
                         </b-dropdown-item>
@@ -135,6 +135,7 @@
         <Auth />
         <control-pane />
         <ResetPassword />
+        <AssociatedForm />
         
     </div>  
 </template>
@@ -143,11 +144,13 @@
     import Auth from '../auth/Auth';
     import ControlPane from '../controlpanel/ControlPanel';
     import ResetPassword from '../auth/ResetPassword';
+    import AssociatedForm from '../associated/AssociatedForm';
     export default {
         components: {
             Auth,
             ControlPane,
-            ResetPassword
+            ResetPassword,
+            AssociatedForm
         },
         computed: {
             token() {

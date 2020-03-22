@@ -1,0 +1,370 @@
+<template>
+    <b-modal title="Ficha de filiação" id="associated-form" ok-only ok-title="Enviar" 
+        size="xl" header-bg-variant="info" header-text-variant="light" @ok="handleOk">
+        <form @submit.stop.prevent="formSubmited" >
+
+            <b-container fluid>
+                <b-row>
+                    <b-col>
+                        <p>
+                            À Ilma. Sra. Presidente da Associação dos Policiais Civis de Carreira da Paraíba, VENHO, requerer a Vossa Senhoria deferimento da minha filiação nesta respeitada Associação, atendendo aos termos estatutários e legais.
+                        </p>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col>
+                        <h5>
+                            <b>Dados Pessoais</b>
+                        </h5>
+                        <hr />
+
+                        <b-form-group label="Matrícula">
+                            <b-form-input type="text" v-model="form.personalInfo.nu_registration"
+                                placeholder="Apenas números" />
+                        </b-form-group>
+
+                        <b-form-group label="Nome">
+                            <b-form-input type="text" v-model="form.personalInfo.nm_name"
+                            placeholder="Nome completo" />
+                        </b-form-group>
+
+                        <b-form-group label="Cpf">
+                            <b-form-input type="text" v-model="form.personalInfo.nm_cpf"
+                            placeholder="Apenas números" />
+                        </b-form-group>
+
+                        <b-form-group label="Email">
+                            <b-form-input type="email" v-model="form.personalInfo.nm_email"  />
+                        </b-form-group>
+
+                        <b-row>
+                            <b-col lg="2">
+                                <b-form-group label="DDD">
+                                    <b-form-input type="text" v-model="form.personalInfo.nm_ddd"  placeholder="Apenas números" />
+                                </b-form-group>
+                            </b-col>
+                            <b-col>
+                                <b-form-group label="Telefone">
+                                    <b-form-input type="text"   v-model="form.personalInfo.nm_phone" placeholder="Apenas números" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-form-group label="Sexo">
+                            <b-form-select v-model="form.personalInfo.ch_sex">
+                                <b-form-select-option value="M" >Masculino</b-form-select-option>
+                                <b-form-select-option value="F" >Feminino</b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group label="Cédula de identidade (RG)">
+                            <b-form-input type="number" v-model="form.personalInfo.nu_rg"  placeholder="Apenas números" />
+                        </b-form-group>
+
+                        <b-form-group label="Data de nascimento">
+                            <b-form-input type="date" v-model="form.personalInfo.dt_birthday"/>
+                        </b-form-group>
+
+                        <b-form-group label="Estado Civil">
+                            <b-form-select v-model="form.personalInfo.nm_civil_state">
+                                <b-form-select-option value="solteiro" >Solteiro(a)</b-form-select-option>
+                                <b-form-select-option value="casado" >Casado(a)</b-form-select-option>
+                                <b-form-select-option value="separado" >Separado(a)</b-form-select-option>
+                                <b-form-select-option value="divorciado" >Divorciado(a)</b-form-select-option>
+                                <b-form-select-option value="separado" >Viúvo(a)</b-form-select-option>
+                                <b-form-select-option value="união estável" >Em união estável</b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group label="Grau de Escolaridade">
+                            <b-form-select v-model="form.personalInfo.nm_education_level">
+                                <b-form-select-option value="Ensino Superior (Completo)" >Ensino Superior (completo) </b-form-select-option>
+                                <b-form-select-option value="Ensino Superior (Incompleto)" >Ensino Superior (incompleto)</b-form-select-option>
+                                <b-form-select-option value="Ensino Médio (Completo)" >Ensino Médio (Completo)</b-form-select-option>
+                                <b-form-select-option value="Ensino Médio (Incompleto)" >Ensino Médio (Incompleto)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Especialização Completo)" >Pós Graduação (Especialização Completo)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Especialização Incompleto)" >Pós Graduação (Especialização Incompleto)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Mestrado Completo)" >Pós Graduação (Mestrado Completo)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Mestrado Incompleto)" >Pós Graduação (Mestrado Incompleto)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Doutorado Completo)" >Pós Graduação (Doutorado Completo)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Doutorado Incompleto)" >Pós Graduação (Doutorado Incompleto)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Pós Doutorado Completo)" >Pós Graduação (Pós Doutorado Completo)</b-form-select-option>
+                                <b-form-select-option value="Pós Graduação (Pós Doutorado Incompleto)" >Pós Graduação (Pós Doutorado Incompleto)</b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <h5><b>Endereço</b></h5>
+                        <hr />
+
+                        <b-form-group label="Cep">
+                            <b-input-group>
+                                <b-form-input trim placeholder="Apenas números" 
+                                    v-model="form.address.nm_cep" type="text"/>
+                                <b-input-group-append>
+                                    <b-button variant="default" @click="searchCep">
+                                        <b-icon icon="search" ></b-icon>
+                                    </b-button>
+                                </b-input-group-append>
+                             </b-input-group>
+                        </b-form-group>
+
+                        <b-form-group label="Rua">
+                            <b-form-input  v-model="form.address.nm_street"/>
+                        </b-form-group>
+
+                        <b-row>
+                            <b-col lg="3">
+                                <b-form-group label="Número">
+                                    <b-form-input v-model="form.address.nu_number" />
+                                </b-form-group>
+                            </b-col>
+                            <b-col>
+                                <b-form-group label="Complemento">
+                                    <b-form-input v-model="form.address.nm_complement" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-form-group label="Bairro">
+                            <b-form-input placeholder="" v-model="form.address.nm_neighbohood"/>
+                        </b-form-group>
+
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Cidade">
+                                    <b-form-input v-model="form.address.nm_city" />
+                                </b-form-group>
+                            </b-col>
+                            <b-col lg="2">
+                                <b-form-group label="UF">
+                                    <b-form-input v-model="form.address.nm_uf" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+                        
+
+                    </b-col>
+                    <b-col>
+                        <h5><b>Profissão</b></h5>
+                        <hr />
+                        <b-form-group label="Cargo">
+                            <b-form-select v-model="form.jobInfo.nm_office">
+                                <b-form-select-option value="Agente de Investigação" >Agente de Investigação</b-form-select-option>
+                                <b-form-select-option value="Escrivão da Polícia" >Escrivão da Polícia</b-form-select-option>
+                                <b-form-select-option value="Agente Operacional" >Agente Operacional</b-form-select-option>
+                                <b-form-select-option value="Delegado da Polícia" >Delegado da Polícia</b-form-select-option>
+                                <b-form-select-option value="Necrotomista" >Necrotomista</b-form-select-option>
+                                <b-form-select-option value="Papiloscopia" >Papiloscopia</b-form-select-option>
+                                <b-form-select-option value="Perito Oficial Criminal" >Perito Oficial Criminal</b-form-select-option>
+                                <b-form-select-option value="Períto Oficial Médico-Legal" >Períto Oficial Médico-Legal</b-form-select-option>
+                                <b-form-select-option value="Períto Oficial Odonto-Legal" >Períto Oficial Odonto-Legal</b-form-select-option>
+                                <b-form-select-option value="Períto Oficial Químico-Lgeal" >Períto Oficial Químico-Lgeal</b-form-select-option>
+                                <b-form-select-option value="Técnico em Perícia" >Técnico em Perícia</b-form-select-option>
+                                <b-form-select-option value="Agente de Telecomunicação" >Agente de Telecomunicação</b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group label="Classe">
+                            <b-form-select v-model="form.jobInfo.nm_office_class">
+                                <b-form-select-option value="E">E</b-form-select-option>
+                                <b-form-select-option value="1º">1º</b-form-select-option>
+                                <b-form-select-option value="2º"> 2º</b-form-select-option>
+                                <b-form-select-option value="3º">3º</b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group label="Lotação (Superintendência)">
+                            <b-form-select v-model="form.jobInfo.nm_super_stocking">
+                                <b-form-select-option value="1º">1º</b-form-select-option>
+                                <b-form-select-option value="2º"> 2º</b-form-select-option>
+                                <b-form-select-option value="3º">3º</b-form-select-option>
+                                <b-form-select-option value="Outra">Outra</b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group label="Lotação (Seccional)" >
+                            <b-form-select v-model="form.jobInfo.nm_sectional_stocking">
+                                <b-form-select-option v-for="(sectional, index) in sectionalStocking" 
+                                    :key="index" :value="sectional">
+                                    {{sectional}}
+                                </b-form-select-option>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-form-group label="Unidade em que trabalha" >
+                            <b-form-input v-model="form.jobInfo.nm_work_unit" type="text" />
+                        </b-form-group>
+
+                        <b-form-group label="Município da Unidade que trabalha">
+                            <b-form-input type="text" v-model="form.jobInfo.nm_municipality_work_unit" />
+                        </b-form-group>
+
+                        <h5><b>Dependentes</b></h5>
+                        <hr />
+
+                        <b-row>
+                            <b-col lg="7">
+                                <b-form-group label="Nome do Dependente ">
+                                    <b-form-input  v-model="dependentName"/>
+                                </b-form-group>        
+                            </b-col>
+                            <b-col lg="5">
+                                <b-form-group label="Data de Nascimento">
+                                    <b-form-input type="date" v-model="dependentBirthday" />
+                                </b-form-group>
+                            </b-col>
+                            <b-col>
+                                <b-button variant="success" @click="addDependents" :style="{float: 'right'}">Adicionar dependente</b-button>
+                            </b-col>
+                        </b-row>
+
+                         <b-row class="mt-4">
+                            <b-col>
+                                <b-table :fields="fields" :items="dependents" striped hover></b-table>
+                            </b-col>
+                         </b-row>
+
+
+                    </b-col>
+                </b-row>
+
+                <b-form-group label="Autorizar">
+                    <b-form-checkbox v-model="form.st_confirmed" :value="1">
+                        Autorizo descontar a contribuição conforme estabelecido na alínea "c", do art. 4º, do estatuto social desta entidade, em folha de pagamento ou débito em conta bancária, bem como contribuições extraordinárias votadas em Assembléia em favor da Aspol/PB.
+                    </b-form-checkbox>
+                </b-form-group>
+
+
+            </b-container>
+        </form>
+
+    </b-modal>
+</template>
+
+<script>
+    export default {
+
+        data() {
+            return {
+                form: {
+                    personalInfo: {},
+                    jobInfo: {},
+                    address: {},
+                    authorize: 0
+                },
+                dependents: [],
+                dependentName: '',
+                dependentBirthday: '',
+                fields: [
+                    {key: 'name', label: 'Nome'},
+                    {key: 'birthday', label: 'Data de nascimento'}
+                ]
+            }
+        },
+
+        computed: {
+            sectionalStocking: function() {
+                let sectional = new Array();
+
+                for(var i=1; i <= 20; i++) {
+                    sectional.push(i+'º')
+                }
+
+                return sectional;
+            }
+        },
+
+        methods: {
+            searchCep() {
+                let cep = this.form.address.nm_cep
+
+                this.$http('http://viacep.com.br/ws/'+cep+'/json/')
+                .then(res => {
+                    if (res.status === 200) {
+                        let result = res.data;
+                        this.form.address.nm_street = result.logradouro;
+                        this.form.address.nm_complement = result.complemento;
+                        this.form.address.nm_neighbohood = result.bairro;
+                        this.form.address.nm_city = result.localidade;
+                        this.form.address.nm_uf = result.uf
+                    }
+                })
+
+                
+            },
+
+            handleOk(bvModalEvt) {
+                bvModalEvt.preventDefault()
+                this.formSubmited();
+            },
+
+            formSubmited() {
+
+                let form = new FormData();
+                form.append('nu_registration',this.form.personalInfo.nu_registration);
+                form.append('nm_name',this.form.personalInfo.nm_name);
+                form.append('nm_cpf',this.form.personalInfo.nm_cpf);
+                form.append('nm_email',this.form.personalInfo.nm_email);
+                form.append('nm_ddd',this.form.personalInfo.nm_ddd);
+                form.append('nm_phone',this.form.personalInfo.nm_phone);
+                form.append('ch_sex',this.form.personalInfo.ch_sex);
+                form.append('nu_rg',this.form.personalInfo.nu_rg);
+                form.append('dt_birthday',this.form.personalInfo.dt_birthday);
+                form.append('nm_civil_state',this.form.personalInfo.nm_civil_state);
+                form.append('nm_education_level',this.form.personalInfo.nm_education_level);
+                form.append('nm_office',this.form.jobInfo.nm_office);
+                form.append('nm_office_class',this.form.jobInfo.mn_office_class);
+                form.append('nm_super_stocking',this.form.jobInfo.nm_super_stocking);
+                form.append('nm_sectional_stocking',this.form.jobInfo.nm_sectional_stocking);
+                form.append('nm_work_unit',this.form.jobInfo.nm_work_unit);
+                form.append('nm_municipality_work_unit',this.form.jobInfo.nm_municipality_work_unit);
+                form.append('st_confirmation',this.form.authorize);
+                form.append('nm_cep',this.form.address.nm_cep);
+                form.append('nm_street',this.form.address.nm_street);
+                form.append('nu_number',this.form.address.nu_number);
+                form.append('nm_neighbohood',this.form.address.nm_neighbohood);
+                form.append('nm_city',this.form.address.nm_city);
+                form.append('nm_complement',this.form.address.nm_complement);
+                form.append('nm_uf',this.form.address.nm_uf);
+
+                this.$http.post('associated',form, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        
+                        this.dependents.forEach(item => {
+
+                            let form = new FormData()
+                            form.append('nm_dependent_name', item.name)
+                            form.append('dt_dependent_birthday', item.birthday)
+                            form.append('fk_associated', res.data.result.associated.id_associated)
+
+                            this.$http.post('associated-dependents', form)
+                            .then(res => {
+                                if (res.status === 200) {
+                                    res
+                                }
+                            })
+                        })
+                    }
+                })
+
+            },
+
+            addDependents() {
+                let dependentList = new Array();
+
+                dependentList['name'] = this.dependentName;
+                dependentList['birthday'] = this.dependentBirthday;
+
+                this.dependents.push(dependentList)
+
+            }
+        }
+        
+    }
+</script>

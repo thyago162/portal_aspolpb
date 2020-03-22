@@ -17,7 +17,8 @@ export default new Vuex.Store({
         ourHistory: [],
         agreement: [],
         file: [],
-        juryAccessory: []
+        juryAccessory: [],
+        associated: []
     },
 
     getters: {
@@ -64,6 +65,10 @@ export default new Vuex.Store({
 
         getJuryAccessory: state => {
             return state.juryAccessory;
+        },
+
+        getAssociated: state => {
+            return state.associated;
         }
     },
     actions: {
@@ -169,6 +174,20 @@ export default new Vuex.Store({
             })
         },
 
+        associated({commit},token) {
+            axios.get('associated', {
+                headers: {
+                    Authorization: 'Bearer '+token
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setAssociated', res.data.result.associated);
+                }
+            })
+
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         },
@@ -218,6 +237,10 @@ export default new Vuex.Store({
 
         setJuryAccessory(state, payload) {
             state.juryAccessory = payload;
+        },
+
+        setAssociated(state, payload) {
+            state.associated = payload;
         }
 
     }

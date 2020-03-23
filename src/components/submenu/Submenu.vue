@@ -2,7 +2,7 @@
    
     <b-nav class="submenu">
         <b-row style="width:100%;">
-            <b-col  >
+            <b-col lg="4" >
                 <nav class="icons">
                     <a >
                         <font-awesome-icon :icon="['fab', 'twitter-square']" 
@@ -23,18 +23,20 @@
                 </nav>
 
             </b-col>
-            <b-col  >
-                <b-nav-item class="search">
-                    <b-nav-form>
-                        <b-icon icon="search" class="icon-search" rotate="90"></b-icon>
-                        <b-form-input size="sm" class="mr-sm-2 input-search" 
-                            placeholder="Search"></b-form-input>
-                        <b-button size="sm" class="my-2 my-sm-0 btn-search" type="submit" 
-                            variant="default" >BUSCAR</b-button>
-                    </b-nav-form>
-                </b-nav-item>
+
+             <b-col  lg="4">
+                <b-input-group :style="{marginTop: '4px'}" >
+                    <b-form-input trim placeholder="Buscar no site" 
+                        type="text" />
+                    <b-input-group-append>
+                        <b-button variant="default">
+                            <b-icon icon="search" ></b-icon>
+                        </b-button>
+                    </b-input-group-append>
+                </b-input-group>
 
             </b-col>
+            
         </b-row>
         
             
@@ -53,7 +55,7 @@
 <style scoped>
     .submenu {
         background-color: red;
-        height: 50px;
+        height: 60px;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -64,7 +66,7 @@
         color: white;
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: flex-start;
         align-items: flex-end;
     }
 

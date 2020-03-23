@@ -1,35 +1,52 @@
 <template>
-    <b-modal title="Resete sua senha" @ok="handleOk" id="reset-password" 
-     header-bg-variant="danger" ok-only :ok-title="btnTitle[step]" header-text-variant="light">
-        <form @submit.stop.prevent="formSubmited">
+    <b-modal hide-header @ok="handleOk" id="reset-password" 
+     header-bg-variant="danger" cancel-title="Fechar" :ok-title="btnTitle[step]" header-text-variant="light">
+        <b-container fluid>
+              <b-row>
+                <b-col class="logo">
+                    <b-img :src="image" width="250px" height="120px"></b-img>
+                </b-col>
+            </b-row>
+
+            <b-row class="mt-3">
+                <b-col >
+                    <div>
+                        <form @submit.stop.prevent="formSubmited">
             
-            <div v-if="step === 0">
-                <b-form-group label="Entre com o seu e-mail">
-                    <b-form-input type="email" v-model="email" />
-                </b-form-group>
-            </div>
+                            <div v-if="step === 0">
+                                <b-form-group label="Entre com o seu e-mail">
+                                    <b-form-input type="email" v-model="email" placeholder="Ex: exemplo@email.com"/>
+                                </b-form-group>
+                            </div>
 
-            <div v-if="step === 1">
-                <b-form-group label="Informe o código de 4 digitos enviado para o seu e-mail">
-                    <b-form-input type="text" v-model="code" />
-                </b-form-group>
-            </div>
+                            <div v-if="step === 1">
+                                <b-form-group label="Informe o código de 4 digitos enviado para o seu e-mail">
+                                    <b-form-input type="text" v-model="code" />
+                                </b-form-group>
+                            </div>
 
-            <div v-if="step === 2">
-                <b-form-group label="Nova senha">
-                    <b-form-input type="password" v-model="password"/>
-                    {{password}}
-                </b-form-group>
+                            <div v-if="step === 2">
+                                <b-form-group label="Nova senha">
+                                    <b-form-input type="password" v-model="password"/>
+                                    {{password}}
+                                </b-form-group>
 
-                <b-form-group label="Confirmar senha">
-                    <b-form-input type="password" v-model="repeatPassword" />
-                    {{repeatPassword}}
-                </b-form-group>
+                                <b-form-group label="Confirmar senha">
+                                    <b-form-input type="password" v-model="repeatPassword" />
+                                    {{repeatPassword}}
+                                </b-form-group>
 
-                
-            </div>
+                                
+                            </div>
 
-        </form>
+                        </form>
+                    </div>
+
+                </b-col>
+            </b-row>
+
+        </b-container>
+        
     </b-modal>
 </template>
 
@@ -48,7 +65,8 @@
                 repeatPassword: '',
                 code: '',
                 user: [],
-                erros: []
+                erros: [],
+                image: require('../../assets/images/logo_aspol_02.png')
             }
         },
 
@@ -134,3 +152,21 @@
         
     }
 </script>
+
+<style scoped>
+    .logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+</style>

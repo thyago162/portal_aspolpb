@@ -12,6 +12,7 @@ import File from '../pages/acesso_restrito/File';
 import Segment from '../pages/acesso_restrito/Segment';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
+import ControlPannel from '../pages/acesso_restrito/ControlPannel';
 
 Vue.use(Router);
 
@@ -73,6 +74,11 @@ export default new Router({
             path: '/acesso-restrito/transparencia',
             component: Transparency,
             name: 'transparencia'
+        },
+        {
+            path: '/acesso-restrito/painel-de-controle',
+            component: ControlPannel ,
+            name: 'cp'
         }
     ]
 

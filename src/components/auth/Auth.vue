@@ -1,72 +1,95 @@
 <template>
 
     <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" 
-        @cancel="resetModal" :ok-title="btnTitle" ref="auth" header-bg-variant="danger" header-text-variant="white">
+        @cancel="resetModal" :ok-title="btnTitle" ref="auth" hide-header size="lg" cancel-title="Fechar" b>
+        <b-container fluid>
+            <b-row>
+                <b-col>
+                    <ErroMessage :errors="errors" :visibility="visibility" />
+                </b-col>
+            </b-row>
+
+            <b-row>
+                <b-col class="logo">
+                    <b-img :src="image" width="250px" height="120px"></b-img>
+                </b-col>
+            </b-row>
+
+            <b-row class="mt-4">
+                <b-col class="body">
+                    <div class="form" >
+                        <form @submit.stop.prevent="sendForm" :style="{width: '80%'}">
+                            <b-form-group label="Nome" v-show="!auth">
+                                <b-form-input type="text" placeholder="Nome completo" 
+                                    v-model="formData.name" required  min="10" />
+                            </b-form-group>
+
+                            <b-form-group label="Email">
+                                <b-form-input type="email" placeholder="email@example.com.br" 
+                                    v-model="formData.email" required trim />
+                            </b-form-group>
+
+                            <b-link @click="closeModal" v-show="auth" :style="{position: 'absolute', marginLeft: '50%'}" 
+                                v-b-modal.reset-password>Esqueceu a senha?</b-link>
+
+                            <b-form-group label="Senha">
+                                <b-input-group>
+                                    <b-form-input trim placeholder="Minimo de 6 caracteres" 
+                                        v-model="formData.password" min="6" id="password" :type="type"/>
+                                    <b-input-group-append>
+                                        <b-button variant="dark" @click="showPasswordValue">
+                                            <b-icon icon="eye" v-show="showPassword"></b-icon>
+                                            <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
+                                        </b-button>
+                                    </b-input-group-append>
+                                </b-input-group>
+                            </b-form-group>
+
+                            <b-popover target="password" triggers="hover" placement="top">
+                                <template v-slot:title>A senha deve conter</template>
+                            
+                                <p>
+                                    Pelo menos 1 caractere especial 
+                                </p>
+                                <p>
+                                    Pelo menos 1 letra maiscula
+                                </p>
+                                <p>
+                                    Pelo menos 1 letra minuscula
+                                </p>
+                                <p>
+                                    Pelo menos 1 número
+                                </p>
+                            </b-popover>
+
+                            <b-form-group v-show="!auth" label="Confirmar senha">
+                                <b-input-group>
+                                    <b-form-input trim placeholder="Minimo de 6 caracteres" 
+                                        v-model="formData.confirmation" min="6" id="password" :type="type"/>
+                                    <b-input-group-append>
+                                        <b-button variant="dark" @click="showPasswordValue">
+                                            <b-icon icon="eye" v-show="showPassword"></b-icon>
+                                            <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
+                                        </b-button>
+                                    </b-input-group-append>
+                                </b-input-group>
+                            </b-form-group>
+
+                            <p v-show="!auth">Possui uma conta? Clique aqui para 
+                                <a href="#registrar" @click="loginOrRegister">entrar</a></p>
+                            <p v-show="auth">Não tem uma conta? Clique aqui para se 
+                                <a href="#login" @click="loginOrRegister">registrar</a></p>
+                        </form>
+
+                    </div>
+                </b-col>
+            </b-row>
+
+        </b-container>
         
-        <ErroMessage :errors="errors" :visibility="visibility" />
+        
 
-        <form @submit.stop.prevent="sendForm">
-            <b-form-group label="Nome" v-show="!auth">
-                <b-form-input type="text" placeholder="Nome completo" 
-                    v-model="formData.name" required  min="10" />
-            </b-form-group>
-
-            <b-form-group label="Email">
-                <b-form-input type="email" placeholder="email@example.com.br" 
-                    v-model="formData.email" required trim />
-            </b-form-group>
-
-            <b-link @click="closeModal" v-show="auth" :style="{position: 'absolute', marginLeft: '65%'}" v-b-modal.reset-password>Esqueceu a senha?</b-link>
-
-            <b-form-group label="Senha">
-                <b-input-group>
-                    <b-form-input trim placeholder="Minimo de 6 caracteres" 
-                        v-model="formData.password" min="6" id="password" :type="type"/>
-                    <b-input-group-append>
-                        <b-button variant="dark" @click="showPasswordValue">
-                            <b-icon icon="eye" v-show="showPassword"></b-icon>
-                            <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
-                        </b-button>
-                    </b-input-group-append>
-                </b-input-group>
-            </b-form-group>
-
-            <b-popover target="password" triggers="hover" placement="top">
-                <template v-slot:title>A senha deve conter</template>
-             
-                <p>
-                    Pelo menos 1 caractere especial 
-                </p>
-                <p>
-                    Pelo menos 1 letra maiscula
-                </p>
-                <p>
-                    Pelo menos 1 letra minuscula
-                </p>
-                <p>
-                    Pelo menos 1 número
-                </p>
-            </b-popover>
-
-            <b-form-group v-show="!auth" label="Confirmar senha">
-                <b-input-group>
-                    <b-form-input trim placeholder="Minimo de 6 caracteres" 
-                        v-model="formData.confirmation" min="6" id="password" :type="type"/>
-                    <b-input-group-append>
-                        <b-button variant="dark" @click="showPasswordValue">
-                            <b-icon icon="eye" v-show="showPassword"></b-icon>
-                            <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
-                        </b-button>
-                    </b-input-group-append>
-                </b-input-group>
-            </b-form-group>
-
-            <p v-show="!auth">Possui uma conta? Clique aqui para 
-                <a href="#registrar" @click="loginOrRegister">entrar</a></p>
-            <p v-show="auth">Não tem uma conta? Clique aqui para se 
-                <a href="#login" @click="loginOrRegister">registrar</a></p>
-        </form>
-
+        
     </b-modal>
 
 </template>
@@ -92,7 +115,8 @@
                     confirmation: '',
                 },
                 showPassword: false,
-                type: 'password'
+                type: 'password',
+                image: require('../../assets/images/logo_aspol_02.png')
             }
         },
 
@@ -232,5 +256,30 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form {
+        border: 1px solid lightgrey;
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin: 30px;
     }
 </style>

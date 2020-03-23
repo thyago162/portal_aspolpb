@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal size="xl" title="Notícias" id="cp-news" ref="cpnews" 
-         hide-footer no-close-on-backdrop header-bg-variant="primary" header-text-variant="light">
+          no-close-on-backdrop header-bg-variant="primary" header-text-variant="light">
          <b-container fluid>
 
              <b-row >

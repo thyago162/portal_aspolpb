@@ -5,48 +5,48 @@
                 header-text-variant="light">
             <div class="options">
 
-                <b-button class="control-panel-btn" v-b-modal.cp-news 
+                <b-button class="control-panel-btn"  
                     variant="primary" @click="closeModal" >
                     <font-awesome-icon icon="newspaper" class="icon alt"/>
                     NOTÍCIAS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional>
+                <b-button class="control-panel-btn" variant="success" >
                     <font-awesome-icon  icon="building" class="icon alt"/>
                     INSTITUCIONAL
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
+                <b-button class="control-panel-btn" variant="danger" >
                     <font-awesome-icon icon="handshake" />
                     PARCEIROS
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement>
+                 <b-button class="control-panel-btn" variant="secondary" >
                     <font-awesome-icon icon="file" />
                     CONVÊNIOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated>
+                <b-button class="control-panel-btn" variant="info" >
                     <font-awesome-icon icon="address-card" />
                     ASSOCIADOS
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="primary" v-b-modal.warning-form>
+                 <b-button class="control-panel-btn" variant="primary" >
                     <font-awesome-icon icon="bullhorn" />
                     AVISOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network>
+                <b-button class="control-panel-btn" variant="warning" >
                     <font-awesome-icon icon="tv" />
                     MIDIAS SOCIAIS
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file>
+                 <b-button class="control-panel-btn" variant="success" >
                     <b-icon icon="folder-fill" />
                     ARQUIVOS
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>
+                <b-button class="control-panel-btn" variant="dark" >
                     <font-awesome-icon icon="users" />
                     USUÁRIOS
                 </b-button>

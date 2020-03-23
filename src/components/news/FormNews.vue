@@ -175,7 +175,7 @@
                 .then(res => {
                         
                         if (res.status === 200) {
-                            location.reload(true)
+                            this.$store.dispatch('news');
                             this.$refs['formnews'].hide();
                         }
                 })
@@ -198,7 +198,7 @@
                 })
                 .then( res => {
                     if (res.status === 200) {
-                        
+                        this.$store.dispatch('news');
                         this.$refs['formnews'].hide();
                     }
                 })

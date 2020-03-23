@@ -44,11 +44,23 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item>
-                        <b-link :to="{name: 'noticias', params: {id: 1}}" class="personal-link">
-                            NOTÍCIAS
-                        </b-link>
-                    </b-nav-item>
+                    <b-nav-item-dropdown>
+                        <template v-slot:button-content>
+                            <span class="personal-link" >MÍDIA</span>
+                        </template>
+                        <b-dropdown-item>
+                            <b-link class="personal-link" :to="{name: 'midia'}">
+                                ASPOL NA MÍDIA
+                            </b-link>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item>
+                            <b-link class="personal-link" :to="{name: 'noticias', params: {id: 1}}">
+                                NOTÍCIAS
+                            </b-link>
+                        </b-dropdown-item>
+                    </b-nav-item-dropdown>
+
                     <b-nav-item>
                         <b-link :to="{name: 'contato'}" class="personal-link">
                             CONTATOS
@@ -108,7 +120,7 @@
                             </b-link>
                         </b-dropdown-item>
                          <b-dropdown-item c>
-                            <b-link class="personal-link" v-b-modal.control-panel> 
+                            <b-link class="personal-link" :to="{name:'cp'}"> 
                                 <b-icon icon="gear-fill"></b-icon>
                                 ADMINISTRAÇÃO
                             </b-link>
@@ -133,7 +145,6 @@
             </b-collapse>
         </b-navbar>
         <Auth />
-        <control-pane />
         <ResetPassword />
         <AssociatedForm />
         
@@ -142,13 +153,11 @@
 
 <script>
     import Auth from '../auth/Auth';
-    import ControlPane from '../controlpanel/ControlPanel';
     import ResetPassword from '../auth/ResetPassword';
     import AssociatedForm from '../associated/AssociatedForm';
     export default {
         components: {
             Auth,
-            ControlPane,
             ResetPassword,
             AssociatedForm
         },
@@ -165,6 +174,7 @@
             logout() {
                 this.$session.destroy();
                 location.reload()
+                this.$router.push('/');
             }
         }
         

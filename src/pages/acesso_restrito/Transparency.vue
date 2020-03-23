@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid>
+    <b-container fluid class="mb-3">
          <b-row :style="{width: '99%'}" class="ml-2">
             <b-col class="transparency-head">
                 <div class="transparency-title">
@@ -7,14 +7,60 @@
                 </div>
             </b-col>
         </b-row>
-        <b-row>
-            <b-col></b-col>
+    
+        <b-row class="mt-3">
+            <b-col>
+                <h4><b>Atenção:</b> Estas informações são de interesse exclusivo dos associados, portanto é proibida sua publicação e/ou divulgação para outros públicos, devendo ser cumprido, conforme estabelece o inciso III, do art. 7º, do Estatuto.</h4>
+            </b-col>
         </b-row>
+
+        <b-row class="mt-3">
+            <b-col>
+                <b-button  :style="{float: 'right'}" variant="primary" v-b-modal.new-management-form>
+                    Nova gestão
+                </b-button>
+            </b-col>
+        </b-row>
+
+        <b-row class="mt-3">
+            <b-col>
+                <TransparencyCard :item="item" v-for="(item, index) in transparency" :key="index"/>
+            </b-col>
+        </b-row>
+        <NewManagementForm />
     </b-container>
 </template>
 
 <script>
+    import TransparencyCard from '../../components/transparency/TransparencyCard';
+    import NewManagementForm from '../../components/transparency/NewManagementForm';
     export default {
+
+        components: {
+            TransparencyCard,
+            NewManagementForm,
+        },
+
+        computed: {
+            token: function() {
+                return this.$session.get('jwt')
+            },
+
+            transparency: function() {
+                return this.$store.getters.getTransparency;
+            }
+        },
+
+        mounted() {
+            this.$store.dispatch('transparency',this.token);
+        },
+
+        data() {
+            return {
+                form: {}
+                
+            }
+        }
         
     }
 </script>

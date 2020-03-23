@@ -1,5 +1,6 @@
 <template>
-    <b-modal id="cp-associated" title="Associados" size="xl" hide-footer header-bg-variant="info" header-text-variant="light">
+    <b-modal id="cp-associated" title="Associados" size="xl" hide-footer 
+        header-bg-variant="info" header-text-variant="light">
         <b-container>
             <b-row>
                 <b-col lg="5">

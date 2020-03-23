@@ -18,7 +18,8 @@ export default new Vuex.Store({
         agreement: [],
         file: [],
         juryAccessory: [],
-        associated: []
+        associated: [],
+        transparency: []
     },
 
     getters: {
@@ -69,7 +70,11 @@ export default new Vuex.Store({
 
         getAssociated: state => {
             return state.associated;
-        }
+        },
+
+        getTransparency: state => {
+            return state.transparency;
+        },
     },
     actions: {
 
@@ -188,6 +193,20 @@ export default new Vuex.Store({
 
         },
 
+        transparency({commit}, token) {
+            axios.get('transparency', {
+                headers: {
+                    Authorization: 'Bearer '+token
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setTransparency',res.data.result.transparency)
+                }
+            })
+            
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         },
@@ -241,6 +260,10 @@ export default new Vuex.Store({
 
         setAssociated(state, payload) {
             state.associated = payload;
+        },
+
+        setTransparency(state, payload) {
+            state.transparency = payload;
         }
 
     }

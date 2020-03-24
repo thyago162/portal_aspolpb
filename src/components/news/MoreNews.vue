@@ -1,7 +1,7 @@
 <template>
       <div class="more-news ml-4 mb-4">
         <b-card class="card-more-news" v-for="(n, index) in news" 
-            :key="index" @click="seeNews(n.id_news)">
+            :key="index" @click="seeNews(n.nm_title)">
             <b-card-text>
                 <b-img src="/aspolicone.ico" width="20px" height="20px" />
                 <span style="float: right; color: red;">{{n.dt_date | date}}</span>
@@ -9,8 +9,6 @@
             </b-card-text>
         </b-card>
     </div>
-
-       
 </template>
 
 <script>
@@ -41,8 +39,8 @@
                 })
             },
 
-            seeNews(id) {
-                this.$router.push({ name: 'noticias', params: {id}})
+            seeNews(title) {
+                this.$router.push({ name: 'visualizar-noticias', params: {title}})
             }
         }
        
@@ -55,9 +53,9 @@
         border: none;
         border-left: 2px solid darkslategrey;
         background-color: lightgray;
-        width: 480px;
-        margin-top: 10px;
-        margin-bottom: 15px;
+        margin: 30px;
+        width: 45%;
+        
     }
 
     .card-text {
@@ -66,20 +64,24 @@
     }
 
     .more-news {
-        width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
+
     }
 
   
 
-    @media screen and (max-width: 1191px) {
-      .card-text {
+    @media screen and (max-width: 1253px) {
+        .card-text {
           font-size: 16px;
-      }
+        }
+
+        .card-more-news {
+            width: 40%;
+        }
     }
 
     @media screen  and (max-width: 1075px){
@@ -100,15 +102,14 @@
         }
     }
 
-    @media screen and (max-width: 723px) {
-        .card-text {
-            font-size: 8px;
+    @media screen and (max-width: 653px) {
+        .more-news {
+            display: none;
+        }
+
+        .card-more-news {
+            display: none;
         }
     }
 
-     @media screen and (max-width: 609px) {
-         .card-text {
-            font-size: 7px;
-         }
-     }
 </style>

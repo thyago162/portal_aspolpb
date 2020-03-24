@@ -1,19 +1,16 @@
 <template>
-    <b-modal id="warning-form" ref="warning-form" title="Novo item" 
-       ok-only header-bg-variant="primary" header-text-variant="light" ok-title="Salvar" @ok="handleOk">
+    <b-modal id="warning-form" ref="warning-form-ref" title="Novo item" 
+       ok-only header-bg-variant="primary" header-text-variant="light" 
+        ok-title="Salvar" @ok="handleOk">
+
+        <ErroMessage :errors="errors" :visibility="visibility" />
 
         <form @submit.stop.prevent="formSubmited">
-            <b-form-group label="Titulo">
-                <b-form-input type="text" v-model="form.nm_title"/>
-            </b-form-group>
-
-            <b-form-group label="Subtitulo">
-                <b-form-input type="text" v-model="form.nm_subtitle" />
-            </b-form-group>
 
             <b-form-group label="Imagem">
                 <b-form-file v-model="file" :state="Boolean(file)" @input="image" />
             </b-form-group>
+            {{item.nm_image_path}}
 
             <b-form-group label="Ativar">
                 <b-form-radio-group v-model="form.st_status">
@@ -28,9 +25,14 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         props: ['item'],
+
+        components: {
+            ErroMessage
+        },
 
         data() {
             return {
@@ -38,7 +40,9 @@
                     {text: 'Sim', value: 1},
                     {text: 'Não', value: 0}
                 ],
-                file: null
+                file: null,
+                errors: [],
+                visibility: false
             }
         },
 
@@ -61,7 +65,7 @@
 
             formSubmited() {
 
-                if (!this.form.id_media) {
+                if (!this.form.id_warning) {
                     this.save();
                 }else {
                     this.update();
@@ -71,8 +75,6 @@
 
             save(){
                 let form = new FormData();
-                form.append('nm_title',this.form.nm_title);
-                form.append('nm_subtitle',this.form.nm_subtitle);
                 form.append('nm_image_path',this.form.nm_image_path);
                 form.append('st_status',this.form.st_status);
 
@@ -84,19 +86,25 @@
                 .then(res => {
 
                     if (res.status === 200 ) {
-                        this.$http.dispatch('media')
-                        this.$refs['warning-form'].hide();
+
+                        if (res.status.result.error) {
+                            this.errors.push(res.status.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$http.dispatch('warning');
+                            this.$refs['warning-form-ref'].hide();
+                        }
+                        
                     }
                 })
                 .catch(err => {
-                    err
+                    this.errors.push(err);
                 })
             },
             update(){
 
-                this.$http.put('warning/'+this.form.id_media,{
-                    'nm_title': this.form.nm_title,
-                    'nm_subtitle': this.form.nm_subtitle,
+                this.$http.put('warning/'+this.form.id_warning,{
                     'nu_image_path': this.form.nu_image_path,
                     'st_status': this.form.st_status
                 },{
@@ -106,8 +114,8 @@
                 })
                 .then(res => {
                     if(res.status === 200) {
-                        this.$store.dispatch('media');
-                        this.$refs['media'].hide();
+                        this.$store.dispatch('warning');
+                        this.$refs['warning-form-ref'].hide();
                     }
                 })
             },
@@ -115,6 +123,10 @@
             image() {
 
                if (this.file) {
+
+                   if (this.item.nm_image_path) {
+                       this.deleteImage();
+                   }
 
                    this.saveImage();
 
@@ -165,11 +177,7 @@
                        Authorization: 'Bearer '+this.token
                    }
                })
-               .then(res => {
-                   
-                   res
-               })
-
+    
             },
         }
         

@@ -3,11 +3,12 @@ import Router from 'vue-router';
 
 import Home from '../pages/Home';
 import News from '../pages/News';
+import NewsView from '../pages/NewsView';
 import About from '../pages/About';
 import Agreement from '../pages/Agreement';
 import OurHistory from '../pages/OurHistory';
 import Contact from '../pages/Contact';
-import MediaView from '../pages/MediaView';
+import MediaView from '../pages/Media';
 import File from '../pages/acesso_restrito/File';
 import Segment from '../pages/acesso_restrito/Segment';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
@@ -25,10 +26,16 @@ export default new Router({
             name: 'home',
         },
         {
-            path: '/noticias/:id',
+            path: '/noticias',
             component: News,
             name: 'noticias',
-            props: { default: true, sidebar: false}   
+        },
+        {
+            path: '/noticias/:title',
+            component: NewsView,
+            name: 'visualizar-noticias',
+            props: { default: true, sidebar: false} 
+
         },
         {
             path: '/quem-somos',

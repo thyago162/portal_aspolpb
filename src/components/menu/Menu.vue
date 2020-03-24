@@ -55,7 +55,7 @@
                         </b-dropdown-item>
 
                         <b-dropdown-item>
-                            <b-link class="personal-link" :to="{name: 'noticias', params: {id: 1}}">
+                            <b-link class="personal-link" :to="{name: 'noticias'}">
                                 NOTÍCIAS
                             </b-link>
                         </b-dropdown-item>
@@ -134,7 +134,7 @@
                                 <b-icon icon="gear-fill" />
                             </span>
                         </template>
-                        <b-dropdown-item>Meus dados</b-dropdown-item>
+                        <b-dropdown-item v-b-modal.me>Meus dados</b-dropdown-item>
                         <b-dropdown-item @click="logout"> 
                             SAIR <b-icon icon="power"></b-icon> 
                         </b-dropdown-item>
@@ -147,6 +147,7 @@
         <Auth />
         <ResetPassword />
         <AssociatedForm />
+        <Me />
         
     </div>  
 </template>
@@ -155,11 +156,13 @@
     import Auth from '../auth/Auth';
     import ResetPassword from '../auth/ResetPassword';
     import AssociatedForm from '../associated/AssociatedForm';
+    import Me from '../user/Me';
     export default {
         components: {
             Auth,
             ResetPassword,
-            AssociatedForm
+            AssociatedForm,
+            Me
         },
         computed: {
             token() {

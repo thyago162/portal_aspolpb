@@ -30,7 +30,7 @@
 
         methods: {
             seeNews() {
-                this.$router.push({ name: 'noticias', params: { id: this.cardnews.id_news }})
+                this.$router.push({ name: 'visualizar-noticias', params: { title: this.cardnews.nm_title }})
             }
         }
         

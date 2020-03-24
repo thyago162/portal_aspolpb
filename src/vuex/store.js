@@ -19,7 +19,8 @@ export default new Vuex.Store({
         file: [],
         juryAccessory: [],
         associated: [],
-        transparency: []
+        transparency: [],
+        warning: []
     },
 
     getters: {
@@ -74,6 +75,10 @@ export default new Vuex.Store({
 
         getTransparency: state => {
             return state.transparency;
+        },
+
+        getWarning: state => {
+            return state.warning;
         },
     },
     actions: {
@@ -207,6 +212,16 @@ export default new Vuex.Store({
             
         },
 
+        warning({commit}) {
+            axios.get('warning')
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setWarning', res.data.result.warning[0])
+                }
+            })
+            
+        },
+
         loading({commit},load) {
             commit('setLoad',load);
         },
@@ -264,6 +279,10 @@ export default new Vuex.Store({
 
         setTransparency(state, payload) {
             state.transparency = payload;
+        },
+
+        setWarning(state, payload) {
+            state.warning = payload;
         }
 
     }

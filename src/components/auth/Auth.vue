@@ -1,17 +1,19 @@
 <template>
 
     <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" 
-        @cancel="resetModal" :ok-title="btnTitle" ref="auth" hide-header size="lg" cancel-title="Fechar" b>
+        @cancel="resetModal" :ok-title="btnTitle" ref="auth" hide-header size="lg" 
+            cancel-title="Fechar" ok-variant="danger" cancel-variant="dark" @hide="resetModal">
         <b-container fluid>
-            <b-row>
-                <b-col>
-                    <ErroMessage :errors="errors" :visibility="visibility" />
-                </b-col>
-            </b-row>
-
+           
             <b-row>
                 <b-col class="logo">
                     <b-img :src="image" width="250px" height="120px"></b-img>
+                </b-col>
+            </b-row>
+
+             <b-row>
+                <b-col>
+                    <ErroMessage :errors="errors" :visibility="visibility" />
                 </b-col>
             </b-row>
 
@@ -29,15 +31,15 @@
                                     v-model="formData.email" required trim />
                             </b-form-group>
 
-                            <b-link @click="closeModal" v-show="auth" :style="{position: 'absolute', marginLeft: '50%'}" 
+                            <b-link @click="closeModal" v-show="auth" class="reset" 
                                 v-b-modal.reset-password>Esqueceu a senha?</b-link>
 
                             <b-form-group label="Senha">
                                 <b-input-group>
                                     <b-form-input trim placeholder="Minimo de 6 caracteres" 
-                                        v-model="formData.password" min="6" id="password" :type="type"/>
+                                        v-model="formData.password" min="6" id="password" :type="type" autocomplete/>
                                     <b-input-group-append>
-                                        <b-button variant="dark" @click="showPasswordValue">
+                                        <b-button variant="danger" @click="showPasswordValue">
                                             <b-icon icon="eye" v-show="showPassword"></b-icon>
                                             <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
                                         </b-button>
@@ -65,9 +67,10 @@
                             <b-form-group v-show="!auth" label="Confirmar senha">
                                 <b-input-group>
                                     <b-form-input trim placeholder="Minimo de 6 caracteres" 
-                                        v-model="formData.confirmation" min="6" id="password" :type="type"/>
+                                        v-model="formData.confirmation" min="6" id="password-confirmation" 
+                                        :type="type" autocomplete/>
                                     <b-input-group-append>
-                                        <b-button variant="dark" @click="showPasswordValue">
+                                        <b-button variant="danger" @click="showPasswordValue">
                                             <b-icon icon="eye" v-show="showPassword"></b-icon>
                                             <b-icon icon="eye-slash" v-show="!showPassword"></b-icon>
                                         </b-button>
@@ -224,10 +227,11 @@
             },
 
             resetModal() {
-                this.formData.name = '',
-                this.formData.email = '',
-                this.formData.password = '',
-                this.formData.confirmation = ''
+                this.formData.name = '';
+                this.formData.email = '';
+                this.formData.password = '';
+                this.formData.confirmation = '';
+                this.errors = [];
             },
 
             passwordsMatch() {
@@ -281,5 +285,18 @@
         justify-content: center;
         align-items: center;
         margin: 30px;
+    }
+
+    .reset {
+            position: absolute;
+            margin-left: 50%;
+    }
+
+    @media screen and (max-width: 990px){
+        .reset {
+            position: absolute;
+            margin-left: 40%;
+        }
+        
     }
 </style>

@@ -1,7 +1,10 @@
 <template>
     <b-modal title="Nova noticia" header-text-variant="light"
         ref="formnews" id="form-news" size="xl" header-bg-variant="primary" 
-            @ok="handleOk">
+            @ok="handleOk" ok-only ok-title="Salvar">
+
+            <ErroMessage :errors="errors" :visibility="visibility"/>
+
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
             <b-container fluid>
                 <b-row>
@@ -20,6 +23,14 @@
                         <b-form-group label="Data">
                             <b-form-input type="date" v-model="news.dt_date" 
                             name="dt_date" required/>
+                        </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col>
+                        <b-form-group label="Subtítulo">
+                            <b-form-input type="text" v-model="news.nm_subtitle" />
                         </b-form-group>
                     </b-col>
                 </b-row>
@@ -62,6 +73,7 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
 
     export default {
@@ -69,6 +81,7 @@
 
         components: {
             VueEditor,
+            ErroMessage
         },
 
         computed: {
@@ -86,8 +99,8 @@
                 form: {},
                 file: null,
                 hasImage: false,
-                erro: [],
-                validation: {},
+                errors: [],
+                visibility: false,
                 customToolbar: [
                     [{ 'font': [] }],
                     [{ 'header': [false, 1, 2, 3, 4, 5, 6, ] }],
@@ -117,54 +130,24 @@
 
             formSubmited() {
 
-                this.formValidation();
+                let formData = new FormData();
 
-                if (this.validation.title && this.validation.content) {
+                formData.append('nm_title', this.news.nm_title);
+                formData.append('nm_subtitle', this.news.nm_subtitle);
+                formData.append('nm_content', this.news.nm_content);
+                formData.append('dt_date', this.news.dt_date);
+                formData.append('nm_image_path', this.news.nm_image_path),
+                formData.append('st_highlights',this.news.st_highlights);
 
-                    let formData = new FormData();
-                    formData.append('nm_title', this.news.nm_title);
-                    formData.append('nm_content', this.news.nm_content);
-                    formData.append('dt_date', this.news.dt_date);
-                    formData.append('nm_image_path', this.news.nm_image_path),
-                    formData.append('st_highlights',this.news.st_highlights);
-
-                    if (this.item.id_news) {
-                        this.editNews();
-
-                    }else {
-                        this.saveNews(formData);
-                    }
+                if (this.item.id_news) {
+                    this.editNews();
 
                 }else {
-                    alert('Os campos devem ser preenchidos');
+                    this.saveNews(formData);
                 }
 
             },
-
-            formValidation() {
-                this.validateTitle();
-                this.validateContent();
-                this.validationImage();
-            },
-
-            validateTitle() {
-                return this.news.nm_title.length > 0 ? 
-                this.validation.title = true : 
-                this.validation.title = false
-            },
-
-            validateContent() {
-                return this.news.nm_content.length > 0 ?
-                this.validation.content = true :
-                this.validation.content = false
-            },
-
-            validationImage() {
-                if (!this.news.nm_image_path) {
-                    this.news.nm_image_path = ''
-                }
-            },
-
+ 
             saveNews(formData) {
 
                 this.$http.post('news',formData, {
@@ -175,18 +158,28 @@
                 .then(res => {
                         
                         if (res.status === 200) {
-                            this.$store.dispatch('news');
-                            this.$refs['formnews'].hide();
+
+                            if (res.data.result.error) {
+                                this.errors.push(res.data.result.error);
+                                this.visibility = true;
+
+                            }else {
+                                this.$store.dispatch('news');
+                                this.$refs['formnews'].hide();
+                            }
+                            
                         }
                 })
                 .catch(err => {
-                    this.erro.push(err)
+                    this.errors.push(err);
+                    this.visibility = true;
                 }) 
             },
 
             editNews() {
                 this.$http.put('news/'+this.item.id_news,{
                     'nm_title': this.news.nm_title,
+                    'nm_subtitle': this.news.nm_subtitle,
                     'nm_content': this.news.nm_content,
                     'dt_date': this.news.dt_date,
                     'st_highlights': this.news.st_highlights,
@@ -197,13 +190,18 @@
                     }
                 })
                 .then( res => {
-                    if (res.status === 200) {
+                    if (res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                    }else {
                         this.$store.dispatch('news');
                         this.$refs['formnews'].hide();
                     }
                 })
                 .catch(err => {
-                    this.erro.push(err)
+                    this.errors.push(err);
+                    this.visibility = true;
                 })
 
             },
@@ -211,9 +209,12 @@
             image() {
                 if ( this.file ) {
 
+                    if (this.news.nm_image_path) {
+                        this.deleteImage();
+                    }
+
                     this.saveImage();
                     
-
                 } else {
                     
                     this.deleteImage();
@@ -233,7 +234,6 @@
                     }
                 })
                 .then(res => {
-
                     if (res.status === 200) {
                         this.news.nm_image_path = res.data.result.url.replace('public','storage');
                     }
@@ -262,7 +262,7 @@
                .then(res => {
                    
                    if (res.status === 200) {
-                       alert('Imagem removida');
+                       res
                    }
                })
 

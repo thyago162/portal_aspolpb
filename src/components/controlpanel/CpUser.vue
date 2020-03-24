@@ -4,34 +4,28 @@
          hide-footer no-close-on-backdrop header-bg-variant="dark" header-text-variant="light">
          <b-container fluid>
              <b-row >
-                 <b-col lg="3">
-                    <font-awesome-icon icon="print" size="2x" class="icon alt mr-3"/>
-                    <font-awesome-icon icon="file-csv" size="2x" class="icon alt"/>
+                 
+                 <b-col lg="8">
+                    <b-input-group>
+                            <template v-slot:prepend>
+                                <b-input-group-text>
+                                    <b-icon icon="search"></b-icon>
+                                </b-input-group-text>
+                            </template>
+                        <b-form-input v-model="search" />
+                    </b-input-group>
                  </b-col>
-                 <b-col lg="7">
-                    <b-form-input type="search" class="user-search" 
-                        placeholder="Buscar por usuário" />
-                    <b-icon icon="search" class="search-icon" font-scale="1.5"></b-icon>
-                 </b-col>
-                 <b-col lg="2">
-                     <b-button variant="success" class="mr-3">
-                         <b-icon icon="arrow-clockwise"></b-icon>
-                     </b-button>
-
-                     <b-button  variant="primary" >
-                         <b-icon icon="plus" ></b-icon>
-                     </b-button>
+                 <b-col lg="1">
+                    <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}"/>
                  </b-col>
              </b-row>
              <b-row class="user-table">
                  <b-col>
                      <b-table :fields="fields" :items="users" striped hover 
                         :per-page="perPage" :current-page="currentPage">
-                        <template v-slot:cell(edit)="row">
-                            <b-button size="sm" class="mr-2" @click="editUser(row.item)" 
-                                variant="info" >
-                                 <b-icon icon="pen"></b-icon>
-                             </b-button>
+
+                        <template v-slot:cell(created_at)="row">
+                            <span v-if="row.item.created_at">{{row.item.created_at | fullDate}}</span>
                         </template>
 
                         <template v-slot:cell(delete)="row">
@@ -39,11 +33,11 @@
                                  <b-icon icon="trash"></b-icon>
                              </b-button>
                         </template>
-
                          
                      </b-table>
                      <div class="overflow-auto">
                         <b-pagination
+                            align="center"
                             v-model="currentPage"
                             :total-rows="rows"
                             :per-page="perPage"
@@ -84,7 +78,7 @@
         computed: { 
 
             rows: function() {
-                return ''
+                return this.users.length;
             },
 
             token: function() {
@@ -101,12 +95,11 @@
                     }
                 })
                 .then(res => {
-                    this.users = res.data.result.users;
+                    if (res.status === 200) {
+                        this.users = res.data.result.users;
+                    }
+                    
                 })
-            },
-
-            editUsers() {
-
             },
 
             deleteUser() {

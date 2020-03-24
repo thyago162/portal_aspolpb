@@ -19,7 +19,7 @@
                 <h5>{{warning.nm_subtitle}}</h5>
             </b-col>
         </b-row> -->
-        <WarningForm :item="edit" />
+        <WarningForm :item="item" />
     </div>
     
 </template>
@@ -36,7 +36,7 @@
         },
 
         mounted() {
-            this.getWarning();
+            this.$store.dispatch('warning')
         },
 
         computed: {
@@ -45,29 +45,21 @@
             },
             token: function() {
                 return this.$session.get('jwt')
+            },
+            warning: function() {
+                return this.$store.getters.getWarning;
             }
         },
 
         data() {
             return {
-                warning: [],
-                edit: []
+                item: []
             }
         },
 
         methods: {
-            getWarning() {
-                this.$http('warning')
-                .then(res => {
-                    this.warning = res.data.result.warning[0];
-                })
-                .catch(err => {
-                    err
-                })
-            },
-
             editItem() {
-                this.edit = this.warning;
+                this.item = this.warning;
             }
         }
         

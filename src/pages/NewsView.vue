@@ -9,34 +9,16 @@
             </b-col>
         </b-row>
         
-        <b-row >
-            <b-col>
-                <b-table :fields="fields" :items="allNews" :per-page="perPage" :current-page="currentPage" id="news-table">
-                    <template v-slot:cell(card)="row">
-                        <b-card>
-                            <b-card-text>
-                                Noticias da aspolpb
-                            </b-card-text>
-                            <b-link :to="{name: 'visualizar-noticias', params: {title: row.item.nm_title}}">
-                                <b-card-title :style="{color: 'red', fontWeight: 'bolder'}">
-                                    {{row.item.nm_title}}
-                                </b-card-title>
-                            </b-link>
-                            
-                            <b-card-text :style="{fontWeight: 'bolder'}">
-                                {{row.item.dt_date | date}}
-                            </b-card-text>
-                        </b-card>
-                    </template>
-                </b-table>
-                <b-pagination
-                    align="center"
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
-                    aria-controls="news-table"
-                ></b-pagination>
-
+        <b-row class="news-content">
+            <b-col cols="4" v-if="news.nm_image_path != null">
+                <b-img :src="news.nm_image_path" class="news-image"></b-img>
+                <h6 class="ml-4 mt-2">{{news.dt_date | date}}</h6> 
+            </b-col>
+            <b-col cols="8" :class="[!news.nm_image_path ? 'only-text' : '']">
+                <h4 class="mt-4" :style="{textAlign: 'center'}">{{news.nm_title}}</h4>
+                <div :style="{overflow: 'auto'}" >
+                    <p v-html="news.nm_content" class="mt-4 ml-4"></p>
+                </div>
             </b-col>
         </b-row>
 
@@ -50,17 +32,13 @@
         },
 
         mounted() { 
-            this.$store.dispatch('news');
+            this.getCurrentNews();
         },
 
         data() {
             return {
-                currentPage: 1,
-                perPage: 5,
                 error: [],
-                fields: [
-                    {key: 'card', label: ''}
-                ]
+                news: []
             }
         },
 
@@ -69,12 +47,36 @@
                 return this.$store.getters.getNews;
             },
             title: function() {
-                return this.news.nm_title;
+                return this.news.nm_title
             },
-            rows: function() {
-                return this.allNews.length;
-            }
-        }      
+        },
+
+
+        methods: {
+            getCurrentNews() {
+
+                 this.$http.post('news/get-news', {
+                     'nm_title': this.$route.params.title
+                 })
+                .then(res => {
+                    if (res.status === 200) {
+                        this.news = res.data.result.news[0];
+                    }
+                    
+                })
+                .catch(err => {
+                    this.error.push(err)
+                })
+
+            },
+
+            seeNews(id) {
+                this.$router.push({ name: 'noticias', params: {id: id}})
+                location.reload(true)
+            },
+
+        }
+        
     }
 </script>
 
@@ -108,13 +110,43 @@
         margin-top: 10px;
     }
 
-    a {
-        text-decoration: none;
+
+    .news-image {
+        width: 450px;
+        height: 300px;
+        margin-left: 30px;
+        margin-top: 30px;
     }
 
-    a:hover {
-        color: darkred;
+    .news-content {
+        height: 430px;
     }
 
+    .card-more-news {
+        border: none;
+        border-left: 2px solid darkslategrey;
+        height: 100px;
+        width: 650px;
+        margin-top: 10px;
+    }
+
+    .card-text {
+        font-size: 18px;
+        font-weight: bold;
+        color: blue;
+    }
+
+    .more-news {
+       display: flex;
+       flex-direction: row;
+       flex-wrap: wrap;
+       justify-content: flex-start;
+       align-items: center;
+    }
+
+    .only-text {
+        
+        margin-left: 18%;
+    }
 
 </style>

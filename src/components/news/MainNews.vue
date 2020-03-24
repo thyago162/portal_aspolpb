@@ -1,7 +1,7 @@
 <template>
    <b-container fluid class="news mb-3">
         <b-row class="news-row">
-            <b-col class="news-head ml-4" lg="12">
+            <b-col class="news-head ml-3" lg="12">
                 <div class="news-title">
                     <h5>NOTÍCIAS</h5>
                 </div>
@@ -9,25 +9,25 @@
             </b-row>
             <b-row  class="highlights">
                 <b-col xl="6" > 
-                    <b-link :to="{ name: 'noticias', params: { id: highlights.id_news, title: highlights.nm_title}}"> 
+                    <b-link :to="{ name: 'visualizar-noticias', params: { title: highlights.nm_title}}"> 
                         <highlights-news :highlights="highlights"/>
                     </b-link>
                 </b-col>
                 <b-col xl="6"  class="highlights">
-                    <card-news :cardnews="card" 
+                    <card-news :cardnews="card"
                         v-for="(card, index) in cardNews" :key="index"/>
                 </b-col>
             </b-row>
             <b-row>
                 <b-col class="more-news-title ml-4">
-                    <b-link :to="{path: 'noticias/1'}" :style="{color: '#000'}">
+                    <b-link :to="{name: 'visualizar-noticias'}" :style="{color: '#000'}">
                         <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
                     </b-link>
                 </b-col>
             </b-row>
 
             <b-row>
-                <b-col  class="more-news">
+                <b-col class="more-news">
                     <MoreNews/>
                 </b-col>
             </b-row>

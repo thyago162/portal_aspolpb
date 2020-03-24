@@ -88,7 +88,7 @@
     }
 
     .news-row {
-        width: 99%;
+        width: 100%;
     }
 
     .news-head {

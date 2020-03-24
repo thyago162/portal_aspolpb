@@ -137,6 +137,13 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
+                         if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                        }
+
                         alert('Notícia removida')
                     }
                 })

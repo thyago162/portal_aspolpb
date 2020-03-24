@@ -2,6 +2,9 @@
    <div>
        <b-modal id="form-agreement" ref="agreement" title="CONVÊNIOS" size="xl" 
         header-bg-variant="dark" header-value-variant="light" @ok="handleOk">
+
+            <ErroMessage :errors="errors" :visibility="visibility" />
+
            <form @submit.stop.prevent="formSubmited">
                <b-container>
                    <b-row>
@@ -103,6 +106,7 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
     export default {
 
@@ -113,13 +117,15 @@
         props: ['item'],
 
         components: {
-            VueEditor
+            VueEditor,
+            ErroMessage
         },
 
         computed: {
             form: function() {
                 return this.item;
             },
+
             token: function() {
                 return this.$session.get('jwt');
             }
@@ -129,6 +135,7 @@
             return {
                 file: null,
                 errors: [],
+                visibility: false,
                 instagram: ' ',
                 facebook: ' ',
                 twitter: ' ',
@@ -214,14 +221,22 @@
                 })
                 .then(res => {
                     if(res.status === 200) {
-                        if (res.data.token) {
+
+                        if (res.data.token_failure) {
                             alert('Sessão expirada... Você será redirecionado!')
                             this.$session.destroy();
                             this.$store.disptach('logout');
                             this.$router.push('/');
                         }
-                        this.$store.dispatch('agreement');
-                        this.$refs['agreement'].hide();
+                        if (res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$store.dispatch('agreement');
+                            this.$refs['agreement'].hide();
+                        }
+                        
                     }
                 })
             },
@@ -242,16 +257,30 @@
                     }
                 })
                 .then(res => {
-                    if(res.status === 200) {
-                        this.$store.dispatch('agreement');
-                        this.$refs['agreement'].hide();
-                    }
+                    if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                        }
+                        if (res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$store.dispatch('agreement');
+                            this.$refs['agreement'].hide();
+                        }
                 })
             },
 
             image(param) {
 
                 if ( this.file ) {
+
+                    if (this.form.nm_image_path || this.form.nm_file_path) {
+                        this.deleteImage(param)
+                    }
 
                     this.saveImage(param);
                     
@@ -276,6 +305,13 @@
                 .then(res => {
 
                     if (res.status === 200) {
+
+                         if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                        }
 
                         param === 'image' ?
                         this.form.nm_image_path = res.data.result.url.replace('public','storage') :
@@ -306,7 +342,12 @@
                .then(res => {
                    
                    if (res.status === 200) {
-                       alert('Imagem removida');
+                       if (res.data.token_failure) {
+                           alert('Sessão expirada... Você será redirecionado!');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                       }
                    }
                })
 

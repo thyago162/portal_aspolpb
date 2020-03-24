@@ -14,6 +14,8 @@ import Segment from '../pages/acesso_restrito/Segment';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
 import ControlPannel from '../pages/acesso_restrito/ControlPannel';
+import NotFound from '../pages/error/NotFound';
+
 
 Vue.use(Router);
 
@@ -84,8 +86,12 @@ export default new Router({
         },
         {
             path: '/acesso-restrito/painel-de-controle',
-            component: ControlPannel ,
+            component: ControlPannel,
             name: 'cp'
+        },
+        {
+            path: '*',
+            component: NotFound
         }
     ]
 

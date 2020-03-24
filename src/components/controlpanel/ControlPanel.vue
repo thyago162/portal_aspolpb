@@ -89,7 +89,6 @@
             CpAssociated
         },
 
-
         methods: {
             closeModal() {
                 this.$refs['control-panel'].hide();
@@ -112,5 +111,11 @@
         margin: 5px;
         height: 50px;
         width: 180px;
+    }
+
+    @media screen and (max-width: 589px){
+      .control-panel-btn {
+          width: 200px;
+      }
     }
 </style>

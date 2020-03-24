@@ -158,6 +158,12 @@
                 .then(res => {
                         
                         if (res.status === 200) {
+                             if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!')
+                                this.$session.destroy();
+                                this.$store.disptach('logout');
+                                this.$router.push('/');
+                            }
 
                             if (res.data.result.error) {
                                 this.errors.push(res.data.result.error);
@@ -190,14 +196,26 @@
                     }
                 })
                 .then( res => {
-                    if (res.data.result.error) {
+                    if (res.status === 200) {
+
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            this.$router.push('/');
+                        }
+
+                        if (res.data.result.error) {
                             this.errors.push(res.data.result.error);
                             this.visibility = true;
 
-                    }else {
-                        this.$store.dispatch('news');
-                        this.$refs['formnews'].hide();
+                        }else {
+                            this.$store.dispatch('news');
+                            this.$refs['formnews'].hide();
+                        }
+
                     }
+                    
                 })
                 .catch(err => {
                     this.errors.push(err);

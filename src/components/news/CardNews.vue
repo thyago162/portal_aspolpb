@@ -1,5 +1,5 @@
 <template>
-    <div class="card-news ml-3" @click="seeNews" >    
+    <div class="card-news ml-1" @click="seeNews" >    
         <b-card 
             img-right>
             <template v-slot:header>
@@ -95,6 +95,9 @@
     }
 
     @media screen and (max-width: 575px) {
+        .card-news {
+            width: 100%;
+        }
         .card-news-title {
             font-size: 12px;
         }

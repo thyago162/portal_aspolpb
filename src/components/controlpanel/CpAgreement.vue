@@ -91,11 +91,18 @@
                 if (confirm('Dejesa realmente remover?')) {
                     this.$http.delete('agreement/'+id, {
                         headers: {
-                            Authorization: 'Bearer '+this.token
+                            Authorization: 'Bearer 1'+this.token
                         }
                     })
                     .then(res => {
                         if (res.status === 200) {
+                             if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!')
+                                this.$session.destroy();
+                                this.$store.dispatch(this.token)
+                                this.$router.push('/');
+                            }
+
                             this.$store.dispatch('agreement')
                         }
 

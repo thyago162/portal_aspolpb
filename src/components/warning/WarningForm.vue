@@ -10,7 +10,6 @@
             <b-form-group label="Imagem">
                 <b-form-file v-model="file" :state="Boolean(file)" @input="image" />
             </b-form-group>
-            {{item.nm_image_path}}
 
             <b-form-group label="Ativar">
                 <b-form-radio-group v-model="form.st_status">

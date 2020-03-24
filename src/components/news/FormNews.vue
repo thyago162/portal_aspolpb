@@ -45,6 +45,7 @@
                                 :state="Boolean(file)"
                                 placeholder="Escolha uma imagem..."/>
                         </b-form-group>
+                        {{form.nm_image_path}}
                     </b-col>
                     <b-col lg="3">
                         <b-form-group label="Destacar" class="ml-4">
@@ -130,7 +131,22 @@
 
             formSubmited() {
 
+                if (this.item.id_news) {
+                    this.editNews();
+
+                }else {
+                    this.saveNews();
+                }
+
+            },
+ 
+            saveNews() {
+
                 let formData = new FormData();
+
+                if (this.news.nm_image_path == undefined) {
+                    this.news.nm_image_path = '';
+                }
 
                 formData.append('nm_title', this.news.nm_title);
                 formData.append('nm_subtitle', this.news.nm_subtitle);
@@ -138,17 +154,6 @@
                 formData.append('dt_date', this.news.dt_date);
                 formData.append('nm_image_path', this.news.nm_image_path),
                 formData.append('st_highlights',this.news.st_highlights);
-
-                if (this.item.id_news) {
-                    this.editNews();
-
-                }else {
-                    this.saveNews(formData);
-                }
-
-            },
- 
-            saveNews(formData) {
 
                 this.$http.post('news',formData, {
                         headers: {
@@ -202,6 +207,7 @@
                             alert('Sessão expirada... Você será redirecionado!')
                             this.$session.destroy();
                             this.$store.disptach('logout');
+                            location.reload();
                             this.$router.push('/');
                         }
 

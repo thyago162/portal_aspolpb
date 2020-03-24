@@ -9,17 +9,17 @@
             </b-col>
         </b-row>
         
-        <b-row class="news-content">
-            <b-col cols="4" v-if="news.nm_image_path != null">
-                <b-img :src="news.nm_image_path" class="news-image"></b-img>
-                <h6 class="ml-4 mt-2">{{news.dt_date | date}}</h6> 
-            </b-col>
-            <b-col cols="8" :class="[!news.nm_image_path ? 'only-text' : '']">
-                <h4 class="mt-4" :style="{textAlign: 'center'}">{{news.nm_title}}</h4>
-                <div :style="{overflow: 'auto'}" >
-                    <p v-html="news.nm_content" class="mt-4 ml-4"></p>
-                </div>
-            </b-col>
+        <b-row class="mt-2 mb-2" >
+           <b-card>
+               <b-media>
+                   <template v-slot:aside v-if="image" >
+                       <b-img :src="image" class="news-image"></b-img>
+                   </template>
+                   <h3 class="mt-0">{{news.nm_title}}</h3>
+                   <h6 >{{news.nm_subtitle}}</h6>
+                   <p v-html="news.nm_content" class="mt-4"></p>
+               </b-media>
+           </b-card>
         </b-row>
 
     </b-container>
@@ -43,12 +43,14 @@
         },
 
         computed: {
-            allNews: function() {
-                return this.$store.getters.getNews;
-            },
+
             title: function() {
                 return this.news.nm_title
             },
+
+            image: function() {
+                return this.news.nm_image_path;
+            }
         },
 
 
@@ -68,11 +70,6 @@
                     this.error.push(err)
                 })
 
-            },
-
-            seeNews(id) {
-                this.$router.push({ name: 'noticias', params: {id: id}})
-                location.reload(true)
             },
 
         }
@@ -110,43 +107,148 @@
         margin-top: 10px;
     }
 
-
     .news-image {
-        width: 450px;
-        height: 300px;
-        margin-left: 30px;
-        margin-top: 30px;
+        width: 400px;
     }
 
-    .news-content {
-        height: 430px;
-    }
+    @media screen and (max-width: 1200px){
+        .news-image {
+            width: 350px;
+        }
 
-    .card-more-news {
-        border: none;
-        border-left: 2px solid darkslategrey;
-        height: 100px;
-        width: 650px;
-        margin-top: 10px;
-    }
+        h3 {
+            font-size: 18px;
+            font-weight: bolder;
+        }
 
-    .card-text {
-        font-size: 18px;
-        font-weight: bold;
-        color: blue;
-    }
+        h6 {
+            font-size: 14px;
+            font-weight: bolder;
+        }
+        p {
+            font-size: 14px;
+        }
 
-    .more-news {
-       display: flex;
-       flex-direction: row;
-       flex-wrap: wrap;
-       justify-content: flex-start;
-       align-items: center;
-    }
+        .news-title {
+            width: 170px;
+            height: 38px;
+        }
 
-    .only-text {
+        h5 {
+            font-size: 18px;
+        }
         
-        margin-left: 18%;
+    }
+
+    @media screen and (max-width: 1000px) {
+        .news-image {
+            width: 300px;
+        }
+         h3 {
+            font-size: 16px;
+            font-weight: bolder;
+        }
+
+        h6 {
+            font-size: 13px;
+            font-weight: bolder;
+        }
+        p {
+            font-size: 12px;
+        }
+
+         .news-title {
+            width: 150px;
+            height: 34px;
+        }
+
+        h5 {
+            font-size: 16px;
+        }
+        
+    }
+    @media screen and (max-width: 800px){
+        .news-image {
+            width: 250px;
+        }
+         h3 {
+            font-size: 14px;
+            font-weight: bolder;
+        }
+
+        h6 {
+            font-size: 12px;
+            font-weight: bolder;
+        }
+        p {
+            font-size: 10px;
+        }
+
+        .news-title {
+            width: 130px;
+            height: 30px;
+        }
+
+        h5 {
+            font-size: 15px;
+        }
+        
+    }
+    @media screen and (max-width: 700px){
+        .news-image {
+            width: 200px;
+        }
+
+         h3 {
+            font-size: 12px;
+            font-weight: bolder;
+        }
+
+        h6 {
+            font-size: 11px;
+            font-weight: bolder;
+        }
+        p {
+            font-size: 9px;
+        }
+
+         .news-title {
+            width: 120px;
+            height: 28px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+        
+    }
+
+     @media screen and (max-width: 550px){
+        .news-image {
+            display: none;
+        }
+
+         h3 {
+            font-size: 12px;
+            font-weight: bolder;
+        }
+
+        h6 {
+            font-size: 11px;
+            font-weight: bolder;
+        }
+        p {
+            font-size: 9px;
+        }
+        .news-title {
+            width: 100px;
+            height: 25px;
+        }
+
+        h5 {
+            font-size: 12px;
+        }
+        
     }
 
 </style>

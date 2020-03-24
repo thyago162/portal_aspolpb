@@ -36,7 +36,7 @@
         bottom: 0%;
     }
 
-    .highlights-title h5{
+    .highlights-title h5, h6{
         color: #ffffff;
         text-align: center;
         margin-top: 10px;

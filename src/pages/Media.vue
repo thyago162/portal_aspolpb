@@ -109,7 +109,7 @@
         }
     }
 
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 999px) {
         .media-title {
             width: 120px;
             height: 25px;
@@ -123,12 +123,12 @@
 
     @media screen  and (max-width: 575px){
         .media-title {
-            width: 80px;
+            width: 100px;
             height: 20px;
         }
 
         h5 {
-            font-size: 12px;
+            font-size: 10px;
         }
     }
 </style>

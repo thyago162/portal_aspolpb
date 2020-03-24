@@ -17,7 +17,7 @@
                  </b-col>
                  <b-col >
                      <b-button v-b-modal.form-news variant="primary" 
-                        @click="closeModal" :style="{float: 'right'}">
+                        @click="resetModal" :style="{float: 'right'}" >
                          <b-icon icon="plus" ></b-icon>
                          novo item
                      </b-button>
@@ -120,10 +120,6 @@
 
         methods: {
 
-            closeModal() {
-                this.$refs['cpnews'].hide();
-            },
-
             editNews(item) {
                 this.newsItem = item;
             },
@@ -161,6 +157,14 @@
                 }
 
                 return result
+            },
+
+            resetModal() {
+                this.newsItem.nm_title = '';
+                this.newsItem.nm_subtitle = '';
+                this.newsItem.dt_date = '';
+                this.newsItem.nm_content = '';
+                this.newsItem.st_highlights = '';
             }
         }
 

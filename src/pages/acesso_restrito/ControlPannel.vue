@@ -17,37 +17,32 @@
                     <h4>NOTÍCIAS</h4> 
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional>
+                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional disabled>
                     <font-awesome-icon  icon="building" class="icon alt" size="2x"/>
                     <h4>INSTITUCIONAL</h4>
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
+                <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner disabled>
                     <font-awesome-icon icon="handshake" size="2x" class="icon alt"/>
                     <h4>PARCEIROS</h4> 
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement>
+                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement disabled>
                     <font-awesome-icon icon="file" size="2x" class="icon alt"/>
                     <h4> CONVÊNIOS</h4>
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated>
+                <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated disabled>
                     <font-awesome-icon icon="address-card" size="2x" class="icon alt"/>
                     <h4>ASSOCIADOS</h4>
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="primary" v-b-modal.warning-form>
-                    <font-awesome-icon icon="bullhorn" size="2x" class="icon alt"/>
-                    <h4>AVISOS</h4>
-                </b-button>
-
-                <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network>
+                <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network disabled>
                     <font-awesome-icon icon="tv" size="2x" class="icon alt"/>
                     <h4>MIDIAS SOCIAIS</h4>
                 </b-button>
 
-                 <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file>
+                 <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file disabled>
                      <div class="h3">
                          <b-icon icon="folder-fill" size="2x" class="icon alt"/>
                      </div>
@@ -55,12 +50,12 @@
                     <h4>ARQUIVOS</h4>
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>
+                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
                     <font-awesome-icon icon="users" size="2x" class="icon alt" />
                     <h4>USUÁRIOS</h4>
                 </b-button>
 
-                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user>
+                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
                     <font-awesome-icon icon="users" size="2x" class="icon alt"/>
                     <h4>DASHBOARD</h4>
                 </b-button>

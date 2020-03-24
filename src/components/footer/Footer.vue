@@ -17,26 +17,28 @@
                 </b-row>
                 <b-row>
                     <b-col >
-                        <nav class="menu-footer ml-5">
-                            <div class="mr-4">
+                        <nav class="menu-footer">
+                            <div >
                                 <b-link class="personal-link">INICIO</b-link>
                             </div>
-                            <div :style="{display: 'flex', flexDirection: 'column'}">
+                            <div class="menu-options">
                                 <b-link class="personal-link">INSTITUCIONAL</b-link>
                                 <b-link class="personal-link">QUEM SOMOS</b-link>
                                 <b-link class="personal-link">NOSSA HISTÓRIA</b-link>
                                 <b-link class="personal-link">CAMPANHA</b-link>
                             </div>
-                            <div class="mr-4 ml-3">
-                                <b-link class="personal-link">NOÍTICIAS</b-link>
+                            <div  class=" menu-options">
+                                <b-link class="personal-link">MÍDIA</b-link>
+                                <b-link class="personal-link">NOTICIAS</b-link>
+                                <b-link class="personal-link">ASPOL NA MÍDIA</b-link>
                             </div>
-                            <div class="mr-4">
+                            <div class="">
                                 <b-link class="personal-link">CONTATOS</b-link>
                             </div>
-                            <div class="mr-4">
+                            <div class="">
                                 <b-link class="personal-link">CONVÊNIOS</b-link>
                             </div>
-                            <div :style="{display: 'flex', flexDirection: 'column'}">
+                            <div class="menu-options">
                                 <b-link class="personal-link" >ÁREA RESTRITA</b-link>
                                 <b-link class="personal-link">TRANSPARÊNCIA</b-link>
                                 <b-link class="personal-link">SUGESTÕES</b-link>
@@ -101,5 +103,52 @@
         flex-direction: row;
         margin-top: 50px;
     }
+
+    .menu-options {
+        display: flex;
+        flex-direction: column;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+
+    @media screen and (max-width: 767px) {
+        .menu-footer {
+            margin-left: 0px;
+            justify-content: center;
+            font-size: 12px;        
+        }
+
+        p {
+            font-size: 12px;
+        }
+
+        span {
+            font-size: 14px;
+        }
+
+        .footer-head {
+            justify-content: left;
+            align-items: center;
+        }
+        .icon {
+            font-size: 28px;
+        }
+        
+    }
+
+     @media screen and (max-width: 500px) {
+         .menu-footer, p {
+            font-size: 10px;
+         }
+
+         span {
+            font-size: 12px;
+         }
+         
+        .icon {
+            font-size: 22px;
+        }
+         
+     }
 
 </style>

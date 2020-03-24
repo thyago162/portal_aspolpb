@@ -106,10 +106,10 @@
         }
     }
 
-    @media screen and (max-width: 1000px) {
-        .social-media-title {
+    @media screen  and (max-width: 999px){
+        .social-midia-title {
             width: 120px;
-            height: 25px;
+            height: 30px;
         }
 
         h5 {
@@ -118,14 +118,18 @@
         
     }
 
-    @media screen  and (max-width: 575px){
-        .social-media-title {
-            width: 80px;
+    @media screen and (max-width: 575px) {
+        .social-midia-title {
+            width: 100px;
             height: 20px;
         }
 
         h5 {
-            font-size: 12px;
+            font-size: 10px;
         }
+        
     }
+
+
+
 </style>

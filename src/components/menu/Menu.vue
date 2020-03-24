@@ -18,7 +18,7 @@
                         </b-link>
                     </b-nav-item>
 
-                    <b-nav-item-dropdown>
+                    <b-nav-item-dropdown disabled>
                         <template v-slot:button-content>
                             <span class="personal-link" >INSTITUCIONAL</span>
                         </template>
@@ -44,12 +44,12 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown>
+                    <b-nav-item-dropdown >
                         <template v-slot:button-content>
                             <span class="personal-link" >MÍDIA</span>
                         </template>
                         <b-dropdown-item>
-                            <b-link class="personal-link" :to="{name: 'midia'}">
+                            <b-link class="personal-link" :to="{name: 'midia'}" disabled>
                                 ASPOL NA MÍDIA
                             </b-link>
                         </b-dropdown-item>
@@ -66,20 +66,20 @@
                             CONTATOS
                         </b-link>
                     </b-nav-item>
-                    <b-nav-item>
+                    <b-nav-item disabled>
                         <b-link :to="{name: 'convênio'}" class="personal-link">
                             CONVÊNIOS
                         </b-link>
 
                     </b-nav-item>
-                    <b-nav-item>
-                        <b-button size="sm" class="personal-btn" v-b-modal.associated-form>
+                    <b-nav-item disabled>
+                        <b-button size="sm" class="personal-btn associated" v-b-modal.associated-form>
                             <span>ASSOCIE-SE</span>
                         </b-button>
                     </b-nav-item>
 
                     <b-nav-item v-show="!token" >
-                        <b-button size="sm" class="personal-btn" v-b-modal.auth>
+                        <b-button size="sm" class="personal-btn " v-b-modal.auth>
                             <span>
                                 AREA RESTRITA
                                 <b-icon icon="lock-fill" />
@@ -96,31 +96,33 @@
                                 </span>
                             </b-button>
                         </template>
-                        <b-dropdown-item >
+                        <b-dropdown-item  disabled>
                             <b-link class="personal-link" :to="{name: 'transparencia'}"> 
                                 <b-icon icon="book-half-fill"></b-icon>
                                 TRANSPARÊNCIA </b-link>
                         </b-dropdown-item>
-                        <b-dropdown-item >
+
+                        <b-dropdown-item disabled>
                             <b-link class="personal-link" :to="{name: 'sugestoes'}">
                                 <b-icon icon="chat-fill"></b-icon>
                                 SUGESTÕES
                             </b-link>
                         </b-dropdown-item>
-                        <b-dropdown-item >
+
+                        <b-dropdown-item disabled>
                             <b-link class="personal-link" :to="{name: 'assessoria-juridica'}">
                                 <b-icon icon="tag-fill"></b-icon>
                                 ACESSORIA JURÍDICA
                             </b-link>
                         </b-dropdown-item>
-                        <b-dropdown-item >
+                        <b-dropdown-item  disabled>
                             <b-link class="personal-link" :to="{name: 'arquivos'}">
                                 <b-icon icon="folder-fill" ></b-icon>
                                  ARQUIVOS
                             </b-link>
                         </b-dropdown-item>
                          <b-dropdown-item c>
-                            <b-link class="personal-link" :to="{name:'cp'}"> 
+                            <b-link class="personal-link" :to="{name:'cp'}" v-if="administrator === 1"> 
                                 <b-icon icon="gear-fill"></b-icon>
                                 ADMINISTRAÇÃO
                             </b-link>
@@ -170,6 +172,10 @@
             },
             user: function() {
                 return this.$session.get('user');
+            },
+            administrator: function() {
+                let user = this.$session.get('user');
+                return user ? user.administrator : 0
             }
         },
 
@@ -216,6 +222,13 @@
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
         border-radius: 5px;
         margin-top: -4px;
+    }
+
+    @media screen and (max-width: 1299){
+        .associated {
+            width: 130px;
+        }
+        
     }
 
     @media screen and (max-width: 1199px) {

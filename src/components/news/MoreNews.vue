@@ -5,7 +5,8 @@
             <b-card-text>
                 <b-img src="/aspolicone.ico" width="20px" height="20px" />
                 <span style="float: right; color: red;">{{n.dt_date | date}}</span>
-                <b-card-text class="mt-1">{{n.nm_title}} </b-card-text>
+                <b-card-text class="mt-1" :style="{color: 'red'}">{{n.nm_title}} </b-card-text>
+                <b-card-text class="mt-1">{{n.nm_subtitle}} </b-card-text>
             </b-card-text>
         </b-card>
     </div>

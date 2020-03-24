@@ -2,9 +2,9 @@
     <div>
         <Header />
         <MainNews />
-        <Partner />
-        <SocialNetwork />
-        <Media />   
+        <Partner :style="{display: 'none'}"/>
+        <SocialNetwork :style="{display: 'none'}"/>
+        <Media  :style="{display: 'none'}"/>   
     </div>
 </template>
 

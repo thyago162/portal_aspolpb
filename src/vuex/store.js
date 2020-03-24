@@ -144,8 +144,7 @@ export default new Vuex.Store({
             })
             .then(res => {
                 if (res.status === 200) {
-                    alert('Encerrando sessão!');
-                    location.reload();
+                    res
                 }
             })
         },

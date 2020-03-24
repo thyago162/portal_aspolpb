@@ -9,9 +9,11 @@
             <b-img src="/aspolicone.ico"  class="card-news-icon" />
             <span class="card-news-date">{{cardnews.dt_date | date}}</span>
             
-        
-            <b-card-text class="mt-2 card-news-title">
+            <h6 class="card-news-title mt-1" :style="{color: 'red'}">
                 {{cardnews.nm_title}}
+            </h6>
+            <b-card-text class="mt-2 card-news-title">
+                {{cardnews.nm_subtitle}}
             </b-card-text>
         </b-card>
         

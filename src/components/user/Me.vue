@@ -32,7 +32,13 @@
 
         computed: {
             form: function() {
-                return this.$session.get('user');
+                let user = this.$session.get('user');
+                if(!user) {
+                    return {}
+                    
+                }else {
+                    return user;
+                }
             }
         },
 

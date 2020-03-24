@@ -3,7 +3,7 @@
         <b-row class="header" v-bind:style="{ backgroundImage: 'url('+ image +')'}">
             <b-col>
                 <b-button variant="warning" @click="editItem" 
-                    v-b-modal.warning-form class="btn-edit" size="sm" v-if="token"> 
+                    v-b-modal.warning-form class="btn-edit" size="sm" v-if="administrator === 1"> 
                     <b-icon icon="pencil"></b-icon>
                 </b-button>
             </b-col>
@@ -48,7 +48,13 @@
             },
             warning: function() {
                 return this.$store.getters.getWarning;
+            },
+            administrator: function() {
+                
+                let user = this.$session.get('user');
+                return user ? user.administrator : 0
             }
+
         },
 
         data() {

@@ -180,6 +180,7 @@
                         }else {
                             //this.$store.dispatch('loading', false);
                             this.errors.push(res.data.response.error);
+                            alert(this.errors.length)
                             this.visibility = true;
                         }
                             

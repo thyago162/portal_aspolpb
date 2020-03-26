@@ -9,9 +9,7 @@
             </b-row>
             <b-row  class="highlights">
                 <b-col xl="6" > 
-                    <b-link :to="{ name: 'visualizar-noticias', params: { title: highlights.nm_title}}"> 
-                        <highlights-news :highlights="highlights"/>
-                    </b-link>
+                    <highlights-news :highlights="highlights"/>
                 </b-col>
                 <b-col xl="6"  class="highlights">
                     <card-news :cardnews="card"
@@ -65,7 +63,13 @@
             getHighlight() {
                 this.$http.get('news/highlights')
                 .then(res => {
-                    this.highlights = res.data.result.highlights;
+                    if (res.status === 200) {
+                        if (res.data.result.error) {
+                            alert(res.data.result.error)
+                        }
+                        this.highlights = res.data.result.highlights;
+                    }
+                    
                 })
                 
             },
@@ -73,7 +77,10 @@
             getCardNews() {
                 this.$http.get('news/cardnews')
                 .then(res => {
-                    this.cardNews = res.data.result.card;
+                    if (res.status === 200) {
+                        this.cardNews = res.data.result.card;    
+                    }
+                    
                 })   
             },
 

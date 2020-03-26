@@ -3,8 +3,11 @@
         v-bind:style="{ backgroundImage: 'url('+ image +')'}" >
         
         <div class="highlights-title">
-            <h5>{{highlights.nm_title}}</h5>
-            <h6>{{highlights.nm_subtitle}}</h6>
+            <b-link :to="{name: 'visualizar-noticias', params: {title: title}}" class="personal-link">
+                <h5 :style="{ color: 'gold'}">{{highlights.nm_title}}</h5>
+            </b-link>
+            
+            <h6 :style="{color: 'gold'}">{{highlights.nm_subtitle}}</h6>
         </div>
         
     </b-col>
@@ -17,13 +20,15 @@
         computed: {
             image() {
                 return this.highlights.nm_image_path;
-            }
-        },
-
-        methods: {
+            },
+            title: function() {
+                return this.highlights ? 
+                this.highlights.nm_title :
+                 ''
+            },
             
-        }
- 
+
+        },
     }
 </script>
 
@@ -52,6 +57,14 @@
         flex-direction: row;
         justify-content:center;
         align-items: baseline;
+    }
+
+    .personal-link {
+        text-decoration: none;
+    }
+
+    h5:hover {
+        font-weight: bolder;
     }
 
     @media screen and (max-width: 1400px) and (min-width: 1242px){

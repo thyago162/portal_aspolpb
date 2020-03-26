@@ -3,6 +3,13 @@
         ref="formnews" id="form-news" size="xl" header-bg-variant="primary" 
             @ok="handleOk" ok-only ok-title="Salvar">
 
+        <template v-slot:modal-footer="{ok}">      
+            <b-button @click="ok()" variant="success" size="md">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
             <ErroMessage :errors="errors" :visibility="visibility"/>
 
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
@@ -99,6 +106,7 @@
             return {
                 form: {},
                 file: null,
+                loading: false,
                 hasImage: false,
                 errors: [],
                 visibility: false,
@@ -130,6 +138,7 @@
             },
 
             formSubmited() {
+                this.loading = true;
 
                 if (this.item.id_news) {
                     this.editNews();
@@ -163,7 +172,9 @@
                 .then(res => {
                         
                         if (res.status === 200) {
-                             if (res.data.token_failure) {
+                            this.loading = false;
+
+                            if (res.data.token_failure) {
                                 alert('Sessão expirada... Você será redirecionado!')
                                 this.$session.destroy();
                                 this.$store.disptach('logout');
@@ -202,6 +213,7 @@
                 })
                 .then( res => {
                     if (res.status === 200) {
+                        this.loading = false;
 
                         if (res.data.token_failure) {
                             alert('Sessão expirada... Você será redirecionado!')
@@ -259,7 +271,9 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
-                        this.news.nm_image_path = res.data.result.url.replace('public','storage');
+                        let image = res.data.result.url;
+                        image = image.replace('public','storage')
+                        this.news.nm_image_path = image;
                     }
                     
                 })

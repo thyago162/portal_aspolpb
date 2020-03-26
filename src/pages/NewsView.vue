@@ -4,7 +4,9 @@
         <b-row>
             <b-col lg="12" class="news-head" >
                 <div class="news-title">
-                    <h5 class="mt-2">NOTÍCIAS</h5>
+                    <b-link :to="{name: 'noticias'}">
+                        <h5 class="mt-2">NOTÍCIAS</h5>
+                    </b-link>
                 </div>
             </b-col>
         </b-row>
@@ -17,6 +19,11 @@
                    </template>
                    <h3 class="mt-0">{{news.nm_title}}</h3>
                    <h6 >{{news.nm_subtitle}}</h6>
+
+                   <div class="cel-image-container mt-3" v-if="image" fluid>
+                       <b-img :src="image" class="cel-image"></b-img>
+                   </div>
+                   
                    <p v-html="news.nm_content" class="mt-4"></p>
                </b-media>
            </b-card>
@@ -109,6 +116,15 @@
 
     .news-image {
         width: 400px;
+    }
+
+    .cel-image {
+        display: none;
+    }
+
+    h5 {
+        color: #fff;
+        font-weight: bolder;
     }
 
     @media screen and (max-width: 1200px){
@@ -247,6 +263,18 @@
 
         h5 {
             font-size: 12px;
+        }
+
+        .cel-image-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cel-image {
+            display: inline-block;
+            max-width: 250px;
         }
         
     }

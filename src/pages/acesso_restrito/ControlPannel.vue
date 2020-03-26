@@ -9,58 +9,61 @@
         </b-row>
         <b-row class="mt-5">
             <b-col>
-                <div class="options">
+                <div class="options" v-if="isLoged">
 
-                <b-button class="control-panel-btn" v-b-modal.cp-news 
-                    variant="primary"  >
-                    <font-awesome-icon icon="newspaper" class="icon alt" size="2x"/>
-                    <h4>NOTÍCIAS</h4> 
-                </b-button>
+                    <b-button class="control-panel-btn" v-b-modal.cp-news 
+                        variant="primary"  >
+                        <font-awesome-icon icon="newspaper" class="icon alt" size="2x"/>
+                        <h4>NOTÍCIAS</h4> 
+                    </b-button>
 
-                <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional disabled>
-                    <font-awesome-icon  icon="building" class="icon alt" size="2x"/>
-                    <h4>INSTITUCIONAL</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional disabled>
+                        <font-awesome-icon  icon="building" class="icon alt" size="2x"/>
+                        <h4>INSTITUCIONAL</h4>
+                    </b-button>
 
-                <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner disabled>
-                    <font-awesome-icon icon="handshake" size="2x" class="icon alt"/>
-                    <h4>PARCEIROS</h4> 
-                </b-button>
+                    <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner disabled>
+                        <font-awesome-icon icon="handshake" size="2x" class="icon alt"/>
+                        <h4>PARCEIROS</h4> 
+                    </b-button>
 
-                 <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement disabled>
-                    <font-awesome-icon icon="file" size="2x" class="icon alt"/>
-                    <h4> CONVÊNIOS</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement disabled>
+                        <font-awesome-icon icon="file" size="2x" class="icon alt"/>
+                        <h4> CONVÊNIOS</h4>
+                    </b-button>
 
-                <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated disabled>
-                    <font-awesome-icon icon="address-card" size="2x" class="icon alt"/>
-                    <h4>ASSOCIADOS</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated disabled>
+                        <font-awesome-icon icon="address-card" size="2x" class="icon alt"/>
+                        <h4>ASSOCIADOS</h4>
+                    </b-button>
 
-                <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network disabled>
-                    <font-awesome-icon icon="tv" size="2x" class="icon alt"/>
-                    <h4>MIDIAS SOCIAIS</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network disabled>
+                        <font-awesome-icon icon="tv" size="2x" class="icon alt"/>
+                        <h4>MIDIAS SOCIAIS</h4>
+                    </b-button>
 
-                 <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file disabled>
-                     <div class="h3">
-                         <b-icon icon="folder-fill" size="2x" class="icon alt"/>
-                     </div>
-                    
-                    <h4>ARQUIVOS</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file disabled>
+                        <div class="h3">
+                            <b-icon icon="folder-fill" size="2x" class="icon alt"/>
+                        </div>
+                        
+                        <h4>ARQUIVOS</h4>
+                    </b-button>
 
-                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
-                    <font-awesome-icon icon="users" size="2x" class="icon alt" />
-                    <h4>USUÁRIOS</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
+                        <font-awesome-icon icon="users" size="2x" class="icon alt" />
+                        <h4>USUÁRIOS</h4>
+                    </b-button>
 
-                <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
-                    <font-awesome-icon icon="users" size="2x" class="icon alt"/>
-                    <h4>DASHBOARD</h4>
-                </b-button>
+                    <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
+                        <font-awesome-icon icon="users" size="2x" class="icon alt"/>
+                        <h4>DASHBOARD</h4>
+                    </b-button>
 
-            </div>
+                </div>
+                <h5 v-else :style="{color: 'red'}">
+                    Permissão negada!
+                </h5>
                 
             </b-col>
         </b-row>
@@ -96,6 +99,12 @@
             CpAgreement,
             CpFile,
             CpAssociated
+        },
+
+        computed: {
+            isLoged: function() {
+                return this.$session.get('user')
+            }
         }
         
     }

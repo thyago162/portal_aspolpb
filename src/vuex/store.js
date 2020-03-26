@@ -7,7 +7,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        loading: false,
         news: [],
         users: [],
         partners: [],
@@ -29,10 +28,6 @@ export default new Vuex.Store({
             return state.news;
         },
         
-        getLoading: state => {
-            return state.loading;
-        },
-
         getUsers: state => {
             return state.users;
         },
@@ -216,22 +211,13 @@ export default new Vuex.Store({
             axios.get('warning')
             .then(res => {
                 if (res.status === 200) {
-                    commit('setWarning', res.data.result.warning[0])
+                    commit('setWarning', res.data.result.warning)
                 }
             })
             
-        },
-
-        loading({commit},load) {
-            commit('setLoad',load);
-        },
-        
+        }, 
     },
     mutations: {
-
-        setLoad(state,payload) {
-            state.loading = payload;
-        },
 
         setNews(state, payload) {
             state.news = payload;

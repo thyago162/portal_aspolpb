@@ -71,7 +71,8 @@
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
-                users: []
+                users: [],
+                search: ''
             }
         },
 

@@ -3,6 +3,18 @@
     <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" 
         @cancel="resetModal" :ok-title="btnTitle" ref="auth" hide-header size="lg" 
             cancel-title="Fechar" ok-variant="danger" cancel-variant="dark" @hide="resetModal">
+        
+        <template v-slot:modal-footer="{ok, cancel}">
+            
+            <b-button @click="cancel()" size="md" variant="dark">
+                <span :style="{fontWeight: 'bolder'}">Fechar</span>
+            </b-button>
+
+            <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">{{btnTitle}}</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
         <b-container fluid>
            
             <b-row>
@@ -10,7 +22,7 @@
                     <b-img :src="image" width="250px" height="120px"></b-img>
                 </b-col>
             </b-row>
-
+            
              <b-row>
                 <b-col>
                     <ErroMessage :errors="errors" :visibility="visibility" />
@@ -103,7 +115,7 @@
     export default {
 
         components: {
-            ErroMessage
+            ErroMessage,
         },
 
         data() {
@@ -119,7 +131,8 @@
                 },
                 showPassword: false,
                 type: 'password',
-                image: require('../../assets/images/logo_aspol_02.png')
+                image: require('../../assets/images/logo_aspol_02.png'),
+                loading: false
             }
         },
 
@@ -161,8 +174,8 @@
             register() {
 
                 if (this.passwordsMatch()) {
+                    this.loading = true;
 
-                    //this.$store.dispatch('loading',true);
                     let form = new FormData();
 
                     form.append('name',this.formData.name);
@@ -172,13 +185,13 @@
                     this.$http.post('register',form)
                     .then(res => {
                         if (res.status === 200 && res.data.response.token) {
-                            //this.$store.dispatch('loading', false);
+                            this.loading = false;
                             this.$refs['auth'].hide();
                             this.resetModal();
                             this.auth = true;
                             alert('Usuário cadastrado com sucesso')
                         }else {
-                            //this.$store.dispatch('loading', false);
+                            this.loading = false;
                             this.errors.push(res.data.response.error);
                             alert(this.errors.length)
                             this.visibility = true;
@@ -186,7 +199,6 @@
                             
                     })
                     .catch(err => {
-                        //this.$store.dispatch('loading', false);
                         this.errors.push(err)
                         this.visibility = true;
                     })
@@ -195,6 +207,7 @@
             },
 
             authenticate() {
+                this.loading = true;
 
                 this.$store.dispatch('loading',true);
                 
@@ -204,27 +217,31 @@
 
                 this.$http.post('login',form)
                 .then(res => {
-                    this.$store.dispatch('loading', false);
-                    
-                    if ('token' in res.data.response) {
+                    if (res.status === 200) {
+                        this.loading = false;
 
-                        this.$session.start();
-                        this.$session.set('jwt',res.data.response.token);
-                        this.$session.set('user',res.data.response.user);
+                        if ('token' in res.data.response) {
+                            this.$router.push('/');
 
-                        this.$store.dispatch('saveToken',res.data.response.token);
-                        location.reload()
-                    } else {
+                            this.$session.start();
+                            this.$session.set('jwt',res.data.response.token);
+                            this.$session.set('user',res.data.response.user);
+                            location.reload()
+                            
+                        } else {
                         
-                        this.errors.push(res.data.response.error);
-                        this.visibility = true;
+                            this.errors.push(res.data.response.error);
+                            this.visibility = true;
+                        }
+
                     }
-                    })
-                    .catch(err => {
-                        this.errors.push(err)
-                        this.visibility = true;
+                    
+                })
+                .catch(err => {
+                    this.errors.push(err)
+                    this.visibility = true;
         
-                    })
+                })
             },
 
             resetModal() {

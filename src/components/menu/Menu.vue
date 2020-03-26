@@ -181,9 +181,9 @@
 
         methods: {
             logout() {
+                this.$router.push('/');
                 this.$session.destroy();
                 location.reload()
-                this.$router.push('/');
             }
         }
         

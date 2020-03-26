@@ -36,12 +36,15 @@
         },
 
         mounted() {
-            this.$store.dispatch('warning')
+            this.$store.dispatch('warning');
         },
 
         computed: {
             image: function() {
-                return this.warning.nm_image_path;
+                return this.warning ? 
+                this.warning.nm_image_path :
+                ''
+                
             },
             token: function() {
                 return this.$session.get('jwt')
@@ -50,7 +53,6 @@
                 return this.$store.getters.getWarning;
             },
             administrator: function() {
-                
                 let user = this.$session.get('user');
                 return user ? user.administrator : 0
             }

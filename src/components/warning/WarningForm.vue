@@ -1,7 +1,14 @@
 <template>
-    <b-modal id="warning-form" ref="warning-form-ref" title="Novo item" 
+    <b-modal id="warning-form" ref="warning-form" title="Novo item" 
        ok-only header-bg-variant="primary" header-text-variant="light" 
-        ok-title="Salvar" @ok="handleOk">
+        ok-title="Salvar" @ok="handleOk" no-close-on-backdrop >
+
+        <template v-slot:modal-footer="{ok}">      
+            <b-button @click="ok()" variant="success" size="md">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
+            </b-button>
+        </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
 
@@ -10,6 +17,7 @@
             <b-form-group label="Imagem">
                 <b-form-file v-model="file" :state="Boolean(file)" @input="image" />
             </b-form-group>
+            
 
             <b-form-group label="Ativar">
                 <b-form-radio-group v-model="form.st_status">
@@ -41,7 +49,8 @@
                 ],
                 file: null,
                 errors: [],
-                visibility: false
+                visibility: false,
+                loading: false
             }
         },
 
@@ -63,7 +72,7 @@
             },
 
             formSubmited() {
-
+                this.loading = true;
                 if (!this.form.id_warning) {
                     this.save();
                 }else {
@@ -85,6 +94,7 @@
                 .then(res => {
 
                     if (res.status === 200 ) {
+                        this.loading = false;
 
                         if (res.status.result.error) {
                             this.errors.push(res.status.result.error);
@@ -92,7 +102,7 @@
 
                         }else {
                             this.$http.dispatch('warning');
-                            this.$refs['warning-form-ref'].hide();
+                            this.$refs['warning-form'].hide();
                         }
                         
                     }
@@ -101,10 +111,10 @@
                     this.errors.push(err);
                 })
             },
-            update(){
 
+            update(){
                 this.$http.put('warning/'+this.form.id_warning,{
-                    'nu_image_path': this.form.nu_image_path,
+                    'nm_image_path': this.form.nm_image_path,
                     'st_status': this.form.st_status
                 },{
                     headers: {
@@ -113,8 +123,9 @@
                 })
                 .then(res => {
                     if(res.status === 200) {
+                        this.loading = false;
                         this.$store.dispatch('warning');
-                        this.$refs['warning-form-ref'].hide();
+                        this.$refs['warning-form'].hide();
                     }
                 })
             },
@@ -152,7 +163,9 @@
                 .then(res => {
 
                     if (res.status === 200) {
-                        this.form.nm_image_path = res.data.result.url.replace('public','storage');
+                        let image = res.data.result.url;
+                        image = image.replace('public','storage')
+                        this.form.nm_image_path = image;
                     }
                     
                 })

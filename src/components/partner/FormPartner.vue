@@ -1,10 +1,16 @@
 <template>
    <b-modal id="form-partner" ref="formpartner" size="md" title="Adicionar parceiro"
-    header-bg-variant="danger" header-text-variant="light" @ok="handleOk">
-        <b-alert variant="danger" :show="visibility" 
-            v-for="error in errors" :key="error" 
-            dismissible >{{error}}</b-alert>
+    header-bg-variant="danger" header-text-variant="light" @ok="handleOk" ok-only @hide="resetModal">
 
+        <template v-slot:modal-footer="{ok}">
+            <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
+        <ErroMessage :errors="errors" :visibility="visibility" />
+        
         <b-form @submit.stop.prevent="formSubmited">
 
             <b-form-group label="Nome do parceiro">
@@ -12,7 +18,7 @@
             </b-form-group>
 
             <b-form-group label="Link do site">
-                <b-form-input type="text" v-model="form.nm_link" />
+                <b-form-input type="text" v-model="form.nm_link" placeholder="http://www.exemplo.com" />
             </b-form-group>
 
             <b-form-group label="Image do parceiro">
@@ -25,9 +31,14 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         props: ['partner'],
+
+        components: {
+            ErroMessage
+        },
 
         data() {
             return {
@@ -37,7 +48,8 @@
                 validate:{
                     title: false,
                     file:  false
-                }
+                },
+                loading: false
             }
         },
 
@@ -53,50 +65,21 @@
 
         methods: {
 
-            validateTitle(){
-                this.form.nm_title.length > 0 ? 
-                this.validate.title = true :
-                this.errors.push('O campo nome precisa ser preenchido');
-
-                alert(this.validate.title)
-            },
-
-            validateFile() {
-                this.file != null ? this.validate.file= true : 
-                this.errors.push('Uma imagem deve ser escolhida');
-            },
-
-            validateForm() {
-                this.validateTitle();
-                this.validateFile();
-
-                this.validate.title && this.validate.file ? 
-                this.validate.form = true : 
-                this.validate.form = false
-            },
-
             handleOk(bvModalEvt){
                 bvModalEvt.preventDefault();
-                this.validateForm()
                 this.formSubmited();
             },
 
            formSubmited() {
+                this.loading = true;
 
-               if (this.validate.form) {
+                if (!this.form.id_partner) {
+                    this.save();
 
-                   if (!this.form.id_partner) {
-                       this.save();
+                } else {
+                    this.update();
+                }
 
-                   } else {
-                       this.update();
-
-                   }
-
-                   
-               }else {
-                   this.visibility = true;
-               }
            },
 
            save() {
@@ -113,14 +96,32 @@
                        }
                    })
                 .then(res => {
-
                     if (res.status === 200 ){
-                        this.$refs['formpartner'].hide()
-                        this.$store.dispatch('partners')
+
+                        this.loading = false
+
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!');
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            location.reload();   
+                        }
+
+                        if(res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$refs['formpartner'].hide()
+                            this.$store.dispatch('partners')
+                        }
+                        
                     }
                        
                 })
                 .catch(err => {
+                    this.loading = false;
                     this.errors.push(err)
                 })
 
@@ -140,13 +141,30 @@
                .then(res => {
 
                    if (res.status === 200) {
-                        this.$refs['formpartner'].hide()
-                        this.$store.dispatch('partners')
+                      if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            
+                            //location.reload();   
+                        }
+
+                        if(res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$refs['formpartner'].hide()
+                            this.$store.dispatch('partners')
+                        }
                    }
 
                })
                .catch(err => {
+                   this.loading = false;
                    this.errors.push(err)
+                   this.visibility = true;
                })
 
            },
@@ -180,7 +198,9 @@
                 .then(res => {
 
                     if (res.status === 200) {
-                        this.form.nm_image_path = res.data.result.url;
+                        let image = res.data.result.url;
+                        image = image.replace('public','storage')
+                        this.form.nm_image_path = image;
                     }
                     
                 })
@@ -211,6 +231,11 @@
                    }
                })
 
+            },
+
+            resetModal() {
+                this.visibility = false;
+                this.errors = [];
             }
         }
         

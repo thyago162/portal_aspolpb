@@ -1,10 +1,10 @@
 <template>
-   <div class="partners">
+   <div class="partners mb-3">
        <carousel :perPage="3" :autoplay="true" :autoplayTimeout="4000" 
         paginationColor="#cccccc" :autoplayHoverPause="true"> 
            <slide v-for="(partner, index) in partners" :key="index">
-               <b-img fluid :src="partner.nm_image_path.replace('public','storage')" 
-                class="ml-5 image-partner"></b-img>
+               <b-img fluid :src="partner.nm_image_path" 
+                class="ml-5 image-partner" @click="openLink(partner.nm_link)"></b-img>
            </slide>
        </carousel>
    </div>
@@ -16,18 +16,10 @@
 
         props: ['partners'],
 
-        components: {
-        },
-
-        data() {
-            return {
-             
+        methods: {
+            openLink(link) {
+                window.open(link)
             }
-        },
-
-
-        computed: {
-            
         }
         
     }

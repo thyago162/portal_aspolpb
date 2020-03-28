@@ -2,7 +2,7 @@
     <div>
         <Header />
         <MainNews />
-        <Partner :style="{display: 'none'}"/>
+        <Partner />
         <SocialNetwork :style="{display: 'none'}"/>
         <Media  :style="{display: 'none'}"/>   
     </div>

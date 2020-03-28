@@ -22,7 +22,7 @@
                         <h4>INSTITUCIONAL</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner disabled>
+                    <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
                         <font-awesome-icon icon="handshake" size="2x" class="icon alt"/>
                         <h4>PARCEIROS</h4> 
                     </b-button>

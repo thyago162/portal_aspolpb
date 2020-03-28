@@ -24,6 +24,8 @@
                  </b-col>
              </b-row>
 
+             <ErroMessage :errors="errors" :visibility="visibility"/>
+
              <b-row class="news-table">
                  <b-col>
                      <b-table :fields="fields" :items="news" striped hover 
@@ -66,10 +68,12 @@
 
 <script>
     import FormNews from '../news/FormNews';
+    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         components: {
-            FormNews
+            FormNews,
+            ErroMessage
         },
 
         mounted() {
@@ -90,6 +94,8 @@
                 currentPage: 1,
                 search: '',
                 newsItem: [],
+                visibility: false,
+                errors: []
             }
         },
 
@@ -117,7 +123,6 @@
 
         },
 
-
         methods: {
 
             editNews(item) {
@@ -126,23 +131,39 @@
 
             deleteNews(id) {
 
-                this.$http.delete('news/'+id, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!')
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
-                        }
+                if (confirm("Deseja realmente exluir?")) {
 
-                        alert('Notícia removida')
-                    }
-                })
+                    this.$http.delete('news/'+id, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        if (res.status === 200) {
+                            if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!');
+                                this.$router.push('/');
+                                this.$session.destroy();
+                                this.$store.disptach('logout');
+                                location.reload();
+                            }
+
+                            if (res.data.result.error) {
+                                this.errors.push(res.data.result.error);
+                                this.visibility = true;
+
+                            } else {
+                                this.$store.disptach('news');
+                                alert("Notícia removida");
+                            }
+
+                        }
+                    })
+                    .catch(err => {
+                        this.errors.push(err);
+                        this.visibility = true;
+                    })
+                }
             },
 
             searchItems(arraySearch) {

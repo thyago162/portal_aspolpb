@@ -175,10 +175,12 @@
                             this.loading = false;
 
                             if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!')
+                                alert('Sessão expirada... Você será redirecionado!');
+                                this.$router.push('/');
                                 this.$session.destroy();
                                 this.$store.disptach('logout');
-                                this.$router.push('/');
+                                location.reload();
+                                
                             }
 
                             if (res.data.result.error) {
@@ -216,11 +218,11 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!')
+                            alert('Sessão expirada... Você será redirecionado!');
+                            this.$router.push('/');
                             this.$session.destroy();
                             this.$store.disptach('logout');
                             location.reload();
-                            this.$router.push('/');
                         }
 
                         if (res.data.result.error) {

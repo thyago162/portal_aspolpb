@@ -23,6 +23,7 @@
 
                  </b-col>
             </b-row>
+            <ErroMessage :errors="errors" :visibility="visibility" />
             <b-row>
                 <b-col>
                     <b-table :fields="fields" :items="partners" striped hover 
@@ -61,10 +62,12 @@
 
 <script>
     import FormPartner from '../partner/FormPartner';
+    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         components: {
-            FormPartner
+            FormPartner,
+            ErroMessage
         },
 
         mounted() {
@@ -82,7 +85,9 @@
                 perPage: 5,
                 currentPage: 1,
                 partner: [],
-                search: ''
+                search: '',
+                errors: [],
+                visibility: false
             }
         },
 
@@ -114,6 +119,7 @@
             resetModal(){
                 this.partner.nm_title = '';
                 this.partner.nm_link = '';
+                this.partner.nm_image_path = '';
             },
 
             editPartners(item){
@@ -122,20 +128,37 @@
             },
 
             deletePartners(item){
-                this.$http.delete('partner/'+item.id_partner, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    
-                    if (res.status === 200) {
-                        this.$store.dispatch('partners')
-                    }
-                })
-                .catch(err => {
-                    err
-                })
+                if (confirm("Deseja realmente excluir?")) {
+                    this.$http.delete('partner/'+item.id_partner, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        
+                        if (res.status === 200) {
+                            if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!')
+                                this.$router.push('/');
+                                this.$session.destroy();
+                                this.$store.disptach('logout');
+                                location.reload();   
+                            }
+
+                            if(res.data.result.error) {
+                                this.errors.push(res.data.result.error);
+                                this.visibility = true;
+
+                            }else {
+                                this.$store.dispatch('partners')
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        this.errors.push(err);
+                        this.visibility = true;
+                    })
+                }
             },
 
             searchItems(arraySearch) {

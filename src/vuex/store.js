@@ -19,10 +19,19 @@ export default new Vuex.Store({
         juryAccessory: [],
         associated: [],
         transparency: [],
-        warning: []
+        warning: [],
+        token: null,
+        loggedIn: []
     },
 
     getters: {
+        getToken: state => {
+            return state.token;
+        },
+
+        getLoggedIn: state => {
+            return state.loggedIn;
+        },
 
         getNews: state => {
             return state.news;
@@ -77,6 +86,13 @@ export default new Vuex.Store({
         },
     },
     actions: {
+        token({commit}, token) {
+            commit('setToken', token);
+        },
+
+        loggedIn({commit}, user) {
+            commit('setLoggedIn', user);
+        },
 
         news({commit}) {
             axios.get('news')
@@ -218,6 +234,14 @@ export default new Vuex.Store({
         }, 
     },
     mutations: {
+
+        setToken(state, payload) {
+            state.token = payload;
+        },
+        
+        setLoggedIn(state, payload) {
+            state.loggedIn = payload;
+        },
 
         setNews(state, payload) {
             state.news = payload;

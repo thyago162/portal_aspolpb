@@ -1,6 +1,6 @@
 <template>
    <div class="partners mb-3">
-       <carousel :perPage="3" :autoplay="true" :autoplayTimeout="4000" 
+       <carousel :perPageCustom="customSlide" :autoplay="true" :autoplayTimeout="4000" 
         paginationColor="#cccccc" :autoplayHoverPause="true"> 
            <slide v-for="(partner, index) in partners" :key="index">
                <b-img fluid :src="partner.nm_image_path" 
@@ -15,6 +15,12 @@
     export default {
 
         props: ['partners'],
+
+        data() {
+            return {
+                customSlide: [[1400,4], [1000,3], [800,3], [400,2]]
+            }
+        },
 
         methods: {
             openLink(link) {
@@ -40,13 +46,13 @@
 
     .image-partner {
         width: 200px;
-        height: 150px;
+        max-height: 190px;
     }
 
     @media screen and (max-width: 1200px){
         .image-partner {
             width: 150px;
-            height: 100px;
+            height: 150px;
         }
         
     }
@@ -54,19 +60,9 @@
     @media screen and (max-width: 1000px){
         .image-partner {
             width: 120px;
-            height: 80px;
+            height: 120px;
         }
         
     }
-
-    @media screen and (max-width: 724px){
-        .image-partner {
-            width: 100px;
-            height: 50px;
-        }
-
-    }
-
-    
 
 </style>

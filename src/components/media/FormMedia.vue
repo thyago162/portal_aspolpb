@@ -189,8 +189,8 @@
                     'nm_title': this.form.nm_title,
                     'nm_subtitle': this.form.nm_subtitle,
                     'nm_link': this.form.nm_link,
-                    'nu_image_path': this.form.nu_image_path,
-                    'nu_audio_path': this.form.nu_audio_path,
+                    'nm_image_path': this.form.nm_image_path,
+                    'nm_audio_path': this.form.nm_audio_path,
                     'dt_date': this.form.dt_date,
                     'nu_type': this.form.nu_type
                 },{

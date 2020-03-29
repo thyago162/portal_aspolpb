@@ -208,8 +208,6 @@
 
             authenticate() {
                 this.loading = true;
-
-                this.$store.dispatch('loading',true);
                 
                 let form = new FormData();
                 form.append('email', this.formData.email);
@@ -221,15 +219,14 @@
                         this.loading = false;
 
                         if ('token' in res.data.response) {
-                            this.$router.push('/');
-
                             this.$session.start();
-                            this.$session.set('jwt',res.data.response.token);
-                            this.$session.set('user',res.data.response.user);
-                            location.reload()
+                            this.$session.set('jwt', res.data.response.token);
+                            this.$session.set('user', res.data.response.user);
+                            this.$store.dispatch('token', res.data.response.token);
+                            this.$store.dispatch('loggedIn', res.data.response.user);
+                            this.$refs['auth'].hide();
                             
                         } else {
-                        
                             this.errors.push(res.data.response.error);
                             this.visibility = true;
                         }

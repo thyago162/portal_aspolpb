@@ -7,13 +7,13 @@
                 </div>
             </b-col>
         </b-row>
-        <b-row class="background mt-4">
+        <b-row class="background mt-4 mb-3">
             <b-col>
                 <h4 class="title mt-2 ml-2">Aspol no jornal</h4>
                 <MediaSlide :medias="newspapers" :perPage="4"/>
             </b-col>
         </b-row>
-        <b-row class="mt-3">
+        <b-row class="mt-3 mb-3">
             <b-col>
                 <h4 class="title mt-2 ml-2">Aspol na rádio</h4>
                 <MediaSlide :medias="audios"  :perPage="4"/>

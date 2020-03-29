@@ -9,7 +9,7 @@
         </b-row>
         <b-row class="mt-5">
             <b-col>
-                <div class="options" v-if="isLoged">
+                <div class="options" v-if="isLoged != null">
 
                     <b-button class="control-panel-btn" v-b-modal.cp-news 
                         variant="primary"  >
@@ -103,7 +103,7 @@
 
         computed: {
             isLoged: function() {
-                return this.$session.get('user')
+                return this.$store.getters.getToken;
             }
         }
         

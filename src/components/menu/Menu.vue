@@ -49,7 +49,7 @@
                             <span class="personal-link" >MÍDIA</span>
                         </template>
                         <b-dropdown-item>
-                            <b-link class="personal-link" :to="{name: 'midia'}" disabled>
+                            <b-link class="personal-link" :to="{name: 'midia-view'}" >
                                 ASPOL NA MÍDIA
                             </b-link>
                         </b-dropdown-item>
@@ -78,7 +78,7 @@
                         </b-button>
                     </b-nav-item>
 
-                    <b-nav-item v-show="!token" >
+                    <b-nav-item  v-if="token == null" >
                         <b-button size="sm" class="personal-btn " v-b-modal.auth>
                             <span>
                                 AREA RESTRITA
@@ -87,7 +87,7 @@
                         </b-button>
                     </b-nav-item>
 
-                     <b-nav-item-dropdown v-show="token">
+                     <b-nav-item-dropdown v-else>
                         <template v-slot:button-content>
                             <b-button size="sm" class="personal-btn" >
                                 <span>
@@ -129,7 +129,7 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown  v-if="user">
+                    <b-nav-item-dropdown  v-if="token != null">
                         <template v-slot:button-content>
                             <span class="personal-link" >
                                 {{ user.name}}
@@ -160,19 +160,28 @@
     import AssociatedForm from '../associated/AssociatedForm';
     import Me from '../user/Me';
     export default {
+
         components: {
             Auth,
             ResetPassword,
             AssociatedForm,
             Me
         },
+
+        mounted() {
+            this.verifyToken();
+            this.isLoggedIn();
+        },
+
         computed: {
             token() {
-                return this.$session.has('jwt');
+                return this.$store.getters.getToken;
             },
+
             user: function() {
-                return this.$session.get('user');
+                return this.$store.getters.getLoggedIn;
             },
+
             administrator: function() {
                 let user = this.$session.get('user');
                 return user ? user.administrator : 0
@@ -180,10 +189,23 @@
         },
 
         methods: {
+            verifyToken() {
+                this.$session.has('jwt') == true ?
+                this.$store.dispatch('token', this.$session.get('jwt')) :
+                this.$store.dispatch('token',null);
+
+            },
+
+            isLoggedIn() {
+                this.$session.has('user') == true ?
+                this.$store.dispatch('loggedIn', this.$session.get('user')) :
+                this.$store.dispatch('loggedIn', {});
+
+            },
+
             logout() {
-                this.$router.push('/');
                 this.$session.destroy();
-                location.reload()
+                this.$store.dispatch('token',null);
             }
         }
         

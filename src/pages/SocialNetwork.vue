@@ -9,7 +9,7 @@
         </b-row>
         <b-row>
             <b-col cols="12">
-                <carousel :perPage="4" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
+                <carousel :perPageCustom="customSlide" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
                     paginationColor="#000fff" :autoplayHoverPause="true" >
                     <slide v-for="(item, index) in items" :key="index" :style="{marginRight: '10px'}">
                         <b-img fluid :src="item.nm_image_path.replace('public','storage')" 
@@ -33,7 +33,7 @@
 
         data() {
             return {
-
+                customSlide: [[1360,4], [1000, 3], [800,2], [500,1]]
             }
         },
 

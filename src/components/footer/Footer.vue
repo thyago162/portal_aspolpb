@@ -32,10 +32,10 @@
                                 <b-link class="personal-link">NOTICIAS</b-link>
                                 <b-link class="personal-link">ASPOL NA MÍDIA</b-link>
                             </div>
-                            <div class="">
+                            <div class="mr-2">
                                 <b-link class="personal-link">CONTATOS</b-link>
                             </div>
-                            <div class="">
+                            <div class="ml-2">
                                 <b-link class="personal-link">CONVÊNIOS</b-link>
                             </div>
                             <div class="menu-options">
@@ -102,6 +102,7 @@
         display: flex;
         flex-direction: row;
         margin-top: 50px;
+        text-align: center;
     }
 
     .menu-options {

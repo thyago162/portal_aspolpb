@@ -4,7 +4,7 @@
         <MainNews />
         <Partner />
         <SocialNetwork />
-        <Media :style="{display: 'none'}" />   
+        <Media  />   
     </div>
 </template>
 

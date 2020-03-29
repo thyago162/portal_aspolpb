@@ -1,10 +1,10 @@
 <template>
     <div>
-        <carousel :perPage="4" class="ml-2 mt-4">
+        <carousel :perPageCustom="customSlide" class="ml-2 mt-4">
             <slide v-for="(media, index) in medias" :key="index" class="mr-2" >
 
                 <div v-if="media.nu_type === 1">
-                    <b-img class="image" fluid :src="media.nm_image_path.replace('public','storage')" ></b-img>
+                    <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
                     <h5>
                         {{media.nm_title}}
                     </h5>
@@ -15,7 +15,7 @@
                     <h5>{{media.dt_date | date}}</h5>
                 </div>
 
-                <div v-if="media.nu_type === 2" >
+                <div v-if="media.nu_type === 2" class="teste" >
                     <b-embed type="iframe"  :src="media.nm_link"></b-embed>
                     <h5 class="mt-2">
                         {{media.nm_subtitle}}
@@ -57,6 +57,7 @@
         data() {
             return {
                 item: '',
+                customSlide: [[1360,4], [1000, 3], [800,2], [500,1]]
             
             }
         },
@@ -89,5 +90,5 @@
     .audio-play:hover {
         color: green;
     }
-
+    
 </style>

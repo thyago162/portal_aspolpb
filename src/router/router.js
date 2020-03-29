@@ -8,7 +8,7 @@ import About from '../pages/About';
 import Agreement from '../pages/Agreement';
 import OurHistory from '../pages/OurHistory';
 import Contact from '../pages/Contact';
-import MediaView from '../pages/Media';
+import MediaView from '../pages/MediaView';
 import File from '../pages/acesso_restrito/File';
 import Segment from '../pages/acesso_restrito/Segment';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
@@ -62,7 +62,7 @@ export default new Router({
         {
             path: '/aspol-na-midia',
             component: MediaView,
-            name: 'midia'
+            name: 'midia-view'
         },
         {
             path: '/acesso-restrito/arquivos',

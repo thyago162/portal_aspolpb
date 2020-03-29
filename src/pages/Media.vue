@@ -14,7 +14,7 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-link :to="{name: 'midia'}" class="personal-link mt-2">+ ASPOL NA MÍDIA</b-link>
+                <b-link :to="{path: 'aspol-na-midia'}" class="personal-link mt-2">+ ASPOL NA MÍDIA</b-link>
             </b-col>
         </b-row>
     </b-container>

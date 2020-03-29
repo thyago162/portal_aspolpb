@@ -1,6 +1,6 @@
 <template>
     <div>
-        <carousel :perPage="perPage" class="ml-2 mt-4">
+        <carousel :perPage="4" class="ml-2 mt-4">
             <slide v-for="(media, index) in medias" :key="index" class="mr-2" >
 
                 <div v-if="media.nu_type === 1">
@@ -9,16 +9,18 @@
                         {{media.nm_title}}
                     </h5>
                     <span>
-                        <font-awesome-icon :icon="['fa', 'globe']" class="audio-play"  />
+                        <font-awesome-icon :icon="['fa', 'globe']" class="audio-play"  @click="redirectTo(media.nm_link)"/>
                         Clique no ícone para visualizar...
                     </span>
+                    <h5>{{media.dt_date | date}}</h5>
                 </div>
 
-                <div v-if="media.nu_type === 2">
-                    <b-embed type="iframe" aspect="16by9" :src="media.nm_link"></b-embed>
+                <div v-if="media.nu_type === 2" >
+                    <b-embed type="iframe"  :src="media.nm_link"></b-embed>
                     <h5 class="mt-2">
                         {{media.nm_subtitle}}
                     </h5>
+                    <h5>{{media.dt_date | date}}</h5>
                 </div>
             
                 <div v-if="media.nu_type === 3" >
@@ -27,11 +29,13 @@
                     <h5 class="mt-2">
                         {{media.nm_subtitle}}
                     </h5>
+                    
                     <span>
                         <font-awesome-icon :icon="['fa', 'headphones']" class="audio-play" 
                         v-b-modal.play-sound @click="playSound(media.nm_audio_path)"  />
                         Clique no ícone para começar a escutar...
                     </span>
+                    <h5>{{media.dt_date | date}}</h5>
                 </div>
             </slide>
             

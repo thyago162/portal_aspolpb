@@ -21,10 +21,9 @@
 
         <b-row class="mt-4">
             <b-col>
-                <b-alert variant="danger" :show="visibility" 
-                    v-for="(error, index) in errors" :key="index" 
-                    dismissible >{{error}}</b-alert>
-                    
+                
+                <ErroMessage :errors="errors" :visibility="visibility" />
+
                 <b-table :fields="fields" :items="media" hover id="media-table" 
                     :per-page="perPage" :current-page="currentPage">
 
@@ -58,10 +57,12 @@
 
 <script>
     import FormMedia from '../media/FormMedia';
+    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         components: {
-            FormMedia
+            FormMedia,
+            ErroMessage
         },
 
         mounted() {
@@ -149,13 +150,14 @@
             },
 
             resetModal() {
-               this.item.nm_title = '';
-               this.item.nm_subtitle = '';
-               this.item.nm_link = '';
-               this.item.nm_image_path = '';
-               this.item.nm_audio_path = '';
-               this.item.dt_date = '';
-               this.item.nu_type = '';
+                this.item.id_midia = '';
+                this.item.nm_title = '';
+                this.item.nm_subtitle = '';
+                this.item.nm_link = '';
+                this.item.nm_image_path = '';
+                this.item.nm_audio_path = '';
+                this.item.dt_date = '';
+                this.item.nu_type = '';
             }
         }
         

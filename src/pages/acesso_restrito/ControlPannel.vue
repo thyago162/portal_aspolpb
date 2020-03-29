@@ -37,7 +37,7 @@
                         <h4>ASSOCIADOS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network disabled>
+                    <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network >
                         <font-awesome-icon icon="tv" size="2x" class="icon alt"/>
                         <h4>MIDIAS SOCIAIS</h4>
                     </b-button>

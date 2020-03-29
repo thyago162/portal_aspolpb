@@ -6,7 +6,7 @@
                 <b-tab title="Redes sociais">
                     <SocialNetworkView />
                 </b-tab>
-                <b-tab title="Aspol na mídia">
+                <b-tab title="Aspol na mídia" disabled>
                     <Media />
                 </b-tab>
             </b-tabs>

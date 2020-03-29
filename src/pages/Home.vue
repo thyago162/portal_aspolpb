@@ -3,8 +3,8 @@
         <Header />
         <MainNews />
         <Partner />
-        <SocialNetwork :style="{display: 'none'}"/>
-        <Media  :style="{display: 'none'}"/>   
+        <SocialNetwork />
+        <Media :style="{display: 'none'}" />   
     </div>
 </template>
 

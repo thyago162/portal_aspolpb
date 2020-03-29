@@ -1,10 +1,24 @@
 <template>
     <b-modal id="form-media" ref="media" title="Novo item" size="lg" 
-        header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-title="Salvar">
+        header-bg-variant="success" header-text-variant="light"
+            @ok="handleOk" ok-title="Salvar" ok-only @hide="resetErrors">
+        
+         <template v-slot:modal-footer="{ok}">
+             <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
 
         <ErrorMessage :errors="errors" :visibility="visibility" />
 
-        <form @submit.stop.prevent="formSubmited">
+        <form @submit.stop.prevent="formSubmited" class="mb-2">
+
+             <b-form-group label="Tipo da notícia">
+                <b-form-radio-group v-model="form.nu_type" :options="options"
+                    @change="selectForm" required >
+                </b-form-radio-group>
+            </b-form-group>
 
             <b-form-group label="Título">
                 <b-form-input type="text"  v-model="form.nm_title" required/>
@@ -14,7 +28,7 @@
                 <b-form-input type="text" v-model="form.nm_subtitle"   required/>
             </b-form-group>
 
-            <b-form-group label="Link">
+            <b-form-group label="Link" v-if="form.nu_type != 2">
                 <b-form-input  type="text"  v-model="form.nm_link" required/>
             </b-form-group>
 
@@ -24,7 +38,7 @@
 
             <b-row>
                 <b-col>
-                    <b-form-group label="Imagem">
+                    <b-form-group label="Imagem" v-if="selected != 2">
                         <image-uploader
                             :debug="1"
                             :maxWidth="550"
@@ -39,20 +53,16 @@
                             doNotResize="['gif', 'svg']"
                             @input="setImage"
                          ></image-uploader>
+                         {{form.nm_image_path}}
                     </b-form-group>
                 </b-col>
                 <b-col>
-                     <b-form-group  label="Audio">
+                     <b-form-group  label="Audio" v-if="selected == 3">
                         <b-form-file v-model="file" :state="Boolean(form.nm_audio_path)" 
                             @input="setAudio('audios')" accept=".mp3, .wma"></b-form-file>
                     </b-form-group>
                 </b-col>
             </b-row>
-
-             <b-form-group label="Tipo">
-                <b-form-radio-group :options="options"  v-model="form.nu_type">
-                </b-form-radio-group>
-            </b-form-group>
 
         </form>
     </b-modal>
@@ -80,7 +90,9 @@
                 errors: [],
                 file: null,
                 hasImage: false,
-                visibility: false
+                visibility: false,
+                loading: false,
+                selected: 0
 
             }
         },
@@ -119,13 +131,13 @@
             },
 
             formSubmited() {
+                this.loading = true;
 
                 if (!this.form.id_media) {
                     this.save();
                 }else {
                     this.update();
                 }
-
             },
 
             save(){
@@ -146,14 +158,20 @@
                 .then(res => {
 
                     if (res.status === 200 ) {
-                        
-                        this.errors = [];
+
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!');
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            location.reload();   
+                        }
 
                         if (res.data.result.error) {
                             this.errors.push(res.data.result.error);
                             this.visibility = true;
-                        } else {
 
+                        } else {
                             this.$store.dispatch('media')
                             this.$refs['media'].hide();
                         }
@@ -182,8 +200,23 @@
                 })
                 .then(res => {
                     if(res.status === 200) {
-                        this.$store.dispatch('media');
-                        this.$refs['media'].hide();
+
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!');
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            location.reload();   
+                        }
+
+                        if (res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        } else {
+                            this.$store.dispatch('media')
+                            this.$refs['media'].hide();
+                        }
                     }
                 })
             },
@@ -219,13 +252,14 @@
                     if (res.status === 200) {
 
                         param === 'images' ?
-                        this.form.nm_image_path = res.data.result.url :
-                        this.form.nm_audio_path = res.data.result.url
+                        this.form.nm_image_path = res.data.result.url.replace('public','storage') :
+                        this.form.nm_audio_path = res.data.result.url.replace('public','storage')
                     }
                     
                 })
                 .catch(err => {
-                    this.erro = err;
+                    this.errors.push(err);
+                    this.visibility = true;
                 })
 
             },
@@ -247,11 +281,24 @@
                    }
                })
                .then(res => {
-                   
-                   res
+                   if (res.status === 200) {
+                        param === 'images' ?
+                        this.form.nm_image_path = '' :
+                        this.form.nm_audio_path = ''
+                   }
                })
 
             },
+
+            resetErrors() {
+                this.errors = [];
+                this.visibility = false;
+                this.loading = false;
+            },
+
+            selectForm(option) {
+                this.selected = option;
+            }
         
             
         }

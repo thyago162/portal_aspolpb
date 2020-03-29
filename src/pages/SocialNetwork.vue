@@ -9,13 +9,13 @@
         </b-row>
         <b-row>
             <b-col cols="12">
-                <carousel :perPage="3" class="mt-2" :autoplay="true" :autoplayTimeout="4000" 
+                <carousel :perPage="4" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
                     paginationColor="#000fff" :autoplayHoverPause="true" >
                     <slide v-for="(item, index) in items" :key="index" :style="{marginRight: '10px'}">
-                        <a @click="redirectTo(item.nm_link)">
                         <b-img fluid :src="item.nm_image_path.replace('public','storage')" 
                             :alt="item.nm_title" class="social-midia-image" />
-                        <h5 class="mt-2">{{item.nm_title}}</h5>
+                        <a @click="redirectTo(item.nm_link)" >
+                            {{item.nm_title}}
                         </a>
                     </slide>
                 </carousel>
@@ -94,6 +94,11 @@
         margin: 5px;
     }
 
+    a {
+        font-weight: bolder;
+        font-size: 17px;
+    }
+
     @media screen and (max-width: 1400px) {
         .social-midia-title {
             width: 150px;
@@ -103,6 +108,11 @@
         h5 {
             font-size: 16px;
             font-weight: bold;
+        }
+
+        a {
+            font-weight: bolder;
+            font-size: 12px;
         }
     }
 
@@ -115,6 +125,11 @@
         h5 {
             font-size: 14px;
         }
+
+        a {
+            font-weight: bolder;
+            font-size: 11px;
+        }
         
     }
 
@@ -125,6 +140,11 @@
         }
 
         h5 {
+            font-size: 10px;
+        }
+
+        a {
+            font-weight: bolder;
             font-size: 10px;
         }
         

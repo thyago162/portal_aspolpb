@@ -16,9 +16,13 @@
                     @click="resetModal" :style="{float: 'right'}">+ novo item</b-button>
             </b-col>
         </b-row>
+
+        <ErroMessage :errors="errors" :visibility="visibility" />
+
         <b-row class="mt-3">
             <b-col>
-                <b-table :fields="fields" hover :items="item">
+                <b-table :fields="fields" hover :items="item" id="social-network-table" 
+                    :current-page="currentPage" :per-page="perPage">
 
                     <template v-slot:cell(edit)="row" > 
                         <b-button size="sm"  @click="editItem(row.item)" 
@@ -37,6 +41,16 @@
                         {{row.item.dt_date | date }}
                     </template>
                 </b-table>
+
+                <div class="overflow-auto">
+                    <b-pagination
+                        align="center"
+                        v-model="currentPage"
+                        :total-rows="rows"
+                        :per-page="perPage"
+                        aria-controls="social-network-table"
+                    ></b-pagination>
+                </div>
             </b-col>
         </b-row>
         <FormSocialNetwork :item="socialNetwork" />
@@ -45,10 +59,12 @@
 
 <script>
     import FormSocialNetwork from './FormSocialNetwork';
+    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         components: {
-            FormSocialNetwork
+            FormSocialNetwork,
+            ErroMessage
         },
 
         mounted() {
@@ -66,11 +82,15 @@
                 ],
                 socialNetwork: [],
                 errors: [],
-                search: ''
+                search: '',
+                perPage: 5,
+                currentPage: 1,
+                visibility: false,
             }
         },
 
         computed: {
+
             item: function() {
                 if (this.search.length > 0) {
                     return this.searchItem(this.$store.getters.getSocialNetwork);
@@ -78,6 +98,10 @@
                 }else {
                     return this.$store.getters.getSocialNetwork;
                 }
+            },
+
+            rows: function() {
+                return this.item.length;
             }
         },
 
@@ -86,7 +110,7 @@
                 this.socialNetwork = item
             },
 
-            deleteItem (id){
+            deleteItem (id){                
                 if(confirm('Deseja realmente excluir?')) {
                     this.$http.delete('social-network/'+id, {
                         headers: {
@@ -95,7 +119,23 @@
                     })
                     .then(res => {
                         if (res.status === 200) {
-                            this.$store.dispatch('socialNetwork');
+
+                             if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!');
+                                this.$router.push('/');
+                                this.$session.destroy();
+                                this.$store.disptach('logout');
+                                location.reload();   
+                            }
+
+                            if (res.data.result.error) {
+                                this.errors.push(res.data.result.error);
+                                this.visibility = true;
+
+                            } else {
+                                this.$store.dispatch('socialNetwork')
+                                this.$refs['socialnetwork'].hide()
+                            }
                         }
                     })
                     .catch(err => {

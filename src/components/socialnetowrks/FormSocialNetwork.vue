@@ -1,15 +1,22 @@
 <template>
     <b-modal id="form-social-network" ref="socialnetwork" title="Novo item" header-bg-variant="success" 
-        header-text-variant="light" @ok="handleOk" ok-title="Salvar" ok-only>
+        header-text-variant="light" @ok="handleOk" ok-title="Salvar" ok-only @hide="resetErrors">
+
+        <template v-slot:modal-footer="{ok}">
+             <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
 
         <ErrorMessage :errors="errors" :visibility="visibility" />
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Titulo">
-                <b-form-input type="text" v-model="form.nm_title"/>
+                <b-form-input type="text" v-model="form.nm_title" placeholder="Informe o título"/>
             </b-form-group>
 
             <b-form-group label="Link">
-                <b-form-input type="text" v-model="form.nm_link"/>
+                <b-form-input type="text" v-model="form.nm_link" placeholder="http://exemplo.com.br"/>
             </b-form-group>
 
             <b-form-group label="Data">
@@ -37,7 +44,8 @@
             return {
                 file: null,
                 errors: [],
-                visibility: false
+                visibility: false,
+                loading: false
             }
         },
 
@@ -58,6 +66,7 @@
             },
             
             formSubmited() {
+                this.loading = true;
 
                 if (!this.form.id_social_network) {
                     this.save();
@@ -82,7 +91,15 @@
                 })
                 .then(res => {
                     if (res.status === 200 ) {
-                        this.errors = [];
+                        this.loading = false;
+
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!');
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            location.reload();   
+                        }
 
                         if (res.data.result.error) {
                             this.errors.push(res.data.result.error);
@@ -95,9 +112,12 @@
                     }
                 })
                 .catch(err => {
+                    this.loading = false;
                     this.errors.push(err)
+                    this.visibility = true;
                 })
             },
+
             update(){
 
                 this.$http.put('social-network/'+this.form.id_social_network,{
@@ -112,7 +132,15 @@
                 })
                  .then(res => {
                     if (res.status === 200 ) {
-                        this.errors = [];
+                        this.loading = false;
+
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!');
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                            location.reload();   
+                        }
 
                         if (res.data.result.error) {
                             this.errors.push(res.data.result.error);
@@ -126,7 +154,9 @@
                     }
                 })
                 .catch(err => {
+                    this.loading = false;
                     this.errors.push(err)
+                    this.visibility = true;
                 })
             },
 
@@ -186,11 +216,16 @@
                .then(res => {
                    
                    if (res.status === 200) {
-                       alert('Imagem removida');
+                       this.form.nm_image_path = '';
                    }
                })
 
             },
+
+            resetErrors() {
+                this.errors = [];
+                this.visibility = false;
+            }
         }
         
     }

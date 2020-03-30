@@ -14,6 +14,7 @@
                 <span :style="{fontWeight: 'bolder'}">{{btnTitle}}</span>
                 <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
             </b-button>
+            
         </template>
         <b-container fluid>
            

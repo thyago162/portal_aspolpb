@@ -1,7 +1,14 @@
 <template>
    <div>
        <b-modal id="form-agreement" ref="agreement" title="CONVÊNIOS" size="xl" 
-        header-bg-variant="dark" header-value-variant="light" @ok="handleOk">
+        header-bg-variant="dark" header-value-variant="light" @ok="handleOk" header-text-variant="light">
+
+        <template v-slot:modal-footer="{ok}">
+             <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
 
             <ErroMessage :errors="errors" :visibility="visibility" />
 
@@ -10,33 +17,33 @@
                    <b-row>
                        <b-col lg="5"> 
                            <b-form-group label="Nome">
-                               <b-form-input type="text" v-model="form.nm_title" />
+                               <b-form-input type="text" v-model="form.nm_title" placeholder="Nome da empresa convêniada"/>
                            </b-form-group>
                            
-                           <b-form-group label="Imagem">
+                           <b-form-group label="Logo da empresa">
                                <b-form-file accept=".jpg, .png" v-model="file" 
                                 :state="Boolean(file)" @input="image('image')"></b-form-file>
                            </b-form-group>
 
-                           <b-form-group label="Pdf">
+                           <b-form-group label="Contrato">
                                <b-form-file accept="application/pdf" v-model="file" 
                                 :state="Boolean(file)" @input="image('pdf')"></b-form-file>
                            </b-form-group>
 
                            <b-form-group label="Site">
-                               <b-form-input v-model="form.nm_link" />
+                               <b-form-input v-model="form.nm_link" placeholder="Site da empresa, com http" />
                            </b-form-group>
 
                             <b-form-group label="Instagram">
-                               <b-form-input v-model="instagram" />
+                               <b-form-input v-model="instagram" type="text" placeholder="Instagram da empresa" />
                            </b-form-group>
 
                             <b-form-group label="Facebook">
-                               <b-form-input v-model="facebook" />
+                               <b-form-input v-model="facebook" type="text" />
                            </b-form-group>
 
                             <b-form-group label="Twitter">
-                               <b-form-input v-model="twitter"/>
+                               <b-form-input v-model="twitter" type="text" />
                            </b-form-group>
                        </b-col>
                        <b-col lg="7">
@@ -72,7 +79,7 @@
                        </b-col>
                        <b-col xl="1">
                            <b-form-group label="Número">
-                               <b-form-input v-model="form.nu_number"/>
+                               <b-form-input v-model="form.nu_number" type="number" min="0"/>
                            </b-form-group>
                        </b-col>
                        <b-col xl="3">
@@ -92,7 +99,7 @@
                                <b-form-input v-model="form.nm_city" />
                            </b-form-group>
                        </b-col>
-                       <b-col xl="1">
+                       <b-col xl="2">
                            <b-form-group label="UF">
                                <b-form-input placeholder="Ex: PB" v-model="form.nm_uf"></b-form-input>
                            </b-form-group>
@@ -134,6 +141,7 @@
         data() {
             return {
                 file: null,
+                loading: false,
                 errors: [],
                 visibility: false,
                 instagram: ' ',
@@ -186,6 +194,7 @@
             },
 
             formSubmited() {
+                this.loading = true;
 
                 if (!this.form.id_agreement) {
                     this.save();
@@ -221,11 +230,13 @@
                 })
                 .then(res => {
                     if(res.status === 200) {
+                        this.loading = false;
 
                         if (res.data.token_failure) {
                             alert('Sessão expirada... Você será redirecionado!')
                             this.$session.destroy();
                             this.$store.disptach('logout');
+                            this.$store.disptach('token', null);
                             this.$router.push('/');
                         }
                         if (res.data.result.error) {
@@ -240,9 +251,9 @@
                     }
                 })
             },
-            update(id){
+            update(){
 
-                this.$http.put('agreement'+id,{
+                this.$http.put('agreement/'+this.form.id_agreement,{
                     'nm_title': this.form.nm_title,
                     'nm_content': this.form.nm_content,
                     'nm_image_path': this.form.nm_image_path,
@@ -250,17 +261,27 @@
                     'nm_link': this.form.nm_link,
                     'nm_social_network_link': this.form.nm_social_network_link,
                     'nm_category': this.form.nm_category,
-                    'nm_city': this.form.nm_city
+                    'nm_cep': this.form.nm_cep,
+                    'nm_street': this.form.nm_street,
+                    'nu_number': this.form.nu_number,
+                    'nm_neighbohood': this.form.nm_neighbohood,
+                    'nm_complement': this.form.nm_complement,
+                    'nm_city': this.form.nm_city,
+                    'nm_uf': this.form.nm_uf
                 },{
                     headers: {
                         Authorization: 'Bearer '+this.token
                     }
                 })
                 .then(res => {
-                    if (res.data.token_failure) {
+                    if (res.status === 200) {
+                        this.loading = false;
+
+                        if (res.data.token_failure) {
                             alert('Sessão expirada... Você será redirecionado!')
                             this.$session.destroy();
                             this.$store.disptach('logout');
+                            this.$store.disptach('token', null);
                             this.$router.push('/');
                         }
                         if (res.data.result.error) {
@@ -271,6 +292,7 @@
                             this.$store.dispatch('agreement');
                             this.$refs['agreement'].hide();
                         }
+                    }
                 })
             },
 

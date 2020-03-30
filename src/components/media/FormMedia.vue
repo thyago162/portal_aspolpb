@@ -159,10 +159,10 @@
 
                         if (res.data.token_failure) {
                             alert('Sessão expirada... Você será redirecionado!');
-                            this.$router.push('/');
+                            this.$store.disptach('token', null);
                             this.$session.destroy();
                             this.$store.disptach('logout');
-                            location.reload();   
+                            this.$router.push('/');  
                         }
 
                         if (res.data.result.error) {
@@ -201,10 +201,10 @@
 
                         if (res.data.token_failure) {
                             alert('Sessão expirada... Você será redirecionado!');
-                            this.$router.push('/');
+                            this.$store.disptach('token', null);
                             this.$session.destroy();
                             this.$store.disptach('logout');
-                            location.reload();   
+                            this.$router.push('/');
                         }
 
                         if (res.data.result.error) {

@@ -15,27 +15,28 @@
                     </b-col>
                     <b-col >
                         <div class="icons">
-                            <b-link  class="mr-2" :style="{color: 'red'}">
+                            <b-link  class="mr-2" :style="{color: 'red'}" v-if="administrator === 1" 
+                                @click="openLink(item.nm_file_path)">
                                 <font-awesome-icon size="2x" :icon="['fa','file-pdf']" 
                                     class="icont alt personal-icons " />
                             </b-link>
 
-                            <b-link class="mr-2" :to="item.nm_link">
+                            <b-link class="mr-2" @click="openLink(item.nm_link)">
                                 <font-awesome-icon size="2x" :icon="['fa', 'globe']" 
                                     class="icont alt personal-icons" />
                             </b-link>
 
-                            <b-link class="mr-2" :style="{color: '#00ACEE'}" :to="twitter">
+                            <b-link class="mr-2" :style="{color: '#00ACEE'}" @click="openLink(twitter)">
                                 <font-awesome-icon :icon="['fab', 'twitter-square']" 
                                     size="2x" class="icon alt personal-icons" />
                             </b-link>
 
-                            <b-link class="mr-2" :to="facebook">
+                            <b-link class="mr-2" @click="openLink(facebook)">
                                 <font-awesome-icon size="2x" :icon="['fab', 'facebook-square']" 
                                     class="icon alt personal-icons" />
                             </b-link>
 
-                            <b-link :style="{color: '#3f729b'}" :to="instagram">
+                            <b-link :style="{color: '#3f729b'}" @click="openLink(instagram)">
                                 <font-awesome-icon :icon="['fab', 'instagram-square']" 
                                     size="2x" class="icon alt personal-icons" />
                             </b-link>
@@ -80,9 +81,14 @@
         computed: {
             image: function() {
                 return this.item.nm_image_path ? 
-                    this.item.nm_image_path.replace('public','storage') : 
+                    this.item.nm_image_path : 
                     ''
             },
+
+            administrator: function() {
+                let user = this.$session.get('user');
+                return user ? user.administrator : 0
+            }
         },
 
         data() {
@@ -108,6 +114,10 @@
                     this.twitter = this.socialNetworks[2]
                 }
             },
+
+            openLink(url) {
+                window.open(url);
+            }
         }
         
     }

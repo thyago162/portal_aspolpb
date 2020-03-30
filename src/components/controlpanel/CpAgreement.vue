@@ -67,7 +67,8 @@
 
             token: function() {
                 return this.$session.get('jwt');
-            }
+            },
+
         },
         data() {
             return {
@@ -101,6 +102,7 @@
                                 this.$session.destroy();
                                 this.$store.dispatch(this.token)
                                 this.$router.push('/');
+                                this.$store.disptach('token', null);
                             }
 
                             this.$store.dispatch('agreement')

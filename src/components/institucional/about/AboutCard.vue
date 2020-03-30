@@ -1,5 +1,5 @@
 <template>    
-    <b-card class="mt-4" img-left :style="{width: '550px'}">
+    <b-card class="mt-4" img-left :style="{width: '500px'}">
         <template v-slot:header v-if="board.nm_image_path">
             <img :src="image" width="150px" height="150px" >
         </template>
@@ -24,9 +24,8 @@
         computed: {
             image: function() {
                 return this.board.nm_image_path ?
-                    this.board.nm_image_path.replace('public','storage') : 
+                    this.board.nm_image_path : 
                     ''
-                
             }
         }
         

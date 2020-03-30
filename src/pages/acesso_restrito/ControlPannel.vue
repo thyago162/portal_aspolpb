@@ -17,7 +17,7 @@
                         <h4>NOTÍCIAS</h4> 
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional disabled>
+                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-institucional >
                         <font-awesome-icon  icon="building" class="icon alt" size="2x"/>
                         <h4>INSTITUCIONAL</h4>
                     </b-button>
@@ -27,7 +27,7 @@
                         <h4>PARCEIROS</h4> 
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement disabled>
+                    <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement >
                         <font-awesome-icon icon="file" size="2x" class="icon alt"/>
                         <h4> CONVÊNIOS</h4>
                     </b-button>

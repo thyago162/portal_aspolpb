@@ -43,15 +43,17 @@
             image: function() {
                 return this.warning ? 
                 this.warning.nm_image_path :
-                ''
-                
+                ''  
             },
+
             token: function() {
                 return this.$session.get('jwt')
             },
+
             warning: function() {
                 return this.$store.getters.getWarning;
             },
+            
             administrator: function() {
                 let user = this.$session.get('user');
                 return user ? user.administrator : 0

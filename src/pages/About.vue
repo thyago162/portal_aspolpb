@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="mb-4">
         <b-row>
-            <b-col class="head ml-5">
+            <b-col class="head ml-3 mr-2">
                 <div class="title">
                     <h5>QUEM SOMOS</h5>
                 </div>
@@ -11,7 +11,9 @@
             <b-col>
                 <b-tabs class="ml-4">
                     <b-tab title="Presidência">
-                        <AboutCard :board="item" v-for="(item, index) in about" :key="index" />
+                        <div class="about">
+                            <AboutCard :board="item" v-for="(item, index) in about" :key="index" />
+                        </div>
                     </b-tab>
                     <b-tab title="Diretoria">
                         <div class="about">
@@ -109,7 +111,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
 </style>

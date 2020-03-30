@@ -18,7 +18,7 @@
                         </b-link>
                     </b-nav-item>
 
-                    <b-nav-item-dropdown disabled>
+                    <b-nav-item-dropdown >
                         <template v-slot:button-content>
                             <span class="personal-link" >INSTITUCIONAL</span>
                         </template>
@@ -26,8 +26,8 @@
                             <b-link :to="{name: 'sobre'}" class="personal-link">
                                 QUEM SOMOS
                             </b-link> 
-                        </b-dropdown-item>
-                        <b-dropdown-item>
+                        </b-dropdown-item >
+                        <b-dropdown-item >
                             <b-link :to="{name: 'historia'}" class="personal-link">
                                 NOSSA HISTÓRIA
                             </b-link>
@@ -61,12 +61,7 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item>
-                        <b-link :to="{name: 'contato'}" class="personal-link">
-                            CONTATOS
-                        </b-link>
-                    </b-nav-item>
-                    <b-nav-item disabled>
+                    <b-nav-item >
                         <b-link :to="{name: 'convênio'}" class="personal-link">
                             CONVÊNIOS
                         </b-link>

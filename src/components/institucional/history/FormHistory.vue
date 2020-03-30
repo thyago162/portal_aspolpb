@@ -1,6 +1,15 @@
 <template>
-    <b-modal id="form-history" ref="form-history" 
-        title="Nossa história" size="xl" @ok="handleOk">
+    <b-modal id="form-history" ref="form-history" header-bg-variant="success" header-text-variant="light" 
+        title="Nossa história" size="xl" @ok="handleOk" ok-only>
+
+        <template v-slot:modal-footer="{ok}">
+             <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
+        <ErroMessage :errors="errors" :visibility="visibility" />
 
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Conteúdo">
@@ -13,12 +22,22 @@
 
 <script>
     import { VueEditor } from 'vue2-editor'
+    import ErroMessage from '../../error/ErrorMessage';
     export default {
 
         props: ['item'],
 
+        data() {
+            return {
+                errors: [],
+                loading: false,
+                visibility: false
+            }
+        },
+
         components: {
-            VueEditor
+            VueEditor,
+            ErroMessage
         },
 
         computed: {
@@ -60,8 +79,22 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
-                        this.$store.dispatch('ourHistory');
-                        this.$refs['form-history'].hide();
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                        }
+
+                        if(res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$store.dispatch('ourHistory');
+                            this.$refs['form-history'].hide();
+                        }
+                        
                     }
                 })
 
@@ -78,8 +111,21 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
-                        this.$store.dispatch('ourHistory');
-                        this.$refs['form-history'].hide();
+                        if (res.data.token_failure) {
+                            alert('Sessão expirada... Você será redirecionado!')
+                            this.$router.push('/');
+                            this.$session.destroy();
+                            this.$store.disptach('logout');
+                        }
+
+                        if(res.data.result.error) {
+                            this.errors.push(res.data.result.error);
+                            this.visibility = true;
+
+                        }else {
+                            this.$store.dispatch('ourHistory');
+                            this.$refs['form-history'].hide();
+                        }
                     }
                 })
 

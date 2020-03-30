@@ -15,8 +15,10 @@
         <form @submit.stop.prevent="formSubmited" class="mb-2">
 
              <b-form-group label="Tipo da notícia">
-                <b-form-radio-group v-model="form.nu_type" :options="options"
-                    @change="selectForm" required >
+                <b-form-radio-group v-model="form.nu_type" required @input="selectedOption(form.nu_type)">
+                    <b-form-radio :value="1">Notícias</b-form-radio>
+                    <b-form-radio :value="2">Vídeos</b-form-radio>
+                    <b-form-radio :value="3">Audíos</b-form-radio>
                 </b-form-radio-group>
             </b-form-group>
 
@@ -28,7 +30,7 @@
                 <b-form-input type="text" v-model="form.nm_subtitle"   required/>
             </b-form-group>
 
-            <b-form-group label="Link" v-if="form.nu_type != 2">
+            <b-form-group label="Link" v-if="selected != 3" >
                 <b-form-input  type="text"  v-model="form.nm_link" required/>
             </b-form-group>
 
@@ -57,7 +59,7 @@
                     </b-form-group>
                 </b-col>
                 <b-col>
-                     <b-form-group  label="Audio" v-if="selected == 3">
+                     <b-form-group  label="Audio" v-if="selected === 3">
                         <b-form-file v-model="file" :state="Boolean(form.nm_audio_path)" 
                             @input="setAudio('audios')" accept=".mp3, .wma"></b-form-file>
                     </b-form-group>
@@ -82,18 +84,12 @@
 
         data() {
             return {
-                options: [
-                    {text: 'Notícias', value: 1},
-                    {text: 'Vídeos', value: 2},
-                    {text: 'Audios', value: 3},
-                ],
                 errors: [],
                 file: null,
                 hasImage: false,
                 visibility: false,
                 loading: false,
-                selected: 0
-
+                selected: ''
             }
         },
 
@@ -101,12 +97,14 @@
             form: function() {
                 return this.media;
             },
+
             title: function() {
                 return this.form.nu_type == 1 ? 'Imagem' : 'Arquivo'
             },
+
             token: function() {
                 return this.$session.get('jwt');
-            }
+            },
         },
 
         methods: {
@@ -296,11 +294,9 @@
                 this.loading = false;
             },
 
-            selectForm(option) {
-                this.selected = option;
+            selectedOption(opt) {
+                this.selected = opt;
             }
-        
-            
         }
         
     }

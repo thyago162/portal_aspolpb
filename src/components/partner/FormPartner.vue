@@ -105,7 +105,6 @@
                             this.$router.push('/');
                             this.$session.destroy();
                             this.$store.disptach('logout');
-                            location.reload();   
                         }
 
                         if(res.data.result.error) {

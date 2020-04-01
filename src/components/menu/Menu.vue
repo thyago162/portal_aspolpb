@@ -67,7 +67,7 @@
                         </b-link>
 
                     </b-nav-item>
-                    <b-nav-item disabled>
+                    <b-nav-item >
                         <b-button size="sm" class="personal-btn associated" v-b-modal.associated-form>
                             <span>ASSOCIE-SE</span>
                         </b-button>

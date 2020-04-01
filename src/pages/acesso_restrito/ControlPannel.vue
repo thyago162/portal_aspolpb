@@ -32,7 +32,7 @@
                         <h4> CONVÊNIOS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated disabled>
+                    <b-button class="control-panel-btn" variant="info" v-b-modal.cp-associated >
                         <font-awesome-icon icon="address-card" size="2x" class="icon alt"/>
                         <h4>ASSOCIADOS</h4>
                     </b-button>
@@ -50,7 +50,7 @@
                         <h4>ARQUIVOS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
+                    <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user >
                         <font-awesome-icon icon="users" size="2x" class="icon alt" />
                         <h4>USUÁRIOS</h4>
                     </b-button>

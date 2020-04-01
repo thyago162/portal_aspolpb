@@ -1,8 +1,17 @@
 <template>
-    <b-modal title="Ficha de filiação" id="associated-form" ok-only ok-title="Enviar" 
-        size="xl" header-bg-variant="info" header-text-variant="light" @ok="handleOk">
-        <form @submit.stop.prevent="formSubmited" >
+    <b-modal title="Ficha de filiação" ref="associated" id="associated-form" ok-only ok-title="Enviar" 
+        size="xl" header-bg-variant="info" header-text-variant="light" @ok="handleOk" >
 
+        <template v-slot:modal-footer="{ok}">
+            <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Enviar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
+        <ErroMessage :errors="errors" :visibility="visibility" />
+
+        <form @submit.stop.prevent="formSubmited" >
             <b-container fluid>
                 <b-row>
                     <b-col>
@@ -104,6 +113,8 @@
                                 <b-input-group-append>
                                     <b-button variant="default" @click="searchCep">
                                         <b-icon icon="search" ></b-icon>
+                                        Buscar
+                                        <b-spinner small label="Small Spinner" class="ml-1" v-show="loadingAddress"></b-spinner>
                                     </b-button>
                                 </b-input-group-append>
                              </b-input-group>
@@ -230,7 +241,7 @@
                 </b-row>
 
                 <b-form-group label="Autorizar">
-                    <b-form-checkbox v-model="form.st_confirmed" :value="1">
+                    <b-form-checkbox v-model="form.st_confirmed" value="1" unchecked-value="0" required>
                         Autorizo descontar a contribuição conforme estabelecido na alínea "c", do art. 4º, do estatuto social desta entidade, em folha de pagamento ou débito em conta bancária, bem como contribuições extraordinárias votadas em Assembléia em favor da Aspol/PB.
                     </b-form-checkbox>
                 </b-form-group>
@@ -243,14 +254,46 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
     export default {
+
+        components: {
+            ErroMessage
+        },
 
         data() {
             return {
                 form: {
-                    personalInfo: {},
-                    jobInfo: {},
-                    address: {},
+                    personalInfo: {
+                        nu_registration: '',
+                        nm_name: '',
+                        nm_cpf: '',
+                        nm_email: '',
+                        nm_ddd: '',
+                        nm_phone: '',
+                        ch_sex: '',
+                        nu_rg: '',
+                        dt_birthday: '',
+                        nm_civil_state: '',
+                        nm_education_level: ''
+                    },
+                    jobInfo: {
+                        nm_office: '',
+                        nm_office_class: '',
+                        nm_super_stocking: '',
+                        nm_sectional_stocking: '',
+                        nm_work_unit: '',
+                        nm_municipality_work_unit: '',
+                    },
+                    address: {
+                        nm_cep: '',
+                        nm_street: '',
+                        nu_number: '',
+                        nm_complement: '',
+                        nm_neighbohood: '',
+                        nm_city: '',
+                        nm_uf: ''
+                    },
                     authorize: 0
                 },
                 dependents: [],
@@ -259,7 +302,11 @@
                 fields: [
                     {key: 'name', label: 'Nome'},
                     {key: 'birthday', label: 'Data de nascimento'}
-                ]
+                ],
+                errors: [],
+                loading: false,
+                visibility: false,
+                loadingAddress: false
             }
         },
 
@@ -277,6 +324,7 @@
 
         methods: {
             searchCep() {
+                this.loadingAddress = true;
                 let cep = this.form.address.nm_cep
 
                 this.$http('http://viacep.com.br/ws/'+cep+'/json/')
@@ -288,6 +336,8 @@
                         this.form.address.nm_neighbohood = result.bairro;
                         this.form.address.nm_city = result.localidade;
                         this.form.address.nm_uf = result.uf
+
+                        this.loadingAddress = false;
                     }
                 })
 
@@ -300,6 +350,7 @@
             },
 
             formSubmited() {
+                this.loading = true;
 
                 let form = new FormData();
                 form.append('nu_registration',this.form.personalInfo.nu_registration);
@@ -335,21 +386,41 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
-                        
-                        this.dependents.forEach(item => {
 
-                            let form = new FormData()
-                            form.append('nm_dependent_name', item.name)
-                            form.append('dt_dependent_birthday', item.birthday)
-                            form.append('fk_associated', res.data.result.associated.id_associated)
+                        if (res.data.result.error) {
+                            this.errors.push(res.data.result.error)
+                            this.visibility = true
+                        }else {
+                            this.dependents.forEach(item => {
 
-                            this.$http.post('associated-dependents', form)
-                            .then(res => {
-                                if (res.status === 200) {
-                                    res
-                                }
+                                let form = new FormData()
+                                form.append('nm_dependent_name', item.name)
+                                form.append('dt_dependent_birthday', item.birthday)
+                                form.append('fk_associated', res.data.result.associated.id_associated)
+
+                                this.$http.post('associated-dependents', form)
+                                .then(res => {
+                                    if (res.status === 200) {
+                                        this.loading = false;
+
+                                        if (res.data.result.error) {
+                                            this.errors.push(res.data.result.error)
+                                            this.visibility = true
+                                        } else {
+                                            this.$refs['associated'].hide();
+                                            alert('Dados enviados com successo.');
+                                        }
+                                    
+                                    }
+                                })
+                                .catch(err => {
+                                    this.errors.push(err);
+                                })
                             })
-                        })
+
+                        }
+                        
+                       
                     }
                 })
 
@@ -363,7 +434,7 @@
 
                 this.dependents.push(dependentList)
 
-            }
+            },
         }
         
     }

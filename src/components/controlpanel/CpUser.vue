@@ -16,7 +16,11 @@
                     </b-input-group>
                  </b-col>
                  <b-col lg="1">
-                    <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}"/>
+                     <JsonCvs
+                        :data="users">
+                        <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}"/>    
+                     </JsonCvs>
+                    
                  </b-col>
              </b-row>
              <b-row class="user-table">
@@ -54,7 +58,12 @@
 </template>
 
 <script>
+    import JsonCvs from 'vue-json-csv'
     export default {
+
+        components: {
+            JsonCvs
+        },
 
         created() {
             this.getUsers();
@@ -83,7 +92,7 @@
             },
 
             token: function() {
-                return this.$session.get('jwt')
+                return this.$store.getters.getToken;
             }
 
         },
@@ -97,14 +106,55 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
-                        this.users = res.data.result.users;
+                        if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!');
+                                this.$store.disptach('token', null);
+                                this.$session.destroy();
+                                this.$store.disptach('logout');
+                                this.$router.push('/');
+                            }
+
+                            if (res.data.result.error) {
+                                this.errors.push(res.data.result.error);
+                                this.visibility = true;
+
+                            } else {
+                                this.users = res.data.result.users;
+                            }
                     }
                     
                 })
             },
 
-            deleteUser() {
+            deleteUser(id) {
+                if(confirm('Deseja realmente excluir?')) {
+                    this.$http.delete('user/'+id, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        if (res.status === 200) {
+                            if (res.data.token_failure) {
+                                alert('Sessão expirada... Você será redirecionado!');
+                                this.$store.disptach('token', null);
+                                this.$session.destroy();
+                                this.$store.disptach('logout');
+                                this.$router.push('/');
+                            }
 
+                            if (res.data.result.error) {
+                                this.errors.push(res.data.result.error);
+                                this.visibility = true;
+
+                            } else {
+                                this.getUsers()
+                            }
+
+
+                        }
+                    })
+                }
             },
 
         }

@@ -18,7 +18,7 @@
                     Associação dos Policiais Civis de Carreira do Estado da Paraíba
                 </h6>
                 <h6>
-                    Rua Joaquim Barbosa Filho, Nº 12 - Sala 201 - Jardim São Paulo
+                    Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - Bancários
                 </h6>
                 <h6>João Pessoa - CEP: 58.053-110</h6>
                 <p class="mt-3">Telefone: (83) 3506-3429</p>

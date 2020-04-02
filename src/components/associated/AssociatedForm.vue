@@ -404,7 +404,7 @@
                                         this.loading = false;
 
                                         if (res.data.result.error) {
-                                            this.errors.push(res.data.result.error)
+                                            this.errors.push(JSON.parse(res.data.result.error))
                                             this.visibility = true
                                         } else {
                                             this.$refs['associated'].hide();

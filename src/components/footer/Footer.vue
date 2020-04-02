@@ -52,7 +52,7 @@
     
                 <b-row>
                     <b-col class="address-footer">
-                        <p>Rua Joaquim Borda Filho, Nº 12 - Sala 201 - Jardim São Paulo</p>
+                        <p>Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - Bancários</p>
                         <p>João Pessoa - PB, 58053-110</p>
                     </b-col>
                 </b-row>

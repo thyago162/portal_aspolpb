@@ -30,9 +30,9 @@
                 <b-form inline class="search">
                     <b-input-group :style="{marginTop: '4px'}" >
                         <b-form-input trim placeholder="Buscar no site" 
-                            type="text" />
+                            type="text" v-model="search" />
                         <b-input-group-append>
-                            <b-button variant="default">
+                            <b-button variant="default" @click="searchAll">
                                 <b-icon icon="search" ></b-icon>
                             </b-button>
                         </b-input-group-append>
@@ -42,9 +42,6 @@
             </b-col>
             
         </b-row>
-        
-            
-        
     </b-nav>
         
         
@@ -52,6 +49,18 @@
 
 <script>   
     export default {
+
+        data() {
+            return {
+                search: ''
+            }
+        },
+
+        methods: {
+            searchAll() {
+                this.$router.push({name: 'buscar', params: {search: this.search}})
+            }
+        }
 
     }
 </script>

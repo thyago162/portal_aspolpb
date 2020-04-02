@@ -304,8 +304,8 @@
     }
 
     .reset {
-            position: absolute;
-            margin-left: 50%;
+        position: absolute;
+        margin-left: 50%;
     }
 
     @media screen and (max-width: 990px){
@@ -314,5 +314,15 @@
             margin-left: 40%;
         }
         
+    }
+
+    @media screen and (max-width: 500px) {
+        .reset {
+            font-size: 10px;
+        }
+
+        .form {
+            width: 100%;
+        }
     }
 </style>

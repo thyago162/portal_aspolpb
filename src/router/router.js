@@ -14,6 +14,7 @@ import Segment from '../pages/acesso_restrito/Segment';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
 import ControlPannel from '../pages/acesso_restrito/ControlPannel';
+import Search from '../pages/Search';
 import NotFound from '../pages/error/NotFound';
 
 
@@ -88,6 +89,12 @@ export default new Router({
             path: '/acesso-restrito/painel-de-controle',
             component: ControlPannel,
             name: 'cp'
+        },
+        {
+            path: '/buscar/:search',
+            component: Search,
+            name: 'buscar',
+            props: { default: true, sidebar: false }
         },
         {
             path: '*',

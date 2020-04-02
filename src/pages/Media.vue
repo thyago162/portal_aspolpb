@@ -107,6 +107,10 @@
             font-size: 16px;
             font-weight: bold;
         }
+
+         .personal-link {
+            font-size: 18px;
+        }
     }
 
     @media screen and (max-width: 999px) {
@@ -117,6 +121,10 @@
 
         h5 {
             font-size: 14px;
+        }
+
+         .personal-link {
+            font-size: 16px;
         }
         
     }
@@ -129,6 +137,10 @@
 
         h5 {
             font-size: 10px;
+        }
+
+        .personal-link {
+            font-size: 14px;
         }
     }
 </style>

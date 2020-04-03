@@ -10,6 +10,8 @@
         </template>
 
         <ErrorMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
+        
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Titulo">
                 <b-form-input type="text" v-model="form.nm_title" placeholder="Informe o título"/>
@@ -31,13 +33,17 @@
 </template>
 
 <script>
+
     import ErrorMessage from '../error/ErrorMessage';
+    import Session from '../session/Session';
+
     export default {
 
         props: ['item'],
 
         components: {
-            ErrorMessage
+            ErrorMessage,
+            Session
         },
 
         data() {
@@ -45,7 +51,8 @@
                 file: null,
                 errors: [],
                 visibility: false,
-                loading: false
+                loading: false,
+                countdown: 0
             }
         },
 
@@ -94,15 +101,11 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/'); 
+                            this.countdown = 3;
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         } else {
@@ -135,15 +138,11 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');  
+                            this.countdown = 3;
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         } else {

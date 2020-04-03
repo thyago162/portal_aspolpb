@@ -25,6 +25,9 @@
 
                  </b-col>
             </b-row>
+
+            <Session :countdown="countdown"/>
+
             <b-row>
                 <b-col>
                     <b-table  striped hover :fields="fields" :items="file"
@@ -66,22 +69,24 @@
             </b-row>
         </b-modal>
 
-        <FormFile :item="file" />
+        <FormFile :item="file[0]" />
     </div>
 </template>
 
 <script>
     import FormFile from '../file/FormFile';
+    import Session from '../session/Session'
     export default {
 
         components: {
-            FormFile
+            FormFile,
+            Session
         },
 
         mounted() {
             this.$store.dispatch(
                 'file',
-                this.$session.get('jwt')
+                this.$store.getters.getToken
                 );
         },
 
@@ -96,7 +101,8 @@
                 ],
                 perPage: 5,
                 currentPage: 1,
-                search: ''
+                search: '',
+                countdown: 0
             }
         },
 
@@ -107,10 +113,9 @@
                 if (this.search.length > 0 ) {
 
                    return this.searchItems(this.$store.getters.getfile);
-               }else {
-
+                }else {
                     return this.$store.getters.getFile;
-               }
+                }
                 
             },
 
@@ -119,7 +124,7 @@
             },
 
             token: function() {
-                return this.$session.get('jwt');
+                return this.$store.getters.getToken;
             }
         },
 
@@ -130,20 +135,25 @@
             },
 
             deletefiles(item){
-                this.$http.delete('file/'+item.id_file, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    
-                    if (res.status === 200) {
-                        this.$store.dispatch('file')
-                    }
-                })
-                .catch(err => {
-                    err
-                })
+                if(confirm("Deseja realmente excluir?")) {
+                    this.$http.delete('file/'+item.id_file, {
+                        headers: {
+                            Authorization: 'Bearer '+this.token
+                        }
+                    })
+                    .then(res => {
+                        if (res.status === 200) {
+                            if (res.data.token_failure) {
+                                this.countdown = 3;
+                            }
+
+                            this.$store.dispatch('file', this.token)
+                        }
+                    })
+                    .catch(err => {
+                        this.errors.push(err);
+                    })
+                }
             },
 
             searchItems(arraySearch) {

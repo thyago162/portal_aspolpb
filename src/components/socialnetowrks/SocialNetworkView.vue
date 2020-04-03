@@ -18,6 +18,7 @@
         </b-row>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
+        <session :countdown="countdown" />
 
         <b-row class="mt-3">
             <b-col>
@@ -60,11 +61,14 @@
 <script>
     import FormSocialNetwork from './FormSocialNetwork';
     import ErroMessage from '../error/ErrorMessage';
+    import Session from '../session/Session';
+
     export default {
 
         components: {
             FormSocialNetwork,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         mounted() {
@@ -86,6 +90,7 @@
                 perPage: 5,
                 currentPage: 1,
                 visibility: false,
+                countdown: 0
             }
         },
 
@@ -121,15 +126,11 @@
                         if (res.status === 200) {
 
                              if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!');
-                                this.$router.push('/');
-                                this.$session.destroy();
-                                this.$store.disptach('logout');
-                                location.reload();   
+                               this.countdown = 3;
                             }
 
                             if (res.data.result.error) {
-                                this.errors.push(res.data.result.error);
+                                this.errors.push(Object.values(res.data.result.error));
                                 this.visibility = true;
 
                             } else {

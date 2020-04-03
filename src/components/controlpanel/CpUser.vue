@@ -108,9 +108,9 @@
                     if (res.status === 200) {
                         if (res.data.token_failure) {
                                 alert('Sessão expirada... Você será redirecionado!');
-                                this.$store.disptach('token', null);
+                                //this.$store.disptach('token', null);
                                 this.$session.destroy();
-                                this.$store.disptach('logout');
+                                //this.$store.disptach('logout');
                                 this.$router.push('/');
                             }
 

@@ -11,6 +11,7 @@
         </template>
 
             <ErroMessage :errors="errors" :visibility="visibility" />
+            <Session :countdown="countdown" />
 
            <form @submit.stop.prevent="formSubmited">
                <b-container>
@@ -115,6 +116,7 @@
 <script>
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
+    import Session from '../session/Session';
     export default {
 
         mounted() {
@@ -125,7 +127,8 @@
 
         components: {
             VueEditor,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         computed: {
@@ -173,7 +176,8 @@
                     {value: 'Transporte', text: 'Transporte'},
                     {value: 'Vestuário', text: 'Vestuário'},
                     {value: 'Outros', text: 'Outros'}
-                ]
+                ],
+                countdown: 0,
             }
         },
 
@@ -233,14 +237,10 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!')
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$store.disptach('token', null);
-                            this.$router.push('/');
+                           this.countdown = 3;
                         }
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         }else {
@@ -278,14 +278,10 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!')
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$store.disptach('token', null);
-                            this.$router.push('/');
+                            this.countdown = 3;
                         }
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         }else {

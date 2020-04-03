@@ -10,6 +10,7 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
         
         <b-form @submit.stop.prevent="formSubmited">
 
@@ -32,12 +33,14 @@
 
 <script>
     import ErroMessage from '../error/ErrorMessage';
+    import Session from '../session/Session'
     export default {
 
         props: ['partner'],
 
         components: {
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         data() {
@@ -49,7 +52,8 @@
                     title: false,
                     file:  false
                 },
-                loading: false
+                loading: false,
+                countdown: 0
             }
         },
 
@@ -101,15 +105,11 @@
                         this.loading = false
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                           this.countdown = 3;
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         }else {
@@ -141,16 +141,12 @@
                .then(res => {
 
                    if (res.status === 200) {
-                      if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/'); 
+                        if (res.data.token_failure) {
+                           this.countdown = 3;
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         }else {

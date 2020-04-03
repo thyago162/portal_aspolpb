@@ -11,6 +11,7 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
 
         <form @submit.stop.prevent="formSubmited">
 
@@ -32,13 +33,17 @@
 </template>
 
 <script>
+
     import ErroMessage from '../error/ErrorMessage';
+    import Session from '../session/Session';
+
     export default {
 
         props: ['item'],
 
         components: {
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         data() {
@@ -50,7 +55,8 @@
                 file: null,
                 errors: [],
                 visibility: false,
-                loading: false
+                loading: false,
+                countdown: 0
             }
         },
 
@@ -96,8 +102,12 @@
                     if (res.status === 200 ) {
                         this.loading = false;
 
+                        if (res.data.token_failure) {
+                            this.countdown = 3;
+                        }
+
                         if (res.status.result.error) {
-                            this.errors.push(res.status.result.error);
+                            this.errors.push(Object.values(res.status.result.error));
                             this.visibility = true;
 
                         }else {
@@ -124,8 +134,19 @@
                 .then(res => {
                     if(res.status === 200) {
                         this.loading = false;
-                        this.$store.dispatch('warning');
-                        this.$refs['warning-form'].hide();
+
+                         if (res.data.token_failure) {
+                            this.countdown = 3;
+                        }
+
+                        if (res.status.result.error) {
+                            this.errors.push(Object.values(res.status.result.error));
+                            this.visibility = true;
+
+                        }else {
+                            this.$http.dispatch('warning');
+                            this.$refs['warning-form'].hide();
+                        }
                     }
                 })
             },

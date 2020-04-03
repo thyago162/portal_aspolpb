@@ -93,7 +93,7 @@
             },
 
             item: function() {
-                return this.$store.getters.getJuryAccessory[0];
+                return this.$store.getters.getJuryAccessory;
             }
         },
 

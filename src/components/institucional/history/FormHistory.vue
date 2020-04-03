@@ -10,6 +10,7 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
 
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Conteúdo">
@@ -23,6 +24,7 @@
 <script>
     import { VueEditor } from 'vue2-editor'
     import ErroMessage from '../../error/ErrorMessage';
+    import Session from '../../session/Session';
     export default {
 
         props: ['item'],
@@ -31,13 +33,15 @@
             return {
                 errors: [],
                 loading: false,
-                visibility: false
+                visibility: false,
+                countdown: 0,
             }
         },
 
         components: {
             VueEditor,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         computed: {
@@ -80,11 +84,7 @@
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                            this.countdown = 3;
                         }
 
                         if(res.data.result.error) {

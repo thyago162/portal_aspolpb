@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal size="xl" title="Notícias" id="cp-news" ref="cpnews" 
-          no-close-on-backdrop header-bg-variant="primary" header-text-variant="light">
+          no-close-on-backdrop header-bg-variant="primary" header-text-variant="light" hide-footer>
          <b-container fluid>
 
              <b-row >
@@ -25,6 +25,7 @@
              </b-row>
 
              <ErroMessage :errors="errors" :visibility="visibility"/>
+             <Session :countdown="countdown" ref="cpNews"/>
 
              <b-row class="news-table">
                  <b-col>
@@ -69,11 +70,13 @@
 <script>
     import FormNews from '../news/FormNews';
     import ErroMessage from '../error/ErrorMessage';
+    import Session from '../session/Session';
     export default {
 
         components: {
             FormNews,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         mounted() {
@@ -95,7 +98,8 @@
                 search: '',
                 newsItem: [],
                 visibility: false,
-                errors: []
+                errors: [],
+                countdown: 0,
             }
         },
 
@@ -141,11 +145,7 @@
                     .then(res => {
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                 alert('Sessão expirada... Você será redirecionado!');
-                                this.$store.disptach('token', null);
-                                this.$session.destroy();
-                                this.$store.disptach('logout');
-                                this.$router.push('/');
+                                this.countdown = 3;
                             }
 
                             if (res.data.result.error) {

@@ -2,6 +2,13 @@
     <b-modal title="Novo item" id="new-management-form" 
         ref="new-management-ref" size="lg" @ok="handleOk">
 
+        <template v-slot:modal-footer="{ok}">
+            <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Título">
                 <b-form-input type="text" v-model="form.nm_management_name"/>
@@ -45,7 +52,8 @@
 
         data() {
             return {
-                form: {}
+                form: {},
+                loading: false
             }
         },
 
@@ -56,6 +64,7 @@
             },
 
             formSubmited() {
+                this.loading = true;
 
                 if (!this.form.id_transparency) {
                     this.save()
@@ -80,6 +89,8 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
+                        this.loading = false;
+                        
                         this.$store.dispatch('transparency', this.token)
                         this.$refs['new-management-ref'].hide()
                     }

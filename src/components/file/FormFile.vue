@@ -1,16 +1,21 @@
 <template>
    <b-modal id="form-file" ref="formfile" size="md" title="Adicionar arquivo"
-    header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-only ok-title="Salvar">
-        <b-alert variant="danger" :show="visibility" 
-            v-for="error in errors" :key="error" 
-            dismissible >{{error}}</b-alert>
+    header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-only >
+
+        <template v-slot:modal-footer="{ok}">
+             <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
+        <ErroMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
 
         <b-form @submit.stop.prevent="formSubmited">
-
             <b-form-group label="Nome do arquivo">
-                <b-form-input type="text" v-model="form.nm_name"/>
+                <b-form-input type="text" v-model="form.nm_name" />
             </b-form-group>
-
             <b-form-group label="Image do parceiro">
                 <b-form-file v-model="file" 
                     :state="Boolean(file)" @input="image"></b-form-file>
@@ -21,14 +26,23 @@
 </template>
 
 <script>
+    import ErroMessage from '../error/ErrorMessage';
+    import Session from '../session/Session';
     export default {
 
         props: ['item'],
+
+        components: {
+            ErroMessage,
+            Session
+        },
 
         data() {
             return {
                 file: null,
                 visibility: false,
+                loading: false,
+                countdown: 0,
                 errors: [],
                 value: ''
             }
@@ -36,7 +50,7 @@
 
         computed: {
             token() {
-                return this.$session.get('jwt');
+                return this.$store.getters.getToken;
             },
 
             form: function() {
@@ -52,6 +66,7 @@
             },
 
            formSubmited() {
+               this.loading = true;
 
                 if (!this.form.id_file) {
                     this.save();
@@ -76,8 +91,19 @@
                 .then(res => {
 
                     if (res.status === 200 ){
-                        this.$refs['formfile'].hide()
-                        this.$store.dispatch('file')
+
+                        if (res.data.token_failure) {
+                            this.countdown = 3;
+                        }
+
+                        if (res.data.result.error) {
+                            this.errors.push(Object.values(res.data.result.error));
+                            this.visibility = true;
+
+                        } else {
+                            this.$refs['formfile'].hide();
+                            this.$store.disptach('file', this.token);
+                        }  
                     }
                        
                 })
@@ -100,15 +126,18 @@
                .then(res => {
 
                    if (res.status === 200) {
-                       if (res.data.token) {
-                            alert('Sessão expirada... Você será redirecionado!')
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                      if (res.data.token_failure) {
+                            this.countdown = 3;
                         }
-                        
-                        this.$refs['formfile'].hide()
-                        this.$store.dispatch('file')
+
+                        if (res.data.result.error) {
+                            this.errors.push(Object.values(res.data.result.error));
+                            this.visibility = true;
+
+                        } else {
+                            this.$refs['formfile'].hide();
+                            this.$store.disptach('file', this.token);
+                        }
                    }
 
                })

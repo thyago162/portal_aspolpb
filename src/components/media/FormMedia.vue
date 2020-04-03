@@ -11,6 +11,7 @@
         </template>
 
         <ErrorMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
 
         <form @submit.stop.prevent="formSubmited" class="mb-2">
 
@@ -73,11 +74,14 @@
 <script>
     import ImageUploader from 'vue-image-upload-resize';
     import ErrorMessage from '../error/ErrorMessage';
+    import Session from '../session/Session';
+
     export default {
 
         components: {
             ImageUploader,
-            ErrorMessage
+            ErrorMessage,
+            Session
         },
 
         props: ['media'],
@@ -88,6 +92,7 @@
                 file: null,
                 hasImage: false,
                 visibility: false,
+                countdown: 0,
                 loading: false,
                 selected: ''
             }
@@ -158,15 +163,11 @@
                     if (res.status === 200 ) {
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');  
+                            this.countdown = 3;
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         } else {
@@ -200,15 +201,11 @@
                     if(res.status === 200) {
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                            this.countdown = 3;
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         } else {

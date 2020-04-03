@@ -91,26 +91,26 @@
                                 </span>
                             </b-button>
                         </template>
-                        <b-dropdown-item  disabled>
+                        <b-dropdown-item  >
                             <b-link class="personal-link" :to="{name: 'transparencia'}"> 
                                 <b-icon icon="book-half-fill"></b-icon>
                                 TRANSPARÊNCIA </b-link>
                         </b-dropdown-item>
 
-                        <b-dropdown-item disabled>
+                        <b-dropdown-item >
                             <b-link class="personal-link" :to="{name: 'sugestoes'}">
                                 <b-icon icon="chat-fill"></b-icon>
                                 SUGESTÕES
                             </b-link>
                         </b-dropdown-item>
 
-                        <b-dropdown-item disabled>
+                        <b-dropdown-item >
                             <b-link class="personal-link" :to="{name: 'assessoria-juridica'}">
                                 <b-icon icon="tag-fill"></b-icon>
                                 ACESSORIA JURÍDICA
                             </b-link>
                         </b-dropdown-item>
-                        <b-dropdown-item  disabled>
+                        <b-dropdown-item  >
                             <b-link class="personal-link" :to="{name: 'arquivos'}">
                                 <b-icon icon="folder-fill" ></b-icon>
                                  ARQUIVOS

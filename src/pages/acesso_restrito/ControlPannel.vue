@@ -42,11 +42,10 @@
                         <h4>MIDIAS SOCIAIS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file disabled>
+                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file >
                         <div class="h3">
                             <b-icon icon="folder-fill" size="2x" class="icon alt"/>
                         </div>
-                        
                         <h4>ARQUIVOS</h4>
                     </b-button>
 

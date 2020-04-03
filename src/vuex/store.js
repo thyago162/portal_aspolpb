@@ -86,6 +86,7 @@ export default new Vuex.Store({
         },
     },
     actions: {
+        
         token({commit}, token) {
             commit('setToken', token);
         },
@@ -169,7 +170,7 @@ export default new Vuex.Store({
             })
         },
 
-        file({commit},token) {
+        file({commit}, token) {
             axios.get('file', {
                 headers: {
                     Authorization: 'Bearer '+token

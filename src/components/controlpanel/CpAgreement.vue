@@ -23,6 +23,9 @@
                        </b-button>
                    </b-col>
                </b-row>
+
+               <Session :countdown="countdown"/>
+
                <b-row class="mt-4">
                    <b-col>
                        <b-table :fields="fields" :items="agreement">
@@ -43,17 +46,18 @@
                </b-row>
            </b-container>
        </b-modal>
-
        <FormAgreement :item="item"  />
    </div>
 </template>
 
 <script>
     import FormAgreement from '../agreement/FormAgreement';
+    import Session from '../session/Session';
     export default {
 
         components: {
-            FormAgreement
+            FormAgreement,
+            Session
         },
 
         mounted() {
@@ -79,7 +83,10 @@
                     {key: 'remove', label: ''}
                 ],
                 item: [],
-                search: ''
+                search: '',
+                countdown: 0,
+                errors: [],
+                visibility: false
             }
         },
 
@@ -92,17 +99,18 @@
                 if (confirm('Dejesa realmente remover?')) {
                     this.$http.delete('agreement/'+id, {
                         headers: {
-                            Authorization: 'Bearer 1'+this.token
+                            Authorization: 'Bearer '+this.token
                         }
                     })
                     .then(res => {
                         if (res.status === 200) {
-                             if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!')
-                                this.$session.destroy();
-                                this.$store.dispatch(this.token)
-                                this.$router.push('/');
-                                this.$store.disptach('token', null);
+                            if (res.data.token_failure) {
+                                this.countdown = 3;
+                            }
+
+                            if (res.data.result.error) {
+                                this.errors.push(res.data.result.error)
+                                this.visibility = true;
                             }
 
                             this.$store.dispatch('agreement')
@@ -110,7 +118,7 @@
 
                     })
                     .catch(err => {
-                        alert(err)
+                        this.errors.push(err);
                     })
                 }
             }

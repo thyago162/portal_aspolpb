@@ -1,6 +1,14 @@
 <template>
     <b-modal id="transparency-file-form" ref="transparency-file-form-ref" title="Adicionar documento" @ok="handleOk" 
     ok-title="Salvar" ok-only header-bg-variant="danger" header-text-variant="light">
+
+        <template v-slot:modal-footer="{ok}">
+            <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
         <form @submit.stop.prevent="formSubmited" >
 
             <b-form-group label="Nome do arquivo">
@@ -38,6 +46,7 @@
             return {
                 form: {},
                 file: null,
+                loading: false,
                 options: [
                     {value: 'Contabilidade', text: 'Contabilidade'},
                     {value: 'Certidão', text: 'Certidão'},
@@ -54,6 +63,7 @@
             },
 
             formSubmited() {
+                this.loading = true;
 
                 if (!this.form.id_transparency_file) {
                     this.save()
@@ -78,6 +88,7 @@
                 })
                 .then(res => {
                     if (res.status === 200) {
+                        this.loading = false;
                         this.$store.dispatch('transparency', this.token)
                         this.$refs['transparency-file-form-ref'].hide()
                     }

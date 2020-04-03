@@ -24,6 +24,8 @@
                  </b-col>
             </b-row>
             <ErroMessage :errors="errors" :visibility="visibility" />
+
+            <Session :countdown="countdown" />
             <b-row>
                 <b-col>
                     <b-table :fields="fields" :items="partners" striped hover 
@@ -63,11 +65,13 @@
 <script>
     import FormPartner from '../partner/FormPartner';
     import ErroMessage from '../error/ErrorMessage';
+    import Session from '../session/Session'
     export default {
 
         components: {
             FormPartner,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         mounted() {
@@ -87,7 +91,8 @@
                 partner: [],
                 search: '',
                 errors: [],
-                visibility: false
+                visibility: false,
+                countdown: 0
             }
         },
 
@@ -138,11 +143,7 @@
                         
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!');
-                                this.$store.disptach('token', null);
-                                this.$session.destroy();
-                                this.$store.disptach('logout');
-                                this.$router.push('/');
+                                this.countdown = 3;
                             }
 
                             if(res.data.result.error) {

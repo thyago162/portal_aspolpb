@@ -4,7 +4,7 @@
        <div >
            <b-alert variant="danger" :show="visibility" dismissible  >
                 <div v-for="(error,index) in errors" :key="index">
-                    
+                    <p>{{error}}</p>
                 </div>
        </b-alert>
 

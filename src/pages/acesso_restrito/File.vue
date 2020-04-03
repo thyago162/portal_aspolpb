@@ -33,7 +33,7 @@
     export default {
 
         mounted() {
-            this.$store.dispatch('file');
+            this.$store.dispatch('file', this.token);
         },
 
         computed: {
@@ -42,7 +42,7 @@
             },
 
             token: function() {
-                return this.$session.get('jwt');
+                return this.$store.getters.getToken;
             }
         },
 

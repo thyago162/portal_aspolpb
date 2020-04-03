@@ -8,6 +8,7 @@
         </b-row>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
+        <Session :countdown="countdown" />
 
         <b-row>
             <b-col class="mt-3">
@@ -36,6 +37,7 @@
 <script>
     import AboutForm from './AboutForm';
     import ErroMessage from '../../error/ErrorMessage';
+    import Session from '../../session/Session';
     export default {
 
         mounted() {
@@ -44,7 +46,8 @@
 
         components: {
             AboutForm,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         computed: {
@@ -71,7 +74,8 @@
                 item: [],
                 errors: [],
                 loading: false,
-                visibility: false
+                visibility: false,
+                countdown: 0
             }
         },
 
@@ -94,14 +98,11 @@
                             this.loading = false;
 
                             if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!');
-                                this.$router.push('/');
-                                this.$session.destroy();
-                                this.$store.disptach('logout');
+                                this.countdown = 3;
                             }
 
                             if(res.data.result.error) {
-                                this.errors.push(res.data.result.error);
+                                this.errors.push(Object.values(res.data.result.error));
                                 this.visibility = true;
 
                             }else {

@@ -1,6 +1,14 @@
 <template>
     <b-modal size="lg" title="Editar" id="jury-accessory-form" ref="jury-accessory" 
         header-bg-variant="info" ok-title="Salvar" ok-only  header-text-variant="light" @ok="handleOk">
+
+        <template v-slot:modal-footer="{ok}">
+            <b-button variant="danger" size="md" @click="ok()">
+                <span :style="{fontWeight: 'bolder'}">Salvar</span>
+                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+            </b-button>
+        </template>
+
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Conteúdo">
                 <VueEditor v-model="form.nm_content"/>
@@ -34,7 +42,7 @@
         computed: {
 
             token() {
-                return this.$session.get('jwt');
+                return this.$store.getters.getToken;
             },
 
             form() {
@@ -45,7 +53,8 @@
         data() {
             return {
                 errors: [],
-                file: null
+                file: null,
+                loading: false
             }
         },
 
@@ -56,6 +65,8 @@
             },
 
             formSubmited() {
+                this.loading = true;
+
                 if (!this.form.id_jury_accessory) {
                     this.save()
                 }else {
@@ -77,18 +88,26 @@
                 .then(res => {
 
                     if (res.status === 200 ) {
+                        this.loading = false;
 
-                        if (res.data.token) {
-                            alert('Sessão expirou, você será redirecionado...')
-                            this.$session.destroy();
-                            this.$router.push('/')
+                        if (res.data.token_failure) {
+                            this.countdown = 3;
                         }
-                        this.$store.dispatch('juryAccessory')
-                        this.$refs['jury-accessory'].hide();
+
+                        if (res.data.result.error) {
+                            this.errors.push(Object.values(res.data.result.error))
+                            this.visibility = true;
+
+                        } else {
+                            this.$store.dispatch('juryAccessory')
+                            this.$refs['jury-accessory'].hide();
+                        }
                     }
+                    this.loading = false
                 })
                 .catch(err => {
-                    err
+                    this.loading = false
+                    this.errors.push(err);
                 })
             },
             update(){
@@ -104,8 +123,18 @@
                 })
                 .then(res => {
                     if(res.status === 200) {
-                        this.$store.dispatch('juryAccessory');
-                        this.$refs['jury-accerrory'].hide();
+                        if (res.data.token_failure) {
+                            this.countdown = 3;
+                        }
+
+                        if (res.data.result.error) {
+                            this.errors.push(Object.values(res.data.result.error))
+                            this.visibility = true;
+
+                        } else {
+                            this.$store.dispatch('juryAccessory')
+                            this.$refs['jury-accessory'].hide();
+                        }
                     }
                 })
             },

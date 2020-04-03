@@ -10,7 +10,8 @@
             </b-button>
         </template>
 
-            <ErroMessage :errors="errors" :visibility="visibility"/>
+        <ErroMessage :errors="errors" :visibility="visibility"/>
+        <Session :countdown="countdown" />
 
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
             <b-container fluid>
@@ -83,13 +84,14 @@
 <script>
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
-
+    import Session from '../session/Session';
     export default {
         props: ['item'],
 
         components: {
             VueEditor,
-            ErroMessage
+            ErroMessage,
+            Session
         },
 
         computed: {
@@ -108,6 +110,7 @@
                 file: null,
                 loading: false,
                 hasImage: false,
+                countdown: 0,
                 errors: [],
                 visibility: false,
                 customToolbar: [
@@ -171,28 +174,23 @@
                 })
                 .then(res => {
                         
-                        if (res.status === 200) {
-                            this.loading = false;
+                    if (res.status === 200) {
+                        this.loading = false;
 
-                            if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!');
-                                this.$store.disptach('token', null);
-                                this.$session.destroy();
-                                this.$store.disptach('logout');
-                                this.$router.push('/');
-                                
-                            }
-
-                            if (res.data.result.error) {
-                                this.errors.push(res.data.result.error);
-                                this.visibility = true;
-
-                            }else {
-                                this.$store.dispatch('news');
-                                this.$refs['formnews'].hide();
-                            }
-                            
+                        if (res.data.token_failure) {
+                            this.countdown = 3;   
                         }
+
+                        if (res.data.result.error) {
+                            this.errors.push(Object.values(res.data.result.error));
+                            this.visibility = true;
+
+                        }else {
+                            this.$store.dispatch('news');
+                            this.$refs['formnews'].hide();
+                        }
+                        
+                    }
                 })
                 .catch(err => {
                     this.errors.push(err);
@@ -210,7 +208,7 @@
                     'nm_image_path' : this.news.nm_image_path
                 }, {
                     headers: {
-                        Authorization: 'Bearer '+this.token,
+                        Authorization: 'Bearer '+'bana',
                     }
                 })
                 .then( res => {
@@ -218,15 +216,11 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!');
-                            this.$store.disptach('token', null);
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                            this.countdown = 3;
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error);
+                            this.errors.push(Object.values(res.data.result.error));
                             this.visibility = true;
 
                         }else {

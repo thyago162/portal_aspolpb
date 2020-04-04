@@ -44,8 +44,8 @@
                     <b-form-group label="Imagem" v-if="selected != 2">
                         <image-uploader
                             :debug="1"
-                            :maxWidth="550"
-                            :maxHeight="300"
+                            :maxWidth="400"
+                            :maxHeight="215"
                             :quality="0.7"
                             :autoRotate="true"
                             outputFormat="file"

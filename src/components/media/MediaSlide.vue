@@ -15,7 +15,7 @@
                     <h5>{{media.dt_date | date}}</h5>
                 </div>
 
-                <div v-if="media.nu_type === 2" class="teste" >
+                <div v-if="media.nu_type === 2"  >
                     <b-embed type="iframe"  :src="media.nm_link"></b-embed>
                     <h5 class="mt-2">
                         {{media.nm_subtitle}}
@@ -90,7 +90,5 @@
     .audio-play:hover {
         color: green;
     }
-
-
     
 </style>

@@ -214,7 +214,7 @@
     }
 
     .logo {
-        width: 200px;
+        width: 150px;
         height: 70px;
         margin-top: -10px;
     }

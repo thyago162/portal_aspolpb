@@ -20,9 +20,11 @@
                         :data="users">
                         <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}"/>    
                      </JsonCvs>
-                    
                  </b-col>
              </b-row>
+
+             <Session :countdown="countdown" />
+
              <b-row class="user-table">
                  <b-col>
                      <b-table :fields="fields" :items="users" striped hover 
@@ -58,11 +60,13 @@
 </template>
 
 <script>
-    import JsonCvs from 'vue-json-csv'
+    import JsonCvs from 'vue-json-csv';
+    import Session from '../session/Session';
     export default {
 
         components: {
-            JsonCvs
+            JsonCvs,
+            Session
         },
 
         created() {
@@ -81,14 +85,15 @@
                     {key: 'delete', label: ''}
                 ],
                 users: [],
-                search: ''
+                search: '',
+                countdown: 0
             }
         },
 
         computed: { 
 
             rows: function() {
-                return this.users.length;
+                return this.user ? this.user.lenght : 0
             },
 
             token: function() {
@@ -107,20 +112,16 @@
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!');
-                                //this.$store.disptach('token', null);
-                                this.$session.destroy();
-                                //this.$store.disptach('logout');
-                                this.$router.push('/');
-                            }
+                               this.countdown = 3;
+                        }
 
-                            if (res.data.result.error) {
-                                this.errors.push(res.data.result.error);
-                                this.visibility = true;
+                        if (res.data.result.error) {
+                            this.errors.push(Object.values(res.data.result.error))
+                        }else {
+                            this.users = res.data.result.users;
+                        }
 
-                            } else {
-                                this.users = res.data.result.users;
-                            }
+            
                     }
                     
                 })
@@ -136,11 +137,7 @@
                     .then(res => {
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                alert('Sessão expirada... Você será redirecionado!');
-                                this.$store.disptach('token', null);
-                                this.$session.destroy();
-                                this.$store.disptach('logout');
-                                this.$router.push('/');
+                                this.countdown = 3;
                             }
 
                             if (res.data.result.error) {

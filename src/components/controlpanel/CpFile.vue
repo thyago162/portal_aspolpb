@@ -18,7 +18,7 @@
                  <b-col>
                 
                     <b-button v-b-modal.form-file variant="primary" 
-                        :style="{float: 'right'}">
+                        :style="{float: 'right'}" @click="resetModal">
                          <b-icon icon="plus" ></b-icon>
                          novo item
                     </b-button>
@@ -69,7 +69,7 @@
             </b-row>
         </b-modal>
 
-        <FormFile :item="file[0]" />
+        <FormFile :item="item" />
     </div>
 </template>
 
@@ -102,7 +102,8 @@
                 perPage: 5,
                 currentPage: 1,
                 search: '',
-                countdown: 0
+                countdown: 0,
+                item: []
             }
         },
 
@@ -131,7 +132,7 @@
         methods: {
 
             editfiles(item){
-                this.file = item;
+                this.item = item;
             },
 
             deletefiles(item){
@@ -169,6 +170,10 @@
 
                 return result
             },
+
+            resetModal() {
+                this.item.nm_name = ''
+            }
 
 
         }

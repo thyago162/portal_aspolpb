@@ -37,32 +37,35 @@
                         </b-tab>
                         <b-tab title="Registro de demanda jurídica">
                             
-                            <form  :style="{width: '60%'}">
+                            <form  :style="{width: '60%'}" @submit.stop.prevent="sendForm">
                                 <b-form-group>
                                     <b-form-radio-group></b-form-radio-group>
                                 </b-form-group>
 
                                 <b-form-group label="Nome completo">
-                                    <b-form-input type="text"/>
+                                    <b-form-input type="text" v-model="user.name" readonly required/>
                                 </b-form-group>
 
                                 <b-form-group label="Cidade/UF">
-                                    <b-form-input />
+                                    <b-form-input required />
                                 </b-form-group>
 
                                 <b-form-group label="E-mail">
-                                    <b-form-input type="email" />
+                                    <b-form-input type="email" readonly v-model="user.email" required/>
                                 </b-form-group>
 
-                                <b-form-group label="Nome completo">
-                                    <b-form-textarea rows="10"></b-form-textarea>
+                                <b-form-group label="Descrição">
+                                    <b-form-textarea rows="10" v-model="content"></b-form-textarea>
                                 </b-form-group>
 
                                 <b-form-group label="Anexar arquivo">
-                                    <b-form-file></b-form-file>
+                                    <b-form-file v-model="file" :state="Boolean(file)" @input="saveImage"></b-form-file>
                                 </b-form-group>
 
-                                <b-button variant="success" :style="{width: '100%'}">ENVIAR</b-button>
+                                <b-button variant="success" :style="{width: '100%'}" type="submit">
+                                    ENVIAR
+                                    <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+                                </b-button>
                             </form>
                         </b-tab>
                         </b-tabs>
@@ -70,39 +73,118 @@
                 </div>
             </b-col>
         </b-row>
+        <Session :countdown="countdown" />
         <JuryAccessoryForm :item="item" />
     </b-container>
 </template>
 
 
 <script>
+
     import JuryAccessoryForm from '../../components/jury-accessory/JuryAccesoryForm';
+    import Session from '../../components/session/Session';
+
     export default {
 
         components: {
-            JuryAccessoryForm
+            JuryAccessoryForm,
+            Session
         },
 
         mounted() {
             this.$store.dispatch('juryAccessory',this.token);
         },
 
+        data() {
+            return {
+                countdown: 0,
+                loading: false,
+                file: null,
+                content: '',
+                filePath: ''
+             
+            }
+        },
+
         computed: {
             token: function() {
-                return this.$session.get('jwt');
+                return this.$store.getters.getToken;
             },
 
             item: function() {
                 return this.$store.getters.getJuryAccessory;
-            }
+            },
+
+            user: function() {
+                return this.$session.get('user');
+            },
         },
 
         methods: {
             openFile() {
                 window.open(this.item.nm_file_path.replace('public','storage'))
-            }
-        }
+            },
 
+            sendForm(){
+                this.loading = true;
+
+                let form = new FormData();
+                form.append('name', this.user.name);
+                form.append('email', this.user.email);
+                form.append('content', this.content);
+                form.append('filePath', this.filePath);
+
+                this.$http.post('jury-accessory/email',form, {
+                    headers: {
+                        Authorization: 'Bearer '+this.token
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        this.loading = false;
+
+                        if (res.data.token_failure) {
+                            this.countdown = 3;
+
+                        }else {
+                            alert('E-mail enviado com sucesso!')
+                            location.reload()
+                        }
+                    }
+                })
+                .catch(err => {
+                    alert(err)
+                })
+            },
+
+            saveImage() {
+                let form = new FormData();
+
+                form.append('file',this.file);
+                form.append('folder','public/temp');
+
+                this.$http.post('storage/save',form,{
+                    headers: {
+                        Authorization: 'Bearer '+this.token,
+                        'Content-type': 'multipart/form-data'
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        let image = res.data.result.url;
+                        image = image.replace('public','storage')
+                        this.filePath = image;
+                    }
+                        
+                })
+                .catch(err => {
+                    this.erro = err;
+                })
+
+            },
+        },
+
+        
         
     }
 </script>

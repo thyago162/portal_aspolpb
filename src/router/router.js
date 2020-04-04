@@ -10,7 +10,7 @@ import OurHistory from '../pages/OurHistory';
 import Contact from '../pages/Contact';
 import MediaView from '../pages/MediaView';
 import File from '../pages/acesso_restrito/File';
-import Segment from '../pages/acesso_restrito/Segment';
+import Suggestion from '../pages/acesso_restrito/Suggestion';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
 import ControlPannel from '../pages/acesso_restrito/ControlPannel';
@@ -72,7 +72,7 @@ export default new Router({
         },
         {
             path: '/acesso-restrito/sugestões',
-            component: Segment,
+            component: Suggestion,
             name: 'sugestoes'
         },
         {

@@ -56,6 +56,7 @@
         background-color: lightgray;
         margin: 30px;
         width: 45%;
+        height: 150px;
         
     }
 

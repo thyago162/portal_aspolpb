@@ -19,27 +19,27 @@
                     <b-col >
                         <nav class="menu-footer">
                             <div >
-                                <b-link class="personal-link">INICIO</b-link>
+                                <b-link class="personal-link " :style="{fontWeight: 'bold'}">INICIO</b-link>
                             </div>
                             <div class="menu-options">
-                                <b-link class="personal-link">INSTITUCIONAL</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">INSTITUCIONAL</b-link>
                                 <b-link class="personal-link">QUEM SOMOS</b-link>
                                 <b-link class="personal-link">NOSSA HISTÓRIA</b-link>
                                 <b-link class="personal-link">CAMPANHA</b-link>
                             </div>
                             <div  class=" menu-options">
-                                <b-link class="personal-link">MÍDIA</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">MÍDIA</b-link>
                                 <b-link class="personal-link">NOTICIAS</b-link>
                                 <b-link class="personal-link">ASPOL NA MÍDIA</b-link>
                             </div>
                             <div class="mr-2">
-                                <b-link class="personal-link">CONTATOS</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">CONTATOS</b-link>
                             </div>
                             <div class="ml-2">
-                                <b-link class="personal-link">CONVÊNIOS</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">CONVÊNIOS</b-link>
                             </div>
                             <div class="menu-options">
-                                <b-link class="personal-link" >ÁREA RESTRITA</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">ÁREA RESTRITA</b-link>
                                 <b-link class="personal-link">TRANSPARÊNCIA</b-link>
                                 <b-link class="personal-link">SUGESTÕES</b-link>
                                 <b-link class="personal-link">ASSESSORIA JURÍDICA</b-link>
@@ -96,6 +96,7 @@
     
     .personal-link {
         color: #ffffff;
+        font-weight: normal;
     }
 
     .menu-footer {
@@ -138,6 +139,11 @@
     }
 
      @media screen and (max-width: 500px) {
+         .menu-footer {
+            flex-wrap: wrap;
+            justify-content: space-around;
+
+         }
          .menu-footer, p {
             font-size: 10px;
          }

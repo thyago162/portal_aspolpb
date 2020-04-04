@@ -2,7 +2,7 @@
     <b-container fluid >
         <b-row class="partner-title">
             <b-col class="ml-5">
-                <h4>Parceiros</h4>
+                <h5>PARCEIROS</h5>
             </b-col>
         </b-row>
         <b-row>

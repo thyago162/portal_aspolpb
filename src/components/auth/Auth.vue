@@ -36,12 +36,12 @@
                         <form @submit.stop.prevent="sendForm" :style="{width: '80%'}">
                             <b-form-group label="Nome" v-show="!auth">
                                 <b-form-input type="text" placeholder="Nome completo" 
-                                    v-model="formData.name" required  min="10" />
+                                    autocomplete v-model="formData.name" required  min="10" />
                             </b-form-group>
 
                             <b-form-group label="Email">
                                 <b-form-input type="email" placeholder="email@example.com.br" 
-                                    v-model="formData.email" required trim />
+                                autocomplete v-model="formData.email" required trim />
                             </b-form-group>
 
                             <b-link @click="closeModal" v-show="auth" class="reset" 

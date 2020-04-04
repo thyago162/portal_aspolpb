@@ -208,7 +208,7 @@
                     'nm_image_path' : this.news.nm_image_path
                 }, {
                     headers: {
-                        Authorization: 'Bearer '+'bana',
+                        Authorization: 'Bearer '+this.token,
                     }
                 })
                 .then( res => {

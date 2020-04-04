@@ -21,7 +21,6 @@
             <b-form-group label="Arquivo">
                 <b-form-file v-model="file" :state="Boolean(file)" 
                     @input="image"></b-form-file>
-                    {{form.nm_file_path}}
             </b-form-group>
 
         </form>

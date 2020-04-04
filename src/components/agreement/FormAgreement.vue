@@ -324,11 +324,8 @@
 
                     if (res.status === 200) {
 
-                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!')
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                        if (res.data.token_failure) {
+                           this.countdown = 3;
                         }
 
                         param === 'image' ?
@@ -361,10 +358,7 @@
                    
                    if (res.status === 200) {
                        if (res.data.token_failure) {
-                           alert('Sessão expirada... Você será redirecionado!');
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
-                            this.$router.push('/');
+                          this.countdown = 3;
                        }
                    }
                })

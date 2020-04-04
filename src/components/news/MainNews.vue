@@ -17,16 +17,16 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-col class="more-news-title ml-4">
-                    <b-link :to="{name: 'visualizar-noticias'}" :style="{color: '#000'}">
-                        <h5> <b-icon icon="plus"></b-icon>NOTÍCIAS</h5>
-                    </b-link>
+                <b-col class="more-news">
+                    <MoreNews/>
                 </b-col>
             </b-row>
 
             <b-row>
-                <b-col class="more-news">
-                    <MoreNews/>
+                <b-col class="more-news-title ml-5">
+                    <b-link :to="{name: 'visualizar-noticias'}" :style="{color: '#000', float: 'right'}">
+                        <h5>+ NOTÍCIAS</h5>
+                    </b-link>
                 </b-col>
             </b-row>
        

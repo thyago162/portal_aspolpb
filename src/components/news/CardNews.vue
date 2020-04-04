@@ -9,10 +9,10 @@
             <b-img src="/aspolicone.ico"  class="card-news-icon" />
             <span class="card-news-date">{{cardnews.dt_date | date}}</span>
             
-            <h6 class="card-news-title mt-1" :style="{color: 'red'}">
+            <h6 class="mt-1 card-news-title" >
                 {{cardnews.nm_title}}
             </h6>
-            <b-card-text class="mt-2 card-news-title">
+            <b-card-text class="mt-2 card-news-subtitle">
                 {{cardnews.nm_subtitle}}
             </b-card-text>
         </b-card>
@@ -64,6 +64,12 @@
 
     .card-news-title {
         font-weight: bolder;
+        color: red;
+    }
+
+    .card-news-subtitle {
+        font-weight: bolder;
+
     }
 
     @media screen and (max-width: 1400px) and (min-width: 1242px) {
@@ -101,16 +107,30 @@
             width: 100%;
         }
         .card-news-title {
-            font-size: 12px;
+            font-size: 10px;
+        }
+
+        .card-news-subtitle {
+            display: none;
         }
 
         .card-news-date {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .card-news-image {
             width: 100px;
             height: 75px;
+        }
+
+        .card-news-icon {
+            width: 15px;
+            height: 15px;
+        }
+
+        .card-news-image {
+            width: 80px;
+            height: 50px;
         }
     }
 

@@ -1,17 +1,25 @@
 <template>
-    <b-card class="mt-3" img-left :style="{overflow: 'auto'}"  >
+    <b-card class="mt-3 " img-left :style="{overflow: 'auto'}" >
         <template v-slot:header  v-if="image">
-            <b-img :src="image" width="150px" height="130px"></b-img>
+            <b-img :src="image" class="card-image" v-show="!active"></b-img>
         </template>
-        <b-card-title class="ml-3">
+        <b-card-title class="ml-3 card-title">
             {{item.nm_title}}
         </b-card-title>
         <b-card-body>
             <b-container>
                 <b-row>
                     <b-col>
-                        <b-button @click="showOrHide" 
-                            size="md"> {{!active ? '+ Detalhes' : '- Detalhes'}}</b-button>
+                        <b-button @click="active = !active" class="card-button" size="md" variant="primary">
+                            <span class="card-icon">
+                                <b-icon icon="arrows-angle-expand"  v-show="!active"></b-icon>
+                            </span>
+                            <span class="card-icon">
+                                <b-icon icon="arrows-angle-contract"  v-show="active"></b-icon>
+                            </span>
+                            <span class="card-button-text"> 
+                                {{!active ? '+ Detalhes' : '- Detalhes'}} </span>
+                        </b-button>
                     </b-col>
                     <b-col >
                         <div class="icons">
@@ -102,10 +110,7 @@
         },
 
         methods: {
-            showOrHide() {
-                this.active = !this.active;
-            },
-
+ 
             splitSocialNetwork() {
                 if (this.item.nm_social_network_link) {
                     this.socialNetworks = this.item.nm_social_network_link.split(',');
@@ -124,9 +129,7 @@
 </script>
 
 <style scoped>
-    .details-show {
-        display: '';
-    }
+
 
     .details-hide {
         display: none;
@@ -135,5 +138,138 @@
     .icons {
         display: flex;
         flex-direction: row;
+    }
+
+    .card-image {
+        width: 150px; 
+        height: 130px
+    }
+
+    .card-icon {
+        display: none;
+    }
+
+    @media screen and (max-width: 500px) {
+
+        .card-image {
+            width: 80px;
+            height: 70px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bolder;
+            position: relative;
+        }
+
+        .card-button {
+            float: right;
+            margin-top: -50px;
+            margin-bottom: 15px;
+            width: 47px;
+            height: 25px;
+            margin-left: 20px;
+
+        }
+
+        .card-button-text {
+            display: none;
+        }
+
+        .card-icon {
+            font-size: 12px;
+            margin-top: -3px;
+            margin-left: 3px;
+            display: block;
+        }
+
+        .icons {
+            font-size: 12px;
+        }
+        
+    }
+
+
+
+    @media screen and (max-width: 375px) {
+
+        .card-image {
+            width: 80px;
+            height: 70px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: bolder;
+        }
+
+        .card-button {
+            float: right;
+            margin-top: -45px;
+            margin-bottom: 15px;
+            width: 27px;
+            height: 25px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-button-text {
+            display: none;
+        }
+
+        .card-icon {
+            font-size: 10px;
+            margin-top: -3px;
+            margin-left: 3px;
+            display: block;
+        }
+
+        .icons {
+            font-size: 12px;
+        }
+        
+    }
+
+    @media screen and (max-width: 320px) {
+
+        .card-image {
+            width: 50px;
+            height: 40px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: bolder;
+        }
+
+        .card-button {
+            float: right;
+            margin-top: -45px;
+            margin-bottom: 15px;
+            width: 27px;
+            height: 25px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-button-text {
+            display: none;
+        }
+
+        .card-icon {
+            display: block;
+            font-size: 8px;
+            margin-top: -3px;
+            margin-left: 3px;
+        }
+
+        .icons {
+            font-size: 12px;
+        }
+        
     }
 </style>

@@ -48,7 +48,7 @@
     import AudioPlay from './AudioPlay';
     export default {
 
-        props: ['medias','perPage'],
+        props: ['medias'],
 
         components: {
             AudioPlay
@@ -57,7 +57,7 @@
         data() {
             return {
                 item: '',
-                customSlide: [[1360,4], [1000, 3], [800,2], [500,1]]
+                customSlide: [[1360,4], [1000, 3], [800,2], [500,1], [300,1]]
             
             }
         },

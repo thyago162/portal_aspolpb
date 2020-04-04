@@ -18,7 +18,7 @@
 
         data() {
             return {
-                customSlide: [[1400,4], [1000,3], [800,3], [400,2]]
+                customSlide: [[1400,4], [1000,3], [800,3], [400,2], [300,1]]
             }
         },
 
@@ -52,7 +52,7 @@
     @media screen and (max-width: 1200px){
         .image-partner {
             width: 150px;
-            height: 150px;
+            max-height: 150px;
         }
         
     }
@@ -60,7 +60,15 @@
     @media screen and (max-width: 1000px){
         .image-partner {
             width: 120px;
-            height: 120px;
+            max-height: 120px;
+        }
+        
+    }
+
+    @media screen and (max-width: 500px){
+        .image-partner {
+            width: 80px;
+            max-height: 80px;
         }
         
     }

@@ -9,7 +9,7 @@
         </b-row>
         <b-row class="mt-3" >
             <b-col cols="12">
-                <MediaSlide :medias="medias" :perPage="3" />
+                <MediaSlide :medias="medias" />
             </b-col>
         </b-row>
         <b-row>

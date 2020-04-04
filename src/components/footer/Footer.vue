@@ -23,27 +23,27 @@
                             </div>
                             <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">INSTITUCIONAL</b-link>
-                                <b-link class="personal-link">QUEM SOMOS</b-link>
-                                <b-link class="personal-link">NOSSA HISTÓRIA</b-link>
-                                <b-link class="personal-link">CAMPANHA</b-link>
+                                <b-link class="personal-link-option">QUEM SOMOS</b-link>
+                                <b-link class="personal-link-option">NOSSA HISTÓRIA</b-link>
+                                <b-link class="personal-link-option">CAMPANHA</b-link>
                             </div>
                             <div  class=" menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">MÍDIA</b-link>
-                                <b-link class="personal-link">NOTICIAS</b-link>
-                                <b-link class="personal-link">ASPOL NA MÍDIA</b-link>
+                                <b-link class="personal-link-option">NOTICIAS</b-link>
+                                <b-link class="personal-link-option">ASPOL NA MÍDIA</b-link>
                             </div>
-                            <div class="mr-2">
+                            <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">CONTATOS</b-link>
                             </div>
-                            <div class="ml-2">
+                            <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">CONVÊNIOS</b-link>
                             </div>
                             <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">ÁREA RESTRITA</b-link>
-                                <b-link class="personal-link">TRANSPARÊNCIA</b-link>
-                                <b-link class="personal-link">SUGESTÕES</b-link>
-                                <b-link class="personal-link">ASSESSORIA JURÍDICA</b-link>
-                                <b-link class="personal-link">ARQUIVOS</b-link>
+                                <b-link class="personal-link-option">TRANSPARÊNCIA</b-link>
+                                <b-link class="personal-link-option">SUGESTÕES</b-link>
+                                <b-link class="personal-link-option">ASSESSORIA JURÍDICA</b-link>
+                                <b-link class="personal-link-option">ARQUIVOS</b-link>
                             </div>
                         </nav>
                         
@@ -96,7 +96,8 @@
     
     .personal-link {
         color: #ffffff;
-        font-weight: normal;
+        font-weight: bolder;
+        font-size: 16px;
     }
 
     .menu-footer {
@@ -113,11 +114,25 @@
         margin-left: 10px;
     }
 
+    .personal-link-option {
+        color: #ffffff;
+        font-size: 14px;
+        font-weight:normal;
+    }
+
     @media screen and (max-width: 767px) {
         .menu-footer {
             margin-left: 0px;
             justify-content: center;
             font-size: 12px;        
+        }
+
+        .personal-link {
+            font-size: 14px;
+        }
+
+        .personal-link-option {
+            font-size: 12px;
         }
 
         p {
@@ -139,18 +154,31 @@
     }
 
      @media screen and (max-width: 500px) {
-         .menu-footer {
-            flex-wrap: wrap;
-            justify-content: space-around;
+        .menu-footer {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
-         }
-         .menu-footer, p {
-            font-size: 10px;
-         }
-
-         span {
+        }
+        .personal-link {
             font-size: 12px;
-         }
+        }
+
+        .personal-link-option {
+            font-size: 10px;
+        }
+
+        .menu-options {
+            margin-top: 10px;
+        }
+
+        .menu-footer, p {
+            font-size: 10px;
+        }
+
+        span {
+            font-size: 12px;
+        }
          
         .icon {
             font-size: 22px;

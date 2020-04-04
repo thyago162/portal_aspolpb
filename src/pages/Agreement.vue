@@ -154,4 +154,55 @@
         flex-wrap: wrap;
         justify-content: space-around;
     }
+
+     @media screen and (max-width: 1400px) {
+        .agreement-title {
+            width: 150px;
+            height: 35px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        a {
+            font-weight: bolder;
+            font-size: 12px;
+        }
+    }
+
+    @media screen  and (max-width: 999px){
+        .agreement-title {
+            width: 120px;
+            height: 30px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+
+        a {
+            font-weight: bolder;
+            font-size: 11px;
+        }
+        
+    }
+
+    @media screen and (max-width: 575px) {
+        .agreement-title {
+            width: 100px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 10px;
+        }
+
+        a {
+            font-weight: bolder;
+            font-size: 10px;
+        }
+        
+    }
 </style>

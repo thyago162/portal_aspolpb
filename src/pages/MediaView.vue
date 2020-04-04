@@ -10,20 +10,20 @@
         <b-row class="background mt-4 mb-3">
             <b-col>
                 <h4 class="title mt-2 ml-2">Aspol no jornal</h4>
-                <MediaSlide :medias="newspapers" :perPage="4"/>
+                <MediaSlide :medias="newspapers" />
             </b-col>
         </b-row>
         <b-row class="mt-3 mb-3">
             <b-col>
                 <h4 class="title mt-2 ml-2">Aspol na rádio</h4>
-                <MediaSlide :medias="audios"  :perPage="4"/>
+                <MediaSlide :medias="audios"  />
             </b-col>
 
         </b-row>
         <b-row class="background mt-3">
             <b-col>
                 <h4 class="title mt-2 ml-2">Aspol na TV</h4>
-                <MediaSlide :medias="videos"  :perPage="4"/>
+                <MediaSlide :medias="videos"  />
             </b-col>
         </b-row>
     </b-container>
@@ -44,6 +44,7 @@
 
         data() {
             return {
+
             }
         },
 

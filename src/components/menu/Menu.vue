@@ -256,12 +256,14 @@
     }
 
 
-    @media screen and (max-width: 375px) and (min-width: 320px) {
+    @media screen and (max-width: 500px) {
 
         .logo {
-            width: 150px;
+            width: 100px;
             height: 50px;
+            margin-left: 0;
         }
+        
         .personal-link {
             font-size: 10px;
         }

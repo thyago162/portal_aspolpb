@@ -1,7 +1,7 @@
 <template>
     <b-container fluid >
         <b-row class="partner-title">
-            <b-col class="ml-5">
+            <b-col class="ml-2">
                 <h5>PARCEIROS</h5>
             </b-col>
         </b-row>
@@ -43,17 +43,23 @@
     }
 
      @media screen and (max-width: 1200px){
-        h4 {
+        h5 {
             font-size: 20px;
             font-weight: bold;
         }
         
     }
 
-
     @media screen and (max-width: 724px){
-        h4 {
+        h5 {
             font-size: 18px;
+        }
+
+    }
+
+    @media screen and (max-width: 500px){
+        h5 {
+            font-size: 13px;
         }
 
     }

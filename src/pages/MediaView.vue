@@ -1,28 +1,26 @@
 <template>
-    <b-container class="mb-4 mt-2" fluid>
-       <b-row class="media-row">
-            <b-col class="media-head ml-4">
-                <div class="media-title">
-                    <h5>ASPOL NA MÍDIA</h5>
-                </div>
+    <b-container fluid>
+       <b-row >
+            <b-col lg="12" class="title">
+                <h5>ASLPOL NA MÍDIA</h5>
             </b-col>
         </b-row>
         <b-row class="background mt-4 mb-3">
             <b-col>
-                <h4 class="title mt-2 ml-2">Aspol no jornal</h4>
+                <h4 class="mt-2 ml-2">Aspol no jornal</h4>
                 <MediaSlide :medias="newspapers" />
             </b-col>
         </b-row>
         <b-row class="mt-3 mb-3">
             <b-col>
-                <h4 class="title mt-2 ml-2">Aspol na rádio</h4>
+                <h4 class="mt-2 ml-2">Aspol na rádio</h4>
                 <MediaSlide :medias="audios"  />
             </b-col>
 
         </b-row>
         <b-row class="background mt-3">
             <b-col>
-                <h4 class="title mt-2 ml-2">Aspol na TV</h4>
+                <h4 class="mt-2 ml-2">Aspol na TV</h4>
                 <MediaSlide :medias="videos"  />
             </b-col>
         </b-row>
@@ -87,63 +85,14 @@
 
 <style scoped>
 
-     .media-row {
-        width: 99%;
-    }
-
-    .media-head {
-        border-bottom: 3px solid red;
-        margin-top: 20px;
-    }
-
-    .media-title {
-        background: rgba(138,21,0,1);
-        background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(138,21,0,1)), color-stop(25%, rgba(186,35,15,1)), color-stop(71%, rgba(201,27,8,1)), color-stop(100%, rgba(240,31,12,1)));
-        background: -webkit-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -o-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
-        width: 200px;
-        height: 40px;
-        color: white;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin-left: -15px;
-        margin-top: 10px;
-    }
 
     h5 {
         margin-top: 10px;
+        font-weight: bolder;
     }
     
     .background {
        background-color: lightgray; 
-    }
-
-    .title {
-        text-decoration: underline;
-        font-weight: bolder;
-    }
-
-
-    @media screen and (max-width: 1400px) {
-        .media-title {
-            width: 150px;
-            height: 35px;
-        }
-
-        h5 {
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-         .personal-link {
-            font-size: 18px;
-        }
     }
 
     @media screen and (max-width: 999px) {
@@ -162,14 +111,15 @@
         
     }
 
-    @media screen  and (max-width: 575px){
-        .media-title {
-            width: 100px;
-            height: 20px;
-        }
+    @media screen  and (max-width: 416px){
 
         h5 {
-            font-size: 10px;
+            font-size: 13px;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: bolder;
         }
 
         .personal-link {
@@ -178,21 +128,14 @@
     }
 
     @media screen  and (max-width: 375px){
-        .media-title {
-            width: 100px;
-            height: 20px;
-        }
-
-        h5 {
-            font-size: 10px;
-        }
 
         .personal-link {
             font-size: 14px;
         }
 
-        .title {
-            font-size: 14px;
+        h4 {
+            font-size: 15px;
+            font-weight: bolder;
         }
     }
 </style>

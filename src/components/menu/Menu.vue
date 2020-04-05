@@ -1,7 +1,7 @@
 <template>
     <div class="menu">
         <b-navbar toggleable="xl" type="dark" variant="light">
-            <b-navbar-brand style="margin-left:45px;">
+            <b-navbar-brand >
                 <img src="../../assets/images/logo_aspol_02.png" alt="Aspolpb" 
                     class="d-inline-block align-top logo" >
             </b-navbar-brand>
@@ -256,7 +256,7 @@
     }
 
 
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 416px) {
 
         .logo {
             width: 100px;
@@ -267,6 +267,14 @@
         .personal-link {
             font-size: 10px;
         }
+    }
+
+    @media screen and (max-width: 375px) {
+        .logo {
+           width: 80px;
+           height: 45px;
+        }
+        
     }
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-    <b-col class="mt-4 ml-1 mr-1 image-highlights" 
+    <b-col class="ml-1 mr-1 image-highlights" 
         v-bind:style="{ backgroundImage: 'url('+ image +')'}" >
         
         <div class="highlights-title">
@@ -57,6 +57,7 @@
         flex-direction: row;
         justify-content:center;
         align-items: baseline;
+        margin-top: 20px;
     }
 
     .personal-link {
@@ -65,42 +66,55 @@
 
     h5:hover {
         font-weight: bolder;
+
     }
-
-    @media screen and (max-width: 1400px) and (min-width: 1242px){
-
-        .image-highlights {
-            height: 325px;
-        }
-
+    @media screen and (max-width: 1024px) {
         h5 {
-            font-size: 15px;
+            font-size: 18px;
+        }
+
+        h6 {
+            font-size: 16px;
         }
     }
 
-
-    @media screen and (max-width: 1199px) and (min-width: 1000px){
+    @media screen and (max-width: 768px) {
         .image-highlights {
-            height: 460px;
+            height: 300px;
+        }
+    }
+
+    @media screen and (max-width: 416px) {
+        .image-highlights {
+            height: 200px;
         }
 
         h5 {
             font-size: 12px;
         }
-   
+
+        h6 {
+            display: none;
+        }
+        
     }
 
-    @media screen and (max-width: 999px) {
+    @media screen and (max-width: 375px) {
         .highlights {
             width: 95%;
+            margin-top: 10px;
         }
 
         .image-highlights {
-            height: 320px;
+            height: 180px;
         }
 
-         h5 {
-            font-size: 12px;
+        h5 {
+            font-size: 11px;
+        }
+
+        h6 {
+           display: none;
         }
     }
 

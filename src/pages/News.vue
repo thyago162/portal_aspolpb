@@ -1,11 +1,9 @@
 <template >
-    <b-container fluid class="news">
+    <b-container fluid >
 
-        <b-row>
-            <b-col lg="12" class="news-head" >
-                <div class="news-title">
-                    <h5 class="mt-2">NOTÍCIAS</h5>
-                </div>
+        <b-row >
+            <b-col lg="12" class="title" >
+                <h5 class="mt-2">NOTÍCIAS</h5>
             </b-col>
         </b-row>
         
@@ -79,87 +77,26 @@
 </script>
 
 <style scoped>
-    .news {
-        width: 95%;
-    }
-
-    .news-head {
-        margin-top: 20px;
-        border-bottom: 3px solid red;
-    }
-
-    .news-title {
-        background: rgba(138,21,0,1);
-        background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(138,21,0,1)), color-stop(25%, rgba(186,35,15,1)), color-stop(71%, rgba(201,27,8,1)), color-stop(100%, rgba(240,31,12,1)));
-        background: -webkit-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -o-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
-        width: 180px;
-        height: 40px;
-        color: white;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin-left: -15px;
-        margin-top: 10px;
-    }
 
     a {
         text-decoration: none;
     }
     .card-text {
         font-size: 16px;
+        font-weight: bolder;
     }
 
     .card-title {
         color: red;
         font-weight: bolder;
+        font-size: 18px;
     }
 
     a:hover {
         color: darkred;
     }
 
-     @media screen and (max-width: 1400px) {
-        .news-title {
-            width: 150px;
-            height: 35px;
-        }
-
-        h5 {
-            font-size: 16px;
-            font-weight: bold;
-        }
-    }
-
-    @media screen and (max-width: 1000px) {
-        .news-title {
-            width: 120px;
-            height: 25px;
-        }
-
-        h5 {
-            font-size: 14px;
-        }
-        
-    }
-
-    @media screen  and (max-width: 575px){
-        .news-title {
-            width: 80px;
-            height: 20px;
-        }
-
-        h5 {
-            font-size: 12px;
-        }
-    }
-
-    @media screen  and (max-width: 375px){
+    @media screen  and (max-width: 414px){
         .news-title {
             width: 80px;
             height: 20px;

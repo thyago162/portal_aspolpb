@@ -2,7 +2,7 @@
     <div class="card-news ml-1" @click="seeNews" >    
         <b-card 
             img-right>
-            <template v-slot:header>
+            <template v-slot:header class="card-header">
                 <b-img :src="image" class="card-news-image" fluid></b-img>
             </template>
             
@@ -64,19 +64,44 @@
 
     .card-news-title {
         font-weight: bolder;
-        color: red;
+        font-size: 16px;
     }
 
     .card-news-subtitle {
         font-weight: bolder;
+        color: red;
 
     }
 
-    @media screen and (max-width: 1400px) and (min-width: 1242px) {
+    @media screen  and (max-width: 1024){
+        .card-news-title {
+            font-size: 18px;
+        }
+
+        .card-news-subtitle {
+            font-size: 16px;
+        }
+        
+    }
+
+    @media screen and (max-width: 768px) {
+        .card-news-title {
+            font-size: 16px;
+        }
+
+        .card-news-subtitle {
+            font-size: 14px;
+        }
         
         .card-news-image {
-            width: 70px;
-            height: 70px;
+            max-width: 100px;
+            max-height: 80px;
+        }
+    }
+
+    @media screen and (max-width: 416px) {
+        .card-header {
+            display: none;
         }
 
         .card-news-title {
@@ -84,54 +109,20 @@
         }
 
         .card-news-date {
-            font-size: 14px;
+            font-size: 12px;
         }
-    }
 
-    @media screen and (max-width: 1199px) and (min-width: 1000px){
-        .card-news {
-            width: 99%;
-        }
-    }
-
-    @media screen and (max-width: 999px){
-
-        .card-news {
-            width: 95%;
+        .card-news-subtitle {
+            font-size: 10px;
         }
         
     }
 
-    @media screen and (max-width: 575px) {
-        .card-news {
-            width: 100%;
-        }
+    @media screen  and (max-width: 375px){
         .card-news-title {
             font-size: 10px;
         }
-
-        .card-news-subtitle {
-            display: none;
-        }
-
-        .card-news-date {
-            font-size: 10px;
-        }
-
-        .card-news-image {
-            width: 100px;
-            height: 75px;
-        }
-
-        .card-news-icon {
-            width: 15px;
-            height: 15px;
-        }
-
-        .card-news-image {
-            width: 80px;
-            height: 50px;
-        }
+        
     }
 
 

@@ -1,10 +1,8 @@
 <template>
     <b-container fluid>
-        <b-row :style="{width: '99%'}" class="ml-2">
-            <b-col class="jury-accessory-head">
-                <div class="jury-accessory-title">
-                    <h5>ASSESSORIA JURÍDICA</h5>
-                </div>
+        <b-row >
+            <b-col class="title">                
+                <h5>ASSESSORIA JURÍDICA</h5>
             </b-col>
         </b-row>
         <b-row class="mt-4">
@@ -36,37 +34,40 @@
                             
                         </b-tab>
                         <b-tab title="Registro de demanda jurídica">
-                            
-                            <form  :style="{width: '60%'}" @submit.stop.prevent="sendForm">
-                                <b-form-group>
-                                    <b-form-radio-group></b-form-radio-group>
-                                </b-form-group>
+                            <b-row>
+                                <b-col class="jury-accessory-form">
+                                    <form  @submit.stop.prevent="sendForm">
+                                        <b-form-group>
+                                            <b-form-radio-group></b-form-radio-group>
+                                        </b-form-group>
 
-                                <b-form-group label="Nome completo">
-                                    <b-form-input type="text" v-model="user.name" readonly required/>
-                                </b-form-group>
+                                        <b-form-group label="Nome completo">
+                                            <b-form-input type="text" v-model="user.name" readonly required/>
+                                        </b-form-group>
 
-                                <b-form-group label="Cidade/UF">
-                                    <b-form-input required />
-                                </b-form-group>
+                                        <b-form-group label="Cidade/UF">
+                                            <b-form-input required />
+                                        </b-form-group>
 
-                                <b-form-group label="E-mail">
-                                    <b-form-input type="email" readonly v-model="user.email" required/>
-                                </b-form-group>
+                                        <b-form-group label="E-mail">
+                                            <b-form-input type="email" readonly v-model="user.email" required/>
+                                        </b-form-group>
 
-                                <b-form-group label="Descrição">
-                                    <b-form-textarea rows="10" v-model="content"></b-form-textarea>
-                                </b-form-group>
+                                        <b-form-group label="Descrição">
+                                            <b-form-textarea rows="10" v-model="content"></b-form-textarea>
+                                        </b-form-group>
 
-                                <b-form-group label="Anexar arquivo">
-                                    <b-form-file v-model="file" :state="Boolean(file)" @input="saveImage"></b-form-file>
-                                </b-form-group>
+                                        <b-form-group label="Anexar arquivo">
+                                            <b-form-file v-model="file" :state="Boolean(file)" @input="saveImage"></b-form-file>
+                                        </b-form-group>
 
-                                <b-button variant="success" :style="{width: '100%'}" type="submit">
-                                    ENVIAR
-                                    <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
-                                </b-button>
-                            </form>
+                                        <b-button variant="danger" :style="{width: '100%'}" type="submit">
+                                            ENVIAR
+                                            <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+                                        </b-button>
+                                    </form>
+                                </b-col>
+                            </b-row>
                         </b-tab>
                         </b-tabs>
                     </b-card>
@@ -184,45 +185,36 @@
             },
         },
 
-        
-        
     }
 </script>
 
 <style scoped>
-    .form-jury-accessory {
+    .jury-accessory-form {
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
+    }
+
+    .jury-accessory-form form {
+        width: 60%;
     }
 
     h5 {
         margin-top: 10px;
     }
 
-    .jury-accessory-head {
-        margin-top: 20px;
-        border-bottom: 3px solid red;
+    @media screen and (max-width: 414px) {
+        
+        .jury-accessory-form {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .jury-accessory-form form {
+            width: 100%;
+        }
+        
     }
 
-    .jury-accessory-title {
-        background: rgba(138,21,0,1);
-        background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(138,21,0,1)), color-stop(25%, rgba(186,35,15,1)), color-stop(71%, rgba(201,27,8,1)), color-stop(100%, rgba(240,31,12,1)));
-        background: -webkit-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -o-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
-        width: 250px;
-        height: 40px;
-        color: white;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin-left: -15px;
-        margin-top: 10px;
-    }
 </style>

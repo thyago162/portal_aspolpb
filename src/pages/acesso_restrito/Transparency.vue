@@ -1,10 +1,8 @@
 <template>
     <b-container fluid class="mb-3">
-         <b-row :style="{width: '99%'}" class="ml-2">
-            <b-col class="transparency-head">
-                <div class="transparency-title">
-                    <h5>TRANSPARÊNCIA</h5>
-                </div>
+         <b-row >
+            <b-col lg="12" class="title">
+                <h5>TRANSPARÊNCIA</h5>
             </b-col>
         </b-row>
     

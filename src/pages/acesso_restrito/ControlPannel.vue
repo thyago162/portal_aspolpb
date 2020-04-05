@@ -1,10 +1,8 @@
 <template>
     <b-container fluid class="mb-5">
-        <b-row class="cp-row">
-            <b-col class="cp-head ml-4">
-                <div class="cp-title">
-                    <h5>PAINEL DE CONTROLE</h5>
-                </div>
+        <b-row >
+            <b-col class="title">
+                <h5>PAINEL DE CONTROLE</h5>
             </b-col>
         </b-row>
         <b-row class="mt-5">
@@ -110,34 +108,6 @@
 </script>
 
 <style scoped>
-    .cp-row {
-        width: 99%;
-    }
-
-    .cp-head {
-        border-bottom: 3px solid red;
-        margin-top: 20px;
-    }
-
-    .cp-title {
-        background: rgba(138,21,0,1);
-        background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(138,21,0,1)), color-stop(25%, rgba(186,35,15,1)), color-stop(71%, rgba(201,27,8,1)), color-stop(100%, rgba(240,31,12,1)));
-        background: -webkit-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -o-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
-        width: 250px;
-        height: 40px;
-        color: white;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin-left: -15px;
-        margin-top: 10px;
-    }
 
     h5 {
         margin-top: 10px;

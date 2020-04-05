@@ -1,6 +1,6 @@
 <template>
     <b-modal title="Novo item" id="new-management-form" 
-        ref="new-management-ref" size="lg" @ok="handleOk">
+        ref="new-management-ref" size="lg" @ok="handleOk" header-bg-variant="info" header-text-variant="light">
 
         <template v-slot:modal-footer="{ok}">
             <b-button variant="danger" size="md" @click="ok()">

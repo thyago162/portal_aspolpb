@@ -1,11 +1,9 @@
 <template>
-    <b-container fluid class="agreement mb-4">
+    <b-container fluid class="mb-4">
 
-        <b-row class="agreement-head">
-            <b-col>
-                <div class="agreement-title">
-                    <h5>CONVÊNIOS</h5>
-                </div>
+        <b-row >
+            <b-col class="title">
+                <h5>CONVÊNIOS</h5>
             </b-col>
         </b-row>
 
@@ -13,9 +11,8 @@
             <b-col>
                 <b-form inline :style="{float: 'right'}">
                     <b-form-group >
-                        <span>Filtrar</span>
                         <b-form-select class="ml-3"  v-model="selected" >
-                            <b-form-select-option value=""></b-form-select-option>
+                            <b-form-select-option value="">Filtrar</b-form-select-option>
                             <b-form-select-option v-for="(citie,index) in cities" 
                                :value="citie.nm_city" :key="index">
                                 {{citie.nm_city}}
@@ -119,35 +116,7 @@
     h5 {
         margin-top: 10px;
     }
-    .agreement {
-        width: 95%;
-    }
-
-    .agreement-head {
-        margin-top: 20px;
-        border-bottom: 3px solid red;
-    }
-
-    .agreement-title {
-        background: rgba(138,21,0,1);
-        background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(138,21,0,1)), color-stop(25%, rgba(186,35,15,1)), color-stop(71%, rgba(201,27,8,1)), color-stop(100%, rgba(240,31,12,1)));
-        background: -webkit-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -o-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
-        width: 180px;
-        height: 40px;
-        color: white;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        margin-left: -15px;
-        margin-top: 10px;
-    }
-
+    
     .agreement-card {
         display: flex;
         flex-direction: row;
@@ -173,10 +142,6 @@
     }
 
     @media screen  and (max-width: 999px){
-        .agreement-title {
-            width: 120px;
-            height: 30px;
-        }
 
         h5 {
             font-size: 14px;
@@ -190,10 +155,6 @@
     }
 
     @media screen and (max-width: 575px) {
-        .agreement-title {
-            width: 100px;
-            height: 20px;
-        }
 
         h5 {
             font-size: 10px;

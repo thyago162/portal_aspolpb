@@ -1,12 +1,12 @@
 <template>
-      <div class="more-news ml-4 mb-4">
+      <div class="more-news mb-4">
         <b-card class="card-more-news" v-for="(n, index) in news" 
             :key="index" @click="seeNews(n.nm_title)">
             <b-card-text>
                 <b-img src="/aspolicone.ico" width="20px" height="20px" />
                 <span style="float: right; color: red;">{{n.dt_date | date}}</span>
-                <b-card-text class="mt-1" :style="{color: 'red'}">{{n.nm_title}} </b-card-text>
-                <b-card-text class="mt-1">{{n.nm_subtitle}} </b-card-text>
+                <b-card-text class="mt-1 card-title">{{n.nm_title}} </b-card-text>
+                <b-card-text class="mt-1 card-subtitle">{{n.nm_subtitle}} </b-card-text>
             </b-card-text>
         </b-card>
     </div>
@@ -54,64 +54,63 @@
         border: none;
         border-left: 2px solid darkslategrey;
         background-color: lightgray;
-        margin: 30px;
-        width: 45%;
+        margin: 20px 10px 5px 5px;
+        width: 48%;
         height: 150px;
-        
     }
 
-    .card-text {
+    .card-title {
+        color: #000;
+        font-weight: bolder;
         font-size: 18px;
-        font-weight: bold;
+    }
+
+    .card-subtitle {
+        color: red;
+        font-size: 15px;
+        font-weight: bolder;
     }
 
     .more-news {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
+        justify-content: space-around;
+    }
 
+    @media screen  and (max-width: 1024px){
+        .card-subtitle {
+            font-size: 14px;
+            font-weight: bolder;
+        }
+
+        .card-more-news {
+            width: 48.4%;
+        }
+        
+    }
+
+    @media screen and (max-width: 768px) {
+        .card-more-news {
+            width: 47%;
+            height: 100px;
+        }
+
+        .card-subtitle {
+            display: none;
+        }
+        
+    }
+
+    @media screen  and (max-width: 416px){
+        .card-more-news {
+            display: none;
+        }
+        
     }
 
   
 
-    @media screen and (max-width: 1253px) {
-        .card-text {
-          font-size: 16px;
-        }
 
-        .card-more-news {
-            width: 40%;
-        }
-    }
-
-    @media screen  and (max-width: 1075px){
-        .card-text {
-            font-size: 14px;
-        }
-    }
-
-    @media screen  and (max-width: 955px){
-      .card-text {
-          font-size: 12px;
-      }
-    }
-
-    @media screen and (max-width: 839px) {
-        .card-text {
-            font-size: 10px;
-        }
-    }
-
-    @media screen and (max-width: 653px) {
-        .more-news {
-            display: none;
-        }
-
-        .card-more-news {
-            display: none;
-        }
-    }
 
 </style>

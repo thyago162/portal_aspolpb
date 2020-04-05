@@ -14,11 +14,11 @@
                 <b-table :fields="fields" :items="allNews" :per-page="perPage" :current-page="currentPage" id="news-table">
                     <template v-slot:cell(card)="row">
                         <b-card>
-                            <b-card-text>
+                            <b-card-text class="card-text">
                                 Noticias da aspolpb
                             </b-card-text>
                             <b-link :to="{name: 'visualizar-noticias', params: {title: row.item.nm_title}}">
-                                <b-card-title :style="{color: 'red', fontWeight: 'bolder'}">
+                                <b-card-title class="card-title">
                                     {{row.item.nm_title}}
                                 </b-card-title>
                             </b-link>
@@ -111,9 +111,71 @@
     a {
         text-decoration: none;
     }
+    .card-text {
+        font-size: 16px;
+    }
+
+    .card-title {
+        color: red;
+        font-weight: bolder;
+    }
 
     a:hover {
         color: darkred;
+    }
+
+     @media screen and (max-width: 1400px) {
+        .news-title {
+            width: 150px;
+            height: 35px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    @media screen and (max-width: 1000px) {
+        .news-title {
+            width: 120px;
+            height: 25px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+        
+    }
+
+    @media screen  and (max-width: 575px){
+        .news-title {
+            width: 80px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 12px;
+        }
+    }
+
+    @media screen  and (max-width: 375px){
+        .news-title {
+            width: 80px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 12px;
+        }
+
+        .card-title {
+            font-size: 12px;
+        }
+
+        .card-text {
+            font-size: 12px;
+        }
     }
 
 

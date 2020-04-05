@@ -128,4 +128,71 @@
         text-decoration: underline;
         font-weight: bolder;
     }
+
+
+    @media screen and (max-width: 1400px) {
+        .media-title {
+            width: 150px;
+            height: 35px;
+        }
+
+        h5 {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+         .personal-link {
+            font-size: 18px;
+        }
+    }
+
+    @media screen and (max-width: 999px) {
+        .media-title {
+            width: 120px;
+            height: 25px;
+        }
+
+        h5 {
+            font-size: 14px;
+        }
+
+         .personal-link {
+            font-size: 16px;
+        }
+        
+    }
+
+    @media screen  and (max-width: 575px){
+        .media-title {
+            width: 100px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 10px;
+        }
+
+        .personal-link {
+            font-size: 14px;
+        }
+    }
+
+    @media screen  and (max-width: 375px){
+        .media-title {
+            width: 100px;
+            height: 20px;
+        }
+
+        h5 {
+            font-size: 10px;
+        }
+
+        .personal-link {
+            font-size: 14px;
+        }
+
+        .title {
+            font-size: 14px;
+        }
+    }
 </style>

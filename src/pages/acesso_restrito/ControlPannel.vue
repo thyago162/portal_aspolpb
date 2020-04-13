@@ -1,12 +1,12 @@
 <template>
-    <b-container fluid class="mb-5">
-        <b-row >
-            <b-col class="title">
+    <b-container fluid class="mb-3">
+        <b-row class="header-title mt-3" >
+            <b-col class="title" lg="11">
                 <h5>PAINEL DE CONTROLE</h5>
             </b-col>
         </b-row>
-        <b-row class="mt-5">
-            <b-col>
+        <b-row class="mt-5 align-body">
+            <b-col lg="11">
                 <div class="options" v-if="isLoged != null">
 
                     <b-button class="control-panel-btn" v-b-modal.cp-news 

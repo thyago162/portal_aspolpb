@@ -1,12 +1,12 @@
 <template>
-    <b-container fluid >
-        <b-row>
-            <b-col lg="12" class="title">
+    <b-container fluid class="mb-3">
+        <b-row class="header-title">
+            <b-col lg="11" class="title">
                 <h5>QUEM SOMOS</h5>
             </b-col>
         </b-row>
-        <b-row class="mt-4">
-            <b-col>
+        <b-row class="mt-4 align-body" >
+            <b-col lg="11" >
                 <b-tabs class="ml-4">
                     <b-tab title="Presidência">
                         <div class="about">
@@ -15,12 +15,15 @@
                     </b-tab>
                     <b-tab title="Diretoria">
                         <div class="about">
-                            
+                            <AboutCard :board="item" v-for="(item, index) in taxCouncil" :key="index"/>
                         </div>
-                        
                     </b-tab>
-                    <b-tab title="Conselho fiscal"></b-tab>
-                    <b-tab title="Diretores regionais"></b-tab>
+                    <b-tab title="Conselho fiscal">
+                        <AboutCard />
+                    </b-tab>
+                    <b-tab title="Diretores regionais">
+                        <AboutCard />
+                    </b-tab> 
                 </b-tabs>
             </b-col>
         </b-row>

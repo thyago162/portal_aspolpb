@@ -3,7 +3,7 @@
         <b-row class="header" v-bind:style="{ backgroundImage: 'url('+ image +')'}">
             <b-col>
                 <b-button variant="warning" @click="editItem" 
-                    v-b-modal.warning-form class="btn-edit" size="sm" v-if="administrator === 1"> 
+                    v-b-modal.warning-form class="btn-edit" size="sm" v-if="administrator === 1 && token"> 
                     <b-icon icon="pencil"></b-icon>
                 </b-button>
             </b-col>
@@ -47,7 +47,7 @@
             },
 
             token: function() {
-                return this.$session.get('jwt')
+                return this.$store.getters.getToken;
             },
 
             warning: function() {

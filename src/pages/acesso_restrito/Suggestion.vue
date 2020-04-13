@@ -1,12 +1,12 @@
 <template>
-    <b-container fluid>
-        <b-row >
-           <b-col class="title">
+    <b-container fluid class="mb-3">
+        <b-row class="header-title mt-3">
+           <b-col class="title" lg="11">
                 <h5 class="mt-2">SUGESTÕES</h5>
            </b-col>
         </b-row>
 
-        <b-row class="mb-4 mt-4 ">
+        <b-row class="mb-4 mt-4 align-body">
             <b-col  class="suggestion-form">
                 <form class="form" @submit.stop.prevent="sendForm">
                     <b-form-group label="Nome completo">

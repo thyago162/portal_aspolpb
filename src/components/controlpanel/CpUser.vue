@@ -70,7 +70,7 @@
         },
 
         created() {
-            this.getUsers();
+            this.$store.dispatch('users', this.token)
         },
 
         data() {
@@ -84,7 +84,6 @@
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                 ],
-                users: [],
                 search: '',
                 countdown: 0
             }
@@ -98,35 +97,16 @@
 
             token: function() {
                 return this.$store.getters.getToken;
+            },
+
+            users: function() {
+                return this.$store.getters.getUsers;
             }
 
         },
 
         methods: {
-            getUsers() {
-                this.$http.get('users', {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        if (res.data.token_failure) {
-                               this.countdown = 3;
-                        }
-
-                        if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error))
-                        }else {
-                            this.users = res.data.result.users;
-                        }
-
-            
-                    }
-                    
-                })
-            },
-
+           
             deleteUser(id) {
                 if(confirm('Deseja realmente excluir?')) {
                     this.$http.delete('user/'+id, {

@@ -21,7 +21,8 @@ export default new Vuex.Store({
         transparency: [],
         warning: [],
         token: null,
-        loggedIn: []
+        loggedIn: [],
+        campaign: []
     },
 
     getters: {
@@ -84,6 +85,10 @@ export default new Vuex.Store({
         getWarning: state => {
             return state.warning;
         },
+
+        getCampaign: state => {
+            return state.campaign;
+        }
     },
     actions: {
         
@@ -102,9 +107,9 @@ export default new Vuex.Store({
             })
         },
 
-        users({commit}, state) {
+        users({commit}, token) {
             axios.post('users', {
-                Authorization: 'Bearer '+ state.token
+                Authorization: 'Bearer '+ token
             })
             .then(res => {
                 commit('setUsers',res.data.result.users);
@@ -232,7 +237,17 @@ export default new Vuex.Store({
                 }
             })
             
-        }, 
+        },
+
+        campaign({commit}) {
+            axios.get('campaign')
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setCampaign', res.data.result.campaign)
+                }
+            })
+
+        }
     },
     mutations: {
 
@@ -294,6 +309,14 @@ export default new Vuex.Store({
 
         setWarning(state, payload) {
             state.warning = payload;
+        },
+
+        setUser(state, payload) {
+            state.users = payload;
+        },
+
+        setCampaign(state, payload) {
+            state.campaign = payload;
         }
 
     }

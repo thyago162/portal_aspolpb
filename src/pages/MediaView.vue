@@ -1,25 +1,25 @@
 <template>
-    <b-container fluid>
-       <b-row >
-            <b-col lg="12" class="title">
+    <b-container fluid class="mb-3">
+       <b-row class="header-title mt-3">
+            <b-col lg="11" class="title">
                 <h5>ASLPOL NA MÍDIA</h5>
             </b-col>
         </b-row>
-        <b-row class="background mt-4 mb-3">
-            <b-col>
+        <b-row class=" mt-4 mb-3 align-body">
+            <b-col lg="11" class="background">
                 <h4 class="mt-2 ml-2">Aspol no jornal</h4>
                 <MediaSlide :medias="newspapers" />
             </b-col>
         </b-row>
-        <b-row class="mt-3 mb-3">
-            <b-col>
+        <b-row class="mt-3 mb-3 align-body">
+            <b-col lg="11">
                 <h4 class="mt-2 ml-2">Aspol na rádio</h4>
                 <MediaSlide :medias="audios"  />
             </b-col>
 
         </b-row>
-        <b-row class="background mt-3">
-            <b-col>
+        <b-row class="align-body mt-3">
+            <b-col lg="11" class="background">
                 <h4 class="mt-2 ml-2">Aspol na TV</h4>
                 <MediaSlide :medias="videos"  />
             </b-col>

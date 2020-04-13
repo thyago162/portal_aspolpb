@@ -105,12 +105,18 @@
 
         computed: {
             news() {
-               if(this.search.length > 0 ) {
 
-                   return this.searchItems(this.$store.getters.getNews);
-               }else {
+                if(this.search.length > 0 ) {
+                    var vm = this;
+
+                    return this.$store.getters.getNews.filter(function (item) {
+                        return item.nm_title.toLowerCase().indexOf(vm.search.toLowerCase()) !== -1
+                        
+                    })
+                    
+                }else {
                     return this.$store.getters.getNews;
-               }
+                }
             },
 
             rows() {  
@@ -167,17 +173,11 @@
             },
 
             searchItems(arraySearch) {
-                let result = new Array();
+                var vm = this;
 
-                for(var i=0; i < arraySearch.length; i++) {
-                    if(
-                        !arraySearch[i].nm_title.search(this.search) 
-                    ) {
-                        result.push(arraySearch[i])
-                    }
-                }
-
-                return result
+                return arraySearch.filter(function (item) {
+                    return item.nm_title.toLowerCase().indexOf(vm.search.indexOf()) !== -1
+                })
             },
 
             resetModal() {

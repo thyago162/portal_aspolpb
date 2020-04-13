@@ -7,6 +7,8 @@ import NewsView from '../pages/NewsView';
 import About from '../pages/About';
 import Agreement from '../pages/Agreement';
 import OurHistory from '../pages/OurHistory';
+import Campaign from '../pages/Campaign';
+import VisualIdentity from '../pages/VisualIdentity';
 import Contact from '../pages/Contact';
 import MediaView from '../pages/MediaView';
 import File from '../pages/acesso_restrito/File';
@@ -49,6 +51,16 @@ export default new Router({
             path: '/nossa-historia',
             component: OurHistory,
             name: 'historia'
+        },
+        {
+            path: '/campanhas',
+            component: Campaign,
+            name: 'campanhas'
+        },
+        {
+            path: '/identidade-visual',
+            component: VisualIdentity,
+            name: 'identidade-visual'
         },
         {
             path: '/convênios',

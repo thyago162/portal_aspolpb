@@ -1,14 +1,14 @@
 <template>
-    <b-container fluid class="mb-4">
+    <b-container fluid class="mb-3">
 
-        <b-row >
-            <b-col class="title">
+        <b-row class="header-title">
+            <b-col class="title" lg="11">
                 <h5>CONVÊNIOS</h5>
             </b-col>
         </b-row>
 
-        <b-row class="mt-4">
-            <b-col>
+        <b-row class="mt-4 align-body">
+            <b-col lg="11">
                 <b-form inline :style="{float: 'right'}">
                     <b-form-group >
                         <b-form-select class="ml-3"  v-model="selected" >
@@ -24,8 +24,8 @@
         </b-row>
 
         <b-row>
-            <b-col>
-                <div class="agreement-card mt-3">
+            <b-col >
+                <div class="agreement-card mt-3" >
                     <AgreementCard :item="agreement" 
                         v-for="(agreement,index) in agreements" :key="index"/>
                 </div>

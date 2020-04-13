@@ -1,14 +1,14 @@
 <template >
-    <b-container fluid >
+    <b-container fluid  class="mb-3">
 
-        <b-row >
-            <b-col lg="12" class="title" >
+        <b-row class="header-title mt-3" >
+            <b-col lg="11" class="title" >
                 <h5 class="mt-2">NOTÍCIAS</h5>
             </b-col>
         </b-row>
         
-        <b-row >
-            <b-col>
+        <b-row  class="align-body">
+            <b-col lg="11"  >
                 <b-table :fields="fields" :items="allNews" :per-page="perPage" :current-page="currentPage" id="news-table">
                     <template v-slot:cell(card)="row">
                         <b-card>

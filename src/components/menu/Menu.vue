@@ -33,12 +33,12 @@
                             </b-link>
                         </b-dropdown-item>
                         <b-dropdown-item>
-                           <b-link class="personal-link">
+                           <b-link class="personal-link" :to="{name: 'campanhas'}" disabled>
                                CAMPANHAS
                             </b-link> 
                         </b-dropdown-item>
                         <b-dropdown-item>
-                            <b-link class="personal-link">
+                            <b-link class="personal-link" :to="{name: 'identidade-visual'}" disabled>
                                 IDENTIDADE VISUAL
                             </b-link>
                         </b-dropdown-item>
@@ -119,7 +119,7 @@
                          <b-dropdown-item c>
                             <b-link class="personal-link" :to="{name:'cp'}" v-if="administrator === 1"> 
                                 <b-icon icon="gear-fill"></b-icon>
-                                ADMINISTRAÇÃO
+                                PAINEL DE CONTROLE
                             </b-link>
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
@@ -133,7 +133,7 @@
                         </template>
                         <b-dropdown-item v-b-modal.me>Meus dados</b-dropdown-item>
                         <b-dropdown-item @click="logout"> 
-                            SAIR <b-icon icon="power"></b-icon> 
+                            Sair <b-icon icon="power"></b-icon> 
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 

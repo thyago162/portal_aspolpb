@@ -1,7 +1,7 @@
 <template>
     <b-modal id="warning-form" ref="warning-form" title="Novo item" 
        ok-only header-bg-variant="primary" header-text-variant="light" 
-        ok-title="Salvar" @ok="handleOk" no-close-on-backdrop >
+        ok-title="Salvar" @ok="handleOk" no-close-on-backdrop size="xl" >
 
         <template v-slot:modal-footer="{ok}">      
             <b-button @click="ok()" variant="success" size="md">
@@ -15,25 +15,71 @@
 
         <form @submit.stop.prevent="formSubmited">
 
-            <b-form-group label="Imagem">
-                <b-form-file v-model="file" :state="Boolean(file)" @input="image" />
-            </b-form-group>
+            <b-container fluid>
+                <b-row>
+
+                    <b-col lg="7">
+                         <b-form-group label="Ativar">
+                            <b-form-radio-group v-model="form.st_status">
+                                <b-form-radio :value="1" >Sim</b-form-radio>
+                                <b-form-radio :value="0" >Não</b-form-radio>
+                            </b-form-radio-group>
+                        </b-form-group>
+
+                        <b-form-group label="Imagem">
+                            <b-form-file v-model="file" :state="Boolean(file)" 
+                            @change="setImage" accept="image/" name="image" />
+                        </b-form-group>
+
+                        <div v-if="file">
+                            <span >
+                            {{file.name}}
+                            <b-button size="sm" variant="default" @click="deleteImage">
+                                <b-icon icon="trash" variant="danger"></b-icon>
+                            </b-button>
+                            </span>
+
+                            <vue-cropper
+                                class="mt-2"
+                                ref="cropper"
+                                :src="form.nm_image_path"
+                                alt="Source Image"
+                                :aspect-ratio="16 / 9"
+                                preview=".preview"
+                            ></vue-cropper>
+
+                            <div>
+                                <b-button size="sm" class="m-2" variant="info" @click.prevent="cropImage">Cortar</b-button>
+                                <b-button size="sm" @click.prevent="reset" variant="warning">Resetar</b-button>
+                            </div>
             
+                        </div>
+                    </b-col>
 
-            <b-form-group label="Ativar">
-                <b-form-radio-group v-model="form.st_status">
-                    <b-form-radio :value="1" >Sim</b-form-radio>
-                    <b-form-radio :value="0" >Não</b-form-radio>
-                </b-form-radio-group>
-            </b-form-group>
+                    <b-col>
+                        <section class="preview-area">
+                            <p>Prévia</p>
+                            <div class="preview" />
+                                <p>Imagem recortada</p>
+                                <div class="cropped-image">
+                                    <img
+                                        v-if="cropImg"
+                                        :src="cropImg"
+                                        alt="Cropped Image"
+                                    />
+                                <div v-else class="crop-placeholder" />
+                            </div>
+                        </section>
+                    </b-col>
+                </b-row>
+            </b-container>
         </form>
-
-
     </b-modal>
 </template>
 
 <script>
-
+    import VueCropper from 'vue-cropperjs';
+    import 'cropperjs/dist/cropper.css';
     import ErroMessage from '../error/ErrorMessage';
     import Session from '../session/Session';
 
@@ -43,7 +89,8 @@
 
         components: {
             ErroMessage,
-            Session
+            Session,
+            VueCropper
         },
 
         data() {
@@ -56,7 +103,8 @@
                 errors: [],
                 visibility: false,
                 loading: false,
-                countdown: 0
+                countdown: 0,
+                cropImg: '',
             }
         },
 
@@ -71,7 +119,6 @@
         },
 
         methods: {
-
             handleOk(bvModalEvt){
                 bvModalEvt.preventDefault();
                 this.formSubmited();
@@ -151,7 +198,7 @@
                 })
             },
 
-            image() {
+            /*image() {
 
                if (this.file) {
 
@@ -165,8 +212,42 @@
                    
                    this.deleteImage();
                }
-               
-           },
+           },*/
+
+            setImage(e) {
+                const file = e.target.files[0];
+
+                if (file.type.indexOf('image/') === -1) {
+                    alert('Please select an image file');
+                    return;
+                }
+
+                if (typeof FileReader === 'function') {
+                    const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    this.imgSrc = event.target.result;
+                    // rebuild cropperjs with the updated source
+                    this.$refs.cropper.replace(event.target.result);
+                };
+
+                reader.readAsDataURL(file);
+                this.saveImage(file)
+                } else {
+                    alert('Sorry, FileReader API not supported');
+                }
+            },
+
+            cropImage() {
+                // get image data for post processing, e.g. upload or setting image src
+                this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+                this.deleteImage();
+                this.saveImage(this.cropImg);
+            },
+
+            reset() {
+                this.$refs.cropper.reset();
+            },
 
             saveImage() {
 
@@ -204,15 +285,51 @@
                 form.append('url',url.replace('storage','public'));
                 form.append('folder','public/warning');
 
-               this.$http.post('storage/delete',form,
-                {
-                   headers: {
-                       Authorization: 'Bearer '+this.token
-                   }
-               })
+                this.$http.post('storage/delete',form,
+                    {
+                    headers: {
+                        Authorization: 'Bearer '+this.token
+                    }
+                })
+                .then(res => {
+                    if (res.status === 200) {
+                        this.form.nm_image_path = ''
+                        this.file = null;
+                        this.cropImg  = ''
+                    }
+                })
     
             },
         }
         
     }
 </script>
+
+<style scoped>
+
+    .preview-area p {
+        font-size: 1.25rem;
+        margin: 0;
+        margin-bottom: 1rem;
+    }
+
+    .preview-area p:last-of-type {
+        margin-top: 1rem;
+    }
+
+    .preview {
+        width: 100%;
+        height: calc(372px * (9 / 16));
+        overflow: hidden;
+    }
+
+    .crop-placeholder {
+        width: 100%;
+        height: 200px;
+        background: #ccc;
+    }
+
+    .cropped-image img {
+        max-width: 100%;
+    }
+</style>

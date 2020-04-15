@@ -1,7 +1,7 @@
 <template>
     <b-modal id="warning-form" ref="warning-form" title="Novo item" 
        ok-only header-bg-variant="primary" header-text-variant="light" 
-        ok-title="Salvar" @ok="handleOk" no-close-on-backdrop size="xl" >
+        ok-title="Salvar" @ok="handleOk" no-close-on-backdrop size="lg" >
 
         <template v-slot:modal-footer="{ok}">      
             <b-button @click="ok()" variant="success" size="md">
@@ -18,7 +18,7 @@
             <b-container fluid>
                 <b-row>
 
-                    <b-col lg="7">
+                    <b-col lg="12">
                          <b-form-group label="Ativar">
                             <b-form-radio-group v-model="form.st_status">
                                 <b-form-radio :value="1" >Sim</b-form-radio>
@@ -55,21 +55,17 @@
             
                         </div>
                     </b-col>
+                </b-row>
 
-                    <b-col>
-                        <section class="preview-area">
-                            <p>Prévia</p>
-                            <div class="preview" />
-                                <p>Imagem recortada</p>
-                                <div class="cropped-image">
-                                    <img
-                                        v-if="cropImg"
-                                        :src="cropImg"
-                                        alt="Cropped Image"
-                                    />
-                                <div v-else class="crop-placeholder" />
-                            </div>
-                        </section>
+                <b-row>
+                    <b-col >
+                        <div v-if="cropImg"  class="cropped-image">
+                            <h6>Prévia</h6>
+                            <img
+                                :src="cropImg"
+                                alt="Cropped Image"
+                            />
+                        </div> 
                     </b-col>
                 </b-row>
             </b-container>
@@ -105,6 +101,7 @@
                 loading: false,
                 countdown: 0,
                 cropImg: '',
+                imgSrc: ''
             }
         },
 
@@ -126,11 +123,7 @@
 
             formSubmited() {
                 this.loading = true;
-                if (!this.form.id_warning) {
-                    this.save();
-                }else {
-                    this.update();
-                }
+                this.saveImage(this.file)
 
             },
 
@@ -161,7 +154,6 @@
                             this.$http.dispatch('warning');
                             this.$refs['warning-form'].hide();
                         }
-                        
                     }
                 })
                 .catch(err => {
@@ -198,22 +190,6 @@
                 })
             },
 
-            /*image() {
-
-               if (this.file) {
-
-                   if (this.item.nm_image_path) {
-                       this.deleteImage();
-                   }
-
-                   this.saveImage();
-
-               } else {
-                   
-                   this.deleteImage();
-               }
-           },*/
-
             setImage(e) {
                 const file = e.target.files[0];
 
@@ -232,31 +208,33 @@
                 };
 
                 reader.readAsDataURL(file);
-                this.saveImage(file)
+                //this.saveImage(file)
                 } else {
                     alert('Sorry, FileReader API not supported');
                 }
             },
 
             cropImage() {
+                let vm = this
                 // get image data for post processing, e.g. upload or setting image src
                 this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
-                this.deleteImage();
-                this.saveImage(this.cropImg);
+                this.$refs.cropper.getCroppedCanvas().toBlob(function (blob) {
+                    vm.file = new File([blob], 'teste')
+                },'image/jpeg')
             },
 
             reset() {
                 this.$refs.cropper.reset();
             },
 
-            saveImage() {
+            saveImage(img) {
 
                 let form = new FormData();
 
-                form.append('file',this.file);
+                form.append('file', img);
                 form.append('folder','public/warning');
 
-                this.$http.post('storage/save',form,{
+                this.$http.post('storage/save', form,{
                     headers: {
                         Authorization: 'Bearer '+this.token,
                         'Content-type': 'multipart/form-data'
@@ -268,6 +246,13 @@
                         let image = res.data.result.url;
                         image = image.replace('public','storage')
                         this.form.nm_image_path = image;
+                        
+                        if (!this.form.id_warning) {
+                            this.save();
+
+                        } else {
+                            this.update();
+                        }
                     }
                     
                 })

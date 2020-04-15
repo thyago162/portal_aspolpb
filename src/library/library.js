@@ -10,6 +10,7 @@ import '../plugins/vue_session';
 import '../plugins/vue2editor';
 import '../plugins/font-awesome';
 import '../plugins/vue-carousel';
+import '../plugins/social-sharing';
 
 //Filtros
 import '../filter/vue-filter';

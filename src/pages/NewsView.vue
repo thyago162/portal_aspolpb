@@ -1,8 +1,8 @@
 <template >
-    <b-container fluid>
+    <b-container fluid class="mb-3">
 
-        <b-row>
-            <b-col lg="12" class="title"  >
+        <b-row class="header-title">
+            <b-col lg="11" class="title"  >
                 
                 <b-link :to="{name: 'noticias'}">
                     <h5 class="mt-2">NOTÍCIAS</h5>
@@ -11,33 +11,41 @@
             </b-col>
         </b-row>
         
-        <b-row class="mt-2 mb-2" >
-           <b-card>
-               <b-media>
-                   <template v-slot:aside v-if="image" >
-                       <b-img :src="image" class="news-image"></b-img>
-                   </template>
-                   <h3 class="mt-0">{{news.nm_title}}</h3>
-                   <h6 :style="{fontWeight: 'bold'}">{{news.nm_subtitle}}</h6>
+        <b-row class="mt-3 mb-2 align-body" >
+            <b-col lg="11">
+                <b-card :style="{border: 'none'}">
+                    <b-media >
+                        <h3 class="mt-0" :style="{textAlign: 'center'}">{{news.nm_title}}</h3>
+                        <h6 :style="{fontWeight: 'bold', textAlign: 'center'}">{{news.nm_subtitle}}</h6>
 
-                   <p class="date">{{news.dt_date | namedDate}}</p>
+                        <p class="date" :style="{textAlign: 'center'}">{{news.dt_date | namedDate}}</p>
 
-                   <div class="cel-image-container mt-3" v-if="image" fluid>
-                       <b-img :src="image" class="cel-image"></b-img>
-                   </div>
-                   
-                   <p v-html="news.nm_content" class="mt-3"></p>
-               </b-media>
-           </b-card>
+                        <div class="cel-image-container mt-3 cell-image" >
+                            <b-img :src="image" class="cel-image"  fluid></b-img>
+                        </div>
+                    
+                        <p v-html="news.nm_content" class="mt-3"></p>
+                        
+                    </b-media>
+                </b-card>
+           </b-col>
+        </b-row>
+
+        <b-row class="mb-4 mt-3">
+            <b-col>
+                <Sharing :url="news.nm_title" />
+            </b-col>
         </b-row>
 
     </b-container>
 </template>
 
 <script>
+    import Sharing from '../components/sharing/Sharing';
     export default {
 
         components: {
+            Sharing
         },
 
         mounted() { 
@@ -80,7 +88,6 @@
                 })
 
             },
-
         }
         
     }
@@ -92,8 +99,11 @@
         width: 400px;
     }
 
-    .cel-image {
-        display: none;
+    .align-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     h5 {
@@ -105,6 +115,13 @@
         font-weight: bolder;
         color: darkred;
         margin-top: 15px;
+    }
+
+    .cel-image-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
     }
 
     @media screen and (max-width: 1200px){

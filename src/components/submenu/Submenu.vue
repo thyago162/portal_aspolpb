@@ -5,21 +5,15 @@
             <b-col lg="4" sm="6">
                 <nav class="icons">
                     <a >
-                        <div class="teste">
-                            <font-awesome-icon :icon="['fab', 'twitter-square']" 
-                            size="2x" class="icon alt personal-icons" />
-                        </div>
-                    </a>
-                    <a >
-                        <font-awesome-icon :icon="['fab', 'instagram-square']" 
+                        <font-awesome-icon :icon="['fab', 'instagram']" 
                         size="2x" class="icon alt personal-icons" />
                     </a>
                     <a >
-                        <font-awesome-icon size="2x" :icon="['fab', 'facebook-square']" 
+                        <font-awesome-icon size="2x" :icon="['fab', 'facebook']" 
                         class="icon alt personal-icons" />
                     </a>
                     <a >
-                        <font-awesome-icon size="2x" :icon="['fab', 'whatsapp-square']" 
+                        <font-awesome-icon size="2x" :icon="['fab', 'whatsapp']" 
                         class="icont alt personal-icons" />
                     </a>
                 </nav>

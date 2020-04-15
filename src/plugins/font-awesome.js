@@ -1,10 +1,14 @@
 import Vue from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
-    faFacebookSquare, 
-    faInstagramSquare, 
+    faFacebookSquare,
+    faFacebook,
+    faInstagramSquare,
+    faInstagram,
     faWhatsappSquare, 
-    faTwitterSquare ,
+    faWhatsapp,
+    faTwitterSquare,
+    faTwitter
     } from '@fortawesome/free-brands-svg-icons';
 
 import { 
@@ -22,7 +26,9 @@ import {
     faGlobe,
     faFilePdf,
     faPlay,
-    faHeadphones
+    faHeadphones,
+    faEnvelope,
+    faShareAlt
 
     } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -30,9 +36,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(
     faFacebookSquare,
+    faFacebook,
     faInstagramSquare,
+    faInstagram,
     faWhatsappSquare,
+    faWhatsapp,
     faTwitterSquare,
+    faTwitter,
     faNewspaper,
     faBuilding,
     faPhone,
@@ -47,7 +57,9 @@ library.add(
     faGlobe,
     faFilePdf,
     faPlay,
-    faHeadphones
+    faHeadphones,
+    faEnvelope,
+    faShareAlt
 );
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);

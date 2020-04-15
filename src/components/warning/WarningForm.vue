@@ -123,8 +123,11 @@
 
             formSubmited() {
                 this.loading = true;
-                this.saveImage(this.file)
+                if (this.form.nm_image_path && this.file) {
+                    this.deleteImage()
+                }
 
+                this.saveImage(this.file)
             },
 
             save(){
@@ -146,12 +149,12 @@
                             this.countdown = 3;
                         }
 
-                        if (res.status.result.error) {
+                        if (res.data.result.error) {
                             this.errors.push(Object.values(res.status.result.error));
                             this.visibility = true;
 
                         }else {
-                            this.$http.dispatch('warning');
+                            this.$store.dispatch('warning');
                             this.$refs['warning-form'].hide();
                         }
                     }
@@ -178,12 +181,12 @@
                             this.countdown = 3;
                         }
 
-                        if (res.status.result.error) {
+                        if (res.data.result.error) {
                             this.errors.push(Object.values(res.status.result.error));
                             this.visibility = true;
 
                         }else {
-                            this.$http.dispatch('warning');
+                            this.$store.dispatch('warning');
                             this.$refs['warning-form'].hide();
                         }
                     }

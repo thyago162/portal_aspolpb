@@ -18,13 +18,15 @@
                        <b-img :src="image" class="news-image"></b-img>
                    </template>
                    <h3 class="mt-0">{{news.nm_title}}</h3>
-                   <h6 >{{news.nm_subtitle}}</h6>
+                   <h6 :style="{fontWeight: 'bold'}">{{news.nm_subtitle}}</h6>
+
+                   <p class="date">{{news.dt_date | namedDate}}</p>
 
                    <div class="cel-image-container mt-3" v-if="image" fluid>
                        <b-img :src="image" class="cel-image"></b-img>
                    </div>
                    
-                   <p v-html="news.nm_content" class="mt-4"></p>
+                   <p v-html="news.nm_content" class="mt-3"></p>
                </b-media>
            </b-card>
         </b-row>
@@ -45,7 +47,8 @@
         data() {
             return {
                 error: [],
-                news: []
+                news: [],
+               
             }
         },
 
@@ -59,7 +62,6 @@
                 return this.news.nm_image_path;
             }
         },
-
 
         methods: {
             getCurrentNews() {
@@ -97,6 +99,12 @@
     h5 {
         color: #fff;
         font-weight: bolder;
+    }
+
+    .date {
+        font-weight: bolder;
+        color: darkred;
+        margin-top: 15px;
     }
 
     @media screen and (max-width: 1200px){

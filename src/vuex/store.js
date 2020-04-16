@@ -107,15 +107,6 @@ export default new Vuex.Store({
             })
         },
 
-        users({commit}, token) {
-            axios.post('users', {
-                Authorization: 'Bearer '+ token
-            })
-            .then(res => {
-                commit('setUsers',res.data.result.users);
-            })
-        },
-
         partners({commit}) {
             axios.get('partner')
             .then(res => {
@@ -184,6 +175,19 @@ export default new Vuex.Store({
             .then(res => {
                 if (res.status === 200) {
                     commit('setFile', res.data.result.file)
+                }
+            })
+        },
+
+        users({commit}, token) {
+            axios.get('users', {
+                headers: {
+                    Authorization: 'Bearer '+token
+                }
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setUser', res.data.result.users)
                 }
             })
         },

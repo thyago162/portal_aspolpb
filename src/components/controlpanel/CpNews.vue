@@ -63,7 +63,7 @@
          </b-container>
         </b-modal>
         
-        <form-news :item="newsItem" />
+        <form-news :item="newsItem" :cont="rows" />
    </div>
 </template>
 
@@ -153,15 +153,8 @@
                             if (res.data.token_failure) {
                                 this.countdown = 3;
                             }
-
-                            if (res.data.result.error) {
-                                this.errors.push(res.data.result.error);
-                                this.visibility = true;
-
-                            } else {
-                                this.$store.disptach('news');
-                                alert("Notícia removida");
-                            }
+                            this.$store.dispatch('news');
+                            alert("Notícia removida");
 
                         }
                     })
@@ -181,6 +174,7 @@
             },
 
             resetModal() {
+                this.newsItem.id_news = '';
                 this.newsItem.nm_title = '';
                 this.newsItem.nm_subtitle = '';
                 this.newsItem.dt_date = '';

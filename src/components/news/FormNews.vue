@@ -128,9 +128,8 @@
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
     import Session from '../session/Session';
-    import { default_url } from '../../config';
     export default {
-        props: ['item'],
+        props: ['item', 'cont'],
 
         components: {
             VueEditor,
@@ -189,12 +188,7 @@
 
             formSubmited() {
                 this.loading = true;
-                if (!this.form.id_news) {
-                    this.saveNews();
-                            
-                }else {
-                    this.update();
-                }
+                this.saveNews();
             },
  
             saveNews() {
@@ -205,6 +199,7 @@
                     this.news.nm_image_path = '';
                 }
 
+                formData.append('id_news', this.news.id_news);
                 formData.append('nm_title', this.news.nm_title);
                 formData.append('nm_subtitle', this.news.nm_subtitle);
                 formData.append('nm_content', this.news.nm_content);
@@ -233,6 +228,7 @@
                         }else {
                             this.$store.dispatch('news');
                             this.$refs['formnews'].hide();
+                            this.removeSelectedImage();
                         }
                         
                     }
@@ -241,111 +237,6 @@
                     this.errors.push(err);
                     this.visibility = true;
                 }) 
-            },
-
-            editNews() {
-                this.$http.put('news/'+this.item.id_news,{
-                    'nm_title': this.news.nm_title,
-                    'nm_subtitle': this.news.nm_subtitle,
-                    'nm_content': this.news.nm_content,
-                    'dt_date': this.news.dt_date,
-                    'st_highlights': this.news.st_highlights,
-                    'nm_image_path' : this.news.nm_image_path
-                }, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token,
-                    }
-                })
-                .then( res => {
-                    if (res.status === 200) {
-                        this.loading = false;
-
-                        if (res.data.token_failure) {
-                            this.countdown = 3;
-                        }
-
-                        if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
-
-                        }else {
-                            this.$store.dispatch('news');
-                            this.$refs['formnews'].hide();
-                        }
-
-                    }
-                    
-                })
-                .catch(err => {
-                    this.errors.push(err);
-                    this.visibility = true;
-                })
-
-            },
-
-            image() {
-                if ( this.file ) {
-
-                    if (this.news.nm_image_path) {
-                        this.deleteImage();
-                    }
-
-                    this.saveImage();
-                    
-                } else {
-                    
-                    this.deleteImage();
-                }
-            },
-
-            saveImage() {
-                let form = new FormData();
-
-                form.append('file',this.file);
-                form.append('folder','public/news');
-
-                this.$http.post('storage/save',form,{
-                    headers: {
-                        Authorization: 'Bearer '+this.token,
-                        'Content-type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        let image = res.data.result.url;
-                        image = image.replace('public','storage')
-                        this.news.nm_image_path = image;
-
-                        
-                    }
-                    
-                })
-                .catch(err => {
-                    this.erro = err;
-                })
-
-            },
-
-            deleteImage() {
-
-                let url = this.news.nm_image_path.replace(default_url,'')
-
-                let form = new FormData();
-                form.append('url',url.replace('storage','public'));
-                form.append('folder','public/news');
-
-               this.$http.post('storage/delete',form,
-                {
-                   headers: {
-                       Authorization: 'Bearer '+this.token
-                   }
-               })
-               .then(res => {
-                   
-                   if (res.status === 200) {
-                       res
-                   }
-               })
             },
 
             setImage(e) {

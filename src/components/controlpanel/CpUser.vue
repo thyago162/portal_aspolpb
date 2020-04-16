@@ -96,7 +96,7 @@
             },
 
             token: function() {
-                return this.$store.getters.getToken;
+                return this.$session.get('jwt')
             },
 
             users: function() {
@@ -125,7 +125,7 @@
                                 this.visibility = true;
 
                             } else {
-                                this.getUsers()
+                                this.$store.dispatch('users')
                             }
 
 

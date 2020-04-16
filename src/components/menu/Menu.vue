@@ -20,7 +20,9 @@
 
                     <b-nav-item-dropdown >
                         <template v-slot:button-content>
-                            <span class="personal-link" >INSTITUCIONAL</span>
+                            <span class="personal-link" >
+                                INSTITUCIONAL
+                            </span>
                         </template>
                         <b-dropdown-item>
                             <b-link :to="{name: 'sobre'}" class="personal-link">
@@ -226,6 +228,7 @@
 
     .personal-link:hover {
         color: #000;
+        border-bottom: red 3px solid;
     }
 
     .personal-btn {

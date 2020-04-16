@@ -1,23 +1,25 @@
 <template>
     <div class="card-news ml-1" @click="seeNews" >
-        <b-card 
-            img-right>
-            <template v-slot:header class="card-header">
+        <b-card no-body img-right>
+            <b-card-header :style="{width: '25%'}">
                 <b-img :src="image" class="card-news-image" fluid></b-img>
-            </template>
-            
-            <b-img src="/aspolicone.ico"  class="card-news-icon" />
-            <span class="card-news-date">{{cardnews.dt_date | date}}</span>
+            </b-card-header>
 
-            <b-link class="card-news-title">
-                <h6 class="mt-1 " >
-                    {{cardnews.nm_title}}
-                </h6>
-            </b-link>
-            
-            <b-card-text class="mt-2 card-news-subtitle">
-                {{cardnews.nm_subtitle}}
-            </b-card-text>
+            <b-card-body :style="{width: '75%'}">
+                <b-img src="/aspolicone.ico"  class="card-news-icon" />
+                <span class="card-news-date">{{cardnews.dt_date | date}}</span>
+
+                <b-link class="card-news-title">
+                    <h6 class="mt-1 " >
+                        {{cardnews.nm_title}}
+                    </h6>
+                </b-link>
+                
+                <b-card-text class="mt-2 card-news-subtitle">
+                    {{cardnews.nm_subtitle}}
+                </b-card-text>
+                    
+            </b-card-body>
         </b-card>
         
     </div>

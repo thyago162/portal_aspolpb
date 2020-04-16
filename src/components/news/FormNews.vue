@@ -128,6 +128,7 @@
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
     import Session from '../session/Session';
+    import { default_url } from '../../config';
     export default {
         props: ['item'],
 
@@ -331,7 +332,7 @@
 
             deleteImage() {
 
-                let url = this.news.nm_image_path.replace('http://193.46.198.137:8000/api/','')
+                let url = this.news.nm_image_path.replace(default_url,'')
 
                 let form = new FormData();
                 form.append('url',url.replace('storage','public'));

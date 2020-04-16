@@ -32,6 +32,13 @@
                      <b-table :fields="fields" :items="news" striped hover 
                         :per-page="perPage" :current-page="currentPage" id="table-news">
 
+                        <template v-slot:cell(edit)="row" > 
+                             <b-button size="sm"  @click="editNews(row.item)" 
+                                variant="info" v-b-modal.form-news class="ml-1">
+                                 <b-icon icon="pen"></b-icon>
+                             </b-button>
+                         </template>
+
                           <template v-slot:cell(delete)="row" >
                              <b-button size="sm"  @click="deleteNews(row.item.id_news)" variant="danger">
                                  <b-icon icon="trash"></b-icon>
@@ -81,7 +88,8 @@
                 fields: [
                     {key: 'nm_title', label: 'Título', sortable: true},
                     {key: 'dt_date', label: 'Data', sortable: true},
-                    {key: 'delete', label: ''}
+                    {key: 'edit', label: ''},
+                    {key: 'delete', label: ''},
                 ],
                 bgColor: '#778899',
                 position: 'top-right',
@@ -126,6 +134,10 @@
         },
 
         methods: {
+
+            editNews(item) {
+                this.newsItem = item;
+            },
 
             deleteNews(id) {
 

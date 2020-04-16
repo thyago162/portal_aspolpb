@@ -114,9 +114,12 @@
 </template>
 
 <script>
+
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
+    import { default_url } from '../../config';
     import Session from '../session/Session';
+
     export default {
 
         mounted() {
@@ -342,7 +345,7 @@
 
             deleteImage(param) {
 
-                let url = this.form.nm_image_path.replace('http://localhost:8080/','')
+                let url = this.form.nm_image_path.replace(default_url,'')
 
                 let form = new FormData();
                 form.append('url',url.replace('storage','public'));

@@ -21,7 +21,13 @@ Vue.filter('namedDate', function (value) {
     let  months = ['Janeiro', 'Fevereiro','Março','Abril', 'Maio', 'Junho',
         'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         
-    let date = value.split('-');
+    if (value) {
+        let date = value.split('-');
 
-    return `${date[2]} de ${months[parseInt(date[1])]} de ${date[0]}`
+        return `${date[2]} de ${months[parseInt(date[1])]} de ${date[0]}`
+
+    } else {
+        return ''
+    }
+    
 })

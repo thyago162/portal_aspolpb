@@ -5,7 +5,9 @@
             <b-card-text>
                 <b-img src="/aspolicone.ico" width="20px" height="20px" />
                 <span style="float: right; color: red;">{{n.dt_date | date}}</span>
-                <b-card-text class="mt-1 card-title">{{n.nm_title}} </b-card-text>
+                <b-link :style="{color: 'black', textDecoration: 'none'}">
+                    <b-card-text class="mt-1 card-title">{{n.nm_title}} </b-card-text>
+                </b-link>
                 <b-card-text class="mt-1 card-subtitle">{{n.nm_subtitle}} </b-card-text>
             </b-card-text>
         </b-card>
@@ -29,7 +31,6 @@
             return {
                 news: [],
             }
-
         },
 
         methods: {
@@ -44,8 +45,6 @@
                 this.$router.push({ name: 'visualizar-noticias', params: {title}})
             }
         }
-       
-        
     }
 </script>
 

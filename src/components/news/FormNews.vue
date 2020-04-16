@@ -16,7 +16,7 @@
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
             <b-container fluid>
                 <b-row>
-                    <b-col lg="9" md="7">
+                    <b-col >
                         <b-form-group label="Título">
                             <b-form-input 
                                 type="text" 
@@ -26,16 +26,9 @@
                             ></b-form-input>
                         </b-form-group>
                     </b-col>
-
-                    <b-col lg="3" md="2">
-                        <b-form-group label="Data">
-                            <b-form-input type="date" v-model="news.dt_date" 
-                            name="dt_date" required/>
-                        </b-form-group>
-                    </b-col>
                 </b-row>
 
-                <b-row>
+                 <b-row>
                     <b-col>
                         <b-form-group label="Subtítulo">
                             <b-form-input type="text" v-model="news.nm_subtitle" />
@@ -44,17 +37,13 @@
                 </b-row>
 
                 <b-row>
-                    <b-col lg="9">
-                        <b-form-group label="Image">
-                            <b-form-file
-                                name="nm_image_path"
-                                @input="image"
-                                v-model="file"
-                                :state="Boolean(file)"
-                                placeholder="Escolha uma imagem..."/>
+                    <b-col lg="3" md="2">
+                        <b-form-group label="Data">
+                            <b-form-input type="date" v-model="news.dt_date" 
+                            name="dt_date" required/>
                         </b-form-group>
-                        {{form.nm_image_path}}
                     </b-col>
+
                     <b-col lg="3">
                         <b-form-group label="Destacar" class="ml-4">
                             <b-form-radio-group v-model="news.st_highlights" required>
@@ -69,10 +58,63 @@
                     <b-col>
                         <b-form-group label="Conteúdo">
                             <vue-editor id="editor"
-                                
                                 v-model="news.nm_content"
                                 ></vue-editor>
                         </b-form-group>
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col lg="9">
+                        <b-form-group label="Image">
+                            <b-form-file
+                                name="nm_image_path"
+                                @change="setImage"
+                                v-model="file"
+                                :state="Boolean(file)"
+                                placeholder="Escolha uma imagem..."/>
+                        </b-form-group>
+                        {{form.nm_image_path}}
+                    </b-col>
+                </b-row>
+
+                <b-row>
+                    <b-col lg="6">
+                        <div v-if="file">
+                            <span >
+                            {{file.name}}
+                            <b-button size="sm" variant="default" @click="removeSelectedImage">
+                                <b-icon icon="trash" variant="danger"></b-icon>
+                            </b-button>
+                            </span>
+
+                            <vue-cropper
+                                class="mt-2"
+                                ref="cropper"
+                                :src="form.nm_image_path"
+                                alt="Source Image"
+                                :aspect-ratio="16 / 9"
+                                preview=".preview"
+                            ></vue-cropper>
+
+                            <div>
+                                <b-button size="sm" class="m-2" variant="info" @click.prevent="cropImage">Cortar</b-button>
+                                <b-button size="sm" @click.prevent="reset" variant="warning">Resetar</b-button>
+                            </div>
+            
+                        </div>
+                    </b-col>
+
+                    <b-col lg="6">
+                        <div v-if="cropImg"  class="cropped-image">
+                            <h6 class="mt-2">Prévia</h6>
+                            <b-img
+                                :src="cropImg"
+                                alt="Imagem Recortada"
+                                fluid
+                            >
+                            </b-img>
+                        </div> 
                     </b-col>
                 </b-row>
             </b-container>
@@ -82,6 +124,7 @@
 </template>
 
 <script>
+    import VueCropper from 'vue-cropperjs';
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
     import Session from '../session/Session';
@@ -91,7 +134,8 @@
         components: {
             VueEditor,
             ErroMessage,
-            Session
+            Session,
+            VueCropper
         },
 
         computed: {
@@ -129,6 +173,8 @@
                     [{ 'direction': 'rtl' }],
                     ['clean'],
                 ],
+                cropImg: '',
+                imgSrc: ''
             
             }
         },
@@ -142,14 +188,11 @@
 
             formSubmited() {
                 this.loading = true;
-
-                if (this.item.id_news) {
-                    this.editNews();
-
-                }else {
-                    this.saveNews();
+                if (this.form.nm_image_path && this.file) {
+                    this.deleteImage()
                 }
 
+                this.saveImage(this.file)
             },
  
             saveNews() {
@@ -270,6 +313,13 @@
                         let image = res.data.result.url;
                         image = image.replace('public','storage')
                         this.news.nm_image_path = image;
+
+                        if (!this.form.id_news) {
+                            this.saveNews();
+                            
+                        }else {
+                            this.update();
+                        }
                     }
                     
                 })
@@ -281,7 +331,7 @@
 
             deleteImage() {
 
-                let url = this.news.nm_image_path.replace('http://localhost:8080/','')
+                let url = this.news.nm_image_path.replace('http://193.46.198.137:8000/api/','')
 
                 let form = new FormData();
                 form.append('url',url.replace('storage','public'));
@@ -299,8 +349,50 @@
                        res
                    }
                })
+            },
 
+            setImage(e) {
+                const file = e.target.files[0];
+
+                if (file.type.indexOf('image/') === -1) {
+                    alert('Please select an image file');
+                    return;
+                }
+
+                if (typeof FileReader === 'function') {
+                    const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    this.imgSrc = event.target.result;
+                    // rebuild cropperjs with the updated source
+                    this.$refs.cropper.replace(event.target.result);
+                };
+
+                reader.readAsDataURL(file);
+                //this.saveImage(file)
+                } else {
+                    alert('Sorry, FileReader API not supported');
+                }
+            },
+
+            cropImage() {
+                let vm = this
+                // get image data for post processing, e.g. upload or setting image src
+                this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+                this.$refs.cropper.getCroppedCanvas().toBlob(function (blob) {
+                    vm.file = new File([blob], 'arquivo')
+                },'image/jpeg')
+            },
+
+            reset() {
+                this.$refs.cropper.reset();
+            },
+
+            removeSelectedImage() {
+                this.file = null;
+                this.cropImg  = ''
             }
+
         },
     }
 </script>

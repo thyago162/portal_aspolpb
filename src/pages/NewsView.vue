@@ -24,28 +24,39 @@
                             <b-img :src="image" class="cel-image"  fluid></b-img>
                         </div>
                     
-                        <p v-html="news.nm_content" class="mt-3"></p>
+                        <div class="content">
+                            <p v-html="news.nm_content" class="mt-3"></p>
+                        </div>
                         
                     </b-media>
                 </b-card>
            </b-col>
+           <b-col v-if="token && administrator === 1">
+               <b-button size="sm" v-b-modal.form-news variant="info">
+                   <b-icon icon="pencil"></b-icon>
+               </b-button>
+           </b-col>
         </b-row>
 
         <b-row class="mb-4 mt-3">
-            <b-col>
+            <b-col >
                 <Sharing :url="news.nm_title" />
             </b-col>
         </b-row>
+
+        <FormNews :item="news" />
 
     </b-container>
 </template>
 
 <script>
     import Sharing from '../components/sharing/Sharing';
+    import FormNews from '../components/news/FormNews';
     export default {
 
         components: {
-            Sharing
+            Sharing,
+            FormNews
         },
 
         mounted() { 
@@ -68,7 +79,16 @@
 
             image: function() {
                 return this.news.nm_image_path;
-            }
+            },
+
+            token: function() {
+                return this.$store.getters.getToken;
+            },
+
+            administrator: function() {
+                let user = this.$session.get('user');
+                return user ? user.administrator : 0
+            },
         },
 
         methods: {
@@ -123,7 +143,7 @@
         justify-content: center;
         align-items: center;
     }
-
+    
     @media screen and (max-width: 1200px){
         .news-image {
             width: 350px;

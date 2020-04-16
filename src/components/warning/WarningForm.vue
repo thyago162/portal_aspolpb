@@ -17,7 +17,6 @@
 
             <b-container fluid>
                 <b-row>
-
                     <b-col lg="12">
                          <b-form-group label="Ativar">
                             <b-form-radio-group v-model="form.st_status">
@@ -34,7 +33,7 @@
                         <div v-if="file">
                             <span >
                             {{file.name}}
-                            <b-button size="sm" variant="default" @click="deleteImage">
+                            <b-button size="sm" variant="default" @click="removeSelectedImage">
                                 <b-icon icon="trash" variant="danger"></b-icon>
                             </b-button>
                             </span>
@@ -74,8 +73,8 @@
 </template>
 
 <script>
+
     import VueCropper from 'vue-cropperjs';
-    import 'cropperjs/dist/cropper.css';
     import ErroMessage from '../error/ErrorMessage';
     import Session from '../session/Session';
 
@@ -222,7 +221,7 @@
                 // get image data for post processing, e.g. upload or setting image src
                 this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
                 this.$refs.cropper.getCroppedCanvas().toBlob(function (blob) {
-                    vm.file = new File([blob], 'teste')
+                    vm.file = new File([blob], 'arquivo')
                 },'image/jpeg')
             },
 
@@ -279,15 +278,12 @@
                         Authorization: 'Bearer '+this.token
                     }
                 })
-                .then(res => {
-                    if (res.status === 200) {
-                        this.form.nm_image_path = ''
-                        this.file = null;
-                        this.cropImg  = ''
-                    }
-                })
-    
             },
+
+            removeSelectedImage() {
+                this.file = null;
+                this.cropImg  = ''
+            }
         }
         
     }

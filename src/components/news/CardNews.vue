@@ -1,5 +1,5 @@
 <template>
-    <div class="card-news ml-1" @click="seeNews" >    
+    <div class="card-news ml-1" @click="seeNews" >
         <b-card 
             img-right>
             <template v-slot:header class="card-header">
@@ -8,10 +8,13 @@
             
             <b-img src="/aspolicone.ico"  class="card-news-icon" />
             <span class="card-news-date">{{cardnews.dt_date | date}}</span>
+
+            <b-link class="card-news-title">
+                <h6 class="mt-1 " >
+                    {{cardnews.nm_title}}
+                </h6>
+            </b-link>
             
-            <h6 class="mt-1 card-news-title" >
-                {{cardnews.nm_title}}
-            </h6>
             <b-card-text class="mt-2 card-news-subtitle">
                 {{cardnews.nm_subtitle}}
             </b-card-text>
@@ -65,6 +68,8 @@
     .card-news-title {
         font-weight: bolder;
         font-size: 16px;
+        color: black;
+        text-decoration: none;
     }
 
     .card-news-subtitle {

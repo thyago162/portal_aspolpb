@@ -5,6 +5,7 @@ import store from './vuex/store';
 import "@/assets/css/app.css";
 
 import './library/library';
+import 'cropperjs/dist/cropper.css';
 
 Vue.config.productionTip = true
 

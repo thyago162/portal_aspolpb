@@ -189,11 +189,12 @@
 
             formSubmited() {
                 this.loading = true;
-                if (this.form.nm_image_path && this.file) {
-                    this.deleteImage()
+                if (!this.form.id_news) {
+                    this.saveNews();
+                            
+                }else {
+                    this.update();
                 }
-
-                this.saveImage(this.file)
             },
  
             saveNews() {
@@ -208,7 +209,7 @@
                 formData.append('nm_subtitle', this.news.nm_subtitle);
                 formData.append('nm_content', this.news.nm_content);
                 formData.append('dt_date', this.news.dt_date);
-                formData.append('nm_image_path', this.news.nm_image_path),
+                formData.append('file', this.file),
                 formData.append('st_highlights',this.news.st_highlights);
 
                 this.$http.post('news',formData, {
@@ -315,12 +316,7 @@
                         image = image.replace('public','storage')
                         this.news.nm_image_path = image;
 
-                        if (!this.form.id_news) {
-                            this.saveNews();
-                            
-                        }else {
-                            this.update();
-                        }
+                        
                     }
                     
                 })

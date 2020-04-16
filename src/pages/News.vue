@@ -12,8 +12,8 @@
                 <b-table :fields="fields" :items="allNews" :per-page="perPage" :current-page="currentPage" id="news-table">
                     <template v-slot:cell(card)="row">
                         <b-card>
-                            <b-card-text class="card-text">
-                                Noticias da aspolpb
+                            <b-card-text class="card-text" v-if="row.item.nm_subtitle">
+                               {{row.item.nm_subtitle}}
                             </b-card-text>
                             <b-link :to="{name: 'visualizar-noticias', params: {title: row.item.nm_title}}">
                                 <b-card-title class="card-title">

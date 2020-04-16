@@ -63,7 +63,7 @@
          </b-container>
         </b-modal>
         
-        <form-news :item="newsItem" :cont="rows" />
+        <form-news :item="newsItem" />
    </div>
 </template>
 

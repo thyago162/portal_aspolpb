@@ -129,7 +129,7 @@
     import { VueEditor } from 'vue2-editor';
     import Session from '../session/Session';
     export default {
-        props: ['item', 'cont'],
+        props: ['item'],
 
         components: {
             VueEditor,
@@ -206,6 +206,7 @@
                 formData.append('dt_date', this.news.dt_date);
                 formData.append('file', this.file),
                 formData.append('st_highlights',this.news.st_highlights);
+                formData.append('nm_image_path', this.news.nm_image_path);
 
                 this.$http.post('news',formData, {
                         headers: {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal size="xl" title="Notícias" id="cp-news" ref="cpnews" 
+        <b-modal size="xl" title="Notícias" id="cp-news" ref="cpnews" no-stacking
           no-close-on-backdrop header-bg-variant="primary" header-text-variant="light" hide-footer>
          <b-container fluid>
 
@@ -89,7 +89,8 @@
                     {key: 'nm_title', label: 'Título', sortable: true},
                     {key: 'dt_date', label: 'Data', sortable: true},
                     {key: 'edit', label: ''},
-                    {key: 'delete', label: ''},
+                    {key: 'delete', label: ''}
+                    
                 ],
                 bgColor: '#778899',
                 position: 'top-right',

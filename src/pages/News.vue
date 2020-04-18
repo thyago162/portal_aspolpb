@@ -10,22 +10,31 @@
         <b-row  class="align-body">
             <b-col lg="11"  >
                 <b-table :fields="fields" :items="allNews" :per-page="perPage" :current-page="currentPage" id="news-table">
+
                     <template v-slot:cell(card)="row">
-                        <b-card>
-                            <b-card-text class="card-text" v-if="row.item.nm_subtitle">
-                               {{row.item.nm_subtitle}}
-                            </b-card-text>
-                            <b-link :to="{name: 'visualizar-noticias', params: {title: row.item.nm_title}}">
-                                <b-card-title class="card-title">
-                                    {{row.item.nm_title}}
-                                </b-card-title>
-                            </b-link>
+
+                        <b-card v-if="row.item.st_active === 1" img-right no-body>
+                            <b-card-header v-if="row.item.nm_image_path" class="card-header" >
+                                <b-img :src="row.item.nm_image_path" fluid />
+                            </b-card-header>
+                           <b-card-body :style="{width: '75%'}">
+                                <b-card-text class="card-text" v-if="row.item.nm_subtitle">
+                                    {{row.item.nm_subtitle}}
+                                </b-card-text>
+                                <b-link :to="{name: 'visualizar-noticias', params: {title: row.item.nm_title}}">
+                                    <b-card-title class="card-title">
+                                        {{row.item.nm_title}}
+                                    </b-card-title>
+                                </b-link>
                             
-                            <b-card-text :style="{fontWeight: 'bolder'}">
-                                {{row.item.dt_date | date}}
-                            </b-card-text>
+                                <b-card-text :style="{fontWeight: 'bolder'}">
+                                    {{row.item.dt_date | date}}
+                                </b-card-text>
+                            </b-card-body>
                         </b-card>
+
                     </template>
+
                 </b-table>
                 <b-pagination
                     align="center"
@@ -96,6 +105,10 @@
         color: darkred;
     }
 
+    .card-header {
+        width: 25%;
+    }
+
     @media screen  and (max-width: 414px){
         .news-title {
             width: 80px;
@@ -112,6 +125,10 @@
 
         .card-text {
             font-size: 12px;
+        }
+
+        .card-header {
+            display: none;
         }
     }
 

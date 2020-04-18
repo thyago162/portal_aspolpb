@@ -11,23 +11,50 @@
             </b-col>
         </b-row>
         
-        <b-row class="mt-3 mb-2 align-body" >
+        <b-row class="mt-3 mb-2 " >
             <b-col lg="11">
                 <b-card :style="{border: 'none'}">
                     <b-media >
-                        <h3 class="mt-0" :style="{textAlign: 'center'}">{{news.nm_title}}</h3>
-                        <h6 :style="{fontWeight: 'bold', textAlign: 'center'}">{{news.nm_subtitle}}</h6>
+                        <b-row>
+                            <b-col>
+                                <h3 class="ml-4" :style="{fontWeight: 'bold'}" >{{news.nm_title}}</h3>
+                            </b-col>
+                        </b-row>
 
-                        <p class="date" :style="{textAlign: 'center'}">{{news.dt_date | namedDate}}</p>
+                         <b-row>
+                            <b-col>
+                                <h6 class="ml-4" >{{news.nm_subtitle}}</h6>
+                            </b-col>
+                        </b-row>
 
-                        <div class="cel-image-container mt-3 cell-image" >
-                            <b-img :src="image" class="cel-image"  fluid></b-img>
-                        </div>
+                        <b-row class="ml-2" >
+                            <b-col lg="8">
+                                <p class="date" >{{news.dt_date | namedDate}}</p>
+                            </b-col>
+
+                            <b-col >
+                                <div class="mt-3 ml-5">
+                                    <Sharing :url="news.nm_title" />
+                                </div>
+                            </b-col>
+                        </b-row>
+
+                        <b-row class="mt-2" :style="{display: 'flex', flexDirection: 'row', justifyContent: 'center'}">
+                            <b-col lg="8" >
+                                <div class="cel-image-container mt-3 cell-image" >
+                                    <b-img :src="image" class="cel-image"  fluid></b-img>
+                                </div>
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col>
+                                 <div class="content">
+                                    <p v-html="news.nm_content" class="mt-4 ml-4"></p>
+                                </div>
+                            </b-col>
+                        </b-row>
                     
-                        <div class="content">
-                            <p v-html="news.nm_content" class="mt-3"></p>
-                        </div>
-                        
                     </b-media>
                 </b-card>
            </b-col>
@@ -36,12 +63,6 @@
                    <b-icon icon="pencil"></b-icon>
                </b-button>
            </b-col>
-        </b-row>
-
-        <b-row class="mb-4 mt-3">
-            <b-col >
-                <Sharing :url="news.nm_title" />
-            </b-col>
         </b-row>
 
         <FormNews :item="news" />
@@ -133,7 +154,7 @@
 
     .date {
         font-weight: bolder;
-        color: darkred;
+        color: darkgray;
         margin-top: 15px;
     }
 

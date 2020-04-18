@@ -130,7 +130,7 @@
                         <template v-slot:button-content>
                             <span class="personal-link" >
                                 {{ user.name}}
-                                <b-icon icon="gear-fill" />
+                               <b-icon icon="gear-fill" /> 
                             </span>
                         </template>
                         <b-dropdown-item v-b-modal.me>Meus dados</b-dropdown-item>

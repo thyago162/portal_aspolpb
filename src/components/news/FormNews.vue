@@ -1,13 +1,19 @@
 <template>
     <b-modal title="Nova noticia" header-text-variant="light"
         ref="formnews" id="form-news" size="xl" header-bg-variant="primary" 
-            @ok="handleOk" ok-only ok-title="Salvar">
+            ok-only  ok-title="Salvar">
 
-        <template v-slot:modal-footer="{ok}">      
-            <b-button @click="ok()" variant="success" size="md">
+        <template v-slot:modal-footer>
+           
+            <b-button variant="info" @click="preview = !preview">
+                {{preview ? 'Fechar pre-visualização': 'Exibir pré-visualização'}}
+            </b-button>
+
+            <b-button @click="handleOk" variant="success" size="md">
                 <span :style="{fontWeight: 'bolder'}">Salvar</span>
                 <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
-            </b-button>
+            </b-button> 
+
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility"/>
@@ -15,111 +21,142 @@
 
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
             <b-container fluid>
-                <b-row>
-                    <b-col >
-                        <b-form-group label="Título">
-                            <b-form-input 
-                                type="text" 
-                                v-model="news.nm_title"
-                                required
-                                name="nm_title"
-                            ></b-form-input>
-                        </b-form-group>
+
+               <b-row>
+                   <b-col>
+                        <b-form-checkbox v-b-tooltip.hover title="Ativar notícia" 
+                            :style="{float: 'right'}" switch v-model="news.st_active" :unchecked-value="0" :value="1" />
+                   </b-col>
+               </b-row>
+
+                <b-row class="mt-2">
+                    <b-col v-show="!preview">
+                        <b-row>
+                            <b-col >
+                                <b-form-group label="Título">
+                                    <b-form-input 
+                                        type="text" 
+                                        v-model="news.nm_title"
+                                        required
+                                        name="nm_title"
+                                    ></b-form-input>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Subtítulo">
+                                    <b-form-input type="text" v-model="news.nm_subtitle" />
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col lg="3" md="2">
+                                <b-form-group label="Data">
+                                    <b-form-input type="date" v-model="news.dt_date" 
+                                    name="dt_date" required/>
+                                </b-form-group>
+                            </b-col>
+
+                            <b-col lg="3">
+                                <b-form-group label="Destacar" class="ml-4">
+                                    <b-form-radio-group v-model="news.st_highlights" required>
+                                        <b-form-radio :value="0" default name="no-highlights" >Não</b-form-radio>
+                                        <b-form-radio :value="1" name="yes-highlights">Sim</b-form-radio>
+                                    </b-form-radio-group>
+                                </b-form-group>
+                            </b-col>
+
+                             <b-col lg="3">
+                               <!-- <b-form-group label="Habilitar" class="ml-4">
+                                    <b-form-radio-group v-model="news.st_active" required>
+                                        <b-form-radio :value="0" name="no-active" >Não</b-form-radio>
+                                        <b-form-radio :value="1" name="yes-active">Sim</b-form-radio>
+                                    </b-form-radio-group> 
+                                </b-form-group> -->
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col>
+                                <b-form-group label="Conteúdo">
+                                    <vue-editor id="editor"
+                                        v-model="news.nm_content"
+                                        ></vue-editor>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col lg="9">
+                                <b-form-group label="Image">
+                                    <b-form-file
+                                        name="nm_image_path"
+                                        @change="setImage"
+                                        v-model="file"
+                                        :state="Boolean(file)"
+                                        placeholder="Escolha uma imagem..."/>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-row>
+                            <b-col lg="6">
+                                <div v-if="file || item.nm_image_path">
+                                    <span >
+                                    {{file ? file.name : form.nm_image_path}}
+                                    
+                                    <b-button size="sm" variant="default" @click="removeSelectedImage">
+                                        <b-icon icon="trash" variant="danger"></b-icon>
+                                    </b-button> 
+                                    </span>
+
+                                    <vue-cropper
+                                        class="mt-2"
+                                        ref="cropper"
+                                        :src="item.nm_image_path"
+                                        alt="Source Image"
+                                        :aspect-ratio="16 / 9"
+                                        preview=".preview"
+                                    ></vue-cropper>
+
+                                    <div v-if="!news.nm_image_path">
+                                        <b-button size="sm" class="m-2" variant="info" @click.prevent="cropImage">
+                                            Selecionar área
+                                        </b-button>
+                                        <b-button size="sm" @click.prevent="reset" variant="warning">
+                                            Resetar
+                                        </b-button>
+                                    </div>
+                    
+                                </div>
+                            </b-col>
+
+                            <b-col lg="6">
+                                <div v-if="cropImg"  class="cropped-image">
+                                    <h6 class="mt-2">Prévia</h6>
+                                    <b-img
+                                        :src="cropImg"
+                                        alt="Imagem Recortada"
+                                        fluid
+                                    >
+                                    </b-img>
+                                </div> 
+                            </b-col>
+                        </b-row>
                     </b-col>
-                </b-row>
-
-                 <b-row>
-                    <b-col>
-                        <b-form-group label="Subtítulo">
-                            <b-form-input type="text" v-model="news.nm_subtitle" />
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-
-                <b-row>
-                    <b-col lg="3" md="2">
-                        <b-form-group label="Data">
-                            <b-form-input type="date" v-model="news.dt_date" 
-                            name="dt_date" required/>
-                        </b-form-group>
-                    </b-col>
-
-                    <b-col lg="3">
-                        <b-form-group label="Destacar" class="ml-4">
-                            <b-form-radio-group v-model="news.st_highlights" required>
-                                <b-form-radio :value="0" name="no-highlights" >Não</b-form-radio>
-                                <b-form-radio :value="1" name="yes-highlights">Sim</b-form-radio>
-                            </b-form-radio-group>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-
-                <b-row>
-                    <b-col>
-                        <b-form-group label="Conteúdo">
-                            <vue-editor id="editor"
-                                v-model="news.nm_content"
-                                ></vue-editor>
-                        </b-form-group>
-                    </b-col>
-                </b-row>
-
-                <b-row>
-                    <b-col lg="9">
-                        <b-form-group label="Image">
-                            <b-form-file
-                                name="nm_image_path"
-                                @change="setImage"
-                                v-model="file"
-                                :state="Boolean(file)"
-                                placeholder="Escolha uma imagem..."/>
-                        </b-form-group>
-                        {{form.nm_image_path}}
-                    </b-col>
-                </b-row>
-
-                <b-row>
-                    <b-col lg="6">
-                        <div v-if="file">
-                            <span >
-                            {{file.name}}
-                            <b-button size="sm" variant="default" @click="removeSelectedImage">
-                                <b-icon icon="trash" variant="danger"></b-icon>
-                            </b-button>
-                            </span>
-
-                            <vue-cropper
-                                class="mt-2"
-                                ref="cropper"
-                                :src="form.nm_image_path"
-                                alt="Source Image"
-                                :aspect-ratio="16 / 9"
-                                preview=".preview"
-                            ></vue-cropper>
-
-                            <div>
-                                <b-button size="sm" class="m-2" variant="info" @click.prevent="cropImage">Cortar</b-button>
-                                <b-button size="sm" @click.prevent="reset" variant="warning">Resetar</b-button>
-                            </div>
-            
-                        </div>
-                    </b-col>
-
-                    <b-col lg="6">
-                        <div v-if="cropImg"  class="cropped-image">
-                            <h6 class="mt-2">Prévia</h6>
-                            <b-img
-                                :src="cropImg"
-                                alt="Imagem Recortada"
-                                fluid
-                            >
-                            </b-img>
-                        </div> 
-                    </b-col>
+                    <transition name="fade">
+                        <b-col v-show="preview">
+                            <PreviewNews :news="news" :img="imgSrc" :crop="cropImage" />
+                        </b-col>
+                    </transition>
                 </b-row>
             </b-container>
 
         </form>
+        
     </b-modal>
 </template>
 
@@ -128,6 +165,8 @@
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
     import Session from '../session/Session';
+    import PreviewNews from './PreviewNews';
+
     export default {
         props: ['item'],
 
@@ -135,7 +174,8 @@
             VueEditor,
             ErroMessage,
             Session,
-            VueCropper
+            VueCropper,
+            PreviewNews
         },
 
         computed: {
@@ -174,7 +214,11 @@
                     ['clean'],
                 ],
                 cropImg: '',
-                imgSrc: ''
+                imgSrc: '',
+                preview: false,
+                options: [
+                    {text: 'ativar'}
+                ]
             
             }
         },
@@ -207,6 +251,7 @@
                 formData.append('file', this.file),
                 formData.append('st_highlights',this.news.st_highlights);
                 formData.append('nm_image_path', this.news.nm_image_path);
+                formData.append('st_active', this.news.st_active);
 
                 this.$http.post('news',formData, {
                         headers: {
@@ -229,7 +274,6 @@
                         }else {
                             this.$store.dispatch('news');
                             this.$refs['formnews'].hide();
-                            this.removeSelectedImage();
                         }
                         
                     }
@@ -279,9 +323,42 @@
 
             removeSelectedImage() {
                 this.file = null;
-                this.cropImg  = ''
-            }
+                this.cropImg  = '';
 
+                if (this.news.nm_image_path) {
+                    this.deleteImage();
+                }
+            },
+
+            deleteImage() {
+
+                let url = this.news.nm_image_path;
+
+                let form = new FormData();
+                form.append('nm_image_path', url);
+                form.append('folder','public/news');
+                form.append('id_news', this.news.id_news);
+
+               this.$http.post('news/image-remove',form,
+                {
+                   headers: {
+                       Authorization: 'Bearer '+this.token
+                   }
+               })
+               .then(res => {
+                   
+                   if (res.status === 200) {
+                       alert('Imagem removida');
+                       this.item.nm_image_path = '';
+                       this.imgSrc = ''
+                   }
+               })
+
+            },
+
+            pre() {
+                this.preview = !this.preview;
+            }
         },
     }
 </script>
@@ -289,5 +366,13 @@
 <style scoped>
     .editor {
         height: 200px;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 </style>

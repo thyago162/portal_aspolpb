@@ -126,19 +126,15 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown  v-if="token != null">
-                        <template v-slot:button-content>
-                            <span class="personal-link" >
-                                {{ user.name}}
-                               <b-icon icon="gear-fill" /> 
-                            </span>
-                        </template>
-                        <b-dropdown-item v-b-modal.me>Meus dados</b-dropdown-item>
-                        <b-dropdown-item @click="logout"> 
-                            Sair <b-icon icon="power"></b-icon> 
-                        </b-dropdown-item>
-                    </b-nav-item-dropdown>
+                    <b-nav-item  v-if="token != null">
+                        <b-link class="personal-link"  v-b-toggle.sidebar-1>
+                            MINHA CONTA
+                            <b-icon  icon="gear-fill"></b-icon>
+                        </b-link>
+                        
+                    </b-nav-item>
 
+                   
                 </b-navbar-nav>
 
             </b-collapse>

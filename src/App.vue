@@ -2,6 +2,7 @@
   <div class="app">
     
     <Menu />
+    <Sidebar />
     <router-view />
     <Footer />
 
@@ -11,6 +12,7 @@
 <script>
   import Menu from './components/menu/Menu';
   import Footer from './components/footer/Footer';
+  import Sidebar from './components/sidebar/Sidebar';
 
   export default {
     name: 'app',
@@ -24,6 +26,7 @@
     components: {
       Footer,
       Menu,
+      Sidebar
     },
 
   }

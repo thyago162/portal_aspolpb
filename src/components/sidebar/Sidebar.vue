@@ -11,7 +11,19 @@
 
         <nav class="mb-3">
           <b-nav vertical>
-              <b-nav-item active @click="hide" disabled>Meus dados</b-nav-item>
+              <b-nav-item-dropdown active @click="hide">
+                 <template v-slot:button-content>
+                            <span class="personal-link" >
+                                Minha conta
+                            </span>
+                        </template>
+                <b-dropdown-item>
+                  Editar perfil
+                </b-dropdown-item>
+                <b-dropdown-item>
+                  Meus dados
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
               <b-nav-item  @click="hide" disabled>Associação</b-nav-item>
               <b-nav-item  @click="logout">Sair</b-nav-item>
           </b-nav>

@@ -25,7 +25,6 @@
              </b-row>
 
              <ErroMessage :errors="errors" :visibility="visibility"/>
-             <Session :countdown="countdown" ref="cpNews"/>
 
              <b-row class="news-table">
                  <b-col>
@@ -64,19 +63,20 @@
         </b-modal>
         
         <form-news :item="newsItem" />
+        <SessionOff ref="session" />
    </div>
 </template>
 
 <script>
     import FormNews from '../news/FormNews';
     import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session';
+    import SessionOff from '../session/Session';
     export default {
 
         components: {
             FormNews,
             ErroMessage,
-            Session
+            SessionOff
         },
 
         mounted() {
@@ -152,7 +152,7 @@
                     .then(res => {
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                this.countdown = 3;
+                                this.$refs.session.$refs.session.show()
                             }
                             this.$store.dispatch('news');
                             alert("Notícia removida");

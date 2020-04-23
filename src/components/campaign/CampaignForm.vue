@@ -10,7 +10,6 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
         
         <b-form @submit.stop.prevent="formSubmited">
 
@@ -20,17 +19,19 @@
             </b-form-group>
 
         </b-form>
+        <SessionOff ref="session"/> 
    </b-modal>
 </template>
 
 <script>
     import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session'
+    import SessionOff from '../session/Session';
+
     export default {
 
         components: {
             ErroMessage,
-            Session
+            SessionOff
         },
 
         data() {
@@ -85,7 +86,7 @@
                         this.loading = false
 
                         if (res.data.token_failure) {
-                           this.countdown = 3;
+                           this.$refs.session.$refs.session.show()
                         }
 
                         if(res.data.result.error) {

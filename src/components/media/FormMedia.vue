@@ -11,7 +11,6 @@
         </template>
 
         <ErrorMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
 
         <form @submit.stop.prevent="formSubmited" class="mb-2">
 
@@ -74,14 +73,12 @@
 <script>
     import ImageUploader from 'vue-image-upload-resize';
     import ErrorMessage from '../error/ErrorMessage';
-    import Session from '../session/Session';
 
     export default {
 
         components: {
             ImageUploader,
             ErrorMessage,
-            Session
         },
 
         props: ['media'],

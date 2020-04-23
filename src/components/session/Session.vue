@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-3">
+    <b-modal id="session-off" ref="session" hide-header hide-footer @show="setCountdown">
         <b-alert
             :show="dismissCountDown"
             dismissible
@@ -7,15 +7,21 @@
             @dismissed="dismissCountDown=0"
             @dismiss-count-down="countDownChanged"
         >
-            Sessão expirada. você será redirecionaado
-    </b-alert>
+            Sessão expirada. você será redirecionado...
+        </b-alert>
 
-    </div>
+    </b-modal>
 </template>
 
 <script>
     export default {
-        props: ['countdown'],
+
+        data() {
+            return {
+                countdown: 0
+            }
+        },
+        
 
         computed: {
             dismissCountDown: function() {
@@ -39,6 +45,10 @@
                     location.replace('/')
                 }
             },
+
+            setCountdown() {
+                this.countdown = 3;
+            }
         }
 
         

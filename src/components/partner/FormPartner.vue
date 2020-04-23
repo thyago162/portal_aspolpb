@@ -10,7 +10,6 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
         
         <b-form @submit.stop.prevent="formSubmited">
 
@@ -33,14 +32,13 @@
 
 <script>
     import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session'
+
     export default {
 
         props: ['partner'],
 
         components: {
             ErroMessage,
-            Session
         },
 
         data() {

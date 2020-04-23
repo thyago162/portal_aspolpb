@@ -26,8 +26,6 @@
                  </b-col>
             </b-row>
 
-            <Session :countdown="countdown"/>
-
             <b-row>
                 <b-col>
                     <b-table  striped hover :fields="fields" :items="file"
@@ -70,17 +68,20 @@
         </b-modal>
 
         <FormFile :item="item" />
+        <SessionOff ref="session" />
     </div>
 </template>
 
 <script>
+
     import FormFile from '../file/FormFile';
-    import Session from '../session/Session'
+    import SessionOff from '../session/Session';
+
     export default {
 
         components: {
             FormFile,
-            Session
+            SessionOff
         },
 
         mounted() {
@@ -145,7 +146,7 @@
                     .then(res => {
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                this.countdown = 3;
+                                this.$refs.session.$refs.session.show()
                             }
 
                             this.$store.dispatch('file', this.token)

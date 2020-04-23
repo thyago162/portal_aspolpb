@@ -23,8 +23,6 @@
                  </b-col>
              </b-row>
 
-             <Session :countdown="countdown" />
-
              <b-row class="user-table">
                  <b-col>
                      <b-table :fields="fields" :items="users" striped hover 
@@ -54,19 +52,21 @@
              </b-row>
          </b-container>
         </b-modal>
+        <SessionOff ref="session" />
         
         
    </div>
 </template>
 
 <script>
+    import SessionOff from '../session/Session';
     import JsonCvs from 'vue-json-csv';
-    import Session from '../session/Session';
+
     export default {
 
         components: {
             JsonCvs,
-            Session
+            SessionOff
         },
 
         created() {
@@ -117,7 +117,7 @@
                     .then(res => {
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                this.countdown = 3;
+                                this.$refs.session.$refs.session.show()
                             }
 
                             if (res.data.result.error) {

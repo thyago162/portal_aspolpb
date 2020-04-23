@@ -7,7 +7,7 @@
             </b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse">
-                <b-icon icon="list" variant="dark" class="h1 mb-2"></b-icon>
+                <b-icon icon="list" variant="dark" class="mb-2"></b-icon>
             </b-navbar-toggle>
 
             <b-collapse id="nav-collapse" is-nav style="margin-left:60px;">
@@ -152,13 +152,14 @@
     import ResetPassword from '../auth/ResetPassword';
     import AssociatedForm from '../associated/AssociatedForm';
     import Me from '../user/Me';
+
     export default {
 
         components: {
             Auth,
             ResetPassword,
             AssociatedForm,
-            Me
+            Me,
         },
 
         mounted() {

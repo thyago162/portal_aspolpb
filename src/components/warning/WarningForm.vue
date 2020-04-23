@@ -11,7 +11,6 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
 
         <form @submit.stop.prevent="formSubmited">
 
@@ -76,7 +75,6 @@
 
     import VueCropper from 'vue-cropperjs';
     import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session';
 
     export default {
 
@@ -84,7 +82,6 @@
 
         components: {
             ErroMessage,
-            Session,
             VueCropper
         },
 
@@ -145,7 +142,7 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                           this.$refs['session-off'].show();
                         }
 
                         if (res.data.result.error) {

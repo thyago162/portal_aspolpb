@@ -10,7 +10,6 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
 
         <b-form @submit.stop.prevent="formSubmited">
             <b-form-group label="Nome do arquivo">
@@ -20,21 +19,23 @@
                 <b-form-file v-model="file" 
                     :state="Boolean(file)" @input="image"></b-form-file>
             </b-form-group>
-
         </b-form>
+        <SessionOff ref="session" />
    </b-modal>
 </template>
 
 <script>
+
     import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session';
+    import SessionOff from '../session/Session';
+
     export default {
 
         props: ['item'],
 
         components: {
             ErroMessage,
-            Session
+            SessionOff
         },
 
         data() {
@@ -93,7 +94,7 @@
                     if (res.status === 200 ){
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                            this.$refs.session.$refs.session.show()
                         }
 
                         if (res.data.result.error) {

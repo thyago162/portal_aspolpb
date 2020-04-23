@@ -283,13 +283,13 @@
         }
 
          h3 {
-            font-size: 12px;
-            font-weight: bolder;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         h6 {
-            font-size: 11px;
-            font-weight: bolder;
+            font-size: 10px;
+            color: #333333;
         }
         p {
             font-size: 9px;

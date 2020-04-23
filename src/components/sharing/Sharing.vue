@@ -8,23 +8,21 @@
             <font-awesome-icon size="lg" :icon="['fa', 'share-alt']" 
                 class="icon alt personal-icons  ml-5" />
 
-            <span class="ml-3">Compartilhar</span>
-
             <network network="email">
                 <font-awesome-icon size="lg" :icon="['fa', 'envelope']" 
-                    class="icon alt personal-icons ml-3" :style="{color: 'red'}"/>
+                    class="icon alt personal-icons ml-3" />
             </network>
             <network network="facebook">
                 <font-awesome-icon size="lg" :icon="['fab', 'facebook']" 
-                    class="icon alt personal-icons ml-2" :style="{color: 'blue'}" />
+                    class="icon alt personal-icons ml-2"  />
             </network>
             <network network="twitter">
                 <font-awesome-icon :icon="['fab', 'twitter']" 
-                    size="lg" class="icon alt ml-2" :style="{color: 'blue'}"  />
+                    size="lg" class="icon alt ml-2"   />
             </network>
             <network network="whatsapp">
                 <font-awesome-icon size="lg" :icon="['fab', 'whatsapp']" 
-                    class="icont alt ml-2"  :style="{color: 'green'}"/>
+                    class="icont alt ml-2"  />
             </network>
         </div>
     </social-sharing>
@@ -50,3 +48,22 @@
         
     }
 </script>
+
+<style scoped>
+
+  .icons {
+      display: flex;
+      color: #333333;
+      
+  }
+
+  @media screen and (max-width: 416px) {
+      .icons {
+          font-size: 9px;
+          justify-content: flex-end;
+          margin-top: 0px;
+      }
+      
+  }
+
+</style>

@@ -17,7 +17,6 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility"/>
-        <Session :countdown="countdown" />
 
         <form  @submit.stop.prevent="formSubmited" enctype="multipart/form-data">
             <b-container fluid>
@@ -156,6 +155,8 @@
             </b-container>
 
         </form>
+
+        <SessionOff ref="session"/> 
         
     </b-modal>
 </template>
@@ -164,8 +165,8 @@
     import VueCropper from 'vue-cropperjs';
     import ErroMessage from '../error/ErrorMessage';
     import { VueEditor } from 'vue2-editor';
-    import Session from '../session/Session';
     import PreviewNews from './PreviewNews';
+    import SessionOff from '../session/Session';
 
     export default {
         props: ['item'],
@@ -173,9 +174,9 @@
         components: {
             VueEditor,
             ErroMessage,
-            Session,
             VueCropper,
-            PreviewNews
+            PreviewNews,
+            SessionOff
         },
 
         computed: {
@@ -264,7 +265,7 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;   
+                           this.$refs.session.$refs.session.show()
                         }
 
                         if (res.data.result.error) {

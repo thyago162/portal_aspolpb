@@ -11,7 +11,6 @@
         </template>
 
             <ErroMessage :errors="errors" :visibility="visibility" />
-            <Session :countdown="countdown" />
 
            <form @submit.stop.prevent="formSubmited">
                <b-container>
@@ -110,15 +109,17 @@
                </b-container>
            </form>
        </b-modal>
+
+       <SessionOff ref="session" />
    </div>
 </template>
 
 <script>
 
     import ErroMessage from '../error/ErrorMessage';
+    import SessionOff from '../session/Session';
     import { VueEditor } from 'vue2-editor';
     import { default_url } from '../../config';
-    import Session from '../session/Session';
 
     export default {
 
@@ -131,7 +132,7 @@
         components: {
             VueEditor,
             ErroMessage,
-            Session
+            SessionOff
         },
 
         computed: {
@@ -240,7 +241,7 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                           this.countdown = 3;
+                           this.$refs.session.$refs.session.show()
                         }
                         if (res.data.result.error) {
                             this.errors.push(Object.values(res.data.result.error));

@@ -24,8 +24,6 @@
                    </b-col>
                </b-row>
 
-               <Session :countdown="countdown"/>
-
                <b-row class="mt-4">
                    <b-col>
                        <b-table :fields="fields" :items="agreement">
@@ -52,12 +50,10 @@
 
 <script>
     import FormAgreement from '../agreement/FormAgreement';
-    import Session from '../session/Session';
     export default {
 
         components: {
             FormAgreement,
-            Session
         },
 
         mounted() {

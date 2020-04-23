@@ -10,7 +10,6 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
 
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Conteúdo">
@@ -24,7 +23,6 @@
 <script>
     import { VueEditor } from 'vue2-editor'
     import ErroMessage from '../../error/ErrorMessage';
-    import Session from '../../session/Session';
     export default {
 
         props: ['item'],
@@ -41,7 +39,6 @@
         components: {
             VueEditor,
             ErroMessage,
-            Session
         },
 
         computed: {

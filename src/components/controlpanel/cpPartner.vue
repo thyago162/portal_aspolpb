@@ -25,7 +25,6 @@
             </b-row>
             <ErroMessage :errors="errors" :visibility="visibility" />
 
-            <Session :countdown="countdown" />
             <b-row>
                 <b-col>
                     <b-table :fields="fields" :items="partners" striped hover 
@@ -59,19 +58,22 @@
 
         </b-modal>
         <FormPartner :partner="partner"/>
+        <SessionOff ref="session" />
     </div>
 </template>
 
 <script>
+
     import FormPartner from '../partner/FormPartner';
     import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session'
+    import SessionOff from '../session/Session';
+
     export default {
 
         components: {
             FormPartner,
             ErroMessage,
-            Session
+            SessionOff
         },
 
         mounted() {
@@ -143,7 +145,7 @@
                         
                         if (res.status === 200) {
                             if (res.data.token_failure) {
-                                this.countdown = 3;
+                                this.$refs.session.$refs.session.show()
                             }
 
                             if(res.data.result.error) {

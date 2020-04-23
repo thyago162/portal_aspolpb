@@ -17,6 +17,7 @@
 <script>
     import SocialNetworkView from '../socialnetowrks/SocialNetworkView';
     import Media from '../media/Media';
+    
     export default {
         components: {
             SocialNetworkView,

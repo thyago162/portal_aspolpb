@@ -26,7 +26,7 @@
     components: {
       Footer,
       Menu,
-      Sidebar
+      Sidebar,
     },
 
   }

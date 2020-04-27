@@ -10,8 +10,6 @@
             </b-button>
         </template>
 
-            <ErroMessage :errors="errors" :visibility="visibility" />
-
            <form @submit.stop.prevent="formSubmited">
                <b-container>
                    <b-row>
@@ -111,15 +109,17 @@
        </b-modal>
 
        <SessionOff ref="session" />
+       <ModalError ref="error" :errors="errors" />
+
    </div>
 </template>
 
 <script>
 
-    import ErroMessage from '../error/ErrorMessage';
     import SessionOff from '../session/Session';
     import { VueEditor } from 'vue2-editor';
     import { default_url } from '../../config';
+    import ModalError from '../error/ModalError';
 
     export default {
 
@@ -131,8 +131,8 @@
 
         components: {
             VueEditor,
-            ErroMessage,
-            SessionOff
+            SessionOff,
+            ModalError
         },
 
         computed: {
@@ -149,8 +149,7 @@
             return {
                 file: null,
                 loading: false,
-                errors: [],
-                visibility: false,
+                errors: {},
                 instagram: ' ',
                 facebook: ' ',
                 twitter: ' ',
@@ -244,8 +243,8 @@
                            this.$refs.session.$refs.session.show()
                         }
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$store.dispatch('agreement');
@@ -285,8 +284,8 @@
                             this.countdown = 3;
                         }
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$store.dispatch('agreement');
@@ -368,6 +367,7 @@
                })
 
             },
+            
             joinSocialNetworkLinks() {
                 this.form.nm_social_network_link = this.instagram + ',' +
                 this.facebook + ',' + this.twitter

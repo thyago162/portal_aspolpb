@@ -16,29 +16,31 @@
                 <vue-editor v-model="form.nm_content"></vue-editor>
             </b-form-group>
         </form>
-
+        <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
     </b-modal>
 </template>
 
 <script>
     import { VueEditor } from 'vue2-editor'
-    import ErroMessage from '../../error/ErrorMessage';
+    import SessionOff from '../../session/Session';
+    import ModalError from '../../error/ModalError';
+
     export default {
 
         props: ['item'],
 
         data() {
             return {
-                errors: [],
+                errors: {},
                 loading: false,
-                visibility: false,
-                countdown: 0,
             }
         },
 
         components: {
             VueEditor,
-            ErroMessage,
+            ModalError,
+            SessionOff
         },
 
         computed: {
@@ -85,8 +87,8 @@
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(res.data.result.error);
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$store.dispatch('ourHistory');
@@ -110,15 +112,12 @@
                 .then(res => {
                     if (res.status === 200) {
                         if (res.data.token_failure) {
-                            alert('Sessão expirada... Você será redirecionado!')
-                            this.$router.push('/');
-                            this.$session.destroy();
-                            this.$store.disptach('logout');
+                            this.$refs.session.$refs.session.show()
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(res.data.result.error);
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$store.dispatch('ourHistory');

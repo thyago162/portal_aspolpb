@@ -11,8 +11,6 @@
                 </b-button>
             </template>
 
-            <ErroMessage :errors="errors" :visibility="visibility" />
-
             <b-form @submit.stop.prevent="sendForm">
                 <b-form-group label="Nome" >
                     <b-form-input placeholder="Nome completo" type="text" 
@@ -46,28 +44,29 @@
         </b-modal>
 
         <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
+
     </div>
 </template>
 
 <script>
-    import ErroMessage from '../../error/ErrorMessage';
+    import ModalError from '../../error/ModalError';
     import SessionOff from '../../session/Session';
     export default {
 
         props: ['about'],
 
         components: {
-            ErroMessage,
+            ModalError,
             SessionOff
         },
 
         data() {
             return {
                 file: null,
-                errors: [],
+                errors: {},
                 loading: false,
                 countdown: 0,
-                visibility: false,
                 selected: 1
             }
         },
@@ -124,8 +123,8 @@
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$refs['about'].hide();
@@ -163,8 +162,8 @@
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                           this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$refs['about'].hide();
@@ -240,8 +239,6 @@
                 this.selected = opt;
             }
           
-        }
-
-        
+        } 
     }
 </script>

@@ -24,12 +24,10 @@
                  </b-col>
              </b-row>
 
-             <ErroMessage :errors="errors" :visibility="visibility"/>
-
              <b-row class="news-table">
                  <b-col>
                      <b-table :fields="fields" :items="news" striped hover 
-                        :per-page="perPage" :current-page="currentPage" id="table-news">
+                        :per-page="perPage" :current-page="currentPage" id="table-news" >
 
                         <template v-slot:cell(edit)="row" > 
                              <b-button size="sm"  @click="editNews(row.item)" 
@@ -47,6 +45,12 @@
                          <template v-slot:cell(dt_date)="row" >
                              {{row.item.dt_date | date }}
                          </template>
+
+                         <template v-slot:cell(st_active)="row">
+                            <b-icon icon="circle-fill" v-if="row.item.st_active === 1" variant="success"></b-icon>
+                            <b-icon icon="circle-fill" v-else variant="warning"></b-icon>
+                         </template>
+
                      </b-table>
                      <div>
                         <b-pagination
@@ -62,20 +66,21 @@
          </b-container>
         </b-modal>
         
-        <form-news :item="newsItem" />
+        <form-news :item="newsItem" v-on:updateNews="update($event)" />
         <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
    </div>
 </template>
 
 <script>
     import FormNews from '../news/FormNews';
-    import ErroMessage from '../error/ErrorMessage';
+    import ModalError from '../error/ModalError';
     import SessionOff from '../session/Session';
     export default {
 
         components: {
             FormNews,
-            ErroMessage,
+            ModalError,
             SessionOff
         },
 
@@ -88,6 +93,7 @@
                 fields: [
                     {key: 'nm_title', label: 'Título', sortable: true},
                     {key: 'dt_date', label: 'Data', sortable: true},
+                    {key: 'st_active', label: 'Publicado', sortable: true},
                     {key: 'edit', label: ''},
                     {key: 'delete', label: ''}
                     
@@ -100,7 +106,6 @@
                 newsItem: [],
                 visibility: false,
                 errors: [],
-                countdown: 0,
             }
         },
 
@@ -154,15 +159,20 @@
                             if (res.data.token_failure) {
                                 this.$refs.session.$refs.session.show()
                             }
-                            this.$store.dispatch('news');
-                            alert("Notícia removida");
 
+                            if (res.data.result.error) {
+                                this.$refs.error.$refs['modal-error'].show();
+                                this.errors = res.data.result;
+                                
+                            } else {
+                                this.$store.dispatch('news');
+                                alert("Notícia removida");
+
+                            }
+                            
                         }
                     })
-                    .catch(err => {
-                        this.errors.push(err);
-                        this.visibility = true;
-                    })
+            
                 }
             },
 
@@ -181,6 +191,11 @@
                 this.newsItem.dt_date = '';
                 this.newsItem.nm_content = '';
                 this.newsItem.st_highlights = '';
+                this.newsItem.st_active = 1;
+            },
+
+            update(event) {
+                this.newsItem = event
             }
         }
 

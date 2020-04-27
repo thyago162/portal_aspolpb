@@ -7,9 +7,6 @@
             </b-col>
         </b-row>
 
-        <ErroMessage :errors="errors" :visibility="visibility" />
-        <Session :countdown="countdown" />
-
         <b-row>
             <b-col class="mt-3">
                 <b-table :fields="fields" :items="about">
@@ -36,8 +33,6 @@
 
 <script>
     import AboutForm from './AboutForm';
-    import ErroMessage from '../../error/ErrorMessage';
-    import Session from '../../session/Session';
     export default {
 
         mounted() {
@@ -46,8 +41,6 @@
 
         components: {
             AboutForm,
-            ErroMessage,
-            Session
         },
 
         computed: {
@@ -74,8 +67,6 @@
                 item: [],
                 errors: [],
                 loading: false,
-                visibility: false,
-                countdown: 0
             }
         },
 
@@ -101,14 +92,9 @@
                                 this.countdown = 3;
                             }
 
-                            if(res.data.result.error) {
-                                this.errors.push(Object.values(res.data.result.error));
-                                this.visibility = true;
-
-                            }else {
-                                this.$store.dispatch('about');
-                                this.visibility = true;
-                            }  
+                            this.$store.dispatch('about');
+                            this.visibility = true;
+                            
                         }
                     })
                 }

@@ -10,8 +10,6 @@
             </b-button>
         </template>
 
-        <ErroMessage :errors="errors" :visibility="visibility" />
-
         <form @submit.stop.prevent="formSubmited">
 
             <b-container fluid>
@@ -68,21 +66,27 @@
                 </b-row>
             </b-container>
         </form>
+
+        <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
+
     </b-modal>
 </template>
 
 <script>
 
     import VueCropper from 'vue-cropperjs';
-    import ErroMessage from '../error/ErrorMessage';
+    import SessionOff from '../session/Session';
+    import ModalError from '../error/ModalError';
 
     export default {
 
         props: ['item'],
 
         components: {
-            ErroMessage,
-            VueCropper
+            VueCropper,
+            SessionOff,
+            ModalError
         },
 
         data() {
@@ -92,10 +96,8 @@
                     {text: 'Não', value: 0}
                 ],
                 file: null,
-                errors: [],
-                visibility: false,
+                errors: {},
                 loading: false,
-                countdown: 0,
                 cropImg: '',
                 imgSrc: ''
             }
@@ -142,12 +144,12 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                           this.$refs['session-off'].show();
+                           this.$refs.session.$refs.session.show()
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.status.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$store.dispatch('warning');
@@ -173,13 +175,13 @@
                     if(res.status === 200) {
                         this.loading = false;
 
-                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                        if (res.data.token_failure) {
+                           this.$refs.session.$refs.session.show()
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.status.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$store.dispatch('warning');

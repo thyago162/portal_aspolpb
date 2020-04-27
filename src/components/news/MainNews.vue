@@ -24,7 +24,7 @@
 
             <b-row>
                 <b-col class="more-news-title ml-5">
-                    <b-link :to="{name: 'visualizar-noticias'}" :style="{color: '#000', float: 'right'}">
+                    <b-link :to="{name: 'noticias'}" :style="{color: '#000', float: 'right'}">
                         <h5>+ NOTÍCIAS</h5>
                     </b-link>
                 </b-col>

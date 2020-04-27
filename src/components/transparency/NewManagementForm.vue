@@ -9,6 +9,8 @@
             </b-button>
         </template>
 
+        <ErrorMessage :errors="errors" :visibility="visibility" />
+
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Título">
                 <b-form-input type="text" v-model="form.nm_management_name"/>
@@ -33,15 +35,24 @@
             </b-form-group>
         </form>
 
+        <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
+
     </b-modal>
 </template>
 
 <script>
+
     import {VueEditor} from 'vue2-editor';
+    import SessionOff from '../session/Session';
+    import ModalError from '../error/ModalError'
+
     export default {
 
         components: {
-            VueEditor
+            VueEditor,
+            SessionOff,
+            ModalError
         },
 
         computed: {
@@ -53,7 +64,9 @@
         data() {
             return {
                 form: {},
-                loading: false
+                loading: false,
+                errors: {},
+                visibility: false
             }
         },
 
@@ -91,8 +104,19 @@
                     if (res.status === 200) {
                         this.loading = false;
                         
-                        this.$store.dispatch('transparency', this.token)
-                        this.$refs['new-management-ref'].hide()
+                         if (res.data.token_failure) {
+                           this.$refs.session.$refs.session.show()
+                        }
+
+                        if(res.data.result.error) {
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
+
+                        }else {
+                            this.$store.dispatch('transparency', this.token)
+                            this.$refs['new-management-ref'].hide()
+                        }
+                        
                     }
                 })
 

@@ -7,7 +7,7 @@
                 <h5 :style="{ color: 'gold'}">{{highlights.nm_title}}</h5>
             </b-link>
             
-            <h6 :style="{color: 'gold'}" v-if="highlights.nm_subtitle || highlights.nm_subtitle != null">
+            <h6 :style="{color: 'gold'}" v-if=" highlights.nm_subtitle != 'null'">
                 {{highlights.nm_subtitle}}
             </h6>
         </div>

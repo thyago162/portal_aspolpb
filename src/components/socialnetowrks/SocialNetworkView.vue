@@ -17,9 +17,6 @@
             </b-col>
         </b-row>
 
-        <ErroMessage :errors="errors" :visibility="visibility" />
-        <session :countdown="countdown" />
-
         <b-row class="mt-3">
             <b-col>
                 <b-table :fields="fields" hover :items="item" id="social-network-table" 
@@ -60,15 +57,13 @@
 
 <script>
     import FormSocialNetwork from './FormSocialNetwork';
-    import ErroMessage from '../error/ErrorMessage';
-    import Session from '../session/Session';
+
 
     export default {
 
         components: {
             FormSocialNetwork,
-            ErroMessage,
-            Session
+
         },
 
         mounted() {
@@ -85,12 +80,9 @@
                     {key: 'delete', label: ''}
                 ],
                 socialNetwork: [],
-                errors: [],
                 search: '',
                 perPage: 5,
                 currentPage: 1,
-                visibility: false,
-                countdown: 0
             }
         },
 
@@ -129,14 +121,9 @@
                                this.countdown = 3;
                             }
 
-                            if (res.data.result.error) {
-                                this.errors.push(Object.values(res.data.result.error));
-                                this.visibility = true;
-
-                            } else {
-                                this.$store.dispatch('socialNetwork')
-                                this.$refs['socialnetwork'].hide()
-                            }
+                            this.$store.dispatch('socialNetwork')
+                            this.$refs['socialnetwork'].hide()
+                            
                         }
                     })
                     .catch(err => {

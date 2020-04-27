@@ -31,3 +31,28 @@ Vue.filter('namedDate', function (value) {
     }
     
 })
+
+Vue.filter('fileName', function(value) {
+   let name = "Arquivo";
+   let extension = value.split('.');
+
+   return `${name}.${extension[1]}`
+   
+})
+
+Vue.filter('newsContent', function(value) {
+    let finalText = '';
+    let text = '';
+                
+    value = value.replace('<p>', '');
+    value = value.replace('<p class="ql-align-justify">', '')
+    value = value.replace('</p>', '')
+
+    text = value.split(',');
+    
+    finalText = text[0]
+    finalText += text[1]
+    
+
+    return `${finalText}...`
+})

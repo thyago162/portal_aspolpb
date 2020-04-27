@@ -7,6 +7,7 @@
         </b-row>
         <b-row class="mt-5 align-body">
             <b-col lg="11">
+                
                 <div class="options" v-if="isLoged != null">
 
                     <b-button class="control-panel-btn" v-b-modal.cp-news 

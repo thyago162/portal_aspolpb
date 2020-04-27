@@ -67,28 +67,34 @@
             </b-row>
 
         </form>
+
+        <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
+        
     </b-modal>
 </template>
 
 <script>
+
     import ImageUploader from 'vue-image-upload-resize';
-    import ErrorMessage from '../error/ErrorMessage';
+    import SessionOff from '../session/Session';
+    import ModalError from '../error/ModalError';
 
     export default {
 
         components: {
             ImageUploader,
-            ErrorMessage,
+            SessionOff,
+            ModalError
         },
 
         props: ['media'],
 
         data() {
             return {
-                errors: [],
+                errors: {},
                 file: null,
                 hasImage: false,
-                visibility: false,
                 countdown: 0,
                 loading: false,
                 selected: ''
@@ -160,12 +166,12 @@
                     if (res.status === 200 ) {
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                            this.$refs.session.$refs.session.show()
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         } else {
                             this.$store.dispatch('media')
@@ -198,12 +204,12 @@
                     if(res.status === 200) {
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                            this.$refs.session.$refs.session.show()
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         } else {
                             this.$store.dispatch('media')

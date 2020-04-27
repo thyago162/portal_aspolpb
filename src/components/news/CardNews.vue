@@ -15,7 +15,7 @@
                     </h6>
                 </b-link>
                 
-                <b-card-text class="mt-2 card-news-subtitle">
+                <b-card-text class="mt-2 card-news-subtitle" v-if="cardnews.nm_subtitle != 'null'">
                     {{cardnews.nm_subtitle}}
                 </b-card-text>
                     

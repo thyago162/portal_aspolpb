@@ -8,8 +8,6 @@
                 <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
             </b-button>
         </template>
-
-        <ErroMessage :errors="errors" :visibility="visibility" />
         
         <b-form @submit.stop.prevent="formSubmited">
 
@@ -27,31 +25,35 @@
             </b-form-group>
 
         </b-form>
+        <SessionOff ref="session"/>
+        <ModalError :errors="errors" ref="error" />
    </b-modal>
 </template>
 
 <script>
-    import ErroMessage from '../error/ErrorMessage';
+    import SessionOff from '../session/Session';
+    import ModalError from '../error/ModalError';
 
     export default {
 
         props: ['partner'],
 
         components: {
-            ErroMessage,
+            SessionOff,
+            ModalError
         },
 
         data() {
             return {
                 file: null,
                 visibility: false,
-                errors: [],
+                loading: false,
+                errors: {},
                 validate:{
                     title: false,
                     file:  false
                 },
-                loading: false,
-                countdown: 0
+               
             }
         },
 
@@ -100,15 +102,16 @@
                 .then(res => {
                     if (res.status === 200 ){
 
-                        this.loading = false
+                        this.loading = false;
+                        this.visibility = false;
 
                         if (res.data.token_failure) {
-                           this.countdown = 3;
+                           this.$refs.session.$refs.session.show()
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.errors = res.data.result
+                            this.$refs.error.$refs['modal-error'].show()
 
                         }else {
                             this.$refs['formpartner'].hide()
@@ -118,11 +121,6 @@
                     }
                        
                 })
-                .catch(err => {
-                    this.loading = false;
-                    this.errors.push(err)
-                })
-
            },
 
            update() {
@@ -139,12 +137,17 @@
                .then(res => {
 
                    if (res.status === 200) {
+
+                        this.loading = false;
+                        this.visibility = false;
+
                         if (res.data.token_failure) {
-                           this.countdown = 3;
+                           this.$refs.session.$refs.session.show()
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
+                            this.errors.messages = res.data.result.error,
+                            this.errors.code = res.data.result.code,
                             this.visibility = true;
 
                         }else {
@@ -153,11 +156,6 @@
                         }
                    }
 
-               })
-               .catch(err => {
-                   this.loading = false;
-                   this.errors.push(err)
-                   this.visibility = true;
                })
 
            },
@@ -229,7 +227,7 @@
             resetModal() {
                 this.visibility = false;
                 this.errors = [];
-            }
+            },
         }
         
     }

@@ -23,7 +23,6 @@
 
                  </b-col>
             </b-row>
-            <ErroMessage :errors="errors" :visibility="visibility" />
 
             <b-row>
                 <b-col>
@@ -59,20 +58,21 @@
         </b-modal>
         <FormPartner :partner="partner"/>
         <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
     </div>
 </template>
 
 <script>
 
     import FormPartner from '../partner/FormPartner';
-    import ErroMessage from '../error/ErrorMessage';
+    import ModalError from '../error/ModalError';
     import SessionOff from '../session/Session';
 
     export default {
 
         components: {
             FormPartner,
-            ErroMessage,
+            ModalError,
             SessionOff
         },
 
@@ -93,7 +93,6 @@
                 partner: [],
                 search: '',
                 errors: [],
-                visibility: false,
                 countdown: 0
             }
         },
@@ -149,17 +148,13 @@
                             }
 
                             if(res.data.result.error) {
-                                this.errors.push(res.data.result.error);
-                                this.visibility = true;
+                                this.$refs.error.$refs['modal-error'].show();
+                                this.errors = res.data.result;
 
                             }else {
                                 this.$store.dispatch('partners')
                             }
                         }
-                    })
-                    .catch(err => {
-                        this.errors.push(err);
-                        this.visibility = true;
                     })
                 }
             },

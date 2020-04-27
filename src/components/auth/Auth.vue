@@ -1,6 +1,6 @@
 <template>
 
-    <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" 
+    <b-modal id="auth" :title="title" @ok="handleOk" @reset="resetModal" no-close-on-backdrop
         @cancel="resetModal" :ok-title="btnTitle" ref="auth" hide-header size="lg" 
             cancel-title="Fechar" ok-variant="danger" cancel-variant="dark" @hide="resetModal">
         
@@ -25,8 +25,8 @@
             </b-row>
             
              <b-row>
-                <b-col>
-                    <ErroMessage :errors="errors" :visibility="visibility" />
+                <b-col v-if="visibility">
+                    <ErrorMessage :errors="errors" :visibility="visibility" />
                 </b-col>
             </b-row>
 
@@ -102,28 +102,25 @@
             </b-row>
 
         </b-container>
-        
-        
-
-        
+         <ModalError ref="error" :errors="errors" />
     </b-modal>
-
+   
 </template>
 
 <script>
-    import ErroMessage from '../error/ErrorMessage';
+
+    import ModalError from '../error/ModalError';
     
     export default {
 
         components: {
-            ErroMessage,
+            ModalError
         },
 
         data() {
             return {
                 auth: true,
                 visibility: false,
-                errors: [],
                 formData: {
                     name: '',
                     email: '',
@@ -133,7 +130,8 @@
                 showPassword: false,
                 type: 'password',
                 image: require('../../assets/images/logo_aspol_02.png'),
-                loading: false
+                loading: false,
+                errors: {}
             }
         },
 
@@ -176,6 +174,7 @@
 
                 if (this.passwordsMatch()) {
                     this.loading = true;
+                    this.visibility = false;
 
                     let form = new FormData();
 
@@ -185,30 +184,29 @@
 
                     this.$http.post('register',form)
                     .then(res => {
+
                         if (res.status === 200 && res.data.response.token) {
                             this.loading = false;
                             this.$refs['auth'].hide();
                             this.resetModal();
                             this.auth = true;
                             alert('Usuário cadastrado com sucesso')
+
                         }else {
                             this.loading = false;
-                            this.errors.push(res.data.response.error);
-                            alert(this.errors.length)
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.response;
                         }
                             
                     })
-                    .catch(err => {
-                        this.errors.push(err)
-                        this.visibility = true;
-                    })
+            
                 }
                 
             },
 
             authenticate() {
                 this.loading = true;
+                this.visibility = false;
                 
                 let form = new FormData();
                 form.append('email', this.formData.email);
@@ -228,17 +226,12 @@
                             this.$refs['auth'].hide();
                             
                         } else {
-                            this.errors.push(res.data.response.error);
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.response;
                         }
 
                     }
                     
-                })
-                .catch(err => {
-                    this.errors.push(err)
-                    this.visibility = true;
-        
                 })
             },
 
@@ -247,7 +240,7 @@
                 this.formData.email = '';
                 this.formData.password = '';
                 this.formData.confirmation = '';
-                this.errors = [];
+                this.errors = {};
             },
 
             passwordsMatch() {

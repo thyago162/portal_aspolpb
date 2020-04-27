@@ -8,8 +8,6 @@
                 <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
             </b-button>
         </template>
-
-        <ErroMessage :errors="errors" :visibility="visibility" />
         
         <b-form @submit.stop.prevent="formSubmited">
 
@@ -20,17 +18,18 @@
 
         </b-form>
         <SessionOff ref="session"/> 
+        <ModalError ref="error" :errors="errors" />
    </b-modal>
 </template>
 
 <script>
-    import ErroMessage from '../error/ErrorMessage';
+    import ModalError from '../error/ModalError';
     import SessionOff from '../session/Session';
 
     export default {
 
         components: {
-            ErroMessage,
+            ModalError,
             SessionOff
         },
 
@@ -38,7 +37,7 @@
             return {
                 file: null,
                 visibility: false,
-                errors: [],
+                errors: {},
                 validate:{
                     title: false,
                     file:  false
@@ -90,8 +89,8 @@
                         }
 
                         if(res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         }else {
                             this.$refs['campaign-form'].hide()
@@ -100,10 +99,6 @@
                         
                     }
                        
-                })
-                .catch(err => {
-                    this.loading = false;
-                    this.errors.push(err)
                 })
            },
 

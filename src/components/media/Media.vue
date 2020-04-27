@@ -22,8 +22,6 @@
         <b-row class="mt-4">
             <b-col>
                 
-                <ErroMessage :errors="errors" :visibility="visibility" />
-
                 <b-table :fields="fields" :items="media" hover id="media-table" 
                     :per-page="perPage" :current-page="currentPage">
 
@@ -57,12 +55,10 @@
 
 <script>
     import FormMedia from '../media/FormMedia';
-    import ErroMessage from '../error/ErrorMessage';
     export default {
 
         components: {
             FormMedia,
-            ErroMessage
         },
 
         mounted() {
@@ -80,10 +76,8 @@
                 ],
                 item: [],
                 search: '',
-                errors: [],
                 currentPage: 1,
                 perPage: 5,
-                visibility: false
             }
         },
 

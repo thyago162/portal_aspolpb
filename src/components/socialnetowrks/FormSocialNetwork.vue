@@ -28,28 +28,31 @@
                 <b-form-file v-model="file" :state="Boolean(file)" @input="image"></b-form-file>
             </b-form-group>
         </form>
+
+        <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
     </b-modal>
 </template>
 
 <script>
 
-    import ErrorMessage from '../error/ErrorMessage';
+    import SessionOff from '../session/Session'
+    import ModalError from '../error/ModalError';
 
     export default {
 
         props: ['item'],
 
         components: {
-            ErrorMessage,
+            ModalError,
+            SessionOff
         },
 
         data() {
             return {
                 file: null,
-                errors: [],
-                visibility: false,
+                errors: {},
                 loading: false,
-                countdown: 0
             }
         },
 
@@ -98,14 +101,14 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                           this.$refs.session.$refs.session.show()
                         }
 
-                        if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                        if(res.data.result.error) {
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
-                        } else {
+                        }else {
                             this.$store.dispatch('socialNetwork')
                             this.$refs['socialnetwork'].hide()
                         }
@@ -135,14 +138,14 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                           this.$refs.session.$refs.session.show()
                         }
 
-                        if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                        if(res.data.result.error) {
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
-                        } else {
+                        }else {
                             this.$store.dispatch('socialNetwork')
                             this.$refs['socialnetwork'].hide()
                         }

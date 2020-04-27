@@ -9,27 +9,27 @@
         
         <b-row  class="align-body">
             <b-col lg="11"  >
-                <b-table :fields="fields" :items="allNews" :per-page="perPage" :current-page="currentPage" id="news-table">
+                <b-table :fields="fields" :items="allNews" :per-page="perPage" 
+                    :current-page="currentPage" id="news-table">
 
                     <template v-slot:cell(card)="row">
 
-                        <b-card v-if="row.item.st_active === 1" img-right no-body>
+                        <b-card v-if="row.item.st_active === 1" img-left no-body >
                             <b-card-header v-if="row.item.nm_image_path" class="card-header" >
-                                <b-img :src="row.item.nm_image_path" fluid />
+                                <b-img :src="row.item.nm_image_path" fluid class="image-header"/>
                             </b-card-header>
-                           <b-card-body :style="{width: '75%'}">
-                                <b-card-text class="card-text" v-if="row.item.nm_subtitle">
-                                    {{row.item.nm_subtitle}}
-                                </b-card-text>
+                           <b-card-body :style="{width: '85%'}">
+             
                                 <b-link :to="{name: 'visualizar-noticias', params: {title: row.item.nm_title}}">
                                     <b-card-title class="card-title">
                                         {{row.item.nm_title}}
                                     </b-card-title>
                                 </b-link>
                             
-                                <b-card-text :style="{fontWeight: 'bolder'}">
-                                    {{row.item.dt_date | date}}
+                                <b-card-text :style="{color: 'gray'}">
+                                    {{row.item.nm_content | newsContent}}
                                 </b-card-text>
+                                
                             </b-card-body>
                         </b-card>
 
@@ -56,7 +56,7 @@
         components: {
         },
 
-        mounted() { 
+        created() { 
             this.$store.dispatch('news');
         },
 
@@ -75,12 +75,14 @@
             allNews: function() {
                 return this.$store.getters.getNews;
             },
+
             title: function() {
                 return this.news.nm_title;
             },
+
             rows: function() {
                 return this.allNews.length;
-            }
+            },
         }      
     }
 </script>
@@ -106,7 +108,11 @@
     }
 
     .card-header {
-        width: 25%;
+        width: 15%;
+    }
+
+    .image-header {
+        height: 140px;
     }
 
     @media screen  and (max-width: 414px){

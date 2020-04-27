@@ -4,18 +4,40 @@
             <h5 :style="{textAlign: 'center'}">Pré-visualização</h5>
         </div>
         <b-media >
-            <h3 class="mt-0" :style="{textAlign: 'center'}">{{news.nm_title}}</h3>
-            <h6 :style="{fontWeight: 'bold', textAlign: 'center'}">{{news.nm_subtitle}}</h6>
 
-            <p class="date" :style="{textAlign: 'center'}">{{news.dt_date | namedDate}}</p>
+            <b-row>
+                <b-col>
+                    <h3 class="ml-4" :style="{fontWeight: 'bold'}" >{{title}}</h3>
+                </b-col>
+            </b-row>
 
-            <div class="cel-image-container mt-3 cell-image" >
-                <b-img :src="image" class="cel-image"  fluid></b-img>
-            </div>
-                    
-            <div class="content">
-                <p v-html="news.nm_content" class="mt-3"></p>
-            </div>
+            <b-row>
+                <b-col v-if="subtitle != 'null'">
+                    <h6 class="ml-4" >{{subtitle}}</h6>
+                </b-col>
+            </b-row>
+
+            <b-row class="ml-2" >
+                <b-col lg="8">
+                    <p class="date" >{{date | namedDate}}</p>
+                </b-col>
+            </b-row>
+
+            <b-row class="mt-2" :style="{display: 'flex', flexDirection: 'row', justifyContent: 'center'}">
+                <b-col lg="8" >
+                    <div class="cel-image-container mt-3 cell-image" >
+                        <b-img :src="url" class="cel-image"  fluid></b-img>
+                    </div>
+                </b-col>
+            </b-row>
+
+            <b-row>
+                <b-col>
+                    <div class="content">
+                        <p v-html="content" class="mt-4 ml-4"></p>
+                    </div>
+                </b-col>
+            </b-row>
                         
         </b-media>
     </b-card>
@@ -24,15 +46,20 @@
 <script>
 
     export default {
-        props: ['news', 'img', 'crop'],
+        props: [
+            'title',
+            'subtitle',
+            'date',
+            'content',
+            'image',
+            'path'
+        ],  
 
         computed: {
-            image: function() {
-                return !this.img ? this.crop : this.img
+            url: function() {
+                return this.path ? this.path : this.image
             }
         }
-
-        
     }
 </script>
 
@@ -56,7 +83,7 @@
 
     .date {
         font-weight: bolder;
-        color: darkred;
+        color: darkgray;
         margin-top: 15px;
     }
 
@@ -185,13 +212,13 @@
         }
 
          h3 {
-            font-size: 12px;
-            font-weight: bolder;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         h6 {
-            font-size: 11px;
-            font-weight: bolder;
+            font-size: 10px;
+            color: #333333;
         }
         p {
             font-size: 9px;

@@ -22,7 +22,7 @@
                         </b-row>
 
                          <b-row>
-                            <b-col>
+                            <b-col v-if="news.nm_subtitle != 'null'">
                                 <h6 class="ml-4" >{{news.nm_subtitle}}</h6>
                             </b-col>
                         </b-row>
@@ -65,7 +65,7 @@
            </b-col>
         </b-row>
 
-        <FormNews :item="news" />
+        <FormNews v-on:updateNews="setUpdate($event)" :item="news" />
 
     </b-container>
 </template>
@@ -80,7 +80,7 @@
             FormNews
         },
 
-        mounted() { 
+        created() { 
             this.getCurrentNews();
         },
 
@@ -129,6 +129,10 @@
                 })
 
             },
+
+            setUpdate(event) {
+                this.news = event
+            }
         }
         
     }

@@ -9,8 +9,6 @@
             </b-button>
         </template>
 
-        <ErroMessage :errors="errors" :visibility="visibility" />
-
         <b-form @submit.stop.prevent="formSubmited">
             <b-form-group label="Nome do arquivo">
                 <b-form-input type="text" v-model="form.nm_name" />
@@ -20,13 +18,16 @@
                     :state="Boolean(file)" @input="image"></b-form-file>
             </b-form-group>
         </b-form>
+
         <SessionOff ref="session" />
+        <ModalError ref="error" :errors="errors" />
+
    </b-modal>
 </template>
 
 <script>
 
-    import ErroMessage from '../error/ErrorMessage';
+    import ModalError from '../error/ModalError';
     import SessionOff from '../session/Session';
 
     export default {
@@ -34,17 +35,16 @@
         props: ['item'],
 
         components: {
-            ErroMessage,
+            ModalError,
             SessionOff
         },
 
         data() {
             return {
                 file: null,
-                visibility: false,
                 loading: false,
                 countdown: 0,
-                errors: [],
+                errors: {},
                 value: ''
             }
         },
@@ -98,8 +98,8 @@
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         } else {
                             this.$refs['formfile'].hide();
@@ -132,8 +132,8 @@
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error));
-                            this.visibility = true;
+                            this.$refs.error.$refs['modal-error'].show();
+                            this.errors = res.data.result;
 
                         } else {
                             this.$refs['formfile'].hide();

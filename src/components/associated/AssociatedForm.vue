@@ -9,8 +9,6 @@
             </b-button>
         </template>
 
-        <ErroMessage :errors="errors" :visibility="visibility" />
-
         <form @submit.stop.prevent="formSubmited" >
             <b-container fluid>
                 <b-row>
@@ -250,15 +248,17 @@
             </b-container>
         </form>
 
+        <ModalError ref="error" :errors="errors" />
+
     </b-modal>
 </template>
 
 <script>
-    import ErroMessage from '../error/ErrorMessage';
+    import ModalError from '../error/ModalError';
     export default {
 
         components: {
-            ErroMessage
+            ModalError
         },
 
         data() {
@@ -303,7 +303,7 @@
                     {key: 'name', label: 'Nome'},
                     {key: 'birthday', label: 'Data de nascimento'}
                 ],
-                errors: [],
+                errors: {},
                 loading: false,
                 visibility: false,
                 loadingAddress: false
@@ -404,8 +404,9 @@
                                         this.loading = false;
 
                                         if (res.data.result.error) {
-                                            this.errors.push(JSON.parse(res.data.result.error))
-                                            this.visibility = true
+                                            this.$refs.error.$refs['modal-error'].show();
+                                            this.errors = res.data.result;
+                                           
                                         } else {
                                             this.$refs['associated'].hide();
                                             alert('Dados enviados com successo.');

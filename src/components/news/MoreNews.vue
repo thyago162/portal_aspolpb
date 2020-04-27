@@ -4,11 +4,17 @@
             :key="index" @click="seeNews(n.nm_title)">
             <b-card-text>
                 <b-img src="/aspolicone.ico" width="20px" height="20px" />
-                <span style="float: right; color: red;">{{n.dt_date | date}}</span>
+                <span style="float: right; color: red;">
+                    {{n.dt_date | date}}
+                </span>
                 <b-link :style="{color: 'black', textDecoration: 'none'}">
-                    <b-card-text class="mt-1 card-title">{{n.nm_title}} </b-card-text>
+                    <b-card-text  class="mt-1 card-title">
+                        {{n.nm_title}} 
+                    </b-card-text>
                 </b-link>
-                <b-card-text class="mt-1 card-subtitle">{{n.nm_subtitle}} </b-card-text>
+                <b-card-text class="mt-1 card-subtitle" v-if="n.nm_subtitle != 'null'">
+                    {{n.nm_subtitle}} 
+                </b-card-text>
             </b-card-text>
         </b-card>
     </div>

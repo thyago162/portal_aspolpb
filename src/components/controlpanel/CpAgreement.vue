@@ -17,7 +17,7 @@
 
                    <b-col>
                        <b-button variant="primary" v-b-modal.form-agreement 
-                            :style="{float: 'right'}" 
+                            @click="resetModal()" :style="{float: 'right'}" 
                         >
                            + Novo item
                        </b-button>
@@ -44,6 +44,7 @@
                </b-row>
            </b-container>
        </b-modal>
+
        <FormAgreement :item="item"  />
    </div>
 </template>
@@ -117,6 +118,23 @@
                         this.errors.push(err);
                     })
                 }
+            },
+
+            resetModal() {
+                this.item.nm_title = '';
+                this.item.nm_content = '';
+                this.item.nm_image_path = '';
+                this.item.nm_file_path = '';
+                this.item.nm_link = '';
+                this.item.nm_social_network_link = '';
+                this.item.nm_category = '';
+                this.item.nm_city = '';
+                this.item.nm_cep = '';
+                this.item.nm_street = '';
+                this.item.nu_number = '';
+                this.item.nm_neighbohood = '';
+                this.item.nm_complement = '';
+                this.item.nm_uf = ''
             }
         }
     }

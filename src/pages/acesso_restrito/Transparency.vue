@@ -14,7 +14,7 @@
 
         <b-row class="mt-3">
             <b-col>
-                <b-button  :style="{float: 'right'}" variant="primary" v-b-modal.new-management-form>
+                <b-button :style="{float: 'right'}" variant="primary" v-b-modal.new-management-form>
                     Nova gestão
                 </b-button>
             </b-col>
@@ -58,7 +58,7 @@
                 form: {}
                 
             }
-        }
+        },
         
     }
 </script>

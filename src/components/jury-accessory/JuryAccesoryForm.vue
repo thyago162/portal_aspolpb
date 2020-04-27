@@ -25,17 +25,24 @@
 
         </form>
 
+        <ModalError ref="error" :errors="errors" />
+        <Session ref="session" />
+
     </b-modal>
 </template>
 
 <script>
     import { VueEditor } from 'vue2-editor';
+    import ModalError from '../error/ModalError';
+    import Session from '../session/Session';
     export default {
 
         props: ['item'],
 
         components: {
-            VueEditor
+            VueEditor,
+            ModalError,
+            Session
         },
 
         computed: {
@@ -51,7 +58,7 @@
 
         data() {
             return {
-                errors: [],
+                errors: {},
                 file: null,
                 loading: false
             }
@@ -90,12 +97,12 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                            this.$refs.session.$refs.session.show();
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error))
-                            this.visibility = true;
+                            this.errors = res.data.result;
+                            this.$refs.error.$refs['modal-error'].show();
 
                         } else {
                             this.$store.dispatch('juryAccessory')
@@ -123,12 +130,12 @@
                 .then(res => {
                     if(res.status === 200) {
                         if (res.data.token_failure) {
-                            this.countdown = 3;
+                            this.$refs.session.$refs.session.show();
                         }
 
                         if (res.data.result.error) {
-                            this.errors.push(Object.values(res.data.result.error))
-                            this.visibility = true;
+                            this.errors = res.data.result;
+                            this.$refs.error.$refs['modal-error'].show();
 
                         } else {
                             this.$store.dispatch('juryAccessory')

@@ -8,8 +8,6 @@
                 <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
             </b-button>
         </template>
-
-        <ErrorMessage :errors="errors" :visibility="visibility" />
         
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Titulo">
@@ -114,11 +112,7 @@
                         }
                     }
                 })
-                .catch(err => {
-                    this.loading = false;
-                    this.errors.push(err)
-                    this.visibility = true;
-                })
+                
             },
 
             update(){
@@ -152,11 +146,7 @@
                        
                     }
                 })
-                .catch(err => {
-                    this.loading = false;
-                    this.errors.push(err)
-                    this.visibility = true;
-                })
+           
             },
 
             image() {
@@ -223,7 +213,6 @@
 
             resetErrors() {
                 this.errors = [];
-                this.visibility = false;
             }
         }
         

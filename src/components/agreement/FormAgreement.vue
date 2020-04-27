@@ -65,27 +65,46 @@
                         </b-col>
                    </b-row>
                    <b-row>
-                       <b-col xl="2">
-                           <b-form-group label="Cep">
-                               <b-form-input placeholder="Apenas números" v-model="form.nm_cep"/>
-                           </b-form-group>
+                       <b-col xl="3">
+                          <b-form-group label="Cep">
+                            <b-input-group>
+                                <b-form-input trim placeholder="Apenas números" 
+                                    v-model="form.nm_cep" type="text"/>
+                                <b-input-group-append>
+                                    <b-button variant="default" @click="searchCep">
+                                        <b-icon icon="search" ></b-icon>
+                                        Buscar
+                                        <b-spinner small label="Small Spinner" class="ml-1" v-show="loadingAddress"></b-spinner>
+                                    </b-button>
+                                </b-input-group-append>
+                             </b-input-group>
+                        </b-form-group>
                        </b-col>
-                       <b-col>
+                      
+                   </b-row>
+
+                   <b-row>
+                        <b-col>
                            <b-form-group label="Rua">
                                <b-form-input v-model="form.nm_street" />
                            </b-form-group>
                        </b-col>
-                       <b-col xl="1">
+
+                       <b-col xl="2">
                            <b-form-group label="Número">
                                <b-form-input v-model="form.nu_number" type="number" min="0"/>
                            </b-form-group>
                        </b-col>
-                       <b-col xl="3">
+                   </b-row>
+
+                   <b-row>
+                        <b-col xl="5">
                            <b-form-group label="Complemento">
                                <b-form-input placeholder="Ex: apt 000" v-model="form.nm_complement"/>
                            </b-form-group>
                        </b-col>
                    </b-row>
+
                    <b-row>
                        <b-col xl="4">
                            <b-form-group label="Bairro">
@@ -124,7 +143,7 @@
     export default {
 
         mounted() {
-            this.splitSocialNetwork()
+            this.splitSocialNetwork();
         },
 
         props: ['item'],
@@ -136,6 +155,7 @@
         },
 
         computed: {
+
             form: function() {
                 return this.item;
             },
@@ -180,7 +200,7 @@
                     {value: 'Vestuário', text: 'Vestuário'},
                     {value: 'Outros', text: 'Outros'}
                 ],
-                countdown: 0,
+                loadingAddress: false
             }
         },
 
@@ -205,6 +225,7 @@
 
                 if (!this.form.id_agreement) {
                     this.save();
+
                 }else {
                     this.update()
                 }
@@ -226,7 +247,6 @@
                 form.append('nu_number', this.form.nu_number);
                 form.append('nm_neighbohood', this.form.nm_neighbohood);
                 form.append('nm_complement',this.form.nm_complement);
-                form.append('nm_city', this.form.nm_city);
                 form.append('nm_uf',this.form.nm_uf);
 
                 this.$http.post('agreement',form, {
@@ -371,6 +391,26 @@
             joinSocialNetworkLinks() {
                 this.form.nm_social_network_link = this.instagram + ',' +
                 this.facebook + ',' + this.twitter
+            },
+
+            searchCep() {
+                this.loadingAddress = true;
+                let cep = this.form.nm_cep
+
+                this.$http('http://viacep.com.br/ws/'+cep+'/json/')
+                .then(res => {
+                    if (res.status === 200) {
+                        let result = res.data;
+                        this.form.nm_street = result.logradouro;
+                        this.form.nm_complement = result.complemento;
+                        this.form.nm_neighbohood = result.bairro;
+                        this.form.nm_city = result.localidade;
+                        this.form.nm_uf = result.uf
+
+                        this.loadingAddress = false;
+                    }
+                })
+
             }
         }
         

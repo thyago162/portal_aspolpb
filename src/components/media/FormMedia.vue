@@ -10,8 +10,6 @@
             </b-button>
         </template>
 
-        <ErrorMessage :errors="errors" :visibility="visibility" />
-
         <form @submit.stop.prevent="formSubmited" class="mb-2">
 
              <b-form-group label="Tipo da notícia">
@@ -180,10 +178,7 @@
                         
                     }
                 })
-                .catch(err => {
-                    this.errors.push(err)
-                    this.visibility = true;
-                })
+         
             },
             update(){
 
@@ -255,10 +250,6 @@
                     }
                     
                 })
-                .catch(err => {
-                    this.errors.push(err);
-                    this.visibility = true;
-                })
 
             },
 
@@ -290,7 +281,6 @@
 
             resetErrors() {
                 this.errors = [];
-                this.visibility = false;
                 this.loading = false;
             },
 

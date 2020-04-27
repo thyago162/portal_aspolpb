@@ -25,7 +25,7 @@
             </b-form-group>
 
             <b-form-group label="Ano do documento" >
-                <b-form-input type="number" placeholder="Ex: 2020" v-model="form.nu_year"/>
+                <b-form-input type="date" placeholder="Ex: 2020" v-model="form.dt_date"/>
             </b-form-group>
 
         </form>
@@ -78,7 +78,7 @@
                 form.append('nm_name', this.form.nm_name);
                 form.append('nm_file_path', this.form.nm_file_path);
                 form.append('nm_type_doc', this.form.nm_type_doc);
-                form.append('nu_year', this.form.nu_year);
+                form.append('dt_date', this.form.dt_date);
                 form.append('fk_transparency', this.id);
 
                 this.$http.post('transparency-file',form, {

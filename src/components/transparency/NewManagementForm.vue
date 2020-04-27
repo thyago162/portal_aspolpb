@@ -19,13 +19,13 @@
             <b-row>
                 <b-col>
                     <b-form-group label="Início do mandato">
-                        <b-form-input type="number" v-model="form.nu_start"/>
+                        <b-form-input type="date" v-model="form.nu_start"/>
                     </b-form-group>
                 </b-col>
 
                 <b-col>
                     <b-form-group label="Fim do mandato">
-                        <b-form-input type="number" v-model="form.nu_end" />
+                        <b-form-input type="date" v-model="form.nu_end" />
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -63,7 +63,12 @@
 
         data() {
             return {
-                form: {},
+                form: {
+                    nm_management_name: '',
+                    nu_start: '',
+                    nu_end: '',
+                    nm_content: ''
+                },
                 loading: false,
                 errors: {},
                 visibility: false

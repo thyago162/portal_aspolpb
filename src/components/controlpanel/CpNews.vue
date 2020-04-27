@@ -73,9 +73,11 @@
 </template>
 
 <script>
+
     import FormNews from '../news/FormNews';
     import ModalError from '../error/ModalError';
     import SessionOff from '../session/Session';
+
     export default {
 
         components: {

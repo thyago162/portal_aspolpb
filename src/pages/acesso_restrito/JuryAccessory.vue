@@ -13,22 +13,24 @@
                         <b-tab title="Informação" active>
                             <b-row class="">
                                 <b-col lg="8">
-                                    <span>
-                                        {{item.nm_name}} 
-                                    </span>
-                                    <b-button variant="default" size="sm" @click="openFile">
-                                        <b-icon icon="download"></b-icon>
-                                    </b-button>
+                                    <div v-if="item.nm_name !='undefined'">
+                                        <span>
+                                            {{item.nm_name}} 
+                                        </span>
+                                        <b-button variant="default" size="sm" @click="openFile">
+                                            <b-icon icon="download"></b-icon>
+                                        </b-button>
+                                    </div>
                                     
                                 </b-col>
                                 <b-col>
-                                    <b-button :style="{float: 'right'}" v-b-modal.jury-accessory-form>
+                                    <b-button :style="{float: 'right'}" v-b-modal.jury-accessory-form @click="resetModal()">
                                         <b-icon icon="pencil"></b-icon>
                                     </b-button>
                                 </b-col>
                             </b-row>
 
-                            <b-row class="mt-3">
+                            <b-row class="mt-3" v-if="item.nm_content != 'undefined'">
                                 <b-col v-html="item.nm_content"></b-col>
                             </b-row>                            
                             
@@ -74,7 +76,7 @@
                 </div>
             </b-col>
         </b-row>
-        <Session :countdown="countdown" />
+        <Session ref="session"/>
         <JuryAccessoryForm :item="item" />
     </b-container>
 </template>
@@ -89,7 +91,7 @@
 
         components: {
             JuryAccessoryForm,
-            Session
+            Session,
         },
 
         mounted() {
@@ -145,8 +147,7 @@
                         this.loading = false;
 
                         if (res.data.token_failure) {
-                            this.countdown = 3;
-
+                           this.$refs.session.$refs.session.show();
                         }else {
                             alert('E-mail enviado com sucesso!')
                             location.reload()
@@ -183,6 +184,12 @@
                 })
 
             },
+
+            resetModal() {
+                this.item.nm_content = '';
+                this.item.nm_name = '';
+                this.item.nm_file_path = '';
+            }
         },
 
     }

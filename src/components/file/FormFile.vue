@@ -90,6 +90,7 @@
                        }
                    })
                 .then(res => {
+                    this.loading = false;
 
                     if (res.status === 200 ){
 
@@ -103,13 +104,11 @@
 
                         } else {
                             this.$refs['formfile'].hide();
-                            this.$store.disptach('file', this.token);
+                            //this.$store.disptach('file', this.token);
+                            this.$store.disptach("file", this.token);
                         }  
                     }
                        
-                })
-                .catch(err => {
-                    this.errors.push(err)
                 })
 
            },
@@ -128,7 +127,7 @@
 
                    if (res.status === 200) {
                       if (res.data.token_failure) {
-                            this.countdown = 3;
+                            this.$refs.session.$refs.session.show();
                         }
 
                         if (res.data.result.error) {
@@ -141,9 +140,6 @@
                         }
                    }
 
-               })
-               .catch(err => {
-                   this.errors.push(err)
                })
 
            },

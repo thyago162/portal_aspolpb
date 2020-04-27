@@ -5,7 +5,7 @@
                <b-col lg="7">
                     <b-card-title>
                         <b>Gestão -</b> {{item.nm_management_name}}
-                        {{item.nu_start}} {{item.nu_end}}
+                        {{item.nu_start | date}} {{item.nu_end | date}}
                     </b-card-title>
                </b-col>
                <b-col lg="2">
@@ -91,7 +91,8 @@
 </template>
 
 <script>
-        import TransparencyFileForm from '../../components/transparency/TransparencyFileForm';
+
+    import TransparencyFileForm from '../../components/transparency/TransparencyFileForm';
 
     export default {
 
@@ -156,8 +157,6 @@
 
                 return arrayYears.reverse();
             }
-
-
         },
 
         methods: {

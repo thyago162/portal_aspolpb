@@ -27,14 +27,18 @@
                             @change="setImage" accept="image/" name="image" />
                         </b-form-group>
 
-                        <div v-if="file">
+                        <div v-if="file || form.nm_image_path">
                             <span >
-                            {{file.name}}
-                            <b-button size="sm" variant="default" @click="removeSelectedImage">
+                            {{file ? file.name : form.nm_image_path | fileName}}
+                            <b-button size="sm" variant="default" @click="deleteImage()">
                                 <b-icon icon="trash" variant="danger"></b-icon>
                             </b-button>
                             </span>
 
+                        </div>
+
+                        <div v-if="file || form.nm_image_path">
+                     
                             <vue-cropper
                                 class="mt-2"
                                 ref="cropper"
@@ -115,23 +119,17 @@
 
         methods: {
             handleOk(bvModalEvt){
-                bvModalEvt.preventDefault();
-                this.formSubmited();
-            },
-
-            formSubmited() {
                 this.loading = true;
-                if (this.form.nm_image_path && this.file) {
-                    this.deleteImage()
-                }
-
-                this.saveImage(this.file)
+                bvModalEvt.preventDefault();
+                this.save();
             },
 
             save(){
                 let form = new FormData();
+                form.append('id_warning', this.form.id_warning);
                 form.append('nm_image_path',this.form.nm_image_path);
-                form.append('st_status',this.form.st_status);
+                form.append('st_status', this.form.st_status == undefined ? '' : this.form.st_status);
+                form.append('file', this.file);
 
                 this.$http.post('warning',form,{
                     headers: {
@@ -162,40 +160,11 @@
                 })
             },
 
-            update(){
-                this.$http.put('warning/'+this.form.id_warning,{
-                    'nm_image_path': this.form.nm_image_path,
-                    'st_status': this.form.st_status
-                },{
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    if(res.status === 200) {
-                        this.loading = false;
-
-                        if (res.data.token_failure) {
-                           this.$refs.session.$refs.session.show()
-                        }
-
-                        if (res.data.result.error) {
-                            this.$refs.error.$refs['modal-error'].show();
-                            this.errors = res.data.result;
-
-                        }else {
-                            this.$store.dispatch('warning');
-                            this.$refs['warning-form'].hide();
-                        }
-                    }
-                })
-            },
-
             setImage(e) {
                 const file = e.target.files[0];
 
                 if (file.type.indexOf('image/') === -1) {
-                    alert('Please select an image file');
+                    alert('Por favor escolha uma imagem');
                     return;
                 }
 
@@ -209,7 +178,6 @@
                 };
 
                 reader.readAsDataURL(file);
-                //this.saveImage(file)
                 } else {
                     alert('Sorry, FileReader API not supported');
                 }
@@ -263,26 +231,31 @@
 
             },
 
-            deleteImage() {
+           deleteImage() {
 
                 let url = this.form.nm_image_path;
 
                 let form = new FormData();
-                form.append('url',url.replace('storage','public'));
-                form.append('folder','public/warning');
+                form.append('nm_image_path', url);
+                form.append('folder','public/warninig');
+                form.append('id_news', this.form.id_warning);
 
-                this.$http.post('storage/delete',form,
-                    {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
+               this.$http.post('warning/image-remove',form,
+                {
+                   headers: {
+                       Authorization: 'Bearer '+this.token
+                   }
+               })
+               .then(res => {
+                   
+                   if (res.status === 200) {
+                       alert('Imagem removida');
+                       this.form.nm_image_path = '';
+                       this.imgSrc = ''
+                   }
+               })
+
             },
-
-            removeSelectedImage() {
-                this.file = null;
-                this.cropImg  = ''
-            }
         }
         
     }

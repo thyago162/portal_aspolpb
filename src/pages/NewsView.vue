@@ -4,9 +4,7 @@
         <b-row class="header-title">
             <b-col lg="11" class="title"  >
                 
-                <b-link :to="{name: 'noticias'}">
-                    <h5 class="mt-2">NOTÍCIAS</h5>
-                </b-link>
+                <h5 class="mt-2">NOTÍCIAS</h5>
                 
             </b-col>
         </b-row>

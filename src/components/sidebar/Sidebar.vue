@@ -29,7 +29,9 @@
           </b-nav>
         </nav>
 
-        <b-button variant="primary" class="mb-0 mt-5" block @click="hide">Fechar</b-button>
+        <div class="div-button">
+          <b-button variant="primary"  @click="hide">Fechar</b-button>
+        </div>
       </div>
         
       </template>
@@ -70,6 +72,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .div-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .div-button button {
+    width: 130px;
   }
 
 </style>

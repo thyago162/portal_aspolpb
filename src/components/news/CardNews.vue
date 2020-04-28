@@ -6,9 +6,12 @@
             </b-card-header>
 
             <b-card-body :style="{width: '75%'}">
-                <b-img src="/aspolicone.ico"  class="card-news-icon" />
-                <span class="card-news-date">{{cardnews.dt_date | date}}</span>
-
+                <b-row>
+                    <b-col>
+                        <span class="card-news-date">{{cardnews.dt_date | date}}</span>
+                    </b-col>
+                </b-row>
+               
                 <b-link class="card-news-title">
                     <h6 class="mt-1 " >
                         {{cardnews.nm_title}}

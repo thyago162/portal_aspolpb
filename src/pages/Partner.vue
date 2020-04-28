@@ -2,7 +2,9 @@
     <b-container fluid >
         <b-row class="partner-title">
             <b-col class="ml-2">
-                <h5>PARCEIROS</h5>
+                <div class="partner-title-block">
+                    <h5>Parceiros</h5>
+                </div>
             </b-col>
         </b-row>
         <b-row>
@@ -38,8 +40,15 @@
 
     .partner-title {
         margin-top: 20px;
-        text-decoration: underline;
-        font-weight: bolder;
+    }
+
+    h5 {
+        margin-bottom: 0%;
+    }
+
+    .partner-title-block {
+        border-bottom: 2px solid black;
+        width: 110px;
     }
 
      @media screen and (max-width: 1200px){
@@ -59,8 +68,13 @@
 
     @media screen and (max-width: 500px){
         h5 {
-            font-size: 13px;
+            font-size: 15px;
         }
+
+        .partner-title-block {
+            border-bottom: 2px solid black;
+            width: 80px;
+    }
 
     }
 </style>

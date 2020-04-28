@@ -3,6 +3,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
     faFacebookSquare,
     faFacebook,
+    faFacebookF,
     faInstagramSquare,
     faInstagram,
     faWhatsappSquare, 
@@ -35,6 +36,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 
 library.add(
+    faFacebookF,
     faFacebookSquare,
     faFacebook,
     faInstagramSquare,

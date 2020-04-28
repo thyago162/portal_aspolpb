@@ -25,7 +25,7 @@
                                         {{row.item.nm_title}}
                                     </b-card-title>
                                 </b-link>
-                            
+
                                 <b-card-text :style="{color: 'gray'}">
                                     {{row.item.nm_content | newsContent}}
                                 </b-card-text>
@@ -65,6 +65,7 @@
                 currentPage: 1,
                 perPage: 5,
                 error: [],
+                modifiedText: '',
                 fields: [
                     {key: 'card', label: ''}
                 ]
@@ -83,7 +84,15 @@
             rows: function() {
                 return this.allNews.length;
             },
-        }      
+        },
+        
+        methods: {
+            partOfText(param) {
+                let currentText = param.split(',');
+
+                alert(currentText[0])
+            }
+        }
     }
 </script>
 

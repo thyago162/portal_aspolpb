@@ -2,27 +2,37 @@
    
     <b-nav class="submenu">
         <b-row style="width:100%;">
-            <b-col lg="4" sm="6">
-                <nav class="icons">
-                    <a >
-                        <font-awesome-icon :icon="['fab', 'instagram']" 
-                        size="2x" class="icon alt personal-icons" />
-                    </a>
-                    <a >
-                        <font-awesome-icon size="2x" :icon="['fab', 'facebook']" 
-                        class="icon alt personal-icons" />
-                    </a>
-                    <a >
-                        <font-awesome-icon size="2x" :icon="['fab', 'whatsapp']" 
-                        class="icont alt personal-icons" />
-                    </a>
+            <b-col lg="6" sm="6">
+                <nav class="icons mr-4">
+
+                    <div class="block-icon ml-2">
+                        <a >
+                            <font-awesome-icon :icon="['fab', 'instagram']" 
+                             class="icon alt personal-icons" />
+                        </a>
+                    </div>
+
+                    <div class="block-icon ml-2">>
+                         <a >
+                            <font-awesome-icon :icon="['fab', 'facebook-f']" 
+                            class="icon alt personal-icons facebook-icon" />
+                        </a>
+
+                    </div>
+
+                    <div class="block-icon ml-2">
+                        <a >
+                            <font-awesome-icon :icon="['fab', 'whatsapp']" 
+                            class="icont alt personal-icons" />
+                        </a>
+                    </div>
                 </nav>
 
             </b-col>
 
-             <b-col  lg="4" sm="6">
+             <b-col  lg="6" sm="6">
                 <b-form inline class="search">
-                    <b-input-group :style="{marginTop: '4px'}" >
+                    <b-input-group :style="{marginTop: '4px'}" class="mb-1 ml-5">
                         <b-form-input trim placeholder="Buscar no site" 
                             type="text" v-model="search" />
                         <b-input-group-append>
@@ -62,7 +72,7 @@
 <style scoped>
 
     .submenu {
-        background-color: red;
+        background-color: rgb(189, 22, 34);
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -70,21 +80,38 @@
     }
 
     .icons {
-        margin-top: 5px;
         color: white;
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        justify-content: flex-end;
         align-items: flex-end;
+        margin-top: 6px;
     }
 
     .personal-icons {
-        margin: 5px;
+        color: red;
+        font-size: 23px;
+        margin-top: 4px;
     }
 
     .btn-search {
         color: #fff;
         font-weight: bold;
+    }
+
+    .block-icon {
+        background-color: #fff;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .facebook-icon {
+        margin-right: 10px;
     }
 
 

@@ -3,7 +3,7 @@
         <b-navbar toggleable="xl" type="dark" variant="light">
             <b-navbar-brand >
                 <img src="../../assets/images/logo_aspol_02.png" alt="Aspolpb" 
-                    class="d-inline-block align-top logo" >
+                    class="d-inline-block align-top logo " >
             </b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse">
@@ -18,7 +18,7 @@
                         </b-link>
                     </b-nav-item>
 
-                    <b-nav-item-dropdown >
+                    <b-nav-item-dropdown no-caret>
                         <template v-slot:button-content>
                             <span class="personal-link" >
                                 INSTITUCIONAL
@@ -46,7 +46,7 @@
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
 
-                    <b-nav-item-dropdown >
+                    <b-nav-item-dropdown no-caret >
                         <template v-slot:button-content>
                             <span class="personal-link" >MÍDIA</span>
                         </template>
@@ -84,7 +84,7 @@
                         </b-button>
                     </b-nav-item>
 
-                     <b-nav-item-dropdown v-else>
+                     <b-nav-item-dropdown v-else no-caret>
                         <template v-slot:button-content>
                             <b-button size="sm" class="personal-btn" >
                                 <span>
@@ -213,30 +213,25 @@
     }
 
     .logo {
-        width: 150px;
-        height: 70px;
+        width: 200px;
+        height: 90px;
         margin-top: -10px;
+        margin-left: 100px;
+
     }
 
     .personal-link {
         color: #333;
         text-decoration: none;
+        font-size: 15px;
     }
 
     .personal-link:hover {
-        color: #000;
-        border-bottom: red 3px solid;
+        font-weight: bolder;
     }
 
     .personal-btn {
-        background: rgba(138,21,0,1);
-        background: -moz-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(138,21,0,1)), color-stop(25%, rgba(186,35,15,1)), color-stop(71%, rgba(201,27,8,1)), color-stop(100%, rgba(240,31,12,1)));
-        background: -webkit-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -o-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: -ms-linear-gradient(left, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        background: linear-gradient(to right, rgba(138,21,0,1) 0%, rgba(186,35,15,1) 25%, rgba(201,27,8,1) 71%, rgba(240,31,12,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8a1500', endColorstr='#f01f0c', GradientType=1 );
+        background: rgb(189,22 , 34);
         border-radius: 5px;
         margin-top: -4px;
     }

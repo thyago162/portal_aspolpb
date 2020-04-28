@@ -4,15 +4,24 @@
             <b-container>
                 <b-row>
                     <b-col class="footer-head">
-                        <span class="ml-5">Siga a Aspol tambêm nas redes sociais</span>
-                        <a >
-                            <font-awesome-icon :icon="['fab', 'instagram-square']" 
-                                size="2x" class="icon alt personal-icons m-2" />
-                        </a>
-                        <a >
-                            <font-awesome-icon size="2x" :icon="['fab', 'facebook-square']" 
-                                class="icon alt personal-icons m-1" />
-                        </a>
+                        <span class="ml-5" >Siga a Aspol tambêm nas redes sociais</span>
+                        <div class="block-icon ml-2 mr-2">
+                            <a class="mt-1">
+                                <font-awesome-icon :icon="['fab', 'instagram']" 
+                                    class="icon alt personal-icons"  />
+                            </a>
+
+                        </div>
+
+                        <div class="block-icon">
+                            <a class="mt-1" >
+                                <font-awesome-icon  :icon="['fab', 'facebook-f']" 
+                                    class="icon alt personal-icons" />  
+                            </a>
+                        </div>
+                        
+                        
+                        
                     </b-col>
                 </b-row>
                 <b-row>
@@ -75,6 +84,7 @@
         background-color: rgb(42, 44, 44);
         color: white;
         font-weight: bold;
+        font-family: 'Roboto', sans-serif;
     }
 
     .footer-head {
@@ -85,10 +95,11 @@
         align-items: center;
     }
 
-    .personal-icon {
-        margin: 5px;
-        border-radius: 50%;
+    .personal-icons {
+        color: #000;
+        font-size: 23px;
     }
+
 
     .address-footer {
         margin-top: 60px;
@@ -104,6 +115,7 @@
     .menu-footer {
         display: flex;
         flex-direction: row;
+        justify-content: center;
         margin-top: 50px;
         text-align: center;
     }
@@ -119,6 +131,17 @@
         color: #ffffff;
         font-size: 14px;
         font-weight:normal;
+    }
+
+    .block-icon {
+        background-color: #fff;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
     }
 
     @media screen and (max-width: 767px) {

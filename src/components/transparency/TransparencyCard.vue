@@ -5,7 +5,7 @@
                <b-col lg="7">
                     <b-card-title>
                         <b>Gestão -</b> {{item.nm_management_name}}
-                        {{item.nu_start | date}} {{item.nu_end | date}}
+                        {{item.nu_start | date}} - {{item.nu_end | date}}
                     </b-card-title>
                </b-col>
                <b-col lg="2">
@@ -35,7 +35,7 @@
                                 <span :style="{fontWeight: 'bold'}">CERTIDÕES</span>
                                 <b-card no-body v-show="showCertidoes">
                                     <b-card-header class="mt-2">
-                                        <b-link v-for="(item,index) in certidão" :key="index">
+                                        <b-link v-for="(item,index) in certidao" :key="index">
                                             {{item.nm_name}}
                                         </b-link>
                                     </b-card-header>
@@ -61,8 +61,9 @@
                                        <b-card no-body class="mt-2">
                                             <b-card-header>
                                                 <div v-for="(item,index) in financeiro" :key="index">
-                                                    <b-link  v-if="item.nu_year == parseInt(year)"  >
-                                                        {{item.nm_name}}
+                                                    
+                                                    <b-link  v-if="returnYear(item.dt_date) == year"  >
+                                                        {{item.nm_name}} - {{item.dt_date | date}}
                                                     </b-link>
                                                 </div>
                                             </b-card-header>
@@ -139,7 +140,7 @@
                 })
             },
 
-            certidão: function() {
+            certidao: function() {
                 return this.files.filter((param) => {
                     return param.nm_type_doc == 'Certidão'
                 })
@@ -148,10 +149,20 @@
             years: function() {
                 let arrayYears = new Array();
 
-                let date = new Date();
-                let endYear = !this.item.nu_end ? date.getFullYear() : this.item.nu_end;
+                let start = this.item.nu_start.split('-');
+                start = parseInt(start[0]);
 
-                for (var i = this.item.nu_start; i <= endYear; i++) {
+                let end;
+
+                if (!this.item.nu_end) {
+                    end = start;
+
+                }else {
+                    end = this.item.nu_end.split('-');
+                    end = parseInt(end[0]);
+                }
+
+                for (var i = start; i <= end; i++) {
                     arrayYears.push(i);
                 }
 
@@ -182,6 +193,12 @@
 
                 })
             },
+
+            returnYear(date) {
+                let year = date.split('-');
+
+                return parseInt(year[0]);
+            }
         }
     }
 </script>

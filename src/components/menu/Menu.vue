@@ -1,17 +1,18 @@
 <template>
     <div class="menu">
-        <b-navbar toggleable="xl" type="dark" variant="light">
+        <b-navbar toggleable="xl" type="dark" variant="light" 
+            class=" brand"  >
             <b-navbar-brand >
                 <img src="../../assets/images/logo_aspol_02.png" alt="Aspolpb" 
                     class="d-inline-block align-top logo " >
             </b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse">
-                <b-icon icon="list" variant="dark" class="mb-2"></b-icon>
+                <b-icon icon="list" variant="dark" class="mb-2 list"></b-icon>
             </b-navbar-toggle>
 
-            <b-collapse id="nav-collapse" is-nav style="margin-left:60px;">
-                <b-navbar-nav  >
+            <b-collapse id="nav-collapse" is-nav class="justify-content-center">
+                <b-navbar-nav   class="menu-options">
                     <b-nav-item>
                         <b-link :to="{name: 'home'}" class="personal-link">
                             INÍCIO
@@ -216,7 +217,6 @@
         width: 200px;
         height: 90px;
         margin-top: -10px;
-        margin-left: 100px;
 
     }
 
@@ -236,6 +236,10 @@
         margin-top: -4px;
     }
 
+    .brand {
+        margin-left: 5%;
+    }
+
     @media screen and (max-width: 1299){
         .associated {
             width: 130px;
@@ -243,13 +247,17 @@
         
     }
 
-    @media screen and (max-width: 1199px) {
+    @media screen and (max-width: 1024px) {
+
         .personal-link {
             font-size: 14px;
         }
 
-    }
+        .list {
+            font-size: 27px;
+        }
 
+    }
 
     @media screen and (max-width: 416px) {
 
@@ -262,6 +270,14 @@
         .personal-link {
             font-size: 10px;
         }
+
+        .list {
+            font-size: 22px;
+        }
+
+        .brand {
+            margin-left: 0%;
+        }
     }
 
     @media screen and (max-width: 375px) {
@@ -269,7 +285,11 @@
            width: 80px;
            height: 45px;
         }
-        
+
+          .list {
+            font-size: 20px;
+        }
+
     }
 </style>
 

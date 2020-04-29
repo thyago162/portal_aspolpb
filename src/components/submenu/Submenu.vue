@@ -32,9 +32,9 @@
 
              <b-col  lg="6" sm="6">
                 <b-form inline class="search">
-                    <b-input-group :style="{marginTop: '4px'}" class="mb-1 ml-5">
+                    <b-input-group :style="{marginTop: '4px'}" class="mb-1">
                         <b-form-input trim placeholder="Buscar no site" 
-                            type="text" v-model="search" />
+                            type="text" v-model="search" size="sm" class="mt-1" />
                         <b-input-group-append>
                             <b-button variant="default" @click="searchAll">
                                 <b-icon icon="search" ></b-icon>
@@ -129,7 +129,18 @@
      @media screen and (max-width: 575px) {
          .search {
              margin-bottom: 10px;
-         }
+        }
+
+        .personal-icons {
+            font-size: 20px;
+            margin-left: 1px;
+            margin-top: 2px;
+        }
+
+        .block-icon {
+            width: 30px;
+            height: 28px;
+        }
     }
 
     

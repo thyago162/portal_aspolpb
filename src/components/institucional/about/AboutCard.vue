@@ -1,17 +1,17 @@
 <template>    
     <b-card class="mt-4" img-left :style="{width: '500px'}">
-        <template v-slot:header v-if="board.nm_image_path">
+        <template v-slot:header v-if="image.length > 0">
             <img :src="image" class="card-image" >
         </template>
-        <b-card-title class="card-title">
-            {{board.nm_name}}
+        <b-card-title class="card-title" v-if="name.length > 0">
+            {{name}}
         </b-card-title>
-        <b-card-text class="card-text">
-            <span :style="{fontWeight: 'bolder'}">Cargo: </span>{{board.nm_office}}
+        <b-card-text class="card-text" v-if="office.length > 0">
+            <span :style="{fontWeight: 'bolder'}">Cargo: </span>{{office}}
         </b-card-text>
-        <b-card-text>
+        <b-card-text v-if="ddd.length > 0">
             <span :style="{fontWeight: 'bolder'}">Telefone: </span>
-            ({{board.nm_ddd}}) {{board.nm_phone}}
+            ({{ddd}}) {{phone}}
 
         </b-card-text>
     </b-card>
@@ -23,9 +23,34 @@
 
         computed: {
             image: function() {
-                return this.board.nm_image_path ?
+                return this.board ?
                     this.board.nm_image_path : 
                     ''
+            },
+
+            name: function() {
+                return this.board ?
+                    this.board.nm_name :
+                    ''
+            },
+
+            office: function() {
+                return this.board ?
+                    this.board.nm_office :
+                    ''
+            },
+
+            ddd: function() {
+                return this.board ?
+                    this.board.nm_ddd :
+                    ''
+            },
+
+            phone: function() {
+                return this.board ?
+                    this.board.nm_phone :
+                    ''
+
             }
         }
         

@@ -9,8 +9,6 @@
             </b-button>
         </template>
 
-        <ErrorMessage :errors="errors" :visibility="visibility" />
-
         <form @submit.stop.prevent="formSubmited">
             <b-form-group label="Título">
                 <b-form-input type="text" v-model="form.nm_management_name"/>

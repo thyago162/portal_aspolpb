@@ -182,8 +182,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-
         }
+
         .personal-link {
             font-size: 12px;
         }
@@ -205,7 +205,12 @@
         }
          
         .icon {
-            font-size: 22px;
+            font-size: 17px;
+        }
+
+        .block-icon {
+            width: 25px;
+            height: 25px;
         }
          
      }

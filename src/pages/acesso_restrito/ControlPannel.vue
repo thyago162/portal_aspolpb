@@ -53,11 +53,6 @@
                         <h4>USUÁRIOS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="dark" v-b-modal.cp-user disabled>
-                        <font-awesome-icon icon="users" size="2x" class="icon alt"/>
-                        <h4>DASHBOARD</h4>
-                    </b-button>
-
                 </div>
                 <h5 v-else :style="{color: 'red'}">
                     Permissão negada!

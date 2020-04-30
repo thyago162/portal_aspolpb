@@ -24,7 +24,7 @@ Vue.filter('namedDate', function (value) {
     if (value) {
         let date = value.split('-');
 
-        return `${date[2]} de ${months[parseInt(date[1])]} de ${date[0]}`
+        return `${date[2]} de ${months[parseInt(date[1])-1]} de ${date[0]}`
 
     } else {
         return ''

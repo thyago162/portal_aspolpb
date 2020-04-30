@@ -36,12 +36,12 @@
                             </b-link>
                         </b-dropdown-item>
                         <b-dropdown-item>
-                           <b-link class="personal-link" :to="{name: 'campanhas'}" disabled>
+                           <b-link class="personal-link" :to="{name: 'campanhas'}" >
                                CAMPANHAS
                             </b-link> 
                         </b-dropdown-item>
                         <b-dropdown-item>
-                            <b-link class="personal-link" :to="{name: 'identidade-visual'}" disabled>
+                            <b-link class="personal-link" :to="{name: 'identidade-visual'}" >
                                 IDENTIDADE VISUAL
                             </b-link>
                         </b-dropdown-item>
@@ -119,7 +119,13 @@
                                  ARQUIVOS
                             </b-link>
                         </b-dropdown-item>
-                         <b-dropdown-item c>
+                        <b-dropdown-item  >
+                            <b-link class="personal-link" :to="{name: 'relatorios'}">
+                                <b-icon icon="pie-chart-fill" ></b-icon>
+                                RELATÓRIOS
+                            </b-link>
+                        </b-dropdown-item>
+                         <b-dropdown-item >
                             <b-link class="personal-link" :to="{name:'cp'}" v-if="administrator === 1"> 
                                 <b-icon icon="gear-fill"></b-icon>
                                 PAINEL DE CONTROLE

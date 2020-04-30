@@ -1,5 +1,5 @@
 <template>
-   <b-modal id="campaign-form" ref="campaign-form" size="md" title="Adicionar arquivo"
+   <b-modal id="visual-identity-form" ref="visual-identity-form" size="md" title="Adicionar arquivo"
     header-bg-variant="info" header-text-variant="light" @ok="handleOk" ok-only @hide="resetModal">
 
         <template v-slot:modal-footer="{ok}">
@@ -16,7 +16,7 @@
             </b-form-group>
 
             <b-form-group label="Arquivo">
-                <b-form-file v-model="file" accept=".jpeg, jpg, png, bpm, .pdf, .odt, .doc*" 
+                <b-form-file v-model="file" accept=".jpeg, jpg, png, bpm" 
                     :state="Boolean(file)" @input="image"></b-form-file>
             </b-form-group>
 
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-    import ModalError from '../error/ModalError';
-    import SessionOff from '../session/Session';
+    import ModalError from '../../error/ModalError';
+    import SessionOff from '../../session/Session';
 
     export default {
 
@@ -47,7 +47,6 @@
                     file:  false
                 },
                 loading: false,
-                countdown: 0,
                 form: {
                     nm_image_path: '',
                     name: ''
@@ -77,9 +76,9 @@
 
                 let formData = new FormData();
                 formData.append('nm_name', this.form.name);
-                formData.append('nm_file_path',this.form.nm_file_path);
+                formData.append('nm_image_path',this.form.nm_file_path);
 
-                this.$http.post('campaign',formData, {
+                this.$http.post('visual-identity',formData, {
                     headers: {
                         Authorization: 'Bearer '+this.token,
                         'Content-Type': 'multipart/form-data'
@@ -99,8 +98,8 @@
                             this.errors = res.data.result;
 
                         }else {
-                            this.$refs['campaign-form'].hide()
-                            this.$store.dispatch('campaign')
+                            this.$refs['visual-identity-form'].hide()
+                            this.$store.dispatch('visualIdentity')
                         }
                         
                     }
@@ -122,7 +121,7 @@
                 let form = new FormData();
 
                 form.append('file',this.file);
-                form.append('folder','public/campaign');
+                form.append('folder','public/visualidentity');
 
                 this.$http.post('storage/save',form,{
                     headers: {
@@ -151,7 +150,7 @@
 
                 let form = new FormData();
                 form.append('url',url.replace('storage','public'));
-                form.append('folder','public/campaing');
+                form.append('folder','public/visualidentity');
 
                this.$http.post('storage/delete',form,
                 {

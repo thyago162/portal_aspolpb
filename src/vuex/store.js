@@ -22,7 +22,8 @@ export default new Vuex.Store({
         warning: [],
         token: null,
         loggedIn: [],
-        campaign: []
+        campaign: [],
+        visualIdentity: []
     },
 
     getters: {
@@ -88,6 +89,10 @@ export default new Vuex.Store({
 
         getCampaign: state => {
             return state.campaign;
+        },
+
+        getVisualIdentity: state => {
+            return state.visualIdentity;
         }
     },
     actions: {
@@ -251,6 +256,16 @@ export default new Vuex.Store({
                 }
             })
 
+        },
+
+        visualIdentity({commit}) {
+            axios.get('visual-identity')
+            .then(res => {
+                if (res.status === 200) {
+                    commit('setVisualIdentity', res.data.result.visualIdentity)
+                }
+            })
+
         }
     },
     mutations: {
@@ -321,6 +336,10 @@ export default new Vuex.Store({
 
         setCampaign(state, payload) {
             state.campaign = payload;
+        },
+
+        setVisualIdentity(state, payload) {
+            state.visualIdentity = payload;
         }
 
     }

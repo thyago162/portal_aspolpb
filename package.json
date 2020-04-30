@@ -1,6 +1,6 @@
 {
   "name": "portal_aspolpb",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -15,11 +15,13 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.11.0",
+    "chart.js": "^2.9.3",
     "core-js": "^3.4.4",
     "jquery": "^3.5.0",
     "vue": "^2.6.10",
     "vue-audio": "0.0.12",
     "vue-carousel": "^0.18.0",
+    "vue-chartjs": "^3.5.0",
     "vue-cropperjs": "^4.0.1",
     "vue-fab": "^2.3.1",
     "vue-image-upload-resize": "^2.3.0",

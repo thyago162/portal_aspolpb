@@ -16,6 +16,7 @@ import Suggestion from '../pages/acesso_restrito/Suggestion';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
 import ControlPannel from '../pages/acesso_restrito/ControlPannel';
+import Dashboard from '../pages/acesso_restrito/Dashboard';
 import Search from '../pages/Search';
 import NotFound from '../pages/error/NotFound';
 
@@ -96,6 +97,16 @@ export default new Router({
             path: '/acesso-restrito/transparencia',
             component: Transparency,
             name: 'transparencia'
+        },
+        {
+            path: '/acesso-restrito/relatorios',
+            component: Dashboard,
+            name: 'relatorios'
+        },
+        {
+            path: '/acesso-restrito/identidade-visual',
+            component: VisualIdentity,
+            name: 'visual-identity'
         },
         {
             path: '/acesso-restrito/painel-de-controle',

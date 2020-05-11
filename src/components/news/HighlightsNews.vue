@@ -59,7 +59,7 @@
         flex-direction: row;
         justify-content:center;
         align-items: baseline;
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .personal-link {
@@ -117,6 +117,10 @@
 
         h6 {
            display: none;
+        }
+
+        .image-highlights {
+            margin-top: 0px;
         }
     }
 

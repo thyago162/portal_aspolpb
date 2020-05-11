@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="mb-4">
         <b-row class="media-row">
-            <b-col class="media-head ml-4">
+            <b-col class="media-head ">
                 <div class="media-title">
                     <h5>ASPOL NA MÍDIA</h5>
                 </div>
@@ -58,7 +58,8 @@
     }
 
     .media-row {
-        width: 99%;
+        margin-right: 5px;
+        margin-left: 1px;
     }
 
     .media-head {

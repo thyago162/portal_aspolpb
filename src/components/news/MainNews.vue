@@ -1,7 +1,7 @@
 <template>
    <b-container fluid class="news mb-3">
         <b-row class="news-row">
-            <b-col class="news-head ml-3" lg="12">
+            <b-col class="news-head " lg="12">
                 <div class="news-title">
                     <h5>NOTÍCIAS</h5>
                 </div>
@@ -95,7 +95,8 @@
     }
 
     .news-row {
-        width: 100%;
+        margin-right: 5px;
+        margin-left: 5px;
     }
 
     .news-head {
@@ -123,7 +124,7 @@
     }
 
     .highlights {
-        margin-top: 20px;
+        margin-top: 10px;
     }
 
     .more-news-title {

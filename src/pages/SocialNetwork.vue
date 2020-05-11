@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="social-midia">
         <b-row class="social-midia-row">
-            <b-col class="social-midia-head ml-4">
+            <b-col class="social-midia-head">
                 <div class="social-midia-title ">
                     <h5>REDES SOCIAIS</h5>
                 </div>
@@ -11,12 +11,13 @@
             <b-col cols="12">
                 <carousel :perPageCustom="customSlide" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
                     paginationColor="#000fff" :autoplayHoverPause="true" >
-                    <slide v-for="(item, index) in items" :key="index" :style="{marginRight: '10px'}">
-                        <b-img fluid :src="item.nm_image_path.replace('public','storage')" 
-                            :alt="item.nm_title" class="social-midia-image" />
-                        <a @click="redirectTo(item.nm_link)" >
-                            {{item.nm_title}}
-                        </a>
+                    <slide v-for="(item, index) in items" :key="index" >
+                        <div :style="{ backgroundImage: 'url('+ item.nm_image_path.replace('public','storage')+')'}" class="social-midia-image">
+                           
+                            <a @click="redirectTo(item.nm_link)" class="link" >
+                                {{item.nm_title}}
+                            </a>
+                        </div>
                     </slide>
                 </carousel>
             </b-col>
@@ -33,7 +34,7 @@
 
         data() {
             return {
-                customSlide: [[1360,4], [1000, 3], [800,2], [500,1], [300,1]]
+                customSlide: [[1360,4], [1000, 3], [768,2], [500,1], [300,1]]
             }
         },
 
@@ -57,12 +58,13 @@
     }
 
     .social-midia-row {
-        width: 99%;
+        margin-right: 1px;
     }
 
     .social-midia-head {
         border-bottom: 3px solid rgb(189,22,34);
         margin-top: 20px;
+        margin-left: 10px;
     }
 
     .social-midia-title {
@@ -76,20 +78,40 @@
         align-items: center;
         margin-left: -15px;
         margin-top: 10px;
+    }
 
+    .social-midia-image {
+        height: 250px;
+        max-height: 250px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50% 50%;
+        background-position: center;
+        display: flex;
+        flex-direction: row;
+        justify-content:space-between;
+        align-items: baseline;
+        margin-right: 10px;
+        margin-top: 10px;
     }
 
     h5 {
         margin-top: 10px;
     }
 
-    .social-midia-image {
-        margin: 5px;
+    .link {
+        width: 320px;
+        background-color: rgba(24, 23, 23, 0.719);
+        color: #fff;
+        font-weight: bolder;
+        font-size: 18px;
+        bottom: 0%;
+        position: absolute;
+        text-align: center;
     }
 
-    a {
-        font-weight: bolder;
-        font-size: 17px;
+    .link:hover {
+        color: red;
     }
 
     @media screen and (max-width: 1400px) {
@@ -119,9 +141,8 @@
             font-size: 14px;
         }
 
-        a {
-            font-weight: bolder;
-            font-size: 11px;
+        .link {
+            width: 358px;
         }
         
     }
@@ -139,6 +160,17 @@
         a {
             font-weight: bolder;
             font-size: 10px;
+        }
+        
+    }
+
+    @media screen and (max-width: 360px) {
+        .social-midia-row {
+            margin-right: 1px;
+        }
+
+        .social-midia-image {
+            margin-right: 0px;
         }
         
     }

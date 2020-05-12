@@ -10,19 +10,19 @@
                 <b-tabs class="ml-4">
                     <b-tab title="Presidência">
                         <div class="about">
-                            <AboutCard :board="item" v-for="(item, index) in about" :key="index" />
+                            <AboutCard :board="item" v-for="(item, index) in presidency" :key="index" />
                         </div>
                     </b-tab>
                     <b-tab title="Diretoria">
                         <div class="about">
-                            <AboutCard :board="item" v-for="(item, index) in taxCouncil" :key="index"/>
+                            <AboutCard :board="item" v-for="(item, index) in board" :key="index"/>
                         </div>
                     </b-tab>
                     <b-tab title="Conselho fiscal">
-                        <AboutCard />
+                        <AboutCard :board="item" v-for="(item, index) in taxCouncil" :key="index"/>
                     </b-tab>
                     <b-tab title="Diretores regionais">
-                        <AboutCard />
+                        <AboutCard :board="item" v-for="(item, index) in regionalBoard" :key="index"/>
                     </b-tab> 
                 </b-tabs>
             </b-col>
@@ -45,6 +45,7 @@
 
         data() {
             return {
+                presidency: [],
                 board: [],
                 taxCouncil: [],
                 regionalBoard: []
@@ -63,8 +64,10 @@
                 this.about.forEach(element => {
 
                     if (element.fk_advice == 1) {
-                        this.board.push(element)
+                        this.presidency.push(element)
                     } else if (element.fk_advice == 2) {
+                        this.board.push(element)
+                    }else if (element.fk_advice === 3) {
                         this.taxCouncil.push(element)
                     }else {
                         this.regionalBoard.push(element)

@@ -6,8 +6,6 @@
                 <b-tab title="Quem somos">
                     <AboutView />
                 </b-tab>
-                <b-tab title="Campanhas" disabled></b-tab>
-                <b-tab title="Identidade visual" disabled></b-tab>
             </b-tabs>
         </b-modal>
     </div>

@@ -3,7 +3,7 @@
         <b-row>
             <b-col lg="12">
                 <b-button size="sm" variant="primary" 
-                    v-b-modal.about-form style="float: right">+ Novo item</b-button>
+                    v-b-modal.about-form style="float: right" @click="resetModal()">+ Novo item</b-button>
             </b-col>
         </b-row>
 
@@ -18,7 +18,7 @@
                     </template>
 
                     <template v-slot:cell(remove)="row">
-                        <b-button @click="remove(row.item)" size="sm" variant="danger">
+                        <b-button @click="remove(row.item.id_about)" size="sm" variant="danger">
                             <b-icon icon="trash"></b-icon>
                         </b-button>
 
@@ -58,6 +58,7 @@
                 fields: [
                     {key: 'nm_name', label: 'Nome', sortable: true},
                     {key: 'nm_office', label: 'Cargo'},
+                    {key: 'nm_ddd', label: 'DDD'},
                     {key: 'nm_phone', label: 'Telefone'},
                     {key: 'nm_advice', label: 'Departamento'},
                     {key: 'edit', label: ''},
@@ -98,6 +99,13 @@
                         }
                     })
                 }
+            },
+
+            resetModal() {
+                this.item.nm_name = '';
+                this.item.nm_office = '';
+                this.item.nm_ddd = '';
+                this.item.nm_phone = '';
             }
         }
         

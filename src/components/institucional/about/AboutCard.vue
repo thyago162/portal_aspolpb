@@ -1,15 +1,15 @@
 <template>    
     <b-card class="mt-4" img-left :style="{width: '500px'}">
-        <template v-slot:header v-if="image.length > 0">
+        <template v-slot:header v-if="image != ''">
             <img :src="image" class="card-image" >
         </template>
-        <b-card-title class="card-title" v-if="name.length > 0">
+        <b-card-title class="card-title" v-if="name">
             {{name}}
         </b-card-title>
-        <b-card-text class="card-text" v-if="office.length > 0">
+        <b-card-text class="card-text" v-if="office">
             <span :style="{fontWeight: 'bolder'}">Cargo: </span>{{office}}
         </b-card-text>
-        <b-card-text v-if="ddd.length > 0">
+        <b-card-text v-if="ddd">
             <span :style="{fontWeight: 'bolder'}">Telefone: </span>
             ({{ddd}}) {{phone}}
 
@@ -23,7 +23,7 @@
 
         computed: {
             image: function() {
-                return this.board ?
+                return this.board.nm_image_path != 'undefined' ?
                     this.board.nm_image_path : 
                     ''
             },
@@ -31,25 +31,25 @@
             name: function() {
                 return this.board ?
                     this.board.nm_name :
-                    ''
+                    ' '
             },
 
             office: function() {
                 return this.board ?
                     this.board.nm_office :
-                    ''
+                    ' '
             },
 
             ddd: function() {
                 return this.board ?
                     this.board.nm_ddd :
-                    ''
+                    ' '
             },
 
             phone: function() {
                 return this.board ?
                     this.board.nm_phone :
-                    ''
+                    ' '
 
             }
         }

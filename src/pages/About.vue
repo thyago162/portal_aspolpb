@@ -7,24 +7,25 @@
         </b-row>
         <b-row class="mt-4 align-body" >
             <b-col lg="11" >
-                <b-tabs class="ml-4">
-                    <b-tab title="Presidência">
+                <b-tabs class="ml-4" v-if="about">
+                    <b-tab title="Presidência" @click="getAbout(office.presidency)">
                         <div class="about">
-                            <AboutCard :board="item" v-for="(item, index) in presidency" :key="index" />
+                            <AboutCard  :board="item" v-for="(item,index) in about" :key="index" />
                         </div>
                     </b-tab>
-                    <b-tab title="Diretoria">
+                    <b-tab title="Diretoria" @click="getAbout(office.board)">
                         <div class="about">
-                            <AboutCard :board="item" v-for="(item, index) in board" :key="index"/>
+                            <AboutCard :board="item" v-for="(item,index) in about" :key="index" />
                         </div>
                     </b-tab>
-                    <b-tab title="Conselho fiscal">
-                        <AboutCard :board="item" v-for="(item, index) in taxCouncil" :key="index"/>
+                    <b-tab title="Conselho fiscal" @click="getAbout(office.taxCouncil)">
+                        <AboutCard :board="item" v-for="(item,index) in about" :key="index" />
                     </b-tab>
-                    <b-tab title="Diretores regionais">
-                        <AboutCard :board="item" v-for="(item, index) in regionalBoard" :key="index"/>
+                    <b-tab title="Diretores regionais" @click="getAbout(office.regionalBoard)">
+                        <AboutCard :board="item" v-for="(item,index) in about" :key="index" />
                     </b-tab> 
                 </b-tabs>
+                <p v-else>Carregando...</p>
             </b-col>
         </b-row>
     </b-container>
@@ -38,44 +39,34 @@
             AboutCard
         },
 
-        mounted(){
-            this.$store.dispatch('about');
-            this.splitAbout();
+        created() {
+            this.getAbout(1)
         },
 
         data() {
             return {
-                presidency: [],
-                board: [],
-                taxCouncil: [],
-                regionalBoard: []
+                about: [],
+                office: {
+                    presidency: 1,
+                    board: 2,
+                    taxCouncil: 3,
+                    regionalBoard: 4
+                }
             }
         },
 
-       computed: {
-           about: function() {
-               return this.$store.getters.getAbout;
-            },
-       },
-
         methods: {
-            splitAbout() {
-
-                this.about.forEach(element => {
-
-                    if (element.fk_advice == 1) {
-                        this.presidency.push(element)
-                    } else if (element.fk_advice == 2) {
-                        this.board.push(element)
-                    }else if (element.fk_advice === 3) {
-                        this.taxCouncil.push(element)
-                    }else {
-                        this.regionalBoard.push(element)
+            
+            getAbout(id) {
+                
+                this.$http('about/'+id)
+                .then(res => {
+                    if (res.status === 200) {
+                       this.about = res.data.result
                     }
-                });
+                })
 
             }
-          
         }
         
     }

@@ -35,7 +35,7 @@
     import AboutForm from './AboutForm';
     export default {
 
-        mounted() {
+        created() {
             this.$store.dispatch('about');
         },
 

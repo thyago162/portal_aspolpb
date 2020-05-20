@@ -105,8 +105,11 @@ export default new Vuex.Store({
             commit('setLoggedIn', user);
         },
 
-        news({commit}) {
-            axios.get('news')
+        news({commit}, id) {
+            if (typeof id == 'undefined') {
+                id = 1
+            }
+            axios.get('news?page='+id)
             .then(res => {
                 commit('setNews',res.data.result.news);
             })

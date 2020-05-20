@@ -267,7 +267,7 @@
                             
                         }else {
                             this.updateNews(res.data.result.news);
-                            this.$store.dispatch('news');
+                            this.$store.dispatch('news',1);
 
                             if (this.form.st_active === 1) {
                                 this.$refs['formnews'].hide();

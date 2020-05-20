@@ -2,7 +2,7 @@
     <div class="card-news ml-1" @click="seeNews" >
         <b-card no-body img-right>
             <b-card-header :style="{width: '25%'}">
-                <b-img :src="image" class="card-news-image" fluid></b-img>
+                <b-img-lazy v-bind="mainProps" :src="image" height: auto></b-img-lazy>
             </b-card-header>
 
             <b-card-body :style="{width: '75%'}">
@@ -31,6 +31,18 @@
 <script>
     export default {
         props: ['cardnews'],
+
+        data() {
+            return {
+                mainProps: {
+                    center: true,
+                    fluidGrow: true,
+                    blank: true,
+                    blankColor: '#bbb',
+                    class: 'card-news-image'
+                }
+            }
+        },
 
         computed: {
             image() {
@@ -61,8 +73,7 @@
     }
 
     .card-news-image {
-        width: 143px;
-        height: 116px;
+        max-height: 100px;
     }
 
     .card-news-icon {
@@ -96,17 +107,13 @@
 
     @media screen and (max-width: 768px) {
         .card-news-title {
-            font-size: 16px;
+            font-size: 14px;
         }
 
         .card-news-subtitle {
-            font-size: 14px;
+            font-size: 12px;
         }
-        
-        .card-news-image {
-            max-width: 100px;
-            max-height: 80px;
-        }
+
     }
 
     @media screen and (max-width: 416px) {

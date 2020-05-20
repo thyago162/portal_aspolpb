@@ -18,7 +18,7 @@
             </b-row>
             <b-row>
                 <b-col class="more-news">
-                    <MoreNews/>
+                    <MoreNews />
                 </b-col>
             </b-row>
 

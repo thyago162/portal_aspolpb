@@ -9,7 +9,7 @@
         
         <b-row  class="align-body">
             <b-col lg="11"  >
-                <b-table :fields="fields" :items="allNews" :per-page="perPage" 
+                <b-table :fields="fields" :items="news.data" :per-page="news.per_page" 
                     :current-page="currentPage" id="news-table">
 
                     <template v-slot:cell(card)="row">
@@ -36,12 +36,13 @@
                     </template>
 
                 </b-table>
-                <b-pagination
+               <b-pagination
                     align="center"
-                    v-model="currentPage"
-                    :total-rows="rows"
-                    :per-page="perPage"
+                    v-model="news.current_page"
+                    :total-rows="news.total"
+                    :per-page="news.per_page"
                     aria-controls="news-table"
+                    @input="getNews"
                 ></b-pagination>
 
             </b-col>
@@ -57,15 +58,15 @@
         },
 
         created() { 
-            this.$store.dispatch('news');
+            this.$store.dispatch('news', 1);
         },
 
         data() {
             return {
-                currentPage: 1,
-                perPage: 5,
                 error: [],
                 modifiedText: '',
+                perPage: 5,
+                currentPage: 1,
                 fields: [
                     {key: 'card', label: ''}
                 ]
@@ -73,24 +74,15 @@
         },
 
         computed: {
-            allNews: function() {
+            news: function() {
                 return this.$store.getters.getNews;
             },
-
-            title: function() {
-                return this.news.nm_title;
-            },
-
-            rows: function() {
-                return this.allNews.length;
-            },
         },
-        
+ 
         methods: {
-            partOfText(param) {
-                let currentText = param.split(',');
 
-                alert(currentText[0])
+            getNews() {
+                this.$store.dispatch('news', this.news.current_page);
             }
         }
     }

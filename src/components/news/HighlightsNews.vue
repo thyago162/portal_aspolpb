@@ -50,7 +50,7 @@
     }
 
     .image-highlights {
-        height: 450px;
+        height: 412px;
         background-repeat: no-repeat;
         background-size: cover;
         background-position: 50% 50%;

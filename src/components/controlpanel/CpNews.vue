@@ -26,7 +26,7 @@
 
              <b-row class="news-table">
                  <b-col>
-                     <b-table :fields="fields" :items="news" striped hover 
+                     <b-table :fields="fields" :items="news.data" striped hover 
                         :per-page="perPage" :current-page="currentPage" id="table-news" >
 
                         <template v-slot:cell(edit)="row" > 
@@ -55,11 +55,13 @@
                      <div>
                         <b-pagination
                             align="center"
-                            v-model="currentPage"
-                            :total-rows="rows"
-                            :per-page="perPage"
+                            v-model="news.current_page"
+                            :total-rows="news.total"
+                            :per-page="news.per_page"
                             aria-controls="table-news"
-                        ></b-pagination>
+                            @input="getNews()"
+                        >
+                        </b-pagination>
                      </div>
                  </b-col>
              </b-row>
@@ -86,8 +88,8 @@
             SessionOff
         },
 
-        mounted() {
-            this.$store.dispatch('news');
+        created() {
+            this.$store.dispatch('news', 1);
         },
 
         data() {
@@ -140,6 +142,7 @@
             }
 
         },
+        
 
         methods: {
 
@@ -198,7 +201,12 @@
 
             update(event) {
                 this.newsItem = event
+            },
+
+            getNews() {
+                this.$store.dispatch('news', this.news.current_page)
             }
+
         }
 
     }

@@ -1,10 +1,9 @@
 <template>
     <div class="menu">
-        <b-navbar toggleable="xl" type="dark" variant="light" 
-            class=" brand"  >
+        <b-navbar toggleable="xl" type="dark" variant="light" >
             <b-navbar-brand >
                 <img src="../../assets/images/logo_aspol_02.png" alt="Aspolpb" 
-                    class="d-inline-block align-top logo " >
+                    class="d-inline-block align-top logo ml-5" >
             </b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse">
@@ -242,10 +241,7 @@
         margin-top: -4px;
     }
 
-    .brand {
-        margin-left: 5%;
-    }
-
+ 
     @media screen and (max-width: 1299){
         .associated {
             width: 130px;

@@ -40,7 +40,7 @@
                         <b-row class="mt-2" :style="{display: 'flex', flexDirection: 'row', justifyContent: 'center'}">
                             <b-col lg="8" >
                                 <div class="cel-image-container mt-3 cell-image" >
-                                    <b-img :src="image" class="cel-image"  fluid></b-img>
+                                    <b-img-lazy :src="image" class="cel-image"  fluid></b-img-lazy>
                                 </div>
                             </b-col>
                         </b-row>

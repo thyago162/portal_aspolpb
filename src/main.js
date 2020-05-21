@@ -7,7 +7,6 @@ import "@/assets/css/app.css";
 import './library/library';
 import 'cropperjs/dist/cropper.css';
 
-Vue.forceUpdate;
 Vue.config.productionTip = false
 
 new Vue({

@@ -61,7 +61,7 @@
         </b-card-body>
         <b-card-footer :class="active ? 'details-show' : 'details-hide'" >
             <b-container fluid>
-                <b-row>
+                <b-row v-if="item.nm_street">
                     <b-col>
                         <b-card-text>
                            Rua {{item.nm_street}}, Nº {{item.nu_number}}, 

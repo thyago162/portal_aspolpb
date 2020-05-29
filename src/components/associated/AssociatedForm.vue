@@ -1,26 +1,27 @@
 <template>
     <b-modal title="Ficha de filiação" ref="associated" id="associated-form" ok-only ok-title="Enviar" 
-        size="xl" header-bg-variant="info" header-text-variant="light" @ok="handleOk" >
+        size="lg" header-bg-variant="info" header-text-variant="light" @ok="handleOk" >
 
         <template v-slot:modal-footer="{ok}">
-            <b-button variant="danger" size="md" @click="ok()">
-                <span :style="{fontWeight: 'bolder'}">Enviar</span>
-                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
-            </b-button>
+            <b-button @click="preview()" v-if="formControl > 1" variant="primary">Anterior</b-button>
+            <b-button @click="next()" v-if="formControl < 4" variant="primary">Próximo</b-button>
+            <div v-if="formControl === 4">
+                <b-button variant="danger" size="md" @click="ok()">
+                    <span :style="{fontWeight: 'bolder'}">Enviar</span>
+                    <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
+                </b-button>
+            </div>
+            
         </template>
 
         <form @submit.stop.prevent="formSubmited" >
             <b-container fluid>
+            
                 <b-row>
-                    <b-col>
+                    <b-col v-if="formControl === 1">
                         <p>
                             À Ilma. Sra. Presidente da Associação dos Policiais Civis de Carreira da Paraíba, VENHO, requerer a Vossa Senhoria deferimento da minha filiação nesta respeitada Associação, atendendo aos termos estatutários e legais.
                         </p>
-                    </b-col>
-                </b-row>
-
-                <b-row>
-                    <b-col>
                         <h5>
                             <b>Dados Pessoais</b>
                         </h5>
@@ -46,7 +47,7 @@
                         </b-form-group>
 
                         <b-row>
-                            <b-col lg="2">
+                            <b-col lg="3">
                                 <b-form-group label="DDD">
                                     <b-form-input type="text" v-model="form.personalInfo.nm_ddd"  placeholder="Apenas números" />
                                 </b-form-group>
@@ -101,6 +102,9 @@
                             </b-form-select>
                         </b-form-group>
 
+                    </b-col>
+                    <b-col v-if="formControl === 2">
+
                         <h5><b>Endereço</b></h5>
                         <hr />
 
@@ -151,10 +155,10 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
-                        
 
                     </b-col>
-                    <b-col>
+
+                    <b-col v-if="formControl === 3">
                         <h5><b>Profissão</b></h5>
                         <hr />
                         <b-form-group label="Cargo">
@@ -209,6 +213,8 @@
                             <b-form-input type="text" v-model="form.jobInfo.nm_municipality_work_unit" />
                         </b-form-group>
 
+                    </b-col>
+                    <b-col v-if="formControl === 4">
                         <h5><b>Dependentes</b></h5>
                         <hr />
 
@@ -228,22 +234,20 @@
                             </b-col>
                         </b-row>
 
-                         <b-row class="mt-4">
+                        <b-row class="mt-4">
                             <b-col>
                                 <b-table :fields="fields" :items="dependents" striped hover></b-table>
                             </b-col>
-                         </b-row>
+                        </b-row>
 
+                        <b-form-group label="Autorizar" class="mt-5">
+                            <b-form-checkbox v-model="form.st_confirmed" value="1" unchecked-value="0" required>
+                                Autorizo descontar a contribuição conforme estabelecido na alínea "c", do art. 4º, do estatuto social desta entidade, em folha de pagamento ou débito em conta bancária, bem como contribuições extraordinárias votadas em Assembléia em favor da Aspol/PB.
+                            </b-form-checkbox>
+                        </b-form-group>
 
                     </b-col>
                 </b-row>
-
-                <b-form-group label="Autorizar">
-                    <b-form-checkbox v-model="form.st_confirmed" value="1" unchecked-value="0" required>
-                        Autorizo descontar a contribuição conforme estabelecido na alínea "c", do art. 4º, do estatuto social desta entidade, em folha de pagamento ou débito em conta bancária, bem como contribuições extraordinárias votadas em Assembléia em favor da Aspol/PB.
-                    </b-form-checkbox>
-                </b-form-group>
-
 
             </b-container>
         </form>
@@ -263,6 +267,7 @@
 
         data() {
             return {
+                formControl: 1,
                 form: {
                     personalInfo: {
                         nu_registration: '',
@@ -388,8 +393,9 @@
                     if (res.status === 200) {
 
                         if (res.data.result.error) {
-                            this.errors.push(res.data.result.error)
-                            this.visibility = true
+                            this.errors = res.data.result;
+                            this.$refs.error.$refs['modal-error'].show()
+                           
                         }else {
                             this.dependents.forEach(item => {
 
@@ -404,9 +410,9 @@
                                         this.loading = false;
 
                                         if (res.data.result.error) {
-                                            this.$refs.error.$refs['modal-error'].show();
                                             this.errors = res.data.result;
-                                           
+                                            this.$refs.error.$refs['modal-error'].show()
+                                            window.console.log(res.data.result.error)
                                         } else {
                                             this.$refs['associated'].hide();
                                             alert('Dados enviados com successo.');
@@ -436,6 +442,18 @@
                 this.dependents.push(dependentList)
 
             },
+
+            next() {
+                if (this.formControl <= 4) {
+                    parseInt (this.formControl += 1)
+                }
+            },
+
+            preview() {
+                if (this.formControl > 1) {
+                    parseInt(this.formControl -= 1)
+                }
+            }
         }
         
     }

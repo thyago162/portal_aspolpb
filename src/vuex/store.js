@@ -23,7 +23,8 @@ export default new Vuex.Store({
         token: null,
         loggedIn: [],
         campaign: [],
-        visualIdentity: []
+        visualIdentity: [],
+        image: null
     },
 
     getters: {
@@ -93,6 +94,10 @@ export default new Vuex.Store({
 
         getVisualIdentity: state => {
             return state.visualIdentity;
+        },
+
+        getImage: state => {
+            return state.image;
         }
     },
     actions: {
@@ -268,7 +273,10 @@ export default new Vuex.Store({
                     commit('setVisualIdentity', res.data.result.visualIdentity)
                 }
             })
+        },
 
+        images({commit}, param) {
+            commit('setImages', param);
         }
     },
     mutations: {
@@ -343,6 +351,10 @@ export default new Vuex.Store({
 
         setVisualIdentity(state, payload) {
             state.visualIdentity = payload;
+        },
+
+        setImages(state, payload) {
+            state.image = payload
         }
 
     }

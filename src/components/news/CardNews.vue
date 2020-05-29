@@ -2,7 +2,7 @@
     <div class="card-news ml-1" @click="seeNews" >
         <b-card no-body img-right>
             <b-card-header :style="{width: '25%'}">
-                <b-img-lazy v-bind="mainProps" :src="image" height: auto></b-img-lazy>
+                <b-img-lazy v-bind="mainProps" :src="image" height: auto ></b-img-lazy>
             </b-card-header>
 
             <b-card-body :style="{width: '75%'}">
@@ -39,7 +39,7 @@
                     fluidGrow: true,
                     blank: true,
                     blankColor: '#bbb',
-                    class: 'card-news-image'
+                    class: 'img-thumbnail'
                 }
             }
         },

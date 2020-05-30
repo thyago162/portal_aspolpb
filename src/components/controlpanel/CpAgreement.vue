@@ -74,8 +74,8 @@
         data() {
             return {
                 fields: [
-                    {key: 'nm_title', label: 'Nome'},
-                    {key: 'nm_category', label: 'Categoria'},
+                    {key: 'nm_title', label: 'Nome', sortable: true},
+                    {key: 'nm_category', label: 'Categoria', sortable: true},
                     {key: 'edit', label: ''},
                     {key: 'remove', label: ''}
                 ],

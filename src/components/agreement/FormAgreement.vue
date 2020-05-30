@@ -115,7 +115,7 @@
                                 :id="item.id_agreement" 
                                 folder="public/agreement" 
                                 :path="item.nm_image_path" 
-                                size="150x120"
+                                size="150x150"
                             />
                             <span v-if="form.nm_image_path">
                                 {{form.nm_image_path | fileName }} 

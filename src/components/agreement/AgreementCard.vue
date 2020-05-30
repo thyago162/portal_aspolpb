@@ -152,8 +152,8 @@
     @media screen and (max-width: 500px) {
 
         .card-image {
-            width: 80px;
-            height: 70px;
+            max-width: 150px;
+            max-height: 150px;
         }
 
         .card-title {

@@ -59,7 +59,6 @@
                 ref="cropper"
                 :src="path"
                 alt="Imagem"
-                :aspect-ratio="16 / 9"
                 preview=".preview"
             ></vue-cropper>
         </b-col>
@@ -157,6 +156,7 @@
                 };
 
                 reader.readAsDataURL(file);
+                window.console.log(file)
                 this.$store.dispatch('images', file)
 
                 } else {

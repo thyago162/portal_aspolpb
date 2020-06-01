@@ -11,13 +11,14 @@
             <b-col cols="12">
                 <carousel :perPageCustom="customSlide" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
                     paginationColor="#000fff" :autoplayHoverPause="true" >
-                    <slide v-for="(item, index) in items" :key="index" >
-                        <div :style="{ backgroundImage: 'url('+ item.nm_image_path.replace('public','storage')+')'}" class="social-midia-image">
-                           
-                            <a @click="redirectTo(item.nm_link)" class="link" >
-                                {{item.nm_title}}
-                            </a>
+                    <slide v-for="(item, index) in items" :key="index" class="mr-2" >
+                        <div class="social-network-image">
+                            <b-img fluid :src="item.nm_image_path" class="mr-4"></b-img>
                         </div>
+                        <div >
+                            <a class="link" @click="redirectTo(item.nm_link)">{{item.nm_title}}</a>
+                        </div>
+                   
                     </slide>
                 </carousel>
             </b-col>
@@ -80,38 +81,12 @@
         margin-top: 10px;
     }
 
-    .social-midia-image {
-        height: 250px;
-        max-height: 250px;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50% 50%;
-        background-position: center;
-        display: flex;
-        flex-direction: row;
-        justify-content:space-between;
-        align-items: baseline;
-        margin-right: 10px;
-        margin-top: 10px;
+    .link {
+        color: #000;
     }
 
     h5 {
         margin-top: 10px;
-    }
-
-    .link {
-        width: 320px;
-        background-color: rgba(24, 23, 23, 0.719);
-        color: #fff;
-        font-weight: bolder;
-        font-size: 18px;
-        bottom: 0%;
-        position: absolute;
-        text-align: center;
-    }
-
-    .link:hover {
-        color: red;
     }
 
     @media screen and (max-width: 1400px) {
@@ -169,8 +144,8 @@
             margin-right: 1px;
         }
 
-        .social-midia-image {
-            margin-right: 0px;
+        .social-network-image {
+            max-height: 200px;
         }
         
     }

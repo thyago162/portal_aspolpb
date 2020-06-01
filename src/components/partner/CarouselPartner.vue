@@ -2,9 +2,9 @@
    <div class="partners mb-3">
        <carousel :perPageCustom="customSlide" :autoplay="true" :autoplayTimeout="4000" 
         paginationColor="#cccccc" :autoplayHoverPause="true"> 
-           <slide v-for="(partner, index) in partners" :key="index">
-               <b-img fluid :src="partner.nm_image_path" 
-                class="ml-5 image-partner" @click="openLink(partner.nm_link)"></b-img>
+           <slide v-for="(agreement, index) in agreements" :key="index">
+               <b-img fluid :src="agreement.nm_image_path" 
+                class="ml-5 image-partner" @click="openLink(agreement.nm_link)"></b-img>
            </slide>
        </carousel>
    </div>
@@ -14,7 +14,7 @@
 
     export default {
 
-        props: ['partners'],
+        props: ['agreements'],
 
         data() {
             return {
@@ -45,8 +45,8 @@
     }
 
     .image-partner {
-        width: 200px;
-        max-height: 190px;
+        max-width: 150px;
+        max-height: 150px;
     }
 
     @media screen and (max-width: 1200px){

@@ -246,7 +246,7 @@
             save() {
                
                let form = this.fillForm()
-
+               
                 this.$http.post('agreement',form, {
                     headers: {
                         Authorization: 'Bearer '+this.token,
@@ -276,6 +276,16 @@
             },
 
             fillForm() {
+               
+                let image = null;
+                let crop = this.$store.getters.getCropImage;
+
+                if (crop) {
+                    image = crop;
+                }else {
+                    image = this.file
+                }
+
                 let form = new FormData();
                 form.append('id_agreement', this.form.id_agreement);
                 form.append('nm_title',this.form.nm_title);
@@ -292,7 +302,7 @@
                 form.append('nm_neighbohood', this.form.nm_neighbohood);
                 form.append('nm_complement',this.form.nm_complement);
                 form.append('nm_uf',this.form.nm_uf);
-                form.append('file', this.file);
+                form.append('file', image);
                 form.append('doc', this.doc);
                 form.append('has_address', this.address);
 
@@ -340,7 +350,8 @@
                 let formData = new FormData()
 
                 formData.append('table', 'agreements');
-                formData.append('field', 'nm_image_path')
+                formData.append('update_field', 'nm_image_path');
+                formData.append('where_field','id_agreement');
                 formData.append('id', this.form.id_agreement);
                 formData.append('image_path', this.form.nm_image_path);
                 formData.append('folder', 'public/agreement');

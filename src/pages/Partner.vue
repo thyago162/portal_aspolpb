@@ -9,7 +9,7 @@
         </b-row>
         <b-row>
             <b-col lg="12">
-                <carousel-partner :partners="partners"  />
+                <carousel-partner :agreements="agreement"  />
             </b-col>
         </b-row>
     </b-container>
@@ -23,15 +23,16 @@
             CarouselPartner
         },
 
-        mounted() {
-            this.$store.dispatch('partners')
+        created() {
+            window.console.log('chmou')
+            this.$store.dispatch('agreement')
         },
 
         computed: {
-            partners() {
-                return this.$store.getters.getPartners;
+            agreement() {
+                return this.$store.getters.getAgreement;
             }
-        }
+        },
         
     }
 </script>

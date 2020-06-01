@@ -24,7 +24,8 @@ export default new Vuex.Store({
         loggedIn: [],
         campaign: [],
         visualIdentity: [],
-        image: null
+        image: null,
+        cropImg: null
     },
 
     getters: {
@@ -98,6 +99,10 @@ export default new Vuex.Store({
 
         getImage: state => {
             return state.image;
+        },
+
+        getCropImage: state => {
+            return state.cropImg;
         }
     },
     actions: {
@@ -277,6 +282,11 @@ export default new Vuex.Store({
 
         images({commit}, param) {
             commit('setImages', param);
+        },
+
+        cropImage({commit}, param) {
+            commit('setCropImage', param);
+
         }
     },
     mutations: {
@@ -355,6 +365,10 @@ export default new Vuex.Store({
 
         setImages(state, payload) {
             state.image = payload
+        },
+
+        setCropImage(state, payload) {
+            state.cropImg = payload
         }
 
     }

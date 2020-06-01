@@ -23,7 +23,7 @@
                 <b-button variant="info" @click.prevent="getData" >Dimensão da imagem</b-button>
                 <b-button variant="info" @click.prevent="getCropBoxData"> Dimensões selecionada</b-button>
                 <b-button variant="info" @click.prevent="reset">Resetar</b-button>
-                <b-button variant="info" @click.prevent="cropImage">Selecionar</b-button>
+                <b-button variant="success" @click.prevent="cropImage">Selecionar</b-button>
             </b-button-group>
         </div>
       </b-col>
@@ -31,20 +31,25 @@
     </b-row>
 
     <b-row v-if="file" class="mt-3">
-        <span >{{file.name}} <b-button size="sm" variant="default" @click="resetFields()"> <b-icon icon="trash" variant="danger" /> </b-button> </span>
+        <span >{{file.name}} 
+            <b-button size="sm" variant="default" @click="resetFields()"> <b-icon icon="trash" variant="danger" /> </b-button> 
+        </span>
     </b-row>
 
     <b-row class="mt-3" v-if="data != null" :style="{backgroundColor: '#cccccc'}">
 
         <b-col>
             <h5 class="mt-2">Dimensões</h5>
-            <p>Comprimento: {{Math.round(data.width)}}px</p>
-            <p>Altura: {{Math.round(data.height)}}px</p>
+            <b-form-group label="Comprimento">
+                <input type="text" v-model="data.width"  />
+            </b-form-group>
+            <b-form-group label="Altura">
+                <input type="text" v-model="data.height"  />
+            </b-form-group>
         </b-col>
         <b-col>
-            <h5 class="mt-2">Eixos</h5>
-            <p>X: {{Math.round(data.x)}}</p>
-            <p>Y: {{Math.round(data.y)}}</p>
+            <h6 class="mt-4">Alterar tamanho da área selecionada</h6>
+            <b-button variant="info" @click.prevent="setCropBoxData">Alterar</b-button>
         </b-col>
     </b-row>
 
@@ -86,7 +91,6 @@
             'folder',
             'id',
             'size',
-
         ],
         
         components: {
@@ -110,14 +114,16 @@
 
         methods: {
             cropImage() {
-                 let vm = this
+                
+                let vm = this
                 // get image data for post processing, e.g. upload or setting image src
                 this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
                 this.$refs.cropper.getCroppedCanvas().toBlob(function (blob) {
                     vm.file = new File([blob], 'arquivo')
+                    vm.$store.dispatch('cropImage', vm.file)
                 },'image/jpeg')
                 
-                this.$store.dispatch('images', vm.file)
+                
             },
             getCropBoxData() {
                 this.data = this.$refs.cropper.getCropBoxData();
@@ -135,6 +141,16 @@
             },
             reset() {
                 this.$refs.cropper.reset();
+            },
+
+            setCropBoxData() {
+                if (!this.data) {
+                    return;
+                }
+                let data = JSON.stringify(this.data);
+                window.console.log(data)
+
+                this.$refs.cropper.setCropBoxData(JSON.parse(data));
             },
 
             setImage(e) {
@@ -156,7 +172,6 @@
                 };
 
                 reader.readAsDataURL(file);
-                window.console.log(file)
                 this.$store.dispatch('images', file)
 
                 } else {

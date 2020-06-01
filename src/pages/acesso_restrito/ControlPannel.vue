@@ -21,11 +21,6 @@
                         <h4>INSTITUCIONAL</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-partner>
-                        <font-awesome-icon icon="handshake" size="2x" class="icon alt"/>
-                        <h4>PARCEIROS</h4> 
-                    </b-button>
-
                     <b-button class="control-panel-btn" variant="secondary" v-b-modal.cp-agreement >
                         <font-awesome-icon icon="file" size="2x" class="icon alt"/>
                         <h4> CONVÊNIOS</h4>
@@ -36,12 +31,17 @@
                         <h4>ASSOCIADOS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-social-network >
+                    <b-button class="control-panel-btn" variant="danger" v-b-modal.cp-social-network >
                         <font-awesome-icon icon="tv" size="2x" class="icon alt"/>
                         <h4>MIDIAS SOCIAIS</h4>
                     </b-button>
 
-                    <b-button class="control-panel-btn" variant="success" v-b-modal.cp-file >
+                    <b-button class="control-panel-btn" variant="danger" disabled>
+                        <b-icon icon="card-list" class="h4 mb-2"></b-icon>
+                        <h4>PESQUISAS</h4>
+                    </b-button>
+
+                    <b-button class="control-panel-btn" variant="warning" v-b-modal.cp-file >
                         <div class="h3">
                             <b-icon icon="folder-fill" size="2x" class="icon alt"/>
                         </div>

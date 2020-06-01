@@ -11,14 +11,16 @@
             <b-col cols="12">
                 <carousel :perPageCustom="customSlide" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
                     paginationColor="#000fff" :autoplayHoverPause="true" >
-                    <slide v-for="(item, index) in items" :key="index" class="mr-2" >
+                    <slide v-for="(item, index) in items" :key="index" class="mr-2"  >
                         <div class="social-network-image">
-                            <b-img fluid :src="item.nm_image_path" class="mr-4"></b-img>
+                            <b-row>
+                                <b-col>
+                                    <b-img fluid :src="item.nm_image_path"  :fluid-grow="true" class="mr-4"></b-img>
+                                </b-col>
+                            </b-row>
                         </div>
-                        <div >
-                            <a class="link" @click="redirectTo(item.nm_link)">{{item.nm_title}}</a>
-                        </div>
-                   
+                        <a class="link" @click="redirectTo(item.nm_link)">{{item.nm_title}}</a>
+                     
                     </slide>
                 </carousel>
             </b-col>
@@ -66,6 +68,18 @@
         border-bottom: 3px solid rgb(189,22,34);
         margin-top: 20px;
         margin-left: 10px;
+    }
+
+    .social-network-image {
+        height: 252px;
+        max-height: 252px;
+    }
+
+    img {
+        max-height: 250px;
+        height: 250px;
+        object-fit: cover;
+        object-position:initial;
     }
 
     .social-midia-title {
@@ -145,7 +159,9 @@
         }
 
         .social-network-image {
-            max-height: 200px;
+            max-height: 150px;
+            object-fit: cover;
+            object-position: bottom;
         }
         
     }

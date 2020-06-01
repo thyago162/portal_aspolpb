@@ -70,6 +70,8 @@
     .card-image {
         width: 150px;
         height: 150px;
+        object-fit: cover;
+        object-position: center;
     }
 
     @media screen and (max-width: 1100px) {

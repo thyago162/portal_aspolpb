@@ -39,7 +39,7 @@
                     fluidGrow: true,
                     blank: true,
                     blankColor: '#bbb',
-                    class: 'img-thumbnail'
+                    class: 'img-thumbnail card-news-image'
                 }
             }
         },
@@ -73,7 +73,9 @@
     }
 
     .card-news-image {
-        max-height: 100px;
+       object-fit: cover;
+       object-position: center;
+       max-height: 112px;
     }
 
     .card-news-icon {

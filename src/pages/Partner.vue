@@ -24,7 +24,6 @@
         },
 
         created() {
-            window.console.log('chmou')
             this.$store.dispatch('agreement')
         },
 

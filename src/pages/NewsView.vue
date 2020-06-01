@@ -39,7 +39,7 @@
 
                         <b-row class="mt-2" :style="{display: 'flex', flexDirection: 'row', justifyContent: 'center'}">
                             <b-col lg="8" >
-                                <div class="cel-image-container mt-3 cell-image" >
+                                <div class="cel-image-container mt-3 cell-image " >
                                     <b-img :src="image" class="cel-image"  fluid></b-img>
                                 </div>
                             </b-col>
@@ -139,7 +139,7 @@
 <style scoped>
 
     .news-image {
-        width: 400px;
+        max-height: 400px;
     }
 
     .align-content {

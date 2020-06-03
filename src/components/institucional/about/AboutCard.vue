@@ -1,6 +1,6 @@
 <template>    
     <b-card class="mt-4" img-left :style="{width: '500px'}">
-        <template v-slot:header v-if="image != ''">
+        <template v-slot:header v-if="image != null">
             <b-img-lazy :src="image" class="card-image" fluid />
         </template>
         <b-card-title class="card-title" v-if="name">

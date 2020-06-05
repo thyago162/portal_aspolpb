@@ -113,7 +113,10 @@
     }
 
     .image-header {
-        height: 140px;
+        width: 120px;
+        max-height: 112px;
+        object-fit: cover;
+        object-position: center;
     }
 
     @media screen  and (max-width: 414px){

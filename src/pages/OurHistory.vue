@@ -11,7 +11,9 @@
                 <b-button variant="warning" class="mt-2" :style="{float: 'right'}" v-if="administrator == 1">
                     <b-icon icon="pencil" v-b-modal.form-history></b-icon>
                 </b-button>
-                <div v-html="ourHistory.nm_content" class="mt-3"></div>
+                <b-media class="mt-5 content">
+                    <div v-html="ourHistory.nm_content" class="mt-3"></div>
+                </b-media>
             </b-col>
         </b-row>
         <FormHistory :item="ourHistory" />
@@ -47,6 +49,17 @@
 <style scoped>
     h5 {
         margin-top: 10px;
+    }
+
+    .content >>> p {
+        text-align: justify;
+    }
+    .content >>> img {
+        width: 100%;
+        height: 700px;
+        object-fit: contain;
+        object-position: center;
+        
     }
 
 </style>

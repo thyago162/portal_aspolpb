@@ -69,20 +69,59 @@
                         </b-link>
 
                     </b-nav-item>
-                    <b-nav-item >
-                        <b-button size="sm" class="personal-btn associated" v-b-modal.associated-form>
+                    <b-nav-item v-if="token != null" >
+                        <b-button size="sm" class="personal-btn associated" v-b-modal.associated-form >
                             <span>ASSOCIE-SE</span>
                         </b-button>
                     </b-nav-item>
 
-                    <b-nav-item  v-if="token == null" >
-                        <b-button size="sm" class="personal-btn " v-b-modal.auth>
-                            <span>
-                                AREA RESTRITA
-                                <b-icon icon="lock-fill" />
-                            </span>
-                        </b-button>
-                    </b-nav-item>
+                    <b-nav-item-dropdown v-if="token == null" no-caret>
+                        <template v-slot:button-content>
+                            <b-button size="sm" class="personal-btn" >
+                                <span>
+                                    AREA RESTRITA
+                                    <b-icon icon="lock-fill"></b-icon>
+                                </span>
+                            </b-button>
+                        </template>
+                        <b-dropdown-item>
+                           <b-link class="personal-link"  v-b-modal.auth>
+                               <b-icon icon="person-fill"></b-icon>
+                               LOGIN
+                           </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item  >
+                            <b-link class="personal-link"  disabled> 
+                                <b-icon icon="eye-fill"></b-icon>
+                                TRANSPARÊNCIA </b-link>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item >
+                            <b-link class="personal-link"  disabled>
+                                <b-icon icon="chat-fill"></b-icon>
+                                SUGESTÕES
+                            </b-link>
+                        </b-dropdown-item>
+
+                        <b-dropdown-item >
+                            <b-link class="personal-link"  disabled>
+                                <b-icon icon="tag-fill"></b-icon>
+                                ACESSORIA JURÍDICA
+                            </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item  >
+                            <b-link class="personal-link"  disabled>
+                                <b-icon icon="folder-fill" ></b-icon>
+                                 ARQUIVOS
+                            </b-link>
+                        </b-dropdown-item>
+                        <b-dropdown-item  >
+                            <b-link class="personal-link" disabled>
+                                <b-icon icon="pie-chart-fill" ></b-icon>
+                                RELATÓRIOS
+                            </b-link>
+                        </b-dropdown-item>
+                    </b-nav-item-dropdown>
 
                      <b-nav-item-dropdown v-else no-caret>
                         <template v-slot:button-content>
@@ -95,7 +134,7 @@
                         </template>
                         <b-dropdown-item  >
                             <b-link class="personal-link" :to="{name: 'transparencia'}"> 
-                                <b-icon icon="book-half-fill"></b-icon>
+                                <b-icon icon="eye-fill"></b-icon>
                                 TRANSPARÊNCIA </b-link>
                         </b-dropdown-item>
 
@@ -233,6 +272,7 @@
 
     .personal-link:hover {
         font-weight: bolder;
+        color: rgb(189,22 , 34);
     }
 
     .personal-btn {

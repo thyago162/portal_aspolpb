@@ -138,6 +138,24 @@
 
 <style scoped>
 
+    .content >>> p {
+        text-align: justify;
+    }
+
+    .content >>> blockquote {
+        display: block;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    .content >>> img {
+        object-fit: contain;
+        max-height: 600px;
+        max-width: 600px;
+    }
+
     .news-image {
         max-height: 400px;
     }

@@ -11,6 +11,11 @@
             </b-col>
         </b-row>
 
+        <div v-show="loading" class="mt-5">
+            <span>Carregando...</span>
+            <b-spinner label="Spinning" ></b-spinner>
+        </div>
+        <p v-if="size  == 0 && loading == false" class="mt-3">Não foi encontrado nenhum resultado.</p>    
         <b-row class="mt-2">
             <b-col>
                <div v-for="(result, index) in results" :key="index" class="mt-3 mb-4" >
@@ -24,7 +29,7 @@
                            </b-card-text>
                        </b-card-header>
                        <b-card-body >
-                           <b-media v-if="value.nm_content">
+                           <b-media v-if="value.nm_content" class="content">
                                <p v-html="value.nm_content"></p>
                            </b-media>
                        </b-card-body>
@@ -48,24 +53,31 @@
         computed: {
             text: function() {
                 return this.$route.params.search
+            },
+            
+            size: function() {
+                return this.results.length;
             }
         },
 
         data() {
             return {
                 results: [],
-                details: false
+                details: false,
+                loading: false
 
             }
         },
 
         methods: {
             search() {
+                this.loading = true;
                 let form = new FormData();
                 form.append('search', this.text);
 
                 this.$http.post('search', form)
                 .then(res => {
+                    this.loading = false;
                     if (res.status === 200) {
                         this.results = res.data.result
                     }
@@ -78,6 +90,15 @@
 </script>
 
 <style scoped>
+    .content >>> p {
+        text-align: justify;
+    }
+
+    .content >>> img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+    }
     .search {
         width: 99%;
     }

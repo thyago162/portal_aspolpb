@@ -7,10 +7,10 @@
             {{name}}
         </b-card-title>
         <b-card-text class="card-text" v-if="office">
-            <span :style="{fontWeight: 'bolder'}">Cargo: </span>{{office}}
+            <span :style="{fontWeight: 'bolder'}"></span>{{office}}
         </b-card-text>
         <b-card-text v-if="ddd">
-            <span :style="{fontWeight: 'bolder'}">Telefone: </span>
+            <span :style="{fontWeight: 'bolder'}"></span>
             ({{ddd}}) {{phone}}
 
         </b-card-text>

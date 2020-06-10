@@ -12,11 +12,12 @@
                 v-model="file"
                 :state="Boolean(file)"
                 placeholder="Escolha uma imagem..."
+                id="file"
             />
             <span :style="{fontSize: '10px'}">Tamanho recomendado: {{size}}</span>
         </b-form-group>
         
-        <div class="ml-5">
+        <div  class="ml-2">
              <b-button-group size="sm">
                 <b-button variant="info"  @click.prevent="zoom(0.2)" > + Zoom</b-button>
                 <b-button variant="info" @click.prevent="zoom(-0.2)">- Zoom</b-button>

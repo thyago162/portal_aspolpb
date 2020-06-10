@@ -10,8 +10,7 @@
                 
                 <div class="options" v-if="isLoged != null">
 
-                    <b-button class="control-panel-btn" v-b-modal.cp-news 
-                        variant="primary"  >
+                    <b-button class="control-panel-btn" variant="primary"  @click="cpOption('cp-news')">
                         <font-awesome-icon icon="newspaper" class="icon alt" size="2x"/>
                         <h4>NOTÍCIAS</h4> 
                     </b-button>
@@ -61,7 +60,6 @@
             </b-col>
         </b-row>
 
-        <CpNews />
         <CpPartner />
         <CpUser />
         <CpInstitucional />
@@ -73,7 +71,6 @@
 </template>
 
 <script>
-    import CpNews from '../../components/controlpanel/CpNews';
     import CpPartner from '../../components/controlpanel/cpPartner';
     import CpUser from '../../components/controlpanel/CpUser';
     import CpInstitucional from '../../components/controlpanel/CpInstitucional';
@@ -84,7 +81,6 @@
 
     export default {
         components: {
-            CpNews,
             CpPartner,
             CpUser,
             CpInstitucional,
@@ -97,6 +93,12 @@
         computed: {
             isLoged: function() {
                 return this.$store.getters.getToken;
+            }
+        },
+
+        methods: {
+            cpOption() {
+                this.$router.push({name: 'table-news'})
             }
         }
         

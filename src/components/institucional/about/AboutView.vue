@@ -9,7 +9,7 @@
 
         <b-row>
             <b-col class="mt-3">
-                <b-table :fields="fields" :items="about">
+                <b-table :fields="fields" :items="about" id="about-table" :per-page="perPage" :current-page="currentPage">
                     <template v-slot:cell(edit)="row">
                         <b-button @click="edit(row.item)" size="sm" v-b-modal.about-form variant="info">
                             <b-icon icon="pen"></b-icon>
@@ -24,6 +24,14 @@
 
                     </template>
                 </b-table>
+                <b-pagination 
+                    v-model="currentPage" 
+                    :total-rows="rows" 
+                    :per-page="perPage" 
+                    aria-controls="about-table"
+                    align="center"
+                >
+                </b-pagination>
             </b-col>
         </b-row>
         <AboutForm :about="this.item"/>
@@ -48,6 +56,10 @@
                 return this.$store.getters.getAbout;
             },
 
+            rows: function() {
+                return this.about ? this.about.length : 0
+            },
+
             token: function() {
                 return this.$store.getters.getToken;
             }
@@ -67,6 +79,8 @@
                 ],
                 item: [],
                 errors: [],
+                currentPage: 1,
+                perPage: 5,
                 loading: false,
             }
         },

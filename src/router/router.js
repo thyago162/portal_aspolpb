@@ -16,6 +16,9 @@ import Suggestion from '../pages/acesso_restrito/Suggestion';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
 import ControlPannel from '../pages/acesso_restrito/ControlPannel';
+import CpNews from '../pages/acesso_restrito/CpNews';
+import TableNews from '../components/news/TableNews';
+import FormNews from '../components/news/FormNews';
 import Dashboard from '../pages/acesso_restrito/Dashboard';
 import Search from '../pages/Search';
 import NotFound from '../pages/error/NotFound';
@@ -111,7 +114,22 @@ export default new Router({
         {
             path: '/acesso-restrito/painel-de-controle',
             component: ControlPannel,
-            name: 'cp'
+            name: 'cp',
+        },
+        {
+            path: '/acesso-restrito/painel-de-controle/noticias',
+            component: CpNews,
+            name: 'cp-news',
+            children: [{
+                path: 'painel',
+                component: TableNews,
+                name: 'table-news'
+            },{
+                path: 'formulario/:id',
+                component: FormNews,
+                name: 'form-news',
+                props: { default: true, sidebar: false} 
+            }]
         },
         {
             path: '/buscar/:search',

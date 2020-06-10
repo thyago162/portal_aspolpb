@@ -4,7 +4,7 @@
             <b-container>
                 <b-row>
                     <b-col class="footer-head">
-                        <span class="ml-5" >Siga a Aspol tambêm nas redes sociais</span>
+                        <span  >Siga a Aspol nas redes sociais</span>
                         <div class="block-icon ml-2 mr-2">
                             <a class="mt-1">
                                 <font-awesome-icon :icon="['fab', 'instagram']" 
@@ -19,8 +19,6 @@
                                     class="icon alt personal-icons" />  
                             </a>
                         </div>
-                        
-                        
                         
                     </b-col>
                 </b-row>
@@ -61,7 +59,7 @@
     
                 <b-row>
                     <b-col class="address-footer">
-                        <p>Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - Bancários</p>
+                        <p>Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - Bancários, (83) 3506-3429</p>
                         <p>João Pessoa - PB, 58053-110</p>
                     </b-col>
                 </b-row>
@@ -83,7 +81,6 @@
     .footer {
         background-color: rgb(42, 44, 44);
         color: white;
-        font-weight: bold;
         font-family: 'Roboto', sans-serif;
     }
 
@@ -108,14 +105,13 @@
     
     .personal-link {
         color: #ffffff;
-        font-weight: bolder;
         font-size: 16px;
     }
 
     .menu-footer {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-start;
         margin-top: 50px;
         text-align: center;
     }
@@ -130,7 +126,6 @@
     .personal-link-option {
         color: #ffffff;
         font-size: 14px;
-        font-weight:normal;
     }
 
     .block-icon {

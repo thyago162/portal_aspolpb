@@ -26,7 +26,7 @@
             <b-row class="mt-2" :style="{display: 'flex', flexDirection: 'row', justifyContent: 'center'}">
                 <b-col lg="8" >
                     <div class="cel-image-container mt-3 cell-image" >
-                        <b-img :src="url" class="cel-image"  fluid></b-img>
+                        <b-img :src="path" class="cel-image"  fluid></b-img>
                     </div>
                 </b-col>
             </b-row>
@@ -38,7 +38,7 @@
                     </div>
                 </b-col>
             </b-row>
-                        
+            
         </b-media>
     </b-card>
 </template>
@@ -54,12 +54,6 @@
             'image',
             'path'
         ],  
-
-        computed: {
-            url: function() {
-                return this.path ? this.path : this.image
-            }
-        }
     }
 </script>
 

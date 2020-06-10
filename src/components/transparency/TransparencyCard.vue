@@ -4,8 +4,7 @@
            <b-row>
                <b-col lg="7">
                     <b-card-title>
-                        <b>Gestão -</b> {{item.nm_management_name}}
-                        {{item.nu_start | date}} - {{item.nu_end | date}}
+                        {{item.nm_management_name}}
                     </b-card-title>
                </b-col>
                <b-col lg="2">
@@ -16,7 +15,7 @@
                     @click="setProps(item.id_transparency)">Adicionar documento</b-button>
                </b-col>
                <b-col lg="1">
-                   <b-button :style="{float: 'right'}" variant="warning">
+                   <b-button :style="{float: 'right'}" variant="warning" v-b-modal.new-management-form @click="edit(item)">
                        <b-icon icon="pencil"></b-icon>
                    </b-button>
                </b-col>
@@ -88,6 +87,7 @@
             </b-row>
         </b-card-body>
         <TransparencyFileForm :id="id"/>
+        
     </b-card>
 </template>
 
@@ -98,7 +98,7 @@
     export default {
 
         components: {
-            TransparencyFileForm
+            TransparencyFileForm,
         },
 
         props: ['item'],
@@ -110,6 +110,7 @@
                 start: '',
                 end: '',
                 files: [],
+                editItem: [],
                 showCertidoes: false,
                 showContabil: false,
                 showFinanceiro: false,
@@ -198,6 +199,10 @@
                 let year = date.split('-');
 
                 return parseInt(year[0]);
+            },
+
+            edit(item) {
+                this.editItem = item;
             }
         }
     }

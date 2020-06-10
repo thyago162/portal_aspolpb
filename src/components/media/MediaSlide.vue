@@ -4,38 +4,31 @@
             <slide v-for="(media, index) in medias" :key="index" class="mr-2" >
 
                 <div v-if="media.nu_type === 1">
-                    <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
-                    <h5>
+                    <b-link @click="redirectTo(media.nm_link)">
+                        <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
+                    </b-link>
+                    <h6 class="mt-1">
                         {{media.nm_title}}
-                    </h5>
-                    <span>
-                        <font-awesome-icon :icon="['fa', 'globe']" class="audio-play"  @click="redirectTo(media.nm_link)"/>
-                        Clique no ícone para visualizar...
-                    </span>
-                    <h5>{{media.dt_date | date}}</h5>
+                    </h6>
+                    <h6>{{media.dt_date | date}}</h6>
                 </div>
 
                 <div v-if="media.nu_type === 2"  >
                     <b-embed type="iframe"  :src="media.nm_link"></b-embed>
-                    <h5 class="mt-2">
+                    <h6 class="mt-2">
                         {{media.nm_subtitle}}
-                    </h5>
-                    <h5>{{media.dt_date | date}}</h5>
+                    </h6>
+                    <h6>{{media.dt_date | date}}</h6>
                 </div>
             
                 <div v-if="media.nu_type === 3" >
-                    
-                    <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
-                    <h5 class="mt-2">
+                    <b-link v-b-modal.play-sound @click="playSound(media.nm_audio_path)"> 
+                        <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
+                    </b-link>
+                    <h6 class="mt-2">
                         {{media.nm_subtitle}}
-                    </h5>
-                    
-                    <span>
-                        <font-awesome-icon :icon="['fa', 'headphones']" class="audio-play" 
-                        v-b-modal.play-sound @click="playSound(media.nm_audio_path)"  />
-                        Clique no ícone para começar a escutar...
-                    </span>
-                    <h5>{{media.dt_date | date}}</h5>
+                    </h6>
+                    <h6>{{media.dt_date | date}}</h6>
                 </div>
             </slide>
             
@@ -78,6 +71,13 @@
 </script>
 
 <style scoped>
+    .image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        object-position: center;
+    }
+
     span {
         font-size: 16px;
         font-weight: bolder;

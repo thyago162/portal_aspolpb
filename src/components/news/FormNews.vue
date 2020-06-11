@@ -1,8 +1,16 @@
 <template>
   <b-container fluid class="mb-3">
+    <b-row class="header-title">
+      <b-col class="title" lg="11">
+        <h5 class="mt-2">
+          <b-link class="navigation-link" :to="{name: 'cp-menu'}"> Painel de Controle</b-link>
+           / 
+          <b-link class="navigation-link" :to="{name: 'table-news'}"> Notícias </b-link> / Formulário</h5>
+      </b-col>
+    </b-row>
     <b-row class="mt-4 ml-5 mr-5">
       <b-col  v-show="!preview">
-        <h5>{{title}}</h5>
+       
         <form @submit.stop.prevent="formSubmited()" enctype="multipart/form-data" class="mt-3">
           <b-form-group label="Título">
             <b-form-input type="text" v-model="form.nm_title" required name="nm_title"></b-form-input>
@@ -13,7 +21,7 @@
           </b-form-group>
 
           <b-form-group label="Data">
-            <b-form-input type="date" v-model="form.dt_date" name="dt_date" required />
+            <b-form-datepicker id="form-news-data" v-model="form.dt_date" class="mb-2"></b-form-datepicker>
           </b-form-group>
 
           <b-form-group label="Destacar" class="ml-4">
@@ -333,12 +341,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-</style>

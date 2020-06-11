@@ -164,7 +164,7 @@
                             </b-link>
                         </b-dropdown-item>
                          <b-dropdown-item >
-                            <b-link class="personal-link" :to="{name:'cp'}" v-if="administrator === 1"> 
+                            <b-link class="personal-link" :to="{name:'cp-menu'}" v-if="administrator === 1"> 
                                 <b-icon icon="gear-fill"></b-icon>
                                 PAINEL DE CONTROLE
                             </b-link>

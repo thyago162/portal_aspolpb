@@ -132,8 +132,12 @@ export default new Vuex.Store({
             })
         },
 
-        about({commit}) {
-            axios.get('about')
+        about({commit}, id) {
+            if (typeof id == 'undefined') {
+                id = 1
+            }
+
+            axios.get('about?page='+id)
             .then(res => {
                 commit('setAbout',res.data.result.about);
             })

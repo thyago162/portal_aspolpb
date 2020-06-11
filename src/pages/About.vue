@@ -59,11 +59,14 @@
             
             getAbout(id) {
                 
-                this.$http('about/'+id)
+                this.$http('about/advice/'+id)
                 .then(res => {
                     if (res.status === 200) {
                        this.about = res.data.result
                     }
+                })
+                .catch(err => {
+                    window.console.log(err)
                 })
 
             }

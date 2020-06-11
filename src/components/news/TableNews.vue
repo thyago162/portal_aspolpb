@@ -1,8 +1,15 @@
 <template>
   <b-container fluid>
+   <b-row class="header-title">
+      <b-col class="title" lg="11">
+        <h5 class="mt-2">
+          <b-link class="navigation-link" :to="{name: 'cp-menu'}"> Painel de Controle</b-link>
+           / 
+          Notícias</h5>
+      </b-col>
+    </b-row>
     <b-row class="mt-5 ml-5 mr-5">
       <b-col>
-
         <b-row>
           <b-col>
             <b-input-group>
@@ -26,62 +33,59 @@
         </b-row>
 
         <b-row class="mt-3">
-            <b-col>
+          <b-col>
             <b-table
-                :fields="fields"
-                :items="news.data"
-                striped
-                hover
-                :per-page="perPage"
-                :current-page="currentPage"
-                id="table-news"
+              :fields="fields"
+              :items="news.data"
+              striped
+              hover
+              :per-page="perPage"
+              :current-page="currentPage"
+              id="table-news"
             >
-                <template v-slot:cell(edit)="row">
+              <template v-slot:cell(edit)="row">
                 <b-button
-                    size="sm"
-                    @click="$router.push({name: 'form-news', params: {id: row.item.id_news}})"
-                    variant="info"
-                    v-b-modal.form-news
-                    class="ml-1"
+                  size="sm"
+                  @click="$router.push({name: 'form-news', params: {id: row.item.id_news}})"
+                  variant="info"
+                  v-b-modal.form-news
+                  class="ml-1"
                 >
-                    <b-icon icon="pen"></b-icon>
+                  <b-icon icon="pen"></b-icon>
                 </b-button>
-                </template>
+              </template>
 
-                <template v-slot:cell(delete)="row">
+              <template v-slot:cell(delete)="row">
                 <b-button size="sm" @click="deleteNews(row.item.id_news)" variant="danger">
-                    <b-icon icon="trash"></b-icon>
+                  <b-icon icon="trash"></b-icon>
                 </b-button>
-                </template>
+              </template>
 
-                <template v-slot:cell(dt_date)="row">{{row.item.dt_date | date }}</template>
+              <template v-slot:cell(dt_date)="row">{{row.item.dt_date | date }}</template>
 
-                <template v-slot:cell(st_active)="row">
+              <template v-slot:cell(st_active)="row">
                 <b-icon icon="circle-fill" v-if="row.item.st_active === 1" variant="success"></b-icon>
                 <b-icon icon="circle-fill" v-else variant="warning"></b-icon>
-                </template>
+              </template>
             </b-table>
 
             <div class="mt-3">
-                <b-pagination
+              <b-pagination
                 align="center"
                 v-model="news.current_page"
                 :total-rows="news.total"
                 :per-page="news.per_page"
                 aria-controls="table-news"
                 @input="getNews()"
-                ></b-pagination>
+              ></b-pagination>
             </div>
           </b-col>
-
         </b-row>
-
       </b-col>
     </b-row>
 
     <SessionOff ref="session" />
     <ModalError ref="error" :errors="errors" />
-
   </b-container>
 </template>
 
@@ -147,7 +151,6 @@ export default {
   },
 
   methods: {
-
     deleteNews(id) {
       if (confirm("Deseja realmente exluir?")) {
         this.$http

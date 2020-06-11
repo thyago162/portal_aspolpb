@@ -23,3 +23,20 @@ body {
     flex-direction: row;
 }
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-link {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.navigation-link:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+

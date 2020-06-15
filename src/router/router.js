@@ -12,19 +12,28 @@ import VisualIdentity from '../pages/VisualIdentity';
 import Contact from '../pages/Contact';
 import MediaView from '../pages/MediaView';
 import RestrictAccess from '../pages/acesso_restrito/RestrictAccess';
-import CpMenu from '../pages/acesso_restrito/CpMenu';
 import File from '../pages/acesso_restrito/File';
 import Suggestion from '../pages/acesso_restrito/Suggestion';
 import JuryAccessory from '../pages/acesso_restrito/JuryAccessory';
 import Transparency from '../pages/acesso_restrito/Transparency';
-import ControlPannel from '../pages/acesso_restrito/ControlPannel';
+import FormTransparency from '../components/transparency/NewManagementForm';
 import TableNews from '../components/news/TableNews';
 import FormNews from '../components/news/FormNews';
 import TableAbout from '../components/institucional/about/TableAbout';
 import FormAbout from '../components/institucional/about/FormAbout';
+import TableAgreement from '../components/agreement/TableAgreement';
+import FormAgreement from '../components/agreement/FormAgreement';
+import TableAssociated from '../components/associated/TableAssociated';
+import FormAssociated from '../components/associated/FormAssociated';
+import TableMedia from '../components/media/TableMedia';
+import FormMedia from '../components/media/FormMedia';
+import TableFile from '../components/file/TableFile';
+import FormFile from '../components/file/FormFile';
+import TableUser from '../components/user/TableUser';
 import Dashboard from '../pages/acesso_restrito/Dashboard';
 import Search from '../pages/Search';
 import NotFound from '../pages/error/NotFound';
+
 
 
 Vue.use(Router);
@@ -85,6 +94,12 @@ export default new Router({
             name: 'midia-view'
         },
         {
+            path: '/associados/formulario/:id',
+            component: FormAssociated,
+            name: 'form-associated',
+            props: { default: true, sidebar: false}
+        },
+        {
             path: '/acesso-restrito',
             component: RestrictAccess,
             redirect: '/acesso-restrito/arquivos',
@@ -104,38 +119,70 @@ export default new Router({
                 path: 'transparencia',
                 component: Transparency,
                 name: 'transparencia'
+            },
+            {
+                path: 'transparencia/gestao/:id',
+                component: FormTransparency,
+                name: 'form-transparency'
+            },
+            {
+                path: 'noticias/painel',
+                component: TableNews,
+                name: 'table-news'
+            },{
+                path: 'noticias/formulario/:id',
+                component: FormNews,
+                name: 'form-news',
+                props: { default: true, sidebar: false}
+            },
+            {
+                path: 'institucional/painel',
+                component: TableAbout,
+                name: 'table-about'
             }, {
-                path: 'relatorios',
+                path: 'institucional/formulario/:id',
+                component: FormAbout,
+                name: 'form-about'
+            }, {
+                path: 'convenios/painel',
+                component: TableAgreement,
+                name: 'table-agreement'
+            }, {
+                path: 'convenios/formulario/:id',
+                component: FormAgreement,
+                name: 'form-agreement',
+                props: { default: true, sidebar: false}
+            }, {
+                path: 'associados/painel',
+                component: TableAssociated,
+                name: 'table-associated'
+            }, {
+                path: 'midias-sociais/painel',
+                component: TableMedia,
+                name: 'table-media'
+            }, {
+                path: 'midias-sociais/formulario/:id',
+                component: FormMedia,
+                name: 'form-media',
+                props: { default: true, sidebar: false}
+            }, {
+                path: 'arquivos/painel',
+                component: TableFile,
+                name: 'table-file'
+            }, {
+                path: 'arquivos/formulario/:id',
+                component: FormFile,
+                name: 'form-file',
+                props: { default: true, sidebar: false}
+            }, {
+                path: 'usuarios/painel',
+                component: TableUser,
+                name: 'table-user'
+            }, {
+                path: 'relatórios',
                 component: Dashboard,
-                name: 'relatorios'
-            }, {
-                path: 'painel-de-controle',
-                component: ControlPannel,
-                redirect: '/acesso-restrito/painel-de-controle/menu',
-                name: 'cp',
-                children: [{
-                    path: 'menu',
-                    component: CpMenu,
-                    name: 'cp-menu'
-                }, {
-                    path: 'noticias/painel',
-                    component: TableNews,
-                    name: 'table-news'
-                }, {
-                    path: 'noticias/formulario/:id',
-                    component: FormNews,
-                    name: 'form-news',
-                    props: { default: true, sidebar: false}
-                }, {
-                    path: 'institucional/painel',
-                    component: TableAbout,
-                    name: 'table-about'
-                }, {
-                    path: 'institucional/formlurario/:id',
-                    component: FormAbout,
-                    name: 'form-about'
-                }]
-            }]
+                name: 'dashboard'
+            },]
         },
         {
             path: '/buscar/:search',

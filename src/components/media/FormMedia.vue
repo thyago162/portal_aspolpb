@@ -1,293 +1,220 @@
 <template>
-    <b-modal id="form-media" ref="media" title="Novo item" size="lg" 
-        header-bg-variant="success" header-text-variant="light"
-            @ok="handleOk" ok-title="Salvar" ok-only @hide="resetErrors">
-        
-         <template v-slot:modal-footer="{ok}">
-             <b-button variant="danger" size="md" @click="ok()">
-                <span :style="{fontWeight: 'bolder'}">Salvar</span>
-                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
-            </b-button>
-        </template>
-
+  <b-container fluid class="mb-3">
+    <b-row class="header-title">
+      <b-col class="title" lg="11">
+        <h5 class="mt-2">
+          <b-link class="navigation-link" :to="{name: 'cp-menu'}">Painel de Controle</b-link>/
+          <b-link class="navigation-link" :to="{name: 'table-media'}">Midias</b-link>/ Formulário
+        </h5>
+      </b-col>
+    </b-row>
+    <b-row class="mt-3 ml-5 mr-5">
+      <b-col>
         <form @submit.stop.prevent="formSubmited" class="mb-2">
+          <b-form-group label="Tipo da notícia">
+            <b-form-radio-group
+              required
+              @input="selectedOption(form.nu_type)"
+              v-model="form.nu_type"
+            >
+              <b-form-radio :value="1">Notícias</b-form-radio>
+              <b-form-radio :value="2">Vídeos</b-form-radio>
+              <b-form-radio :value="3">Audíos</b-form-radio>
+              <b-form-radio :value="4">Redes Sociais</b-form-radio>
+            </b-form-radio-group>
+          </b-form-group>
 
-             <b-form-group label="Tipo da notícia">
-                <b-form-radio-group v-model="form.nu_type" required @input="selectedOption(form.nu_type)">
-                    <b-form-radio :value="1">Notícias</b-form-radio>
-                    <b-form-radio :value="2">Vídeos</b-form-radio>
-                    <b-form-radio :value="3">Audíos</b-form-radio>
-                </b-form-radio-group>
-            </b-form-group>
+          <b-form-group label="Título">
+            <b-form-input type="text" v-model="form.nm_title" required />
+          </b-form-group>
 
-            <b-form-group label="Título">
-                <b-form-input type="text"  v-model="form.nm_title" required/>
-            </b-form-group>
+          <b-form-group label="Link" v-if="selected != 3">
+            <b-form-input type="text" required v-model="form.nm_link" />
+          </b-form-group>
 
-            <b-form-group label="Subtitulo">
-                <b-form-input type="text" v-model="form.nm_subtitle"   required/>
-            </b-form-group>
+          <b-form-group label="Data">
+            <b-form-input type="date" v-model="form.dt_date"></b-form-input>
+          </b-form-group>
 
-            <b-form-group label="Link" v-if="selected != 3" >
-                <b-form-input  type="text"  v-model="form.nm_link" required/>
-            </b-form-group>
+          <b-form-group label="Audio" v-if="selected == 3">
+            <b-form-file accept=".mp3, .wma" v-model="audio" :state="Boolean(audio)"></b-form-file>
+          </b-form-group>
 
-            <b-form-group label="Data">
-                <b-form-input type="date" v-model="form.dt_date"></b-form-input>
-            </b-form-group>
+          <ImageUpload
+            :id="form.id_media"
+            folder="public/media"
+            :path="form.nm_image_path"
+            size="250x250"
+            v-if=" selected != 2"
+          />
 
-            <b-row>
-                <b-col>
-                    <b-form-group label="Imagem" v-if="selected != 2">
-                        <image-uploader
-                            :debug="1"
-                            :maxWidth="400"
-                            :maxHeight="215"
-                            :quality="0.7"
-                            :autoRotate="true"
-                            outputFormat="file"
-                            :preview="true"
-                            :className="['fileinput', { 'fileinput--loaded' : hasImage }]"
-                            :capture="true"
-                            accept="image/*"
-                            doNotResize="['gif', 'svg']"
-                            @input="setImage"
-                         ></image-uploader>
-                         {{form.nm_image_path}}
-                    </b-form-group>
-                </b-col>
-                <b-col>
-                     <b-form-group  label="Audio" v-if="selected === 3">
-                        <b-form-file v-model="file" :state="Boolean(form.nm_audio_path)" 
-                            @input="setAudio('audios')" accept=".mp3, .wma"></b-form-file>
-                    </b-form-group>
-                </b-col>
-            </b-row>
+          <b-form-group>
+            <span v-if="form.nm_image_path">
+              {{form.nm_image_path | fileName }}
+              <b-button size="sm" variant="default" @click="deleteImage()">
+                <b-icon icon="trash" variant="danger" />
+              </b-button>
+            </span>
+          </b-form-group>
 
+          <b-img
+            v-if="form.nm_image_path"
+            :src="form.nm_image_path"
+            width="150"
+            height="150"
+            class="mt-3"
+          ></b-img>
         </form>
-
-        <SessionOff ref="session" />
-        <ModalError ref="error" :errors="errors" />
-        
-    </b-modal>
+      </b-col>
+    </b-row>
+    <hr />
+    <b-row>
+      <b-col class="buttons">
+        <b-button variant="info" class="mr-2" @click="clearForm()">Resetar</b-button>
+        <b-button variant="success" @click="formSubmited()">
+          Salvar
+          <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
+        </b-button>
+      </b-col>
+    </b-row>
+    <SessionOff ref="session" />
+    <ModalError ref="error" :errors="errors" />
+  </b-container>
 </template>
 
 <script>
+import ImageUpload from "../image/ImageUpload";
+import SessionOff from "../session/Session";
+import ModalError from "../error/ModalError";
 
-    import ImageUploader from 'vue-image-upload-resize';
-    import SessionOff from '../session/Session';
-    import ModalError from '../error/ModalError';
+export default {
 
-    export default {
+  created() {
+    this.clearForm();
+    this.getMedia();
+  },
 
-        components: {
-            ImageUploader,
-            SessionOff,
-            ModalError
-        },
+  components: {
+    ImageUpload,
+    SessionOff,
+    ModalError
+  },
 
-        props: ['media'],
+  computed: {
+    token: function() {
+      return this.$session.get("jwt");
+    },
 
-        data() {
-            return {
-                errors: {},
-                file: null,
-                hasImage: false,
-                countdown: 0,
-                loading: false,
-                selected: ''
-            }
-        },
-
-        computed: {
-            form: function() {
-                return this.media;
-            },
-
-            title: function() {
-                return this.form.nu_type == 1 ? 'Imagem' : 'Arquivo'
-            },
-
-            token: function() {
-                return this.$session.get('jwt');
-            },
-        },
-
-        methods: {
-
-            setImage(file) {
-
-                let folder = 'images'
-                
-                if(file) {
-                    this.file = file;
-                    this.hasImage = true;
-                    this.storeFile(folder)
-                } else {
-                    this.deleteFile(folder)
-                }
-
-            },
-
-            handleOk(bvModalEvt){
-                bvModalEvt.preventDefault();
-                this.formSubmited();
-            },
-
-            formSubmited() {
-                this.loading = true;
-
-                if (!this.form.id_media) {
-                    this.save();
-                }else {
-                    this.update();
-                }
-            },
-
-            save(){
-                let form = new FormData();
-                form.append('nm_title',this.form.nm_title);
-                form.append('nm_subtitle',this.form.nm_subtitle);
-                form.append('nm_link',this.form.nm_link);
-                form.append('nm_image_path',this.form.nm_image_path);
-                form.append('nm_audio_path',this.form.nm_audio_path);
-                form.append('dt_date',this.form.dt_date);
-                form.append('nu_type',this.form.nu_type);
-
-                this.$http.post('media',form,{
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-
-                    if (res.status === 200 ) {
-
-                        if (res.data.token_failure) {
-                            this.$refs.session.$refs.session.show()
-                        }
-
-                        if (res.data.result.error) {
-                            this.$refs.error.$refs['modal-error'].show();
-                            this.errors = res.data.result;
-
-                        } else {
-                            this.$store.dispatch('media')
-                            this.$refs['media'].hide();
-                        }
-                        
-                    }
-                })
-         
-            },
-            update(){
-
-                this.$http.put('media/'+this.form.id_media,{
-                    'nm_title': this.form.nm_title,
-                    'nm_subtitle': this.form.nm_subtitle,
-                    'nm_link': this.form.nm_link,
-                    'nm_image_path': this.form.nm_image_path,
-                    'nm_audio_path': this.form.nm_audio_path,
-                    'dt_date': this.form.dt_date,
-                    'nu_type': this.form.nu_type
-                },{
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    if(res.status === 200) {
-
-                        if (res.data.token_failure) {
-                            this.$refs.session.$refs.session.show()
-                        }
-
-                        if (res.data.result.error) {
-                            this.$refs.error.$refs['modal-error'].show();
-                            this.errors = res.data.result;
-
-                        } else {
-                            this.$store.dispatch('media')
-                            this.$refs['media'].hide();
-                        }
-                    }
-                })
-            },
-
-            setAudio(param) {
-
-               if (this.file) {
-
-                   this.storeFile(param);
-
-               } else {
-                   
-                   this.deleteFile(param);
-               }
-               
-           },
-
-            storeFile(param) {
-
-                let form = new FormData();
-
-                form.append('file',this.file);
-                form.append('folder','public/media/'+param);
-
-                this.$http.post('storage/save',form,{
-                    headers: {
-                        Authorization: 'Bearer '+this.token,
-                        'Content-type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-
-                    if (res.status === 200) {
-
-                        param === 'images' ?
-                        this.form.nm_image_path = res.data.result.url.replace('public','storage') :
-                        this.form.nm_audio_path = res.data.result.url.replace('public','storage')
-                    }
-                    
-                })
-
-            },
-
-            removeFile(param) {
-
-                let url = param === 'images' ? 
-                    this.form.nm_image_path : 
-                    this.form.nm_audio_path
-                
-                let form = new FormData();
-                form.append('url',url.replace('storage','public'));
-                form.append('folder','public/media/'+param);
-
-               this.$http.post('storage/delete',form,
-                {
-                   headers: {
-                       Authorization: 'Bearer '+this.token
-                   }
-               })
-               .then(res => {
-                   if (res.status === 200) {
-                        param === 'images' ?
-                        this.form.nm_image_path = '' :
-                        this.form.nm_audio_path = ''
-                   }
-               })
-
-            },
-
-            resetErrors() {
-                this.errors = [];
-                this.loading = false;
-            },
-
-            selectedOption(opt) {
-                this.selected = opt;
-            }
-        }
-        
+    file: function() {
+      return this.$store.getters.getImage;
     }
+  },
+
+  data() {
+    return {
+      errors: {},
+      selected: 1,
+      form: {},
+      countdown: 0,
+      loading: false,
+      audio: null
+    };
+  },
+
+  methods: {
+    getMedia() {
+      let id = this.$route.params.id;
+
+      if (Number.isInteger(id)) {
+        this.$http("media/show/" + id)
+          .then(res => {
+            if (res.status === 200) {
+              this.form = res.data.result.media;
+            }
+          })
+          .catch(err => {
+            window.console.log(err);
+          });
+      }
+    },
+
+    formSubmited() {
+      this.loading = true;
+      this.saveNetwork();
+    },
+
+    saveNetwork() {
+      let formData = new FormData();
+
+      formData.append('id_media', this.form.id_media);
+      formData.append("nm_title", this.form.nm_title);
+      formData.append("nm_link", this.form.nm_link);
+      formData.append("dt_date", this.form.dt_date);
+      formData.append("nm_image_path", this.form.nm_image_path);
+      formData.append("nm_audio_path", this.form.nm_audio_path);
+      formData.append("nu_type", this.form.nu_type);
+      formData.append("audio", this.audio);
+      formData.append("file", this.file);
+
+      this.$http
+        .post("media", formData, {
+          headers: {
+            Authorization: "Bearer " + this.token
+          }
+        })
+        .then(res => {
+          this.loading = false;
+          if (res.status === 200) {
+            if (res.data.token_failure) {
+              this.$refs.session.$refs.session.show();
+            }
+
+            if (res.data.result.error) {
+              this.$refs.error.$refs["modal-error"].show();
+              this.errors = res.data.result;
+            } else {
+              this.$store.dispatch("media");
+              this.$router.push({name: 'table-media'})
+            }
+          }
+        });
+    },
+
+    deleteImage() {
+      let formData = new FormData();
+
+      formData.append("table", "media");
+      formData.append("update_field", "nm_image_path");
+      formData.append("where_field", "id_media");
+      formData.append("id", this.form.id_media);
+      formData.append("image_path", this.form.nm_image_path);
+      formData.append("folder", "public/news");
+
+      this.$http
+        .post("storage/delete", formData, {
+          headers: {
+            Authorization: "Bearer " + this.token
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.form.nm_image_path = "";
+          }
+        });
+    },
+
+    selectedOption(opt) {
+      this.selected = opt;
+    },
+
+    clearForm() {
+      this.form.nm_title = '';
+      this.form.nm_link = '';
+      this.form.dt_date = '';
+      this.form.nm_image_path = '';
+      this.form.nm_audio_path = '';
+      this.form.nu_type = '';
+    }
+  }
+};
 </script>

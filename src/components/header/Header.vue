@@ -1,7 +1,8 @@
 <template>
     <div >
-        <b-row class="header" v-bind:style="{ backgroundImage: 'url('+ image +')'}">
+        <b-row class="header">
             <b-col>
+                <b-img fluid-grow :src="image" class='image'></b-img>
                 <b-button variant="warning" @click="editItem" 
                     v-b-modal.warning-form class="btn-edit" size="sm" v-if="administrator === 1 && token"> 
                     <b-icon icon="pencil"></b-icon>
@@ -32,7 +33,7 @@
 
         components: {
             Submenu,
-            WarningForm
+            WarningForm,
         },
 
         mounted() {
@@ -83,6 +84,13 @@
         background-size: cover;
         background-position: 50% 50%;
         background-position: center;
+    }
+
+    .image {
+        max-height: 400px;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
     }
 
     .banner {

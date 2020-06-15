@@ -1,211 +1,140 @@
 <template>
-   <b-modal id="form-file" ref="formfile" size="md" title="Adicionar arquivo"
-    header-bg-variant="success" header-text-variant="light" @ok="handleOk" ok-only >
+  <b-container fluid class="mb-3">
+    <b-row class="header-title">
+      <b-col class="title" lg="11">
+        <h5 class="mt-2">
+          <b-link class="navigation-link" :to="{name: 'table-file'}">Arquivos</b-link>/ Formulário
+        </h5>
+      </b-col>
+    </b-row>
 
-        <template v-slot:modal-footer="{ok}">
-             <b-button variant="danger" size="md" @click="ok()">
-                <span :style="{fontWeight: 'bolder'}">Salvar</span>
-                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
-            </b-button>
-        </template>
-
+    <b-row class="mt-3 ml-5 mr-5">
+      <b-col>
         <b-form @submit.stop.prevent="formSubmited">
-            <b-form-group label="Nome do arquivo">
-                <b-form-input type="text" v-model="form.nm_name" />
-            </b-form-group>
-            <b-form-group label="Image do parceiro">
-                <b-form-file v-model="file" 
-                    :state="Boolean(file)" @input="image"></b-form-file>
-            </b-form-group>
+          <b-form-group label="Nome do arquivo">
+            <b-form-input type="text" v-model="form.nm_name" />
+          </b-form-group>
+          <b-form-group label="Arquivo">
+            <b-form-file v-model="file" :state="Boolean(file)"></b-form-file>
+          </b-form-group>
         </b-form>
+      </b-col>
+    </b-row>
 
-        <SessionOff ref="session" />
-        <ModalError ref="error" :errors="errors" />
-
-   </b-modal>
+    <b-row class="ml-5 mr-5">
+      <b-col>
+        <hr />
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col class="buttons">
+        <b-button class="mr-2" variant="info">Resetar</b-button>
+        <b-button variant="success" @click="formSubmited()">Salvar</b-button>
+      </b-col>
+    </b-row>
+    <SessionOff ref="session" />
+    <ModalError ref="error" :errors="errors" />
+  </b-container>
 </template>
 
 <script>
+import ModalError from "../error/ModalError";
+import SessionOff from "../session/Session";
 
-    import ModalError from '../error/ModalError';
-    import SessionOff from '../session/Session';
+export default {
+  mounted() {
+    this.clearForm();
+    this.getFile();
+  },
+  components: {
+    ModalError,
+    SessionOff
+  },
 
-    export default {
+  data() {
+    return {
+      file: null,
+      form: {},
+      loading: false,
+      countdown: 0,
+      errors: {},
+      value: ""
+    };
+  },
 
-        props: ['item'],
-
-        components: {
-            ModalError,
-            SessionOff
-        },
-
-        data() {
-            return {
-                file: null,
-                loading: false,
-                countdown: 0,
-                errors: {},
-                value: ''
-            }
-        },
-
-        computed: {
-            token() {
-                return this.$store.getters.getToken;
-            },
-
-            form: function() {
-                return this.item;
-            }
-        },
-
-        methods: {
-
-            handleOk(bvModalEvt){
-                bvModalEvt.preventDefault();
-                this.formSubmited();
-            },
-
-           formSubmited() {
-               this.loading = true;
-
-                if (!this.form.id_file) {
-                    this.save();
-
-                } else {
-                    alert('vai atualizar')
-                    this.update();
-
-                }
-           },
-
-           save() {
-                let formData = new FormData();
-                formData.append('nm_name',this.form.nm_name);
-                formData.append('nm_file_path',this.form.nm_file_path);
-
-                this.$http.post('file',formData, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token,
-                       }
-                   })
-                .then(res => {
-                    this.loading = false;
-
-                    if (res.status === 200 ){
-
-                        if (res.data.token_failure) {
-                            this.$refs.session.$refs.session.show()
-                        }
-
-                        if (res.data.result.error) {
-                            this.$refs.error.$refs['modal-error'].show();
-                            this.errors = res.data.result;
-
-                        } else {
-                            this.$refs['formfile'].hide();
-                            //this.$store.disptach('file', this.token);
-                            this.$store.disptach("file", this.token);
-                        }  
-                    }
-                       
-                })
-
-           },
-
-           update() {
-
-               this.$http.put('file/'+this.form.id_file,{
-                   'nm_name': this.form.nm_name,
-                   'nm_file_path': this.form.nm_file_path
-               },{
-                   headers: {
-                       Authorization: 'Bearer '+this.token
-                   }
-               })
-               .then(res => {
-
-                   if (res.status === 200) {
-                      if (res.data.token_failure) {
-                            this.$refs.session.$refs.session.show();
-                        }
-
-                        if (res.data.result.error) {
-                            this.$refs.error.$refs['modal-error'].show();
-                            this.errors = res.data.result;
-
-                        } else {
-                            this.$refs['formfile'].hide();
-                            this.$store.disptach('file', this.token);
-                        }
-                   }
-
-               })
-
-           },
-
-           image() {
-
-               if (this.file) {
-                   this.saveImage();
-
-               } else {
-                   this.deleteImage();
-               }
-               
-           },
-
-            saveImage() {
-
-                let form = new FormData();
-
-                form.append('file',this.file);
-                form.append('folder','public/file');
-
-                this.$http.post('storage/save',form,{
-                    headers: {
-                        Authorization: 'Bearer '+this.token,
-                        'Content-type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-
-                    if (res.status === 200) {
-                        this.form.nm_file_path = res.data.result.url;
-                    }
-                })
-                .catch(err => {
-                    this.erro = err;
-                })
-            },
-
-            deleteImage() {
-
-                let url = this.form.nm_file_path;
-
-                let form = new FormData();
-                form.append('url',url.replace('storage','public'));
-                form.append('folder','public/file');
-
-               this.$http.post('storage/delete',form,
-                {
-                   headers: {
-                       Authorization: 'Bearer '+this.token
-                   }
-               })
-               .then(res => {
-                   
-                   if (res.status === 200) {
-                       alert('Imagem removida');
-                   }
-               })
-
-            }
-        }
-        
+  computed: {
+    token() {
+      return this.$store.getters.getToken;
     }
+  },
+
+  methods: {
+    getFile() {
+      let id = this.$route.params.id;
+
+      if (Number.isInteger(id)) {
+        this.$http
+          .get("file/show/" + id, {
+            headers: {
+              Authorization: "Bearer " + this.token
+            }
+          })
+          .then(res => {
+            if (res.status === 200) {
+              this.form = res.data.result.file;
+            }
+          })
+          .catch(err => {
+            window.console.log(err);
+          });
+      }
+    },
+
+    formSubmited() {
+      this.loading = true;
+      this.save();
+    },
+
+    save() {
+      let formData = new FormData();
+
+      formData.append('id_file', this.form.id_file);
+      formData.append("nm_name", this.form.nm_name);
+      formData.append("nm_file_path", this.form.nm_file_path);
+
+      this.$http
+        .post("file", formData, {
+          headers: {
+            Authorization: "Bearer " + this.token
+          }
+        })
+        .then(res => {
+          this.loading = false;
+
+          if (res.status === 200) {
+            if (res.data.token_failure) {
+              this.$refs.session.$refs.session.show();
+            }
+
+            if (res.data.result.error) {
+              this.$refs.error.$refs["modal-error"].show();
+              this.errors = res.data.result;
+            } else {
+              this.$store.disptach("file", this.token);
+              this.$router.push({name: 'table-file'});
+            }
+          }
+        });
+    },
+
+    clearForm() {
+      this.form.nm_name = "";
+      this.form.nm_file_path = "";
+      this.file = null;
+    }
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

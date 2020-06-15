@@ -166,7 +166,7 @@ export default {
               }
 
               if (res.data.length == 0) {
-                this.$store.dispatch("news");
+                this.$store.dispatch("news",1);
                 alert("Notícia removida");
               }
 

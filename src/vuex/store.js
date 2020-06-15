@@ -150,7 +150,10 @@ export default new Vuex.Store({
             })
         },
 
-        media({commit}) {
+        media({commit}, id) {
+            if (typeof id == 'undefined') {
+                id = 1
+            }
             axios.get('media')
             .then(res => {
                 commit('setMedia', res.data.result.media);

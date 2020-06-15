@@ -176,7 +176,6 @@ export default {
           .then(res => {
             if (res.status === 200) {
               this.form = res.data.result.news;
-              window.console.log(this.form);
             }
           })
           .catch(err => {
@@ -192,6 +191,7 @@ export default {
     },
 
     clearForm() {
+      this.form.id_news = '';
       this.form.nm_title = "";
       this.form.nm_subtitle = "";
       this.form.dt_date = "";

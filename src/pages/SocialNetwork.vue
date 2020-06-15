@@ -11,7 +11,7 @@
             <b-col cols="12">
                 <carousel :perPageCustom="customSlide" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
                     paginationColor="#000fff" :autoplayHoverPause="true" >
-                    <slide v-for="(item, index) in items" :key="index" class="mr-2"  >
+                    <slide v-for="(item, index) in socialNetwork" :key="index" class="mr-2"  >
                         <div class="social-network-image">
                             <b-row>
                                 <b-col>
@@ -32,24 +32,31 @@
     export default {
 
         created() {
-            this.$store.dispatch('socialNetwork');
+            this.getSocialNetwork();
         },
 
         data() {
             return {
-                customSlide: [[1360,4], [1000, 3], [768,2], [500,1], [300,1]]
-            }
-        },
-
-        computed: {
-            items: function() {
-                return this.$store.getters.getSocialNetwork
+                customSlide: [[1360,4], [1000, 3], [768,2], [500,1], [300,1]],
+                socialNetwork: []
             }
         },
 
         methods: {
             redirectTo(link) {
                 window.open(link)
+            },
+
+            getSocialNetwork() {
+                this.$http('media/social-network')
+                .then(res => {
+                    if (res.status === 200) {
+                        this.socialNetwork = res.data.result.socialNetwork
+                    }
+                })
+                .catch(err => {
+                    window.console.log(err)
+                })
             }
         } 
     }

@@ -42,7 +42,7 @@
                 }
 
                 if (dismiss === 0) {
-                    location.replace('/')
+                    this.$router.push({name: 'home'})
                 }
             },
 

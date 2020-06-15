@@ -7,11 +7,6 @@
 <script>
      
     export default {
-        computed: {
-            path: function() {
-                return this.$router.history.current.fullPath
-            }
-        }
         
     }
 </script>

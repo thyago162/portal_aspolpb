@@ -59,7 +59,7 @@
       logout() {
         this.$session.destroy();
         this.$store.dispatch('token',null);
-        location.reload('/')
+        this.$router.push({name: 'home'});
       }
     }
     

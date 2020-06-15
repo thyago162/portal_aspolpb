@@ -24,7 +24,6 @@
     "vue-chartjs": "^3.5.0",
     "vue-cropperjs": "^4.0.1",
     "vue-fab": "^2.3.1",
-    "vue-image-upload-resize": "^2.3.0",
     "vue-json-csv": "^1.2.11",
     "vue-router": "^3.1.5",
     "vue-session": "^1.0.0",

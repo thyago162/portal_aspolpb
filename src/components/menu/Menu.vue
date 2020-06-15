@@ -70,7 +70,8 @@
 
                     </b-nav-item>
                     <b-nav-item v-if="token != null" >
-                        <b-button size="sm" class="personal-btn associated" v-b-modal.associated-form >
+                        <b-button size="sm" class="personal-btn associated" 
+                            @click="$router.push({name: 'form-associated', params: {id: 'novo'}})" >
                             <span>ASSOCIE-SE</span>
                         </b-button>
                     </b-nav-item>
@@ -115,12 +116,7 @@
                                  ARQUIVOS
                             </b-link>
                         </b-dropdown-item>
-                        <b-dropdown-item  >
-                            <b-link class="personal-link" disabled>
-                                <b-icon icon="pie-chart-fill" ></b-icon>
-                                RELATÓRIOS
-                            </b-link>
-                        </b-dropdown-item>
+    
                     </b-nav-item-dropdown>
 
                      <b-nav-item-dropdown v-else no-caret>
@@ -157,18 +153,7 @@
                                  ARQUIVOS
                             </b-link>
                         </b-dropdown-item>
-                        <b-dropdown-item  >
-                            <b-link class="personal-link" :to="{name: 'relatorios'}">
-                                <b-icon icon="pie-chart-fill" ></b-icon>
-                                RELATÓRIOS
-                            </b-link>
-                        </b-dropdown-item>
-                         <b-dropdown-item >
-                            <b-link class="personal-link" :to="{name:'cp-menu'}" v-if="administrator === 1"> 
-                                <b-icon icon="gear-fill"></b-icon>
-                                PAINEL DE CONTROLE
-                            </b-link>
-                        </b-dropdown-item>
+                     
                     </b-nav-item-dropdown>
 
                     <b-nav-item  v-if="token != null">
@@ -186,8 +171,8 @@
         </b-navbar>
         <Auth />
         <ResetPassword />
-        <AssociatedForm />
         <Me />
+        <VueFab v-if="token  != null" />
         
     </div>  
 </template>
@@ -195,16 +180,16 @@
 <script>
     import Auth from '../auth/Auth';
     import ResetPassword from '../auth/ResetPassword';
-    import AssociatedForm from '../associated/AssociatedForm';
     import Me from '../user/Me';
+    import VueFab from '../float-menu/VueFab';
 
     export default {
 
         components: {
             Auth,
             ResetPassword,
-            AssociatedForm,
             Me,
+            VueFab
         },
 
         mounted() {

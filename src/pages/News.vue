@@ -10,7 +10,7 @@
         <b-row  class="align-body">
             <b-col lg="11"  >
                 <b-table :fields="fields" :items="news.data" :per-page="news.per_page" 
-                    :current-page="currentPage" id="news-table">
+                    :current-page="currentPage" id="news-table" borderless>
 
                     <template v-slot:cell(card)="row">
 

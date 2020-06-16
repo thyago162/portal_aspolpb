@@ -30,17 +30,17 @@
 
     <b-row class="mt-3">
       <b-col>
-        <TransparencyCard :item="item" v-for="(item, index) in transparency" :key="index" />
+          <TableTransparency :item="transparency" />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import TransparencyCard from "../../components/transparency/TransparencyCard";
+import TableTransparency from '../../components/transparency/TableTransparency';
 export default {
   components: {
-    TransparencyCard,
+    TableTransparency
   },
 
   computed: {

@@ -1,209 +1,82 @@
 <template>
-    <b-card>
-        <b-card-header>
-           <b-row>
-               <b-col lg="7">
-                    <b-card-title>
-                        {{item.nm_management_name}}
-                    </b-card-title>
-               </b-col>
-               <b-col lg="2">
-                   <b-button :style="{float: 'right'}" variant="info" @click="showDetails" >Exibir detalhes</b-button>
-               </b-col>
-               <b-col lg="2">
-                   <b-button :style="{float: 'right'}" variant="danger" v-b-modal.transparency-file-form 
-                    @click="setProps(item.id_transparency)">Adicionar documento</b-button>
-               </b-col>
-               <b-col lg="1">
-                   <b-button :style="{float: 'right'}" variant="warning" v-b-modal.new-management-form @click="edit(item)">
-                       <b-icon icon="pencil"></b-icon>
-                   </b-button>
-               </b-col>
-           </b-row>
-        </b-card-header>
-        <b-card-body v-show="show">
-            <b-row>
-                <b-col>
-                    <div v-html="item.nm_content"></div>
-                </b-col>
-                <b-col>
-                    <h2 :style="{color: 'red'}">DOCUMENTOS</h2>
-                    <hr>
-                        <b-list-group>
-                            <b-list-group-item button variant="info" @click="showCertidoes = !showCertidoes">
-                                <span :style="{fontWeight: 'bold'}">CERTIDÕES</span>
-                                <b-card no-body v-show="showCertidoes">
-                                    <b-card-header class="mt-2">
-                                        <b-link v-for="(item,index) in certidao" :key="index">
-                                            {{item.nm_name}}
-                                        </b-link>
-                                    </b-card-header>
-                                </b-card>
-                            </b-list-group-item>
-
-                            <b-list-group-item button  @click="showContabil = !showContabil">
-                                <span :style="{fontWeight: 'bold'}">CONTABILIDADE</span>
-                                <b-card no-body v-show="showContabil">
-                                    <b-card-header class="mt-2">
-                                        <b-link v-for="(item,index) in contabil" :key="index">
-                                            {{item.nm_name}}
-                                        </b-link>
-                                    </b-card-header>
-                                </b-card>
-                            </b-list-group-item>
-
-                            <b-list-group-item button variant="info"  @click="showFinanceiro = !showFinanceiro">
-                                <span :style="{fontWeight: 'bold'}">FINANCEIRO</span>
-                                <b-list-group v-show="showFinanceiro">
-                                   <b-list-group-item v-for="(year, index) in years" :key="index" button>
-                                       {{year}}
-                                       <b-card no-body class="mt-2">
-                                            <b-card-header>
-                                                <div v-for="(item,index) in financeiro" :key="index">
-                                                    
-                                                    <b-link  v-if="returnYear(item.dt_date) == year"  >
-                                                        {{item.nm_name}} - {{item.dt_date | date}}
-                                                    </b-link>
-                                                </div>
-                                            </b-card-header>
-                                        </b-card>
-                                   </b-list-group-item>
-                                </b-list-group>
-                            </b-list-group-item>
-
-                            <b-list-group-item button  @click="showOutros = !showOutros">
-                                <span :style="{fontWeight: 'bold'}">OUTROS</span>
-                                <b-card no-body v-show="showOutros" class="mt-2">
-                                    <b-card-header>
-                                        <b-link v-for="(item,index) in outros" :key="index">
-                                            {{item.nm_name}}
-                                        </b-link>
-                                    </b-card-header>
-                                </b-card>
-                            </b-list-group-item>
-
-                        </b-list-group>
-                </b-col>
-            </b-row>
-        </b-card-body>
-        <TransparencyFileForm :id="id"/>
-        
-    </b-card>
+  <b-container fluid class="mt-3">
+    <b-row>
+      <b-col>
+        <div v-html="item.nm_content"></div>
+      </b-col>
+      <b-col>
+        <b-tabs pills>
+          <b-tab title="Certidões" @click="getFiles('certidoes')">
+              <TransparencyFiles :files="files" />
+          </b-tab>
+          <b-tab title="Contabilidade" @click="getFiles('contabilidade')">
+              <TransparencyFiles :files="files" />
+          </b-tab>
+          <b-tab title="Financeiro" @click="getFiles('financeiro')">
+              <TransparencyFiles :files="files" />
+          </b-tab>
+          <b-tab title="Outros" @click="getFiles('outros')">
+              <TransparencyFiles :files="files" />
+          </b-tab>
+        </b-tabs>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
+import TransparencyFiles from '../../components/transparency/TransparencyFiles';
+export default {
+  mounted() {
+    this.getFiles("certidoes", this.item.id_transparency);
+  },
 
-    import TransparencyFileForm from '../../components/transparency/TransparencyFileForm';
+  components: {
+      TransparencyFiles
+  },
 
-    export default {
+  props: ["item"],
 
-        components: {
-            TransparencyFileForm,
-        },
+  data() {
+    return {
+      show: false,
+      files: []
+    };
+  },
 
-        props: ['item'],
-
-        data() {
-            return {
-                show: false,
-                id: '',
-                start: '',
-                end: '',
-                files: [],
-                editItem: [],
-                showCertidoes: false,
-                showContabil: false,
-                showFinanceiro: false,
-                showOutros: false
-            }
-        },
-
-        computed: {
-            token: function() {
-                return this.$session.get('jwt');
-            },
-
-            contabil: function() {
-                return this.files.filter((param) => {
-                    return param.nm_type_doc == 'Contabilidade'
-                })
-            },
-
-            outros: function() {
-                return this.files.filter((param) => {
-                    return param.nm_type_doc == 'Outros'
-                })
-            },
-
-            financeiro: function() {
-                return this.files.filter((param) => {
-                    return param.nm_type_doc == 'Financeiro'
-                })
-            },
-
-            certidao: function() {
-                return this.files.filter((param) => {
-                    return param.nm_type_doc == 'Certidão'
-                })
-            },
-
-            years: function() {
-                let arrayYears = new Array();
-
-                let start = this.item.nu_start.split('-');
-                start = parseInt(start[0]);
-
-                let end;
-
-                if (!this.item.nu_end) {
-                    end = start;
-
-                }else {
-                    end = this.item.nu_end.split('-');
-                    end = parseInt(end[0]);
-                }
-
-                for (var i = start; i <= end; i++) {
-                    arrayYears.push(i);
-                }
-
-                return arrayYears.reverse();
-            }
-        },
-
-        methods: {
-            showDetails() {
-                this.show = !this.show;
-                this.getFiles()
-            },
-
-            setProps(id) {
-                this.id = id;
-            },
-
-            getFiles() {
-                this.$http('transparency-file/'+this.id, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        this.files = res.data.result.transparencyFile
-                    }
-
-                })
-            },
-
-            returnYear(date) {
-                let year = date.split('-');
-
-                return parseInt(year[0]);
-            },
-
-            edit(item) {
-                this.editItem = item;
-            }
-        }
+  computed: {
+    token: function() {
+      return this.$session.get("jwt");
     }
+  },
+
+  methods: {
+    showDetails() {
+      this.show = !this.show;
+      this.getFiles();
+    },
+
+    getFiles(type) {
+     this.$http('transparency-file/show', {
+         params: {
+             fk_transparency: this.item.id_transparency,
+             nm_type_doc: type
+         },
+         headers: {
+             Authorization: 'Bearer '+this.token
+         }
+     })
+     .then(res => {
+         if (res.status === 200) {
+             window.console.log(res.data.result.transparencyFile)
+             this.files = res.data.result.transparencyFile
+         }
+     })
+     .catch(err => {
+         window.console.log(err)
+     })
+
+    }
+  }
+};
 </script>

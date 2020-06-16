@@ -1,164 +1,134 @@
 <template>
-    <b-modal id="transparency-file-form" ref="transparency-file-form-ref" title="Adicionar documento" @ok="handleOk" 
-    ok-title="Salvar" ok-only header-bg-variant="danger" header-text-variant="light">
+  <b-container fluid>
+    <b-row class="mt-3 ml-5 mr-5">
+      <b-col>
+        
+        <form @submit.stop.prevent="formSubmited">
+          <b-form-group label="Nome do arquivo">
+            <b-form-input type="text" v-model="form.nm_name" />
+          </b-form-group>
 
-        <template v-slot:modal-footer="{ok}">
-            <b-button variant="danger" size="md" @click="ok()">
-                <span :style="{fontWeight: 'bolder'}">Salvar</span>
-                <b-spinner small label="Small Spinner" class="ml-1" v-show="loading"></b-spinner>
-            </b-button>
-        </template>
+          <b-form-group label="Arquivo">
+            <b-form-file accept="application/pdf" v-model="file" :state="Boolean(file)"></b-form-file>
+          </b-form-group>
 
-        <form @submit.stop.prevent="formSubmited" >
+          <b-form-group label="Tipo de documento">
+            <b-form-select :options="options" v-model="form.nm_type_doc"></b-form-select>
+          </b-form-group>
 
-            <b-form-group label="Nome do arquivo">
-                <b-form-input type="text" v-model="form.nm_name"/>
-            </b-form-group>
-
-            <b-form-group label="Arquivo">
-                <b-form-file accept=".pdf" v-model="file" :state="Boolean(file)" 
-                    @input="loadFile"></b-form-file>
-            </b-form-group>
-
-            <b-form-group label="Tipo de documento" >
-                <b-form-select :options="options" v-model="form.nm_type_doc"></b-form-select>
-            </b-form-group>
-
-            <b-form-group label="Ano do documento" >
-                <b-form-input type="date" placeholder="Ex: 2020" v-model="form.dt_date"/>
-            </b-form-group>
-
+          <b-form-group label="Ano do documento">
+            <b-form-input type="date" placeholder="Ex: 2020" v-model="form.dt_date" />
+          </b-form-group>
         </form>
-    </b-modal>
+      </b-col>
+    </b-row>
+
+    <b-row class="mt-2 ml-5 mr-5">
+      <b-col>
+        <hr />
+      </b-col>
+    </b-row>
+
+    <b-row>
+      <b-col class="buttons">
+        <b-button variant="info" class="mr-2">Resetar</b-button>
+        <b-button variant="success" @click="formSubmited()">Salvar</b-button>
+      </b-col>
+    </b-row>
+    <SessionOff ref="session" />
+    <ModalError ref="error" :errors="errors" />
+  </b-container>
 </template>
 
 <script>
-    export default {
-        props: ['id'],
+import SessionOff from "../session/Session";
+import ModalError from "../error/ModalError";
+export default {
+  props: ['id'],
 
-        computed: {
-                token: function() {
-                    return this.$session.get('jwt');
-                }
-            },
+  mounted() {
+    this.clearForm();
+  },
 
-        data() {
-            return {
-                form: {},
-                file: null,
-                loading: false,
-                options: [
-                    {value: 'Contabilidade', text: 'Contabilidade'},
-                    {value: 'Certidão', text: 'Certidão'},
-                    {value: 'Financeiro', text: 'Financeiro'},
-                    {value: 'Outros', text: 'Outros'},
-                ]
-            }
-        },
+  components: {
+    SessionOff,
+    ModalError
+  },
 
-        methods: {
-            handleOk(bvModalEvt) {
-                bvModalEvt.preventDefault();
-                this.formSubmited();
-            },
-
-            formSubmited() {
-                this.loading = true;
-
-                if (!this.form.id_transparency_file) {
-                    this.save()
-                } else {
-                    this.update()
-                }
-            },
-
-            save() {
-                let form = new FormData();
-
-                form.append('nm_name', this.form.nm_name);
-                form.append('nm_file_path', this.form.nm_file_path);
-                form.append('nm_type_doc', this.form.nm_type_doc);
-                form.append('dt_date', this.form.dt_date);
-                form.append('fk_transparency', this.id);
-
-                this.$http.post('transparency-file',form, {
-                    headers: {
-                        Authorization: 'Bearer '+this.token
-                    }
-                })
-                .then(res => {
-                    if (res.status === 200) {
-                        this.loading = false;
-                        this.$store.dispatch('transparency', this.token)
-                        this.$refs['transparency-file-form-ref'].hide()
-                    }
-                })
-
-            }, 
-
-            update() {
-
-            },
-
-            loadFile() {
-
-                if ( this.file ) {
-
-                    this.saveFile();
-                    
-                } else {
-                    
-                    this.deleteFile();
-                }
-            },
-
-            saveFile() {
-                let form = new FormData();
-
-                form.append('file',this.file);
-                form.append('folder','public/transparency/');
-
-                this.$http.post('storage/save',form,{
-                    headers: {
-                        Authorization: 'Bearer '+this.token,
-                        'Content-type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-
-                    if (res.status === 200) {
-                        this.form.nm_file_path = res.data.result.url.replace('public','storage')
-                    }
-                    
-                })
-                .catch(err => {
-                    this.erro = err;
-                })
-
-            },
-
-            deleteFile(param) {
-
-                let url = this.form.nm_image_path.replace('http://localhost:8080/','')
-
-                let form = new FormData();
-                form.append('url',url.replace('storage','public'));
-                form.append('folder','public/transparency/'+param);
-
-               this.$http.post('storage/delete',form,
-                {
-                   headers: {
-                       Authorization: 'Bearer '+this.token
-                   }
-               })
-               .then(res => {
-                   
-                   if (res.status === 200) {
-                       res
-                   }
-               })
-
-            },
-        }
+  computed: {
+    token: function() {
+      return this.$session.get("jwt");
     }
+  },
+
+  data() {
+    return {
+      form: {},
+      errors: {},
+      file: null,
+      loading: false,
+      options: [
+        { value: "Contabilidade", text: "Contabilidade" },
+        { value: "Certidão", text: "Certidão" },
+        { value: "Financeiro", text: "Financeiro" },
+        { value: "Outros", text: "Outros" }
+      ]
+    };
+  },
+
+  methods: {
+    formSubmited() {
+      this.loading = true;
+      this.save();
+    },
+
+    save() {
+      let form = new FormData();
+
+      form.append("id_transparency_file", this.form.id_transparency_file);
+      form.append("nm_name", this.form.nm_name);
+      form.append("nm_file_path", this.form.nm_file_path);
+      form.append("nm_type_doc", this.form.nm_type_doc);
+      form.append("dt_date", this.form.dt_date);
+      form.append("fk_transparency", this.id);
+      form.append("file", this.file);
+
+      this.$http
+        .post("transparency-file", form, {
+          headers: {
+            Authorization: "Bearer " + this.token
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.loading = false;
+
+            if (res.data.token_failure) {
+              this.$refs.session.$refs.session.show();
+            }
+
+            if (res.data.result.error) {
+              this.errors = res.data.result;
+              this.$refs.error.$refs["modal-error"].show();
+
+            } else {
+              this.$store.dispatch("transparency", this.token);
+              this.clearForm();
+
+              this.errors = {};
+            }
+          }
+        });
+    },
+
+    clearForm() {
+      this.form.id_transparency_file = "";
+      this.form.nm_name = "";
+      this.form.nm_file_path = "";
+      this.form.nm_type_doc = "";
+      this.form.dt_date = "";
+      (this.form.fk_transparency = ""), (this.file = null);
+    }
+  }
+};
 </script>

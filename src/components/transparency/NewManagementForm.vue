@@ -116,6 +116,7 @@ export default {
     save() {
       let form = new FormData();
 
+      form.append('id_transparency', this.form.id_transparency);
       form.append("nm_management_name", this.form.nm_management_name);
       form.append("nm_content", this.form.nm_content);
       form.append("nu_start", this.form.nu_start);
@@ -140,6 +141,7 @@ export default {
               this.errors = res.data.result;
             } else {
               this.$store.dispatch("transparency", this.token);
+              this.$router.push({name: 'transparencia'})
             }
           }
         });

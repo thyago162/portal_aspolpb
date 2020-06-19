@@ -1,6 +1,6 @@
 <template>
     <b-container fluid class="social-midia">
-        <b-row class="social-midia-row">
+        <b-row class="ml-1 mr-1" >
             <b-col class="social-midia-head">
                 <div class="social-midia-title ">
                     <h5>REDES SOCIAIS</h5>
@@ -8,31 +8,23 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col cols="12">
-                <carousel :perPageCustom="customSlide" class="mt-2 mb-3" :autoplay="true" :autoplayTimeout="4000" 
-                    paginationColor="#000fff" :autoplayHoverPause="true" >
-                    <slide v-for="(item, index) in socialNetwork" :key="index" class="mr-2"  >
-                        <div class="social-network-image">
-                            <b-row>
-                                <b-col>
-                                    <b-img fluid :src="item.nm_image_path"  :fluid-grow="true" class="mr-4"></b-img>
-                                </b-col>
-                            </b-row>
-                        </div>
-                        <a class="link" @click="redirectTo(item.nm_link)">{{item.nm_title}}</a>
-                     
-                    </slide>
-                </carousel>
+            <b-col>
+                <MediaSlide :medias="socialNetwork" />
             </b-col>
         </b-row>
     </b-container>
 </template>
 
 <script>
+    import MediaSlide from '../components/media/MediaSlide';
     export default {
 
         created() {
             this.getSocialNetwork();
+        },
+
+        components: {
+            MediaSlide
         },
 
         data() {
@@ -67,14 +59,9 @@
         background-color: lightgray;
     }
 
-    .social-midia-row {
-        margin-right: 1px;
-    }
-
     .social-midia-head {
         border-bottom: 3px solid rgb(189,22,34);
         margin-top: 20px;
-        margin-left: 10px;
     }
 
     .social-network-image {

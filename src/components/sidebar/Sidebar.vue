@@ -17,14 +17,13 @@
                                 Minha conta
                             </span>
                         </template>
-                <b-dropdown-item>
-                  Editar perfil
-                </b-dropdown-item>
-                <b-dropdown-item>
+                <b-dropdown-item @click="$router.push({name: 'user'})">
                   Meus dados
                 </b-dropdown-item>
+                <b-dropdown-item @click="$router.push({name: 'associated-info'})">
+                  Associação
+                </b-dropdown-item>
               </b-nav-item-dropdown>
-              <b-nav-item  @click="hide" disabled>Associação</b-nav-item>
               <b-nav-item  @click="logout">Sair</b-nav-item>
           </b-nav>
         </nav>
@@ -57,9 +56,14 @@
 
     methods: {
       logout() {
+        let path = this.$router.history.current.fullPath;
         this.$session.destroy();
         this.$store.dispatch('token',null);
-        this.$router.push({name: 'home'});
+        if (!path == '/') {
+          this.$router.push({name: 'home'});
+        }else {
+          location.reload('/');
+        }
       }
     }
     

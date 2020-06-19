@@ -12,12 +12,11 @@
                     <highlights-news :highlights="highlights"/>
                 </b-col>
                 <b-col xl="6"  class="highlights">
-                    <card-news :cardnews="card"
-                        v-for="(card, index) in cardNews" :key="index"/>
+                    <card-news :cardnews="cardNews" />
                 </b-col>
             </b-row>
             <b-row>
-                <b-col class="more-news">
+                <b-col >
                     <MoreNews />
                 </b-col>
             </b-row>

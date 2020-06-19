@@ -63,7 +63,7 @@
         background-color: lightgray;
         margin: 20px 10px 5px 5px;
         width: 48%;
-        height: 150px;
+        height: 110px;
     }
 
     .card-title {

@@ -20,12 +20,20 @@
     <b-row class="mt-3 ml-5 mr-5">
       <b-col>
         <b-table :fields="fields" :items="associated">
-          <template v-slot:cell(show_details)="row" hover striped>
+          <template v-slot:cell(show_details)="row" hover striped >
             <b-button
               size="sm"
               @click="row.toggleDetails"
               class="mr-2"
             >{{ row.detailsShowing ? 'Menos' : 'Mais'}} Detalhes</b-button>
+      
+            <b-button  size="sm" @click="row.item" variant="info" class="mr-2">
+              Solicitar correção
+            </b-button>
+
+            <b-button size="sm" class="mr-2 ml-2" @click="refer(row.item.id_associated)" variant="success">
+              Deferir
+            </b-button>
           </template>
 
           <template v-slot:row-details="row">
@@ -54,12 +62,10 @@ export default {
     return {
       search: "",
       fields: [
-        { key: "nu_registration", label: "Registro" },
         { key: "nm_name", label: "Nome" },
-        { key: "nm_cpf", label: "Cpf" },
-        { key: "nm_email", label: "Email" },
-        { key: "nm_phone", label: "Telefone" },
-        { key: "show_details", label: "" }
+        { key: "show_details", label: "" },
+        { key: 'registration_status', label: ""},
+        {key: 'correct_data', label: ""}
       ]
     };
   },
@@ -72,6 +78,34 @@ export default {
     token: function() {
       return this.$session.get("jwt");
     }
+  },
+
+  methods: {
+    defer(id) {
+      this.loading = true;
+      this.$http
+        .put("associated/defer/" + id, {
+          headers: {
+            Authoriazation: "Bearer " + this.token
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.loading = false;
+            alert("Cadastro deferido.");
+          }
+        })
+        .catch(err => {
+          this.errors.push(err);
+          this.visibility = true;
+        });
+    }
   }
 };
 </script>
+
+<style scoped>
+  button {
+    float: right;
+  }
+</style>

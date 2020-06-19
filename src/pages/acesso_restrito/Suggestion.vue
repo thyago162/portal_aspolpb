@@ -6,8 +6,8 @@
            </b-col>
         </b-row>
 
-        <b-row class="mb-4 mt-4 align-body">
-            <b-col  class="suggestion-form">
+        <b-row class="mb-4 mt-4 ml-5 mr-5 ">
+            <b-col  >
                 <form class="form" @submit.stop.prevent="sendForm">
                     <b-form-group label="Nome completo">
                         <b-form-input readonly  v-model="user.name"/>

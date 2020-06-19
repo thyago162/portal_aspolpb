@@ -1,6 +1,6 @@
 <template>
     <b-container fluid class="mb-4">
-        <b-row class="media-row">
+        <b-row class="ml-1 mr-1" >
             <b-col class="media-head ">
                 <div class="media-title">
                     <h5>ASPOL NA MÍDIA</h5>
@@ -8,7 +8,7 @@
             </b-col>
         </b-row>
         <b-row class="mt-3" >
-            <b-col cols="12">
+            <b-col >
                 <MediaSlide :medias="medias" />
             </b-col>
         </b-row>
@@ -58,8 +58,7 @@
     }
 
     .media-row {
-        margin-right: 5px;
-        margin-left: 1px;
+ 
     }
 
     .media-head {

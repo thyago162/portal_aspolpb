@@ -3,8 +3,6 @@
     <b-row class="header-title">
       <b-col class="title" lg="11">
         <h5 class="mt-2">
-          <b-link class="navigation-link"  :to="{name: 'cp-menu'}"> Painel de Controle</b-link>
-           / 
            Quem somos
         </h5>
       </b-col>

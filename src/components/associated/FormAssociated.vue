@@ -27,7 +27,7 @@
           <b-form-group label="Matrícula">
             <b-form-input
               type="text"
-              v-model="form.personalInfo.nu_registration"
+              v-model="form.nu_registration"
               placeholder="Apenas números"
             />
           </b-form-group>
@@ -35,21 +35,22 @@
           <b-form-group label="Nome">
             <b-form-input
               type="text"
-              v-model="form.personalInfo.nm_name"
-              placeholder="Nome completo"
+              v-model="form.nm_name"
+              :placeholder="user.name"
+              readonly
             />
           </b-form-group>
 
           <b-form-group label="Cpf">
             <b-form-input
               type="text"
-              v-model="form.personalInfo.nm_cpf"
+              v-model="form.nm_cpf"
               placeholder="Apenas números"
             />
           </b-form-group>
 
           <b-form-group label="Email">
-            <b-form-input type="email" v-model="form.personalInfo.nm_email" />
+            <b-form-input type="email" v-model="form.nm_email" readonly :placeholder="user.email" />
           </b-form-group>
 
           <b-row>
@@ -57,7 +58,7 @@
               <b-form-group label="DDD">
                 <b-form-input
                   type="text"
-                  v-model="form.personalInfo.nm_ddd"
+                  v-model="form.nm_ddd"
                   placeholder="Apenas números"
                 />
               </b-form-group>
@@ -66,7 +67,7 @@
               <b-form-group label="Telefone">
                 <b-form-input
                   type="text"
-                  v-model="form.personalInfo.nm_phone"
+                  v-model="form.nm_phone"
                   placeholder="Apenas números"
                 />
               </b-form-group>
@@ -74,7 +75,7 @@
           </b-row>
 
           <b-form-group label="Sexo">
-            <b-form-select v-model="form.personalInfo.ch_sex">
+            <b-form-select v-model="form.ch_sex">
               <b-form-select-option value="M">Masculino</b-form-select-option>
               <b-form-select-option value="F">Feminino</b-form-select-option>
             </b-form-select>
@@ -83,17 +84,17 @@
           <b-form-group label="Cédula de identidade (RG)">
             <b-form-input
               type="number"
-              v-model="form.personalInfo.nu_rg"
+              v-model="form.nu_rg"
               placeholder="Apenas números"
             />
           </b-form-group>
 
           <b-form-group label="Data de nascimento">
-            <b-form-input type="date" v-model="form.personalInfo.dt_birthday" />
+            <b-form-input type="date" v-model="form.dt_birthday" />
           </b-form-group>
 
           <b-form-group label="Estado Civil">
-            <b-form-select v-model="form.personalInfo.nm_civil_state">
+            <b-form-select v-model="form.nm_civil_state">
               <b-form-select-option value="solteiro">Solteiro(a)</b-form-select-option>
               <b-form-select-option value="casado">Casado(a)</b-form-select-option>
               <b-form-select-option value="separado">Separado(a)</b-form-select-option>
@@ -104,7 +105,7 @@
           </b-form-group>
 
           <b-form-group label="Grau de Escolaridade">
-            <b-form-select v-model="form.personalInfo.nm_education_level">
+            <b-form-select v-model="form.nm_education_level">
               <b-form-select-option value="Ensino Superior (Completo)">Ensino Superior (completo)</b-form-select-option>
               <b-form-select-option
                 value="Ensino Superior (Incompleto)"
@@ -152,7 +153,7 @@
               <b-form-input
                 trim
                 placeholder="Apenas números"
-                v-model="form.address.nm_cep"
+                v-model="form.nm_cep"
                 type="text"
               />
               <b-input-group-append>
@@ -165,35 +166,35 @@
           </b-form-group>
 
           <b-form-group label="Rua">
-            <b-form-input v-model="form.address.nm_street" />
+            <b-form-input v-model="form.nm_street" />
           </b-form-group>
 
           <b-row>
             <b-col lg="3">
               <b-form-group label="Número">
-                <b-form-input v-model="form.address.nu_number" />
+                <b-form-input v-model="form.nu_number" />
               </b-form-group>
             </b-col>
             <b-col>
               <b-form-group label="Complemento">
-                <b-form-input v-model="form.address.nm_complement" />
+                <b-form-input v-model="form.nm_complement" />
               </b-form-group>
             </b-col>
           </b-row>
 
           <b-form-group label="Bairro">
-            <b-form-input placeholder v-model="form.address.nm_neighbohood" />
+            <b-form-input placeholder v-model="form.nm_neighbohood" />
           </b-form-group>
 
           <b-row>
             <b-col>
               <b-form-group label="Cidade">
-                <b-form-input v-model="form.address.nm_city" />
+                <b-form-input v-model="form.nm_city" />
               </b-form-group>
             </b-col>
             <b-col lg="2">
               <b-form-group label="UF">
-                <b-form-input v-model="form.address.nm_uf" />
+                <b-form-input v-model="form.nm_uf" />
               </b-form-group>
             </b-col>
           </b-row>
@@ -207,7 +208,7 @@
           </b-row>
 
           <b-form-group label="Cargo" class="mt-3">
-            <b-form-select v-model="form.jobInfo.nm_office">
+            <b-form-select v-model="form.nm_office">
               <b-form-select-option value="Agente de Investigação">Agente de Investigação</b-form-select-option>
               <b-form-select-option value="Escrivão da Polícia">Escrivão da Polícia</b-form-select-option>
               <b-form-select-option value="Agente Operacional">Agente Operacional</b-form-select-option>
@@ -226,7 +227,7 @@
           </b-form-group>
 
           <b-form-group label="Classe">
-            <b-form-select v-model="form.jobInfo.nm_office_class">
+            <b-form-select v-model="form.nm_office_class">
               <b-form-select-option value="E">E</b-form-select-option>
               <b-form-select-option value="1º">1º</b-form-select-option>
               <b-form-select-option value="2º">2º</b-form-select-option>
@@ -235,7 +236,7 @@
           </b-form-group>
 
           <b-form-group label="Lotação (Superintendência)">
-            <b-form-select v-model="form.jobInfo.nm_super_stocking">
+            <b-form-select v-model="form.nm_super_stocking">
               <b-form-select-option value="1º">1º</b-form-select-option>
               <b-form-select-option value="2º">2º</b-form-select-option>
               <b-form-select-option value="3º">3º</b-form-select-option>
@@ -244,7 +245,7 @@
           </b-form-group>
 
           <b-form-group label="Lotação (Seccional)">
-            <b-form-select v-model="form.jobInfo.nm_sectional_stocking">
+            <b-form-select v-model="form.nm_sectional_stocking">
               <b-form-select-option
                 v-for="(sectional, index) in sectionalStocking"
                 :key="index"
@@ -254,11 +255,11 @@
           </b-form-group>
 
           <b-form-group label="Unidade em que trabalha">
-            <b-form-input v-model="form.jobInfo.nm_work_unit" type="text" />
+            <b-form-input v-model="form.nm_work_unit" type="text" />
           </b-form-group>
 
           <b-form-group label="Município da Unidade que trabalha">
-            <b-form-input type="text" v-model="form.jobInfo.nm_municipality_work_unit" />
+            <b-form-input type="text" v-model="form.nm_municipality_work_unit" />
           </b-form-group>
 
           <b-row>
@@ -297,16 +298,16 @@
 
           <b-form-group label="Autorizar" class="mt-5">
             <b-form-checkbox
-              v-model="form.st_confirmed"
-              value="1"
-              unchecked-value="0"
+              v-model="form.authorize"
+              :value="1"
+              :unchecked-value="0"
               required
             >Autorizo descontar a contribuição conforme estabelecido na alínea "c", do art. 4º, do estatuto social desta entidade, em folha de pagamento ou débito em conta bancária, bem como contribuições extraordinárias votadas em Assembléia em favor da Aspol/PB.</b-form-checkbox>
           </b-form-group>
+          {{form.authorize}}
 
           <b-row>
             <b-col class="buttons">
-              <b-button variant="danger" class="mr-2">Sair</b-button>
               <b-button variant="info" class="mr-2">Limpar</b-button>
               <b-button variant="success" @click="formSubmited()">Salvar</b-button>
             </b-col>
@@ -322,15 +323,18 @@
 <script>
 import ModalError from "../error/ModalError";
 export default {
+
+  created() {
+    this.getAssociated()
+  },
+
   components: {
     ModalError
   },
 
   data() {
     return {
-      formControl: 1,
       form: {
-        personalInfo: {
           nu_registration: "",
           nm_name: "",
           nm_cpf: "",
@@ -341,26 +345,21 @@ export default {
           nu_rg: "",
           dt_birthday: "",
           nm_civil_state: "",
-          nm_education_level: ""
-        },
-        jobInfo: {
+          nm_education_level: "",
           nm_office: "",
           nm_office_class: "",
           nm_super_stocking: "",
           nm_sectional_stocking: "",
           nm_work_unit: "",
-          nm_municipality_work_unit: ""
-        },
-        address: {
+          nm_municipality_work_unit: "",
           nm_cep: "",
           nm_street: "",
           nu_number: "",
           nm_complement: "",
           nm_neighbohood: "",
           nm_city: "",
-          nm_uf: ""
-        },
-        authorize: 0
+          nm_uf: "",
+          authorize: 0
       },
       dependents: [],
       dependentName: "",
@@ -385,31 +384,52 @@ export default {
       }
 
       return sectional;
-    }
+    },
+
+    user: function() {
+        return this.$session.get('user')
+      }
   },
 
   methods: {
+    getAssociated() {
+      let id = this.$route.params.id;
+
+      if (Number.isInteger(id)) {
+        this.$http
+          .get("associated/show/" + id, {
+            headers: {
+              Authorization: "Bearer " +this.token
+            }
+          })
+          .then(res => {
+            if (res.status === 200) {
+              this.form = res.data.result.associated;
+            }
+          })
+          .catch(err => {
+            window.console.log(err);
+          });
+      }
+
+    },
+
     searchCep() {
       this.loadingAddress = true;
-      let cep = this.form.address.nm_cep;
+      let cep = this.form.nm_cep;
 
       this.$http("http://viacep.com.br/ws/" + cep + "/json/").then(res => {
         if (res.status === 200) {
           let result = res.data;
-          this.form.address.nm_street = result.logradouro;
-          this.form.address.nm_complement = result.complemento;
-          this.form.address.nm_neighbohood = result.bairro;
-          this.form.address.nm_city = result.localidade;
-          this.form.address.nm_uf = result.uf;
+          this.form.nm_street = result.logradouro;
+          this.form.nm_complement = result.complemento;
+          this.form.nm_neighbohood = result.bairro;
+          this.form.nm_city = result.localidade;
+          this.form.nm_uf = result.uf;
 
           this.loadingAddress = false;
         }
       });
-    },
-
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault();
-      this.formSubmited();
     },
 
     formSubmited() {
@@ -417,40 +437,42 @@ export default {
 
       let form = new FormData();
       
-      form.append("nu_registration", this.form.personalInfo.nu_registration);
-      form.append("nm_name", this.form.personalInfo.nm_name);
-      form.append("nm_cpf", this.form.personalInfo.nm_cpf);
-      form.append("nm_email", this.form.personalInfo.nm_email);
-      form.append("nm_ddd", this.form.personalInfo.nm_ddd);
-      form.append("nm_phone", this.form.personalInfo.nm_phone);
-      form.append("ch_sex", this.form.personalInfo.ch_sex);
-      form.append("nu_rg", this.form.personalInfo.nu_rg);
-      form.append("dt_birthday", this.form.personalInfo.dt_birthday);
-      form.append("nm_civil_state", this.form.personalInfo.nm_civil_state);
+      form.append("nu_registration", this.form.nu_registration);
+      form.append("nm_name", this.user.name);
+      form.append("nm_cpf", this.form.nm_cpf);
+      form.append("nm_email", this.user.email);
+      form.append("nm_ddd", this.form.nm_ddd);
+      form.append("nm_phone", this.form.nm_phone);
+      form.append("ch_sex", this.form.ch_sex);
+      form.append("nu_rg", this.form.nu_rg);
+      form.append("dt_birthday", this.form.dt_birthday);
+      form.append("nm_civil_state", this.form.nm_civil_state);
       form.append(
         "nm_education_level",
-        this.form.personalInfo.nm_education_level
+        this.form.nm_education_level
       );
-      form.append("nm_office", this.form.jobInfo.nm_office);
-      form.append("nm_office_class", this.form.jobInfo.mn_office_class);
-      form.append("nm_super_stocking", this.form.jobInfo.nm_super_stocking);
+      form.append("nm_office", this.form.nm_office);
+      form.append("nm_office_class", this.form.mn_office_class);
+      form.append("nm_super_stocking", this.form.nm_super_stocking);
       form.append(
         "nm_sectional_stocking",
-        this.form.jobInfo.nm_sectional_stocking
+        this.form.nm_sectional_stocking
       );
-      form.append("nm_work_unit", this.form.jobInfo.nm_work_unit);
+      form.append("nm_work_unit", this.form.nm_work_unit);
       form.append(
         "nm_municipality_work_unit",
-        this.form.jobInfo.nm_municipality_work_unit
+        this.form.nm_municipality_work_unit
       );
       form.append("st_confirmation", this.form.authorize);
-      form.append("nm_cep", this.form.address.nm_cep);
-      form.append("nm_street", this.form.address.nm_street);
-      form.append("nu_number", this.form.address.nu_number);
-      form.append("nm_neighbohood", this.form.address.nm_neighbohood);
-      form.append("nm_city", this.form.address.nm_city);
-      form.append("nm_complement", this.form.address.nm_complement);
-      form.append("nm_uf", this.form.address.nm_uf);
+      form.append('id_address', this.form.fk_address);
+      form.append("nm_cep", this.form.nm_cep);
+      form.append("nm_street", this.form.nm_street);
+      form.append("nu_number", this.form.nu_number);
+      form.append("nm_neighbohood", this.form.nm_neighbohood);
+      form.append("nm_city", this.form.nm_city);
+      form.append("nm_complement", this.form.nm_complement);
+      form.append("nm_uf", this.form.nm_uf);
+      form.append('st_active', 0);
 
       this.$http
         .post("associated", form, {
@@ -482,10 +504,9 @@ export default {
                       if (res.data.result.error) {
                         this.errors = res.data.result;
                         this.$refs.error.$refs["modal-error"].show();
-                        window.console.log(res.data.result.error);
                       } else {
-                        this.$refs["associated"].hide();
                         alert("Dados enviados com successo.");
+                        this.$router.push({name: 'home'})
                       }
                     }
                   })

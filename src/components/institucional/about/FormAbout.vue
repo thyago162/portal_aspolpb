@@ -3,8 +3,6 @@
     <b-row class="header-title">
       <b-col class="title" lg="11">
         <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'cp-menu'}"> Painel de Controle</b-link>
-           / 
           <b-link class="navigation-link" :to="{name: 'table-about'}"> Quem somos </b-link> / Formulário</h5>
       </b-col>
     </b-row>
@@ -52,7 +50,7 @@
             </b-form>
           </b-form-group>
 
-          <b-form-group>
+          <b-form-group v-if="selected == 1">
             <ImageUpload
               :id="about.id_about"
               folder="public/institucional/about"
@@ -76,7 +74,7 @@
     <hr/>
     <b-row>
       <b-col class="buttons">
-        <b-button variant="danger" class="mr-2" @click="$router.push({name: 'table-about'})">Sair</b-button>
+        <b-button variant="warning" class="mr-2" @click="clearForm()">Limpar</b-button>
         <b-button variant="success" @click="sendForm()">
           Salvar
           <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
@@ -94,6 +92,7 @@ import ModalError from "../../error/ModalError";
 import SessionOff from "../../session/Session";
 export default {
   created() {
+    this.clearForm();
     this.getAbout();
   },
 
@@ -229,6 +228,17 @@ export default {
             window.console.log(err);
           });
       }
+    },
+
+    clearForm() {
+      this.form.id_about = ""
+      this.form.nm_name = "";
+      this.form.nm_office = "";
+      this.form.nm_ddd = "";
+      this.form.nm_phone = "";
+      this.form.fk_advice = "";
+      this.form.nm_image_path = "";
+      this.$store.dispatch('images', "");
     }
   }
 };

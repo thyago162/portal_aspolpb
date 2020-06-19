@@ -1,30 +1,29 @@
 <template>
-    <div class="card-news ml-1" @click="seeNews" >
-        <b-card no-body img-right>
+    <div class="card-news ml-1" >
+        <b-card no-body img-right v-for="(news,index) in cardnews " :key="index" :style="{borderLeft: '4px solid darkslategrey'}">
             <b-card-header :style="{width: '25%'}">
-                <b-img-lazy v-bind="mainProps" :src="image" height: auto ></b-img-lazy>
+                <b-img-lazy v-bind="mainProps" :src="news.nm_image_path" height: auto ></b-img-lazy>
             </b-card-header>
 
             <b-card-body :style="{width: '75%'}">
                 <b-row>
                     <b-col>
-                        <span class="card-news-date">{{cardnews.dt_date | date}}</span>
+                        <span class="card-news-date">{{news.dt_date | date}}</span>
                     </b-col>
                 </b-row>
                
                 <b-link class="card-news-title">
                     <h6 class="mt-1 " >
-                        {{cardnews.nm_title}}
+                        {{news.nm_title}}
                     </h6>
                 </b-link>
                 
-                <b-card-text class="mt-2 card-news-subtitle" v-if="cardnews.nm_subtitle != 'null'">
-                    {{cardnews.nm_subtitle}}
+                <b-card-text class="mt-2 card-news-subtitle" v-if="news.nm_subtitle != 'null'">
+                    {{news.nm_subtitle}}
                 </b-card-text>
                     
             </b-card-body>
         </b-card>
-        
     </div>
 </template>
 
@@ -39,7 +38,7 @@
                     fluidGrow: true,
                     blank: true,
                     blankColor: '#bbb',
-                    class: 'img-thumbnail card-news-image'
+                    class: 'card-news-image'
                 }
             }
         },
@@ -52,7 +51,7 @@
 
         methods: {
             seeNews() {
-                this.$router.push({ name: 'visualizar-noticias', params: { title: this.cardnews.nm_title }})
+                this.$router.push({ name: 'visualizar-noticias', params: { title: this.news.nm_title }})
             }
         }
         
@@ -61,9 +60,10 @@
 
 <style scoped>
     .card-news {
-        border-left: 4px solid darkslategrey;
-        margin: 10px;
-        margin-top: 2px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 412px;
     }
 
     .card-news-date {
@@ -75,7 +75,7 @@
     .card-news-image {
        object-fit: cover;
        object-position: center;
-       max-height: 112px;
+       max-height: 100px;
     }
 
     .card-news-icon {
@@ -135,6 +135,9 @@
             font-size: 10px;
         }
         
+        .card-news {
+            height: 290px;
+        }
     }
 
     @media screen  and (max-width: 375px){

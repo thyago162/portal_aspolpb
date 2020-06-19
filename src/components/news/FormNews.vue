@@ -3,13 +3,12 @@
     <b-row class="header-title">
       <b-col class="title" lg="11">
         <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'cp-menu'}"> Painel de Controle</b-link>
-           / 
           <b-link class="navigation-link" :to="{name: 'table-news'}"> Notícias </b-link> / Formulário</h5>
       </b-col>
     </b-row>
     <b-row class="mt-4 ml-5 mr-5">
       <b-col  v-show="!preview">
+        {{file}}
        
         <form @submit.stop.prevent="formSubmited()" enctype="multipart/form-data" class="mt-3">
           <b-form-group label="Título">
@@ -70,8 +69,8 @@
     <hr class="mt-3 mb-4" />
     <b-row class="mt-2 ml-5">
       <b-col class="buttons">
-        <b-button variant="danger" class="mr-2" @click="$router.push({name: 'table-news'})">
-          Sair
+        <b-button variant="warning" class="mr-2" @click="clearForm()">
+          Limpar
         </b-button>
         <b-button variant="primary" size="md" @click="save" class="mr-2">
           <span :style="{fontWeight: 'bolder'}">Salvar</span>
@@ -255,6 +254,7 @@ export default {
               } else {
                 this.$store.dispatch("news", 1);
                 this.$router.push({name: 'table-news'})
+                this.$store.dispatch('images','')
 
                 this.errors = {};
               }

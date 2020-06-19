@@ -32,9 +32,9 @@ import FormFile from '../components/file/FormFile';
 import TableUser from '../components/user/TableUser';
 import Dashboard from '../pages/acesso_restrito/Dashboard';
 import Search from '../pages/Search';
+import User from '../components/user/User';
+import AssociatedInfo from '../components/associated/AssociatedInfo';
 import NotFound from '../pages/error/NotFound';
-
-
 
 Vue.use(Router);
 
@@ -189,6 +189,16 @@ export default new Router({
             component: Search,
             name: 'buscar',
             props: { default: true, sidebar: false }
+        },
+        {
+            path: '/minha-conta',
+            component: User,
+            name: 'user'
+        },
+        {
+            path: '/minha-conta/associado',
+            component: AssociatedInfo,
+            name: 'associated-info'
         },
         {
             path: '*',

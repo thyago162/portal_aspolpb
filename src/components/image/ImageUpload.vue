@@ -133,6 +133,7 @@ export default {
     },
 
     setImage(e) {
+      this.$store.dispatch("images", '');
       const file = e.target.files[0];
 
       if (file.type.indexOf("image/") === -1) {

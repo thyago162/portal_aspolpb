@@ -171,7 +171,6 @@
         </b-navbar>
         <Auth />
         <ResetPassword />
-        <Me />
         <VueFab v-if="token  != null" />
         
     </div>  
@@ -180,7 +179,6 @@
 <script>
     import Auth from '../auth/Auth';
     import ResetPassword from '../auth/ResetPassword';
-    import Me from '../user/Me';
     import VueFab from '../float-menu/VueFab';
 
     export default {
@@ -188,7 +186,6 @@
         components: {
             Auth,
             ResetPassword,
-            Me,
             VueFab
         },
 

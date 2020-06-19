@@ -24,6 +24,14 @@
                 <MediaSlide :medias="videos"  />
             </b-col>
         </b-row>
+
+      <b-row class="align-body mt-3">
+            <b-col lg="11" >
+                <h4 class="mt-2 ml-2">Aspol nas redes sociais</h4>
+                <MediaSlide :medias="socialNetwork"  />
+                
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
@@ -48,7 +56,7 @@
 
         computed: {
             media: function() {
-                return this.$store.getters.getMedia;
+                return this.$store.getters.getMedia.data;
             },
 
             newspapers: function() {
@@ -73,6 +81,14 @@
                 })
 
                 return video;
+            },
+
+            socialNetwork: function() {
+                let socialNt = this.media.filter((param) => {
+                    return param.nu_type === 4
+                })
+
+                return socialNt;
             }
         },
 

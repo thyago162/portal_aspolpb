@@ -1,34 +1,33 @@
 <template>
     <div>
-        <carousel :perPageCustom="customSlide" class="ml-2 mt-4">
-            <slide v-for="(media, index) in medias" :key="index" class="mr-2" >
+        <carousel :perPageCustom="customSlide" class="ml-2 mt-4 mb-3">
+            <slide v-for="(media, index) in medias" :key="index" class="mr-2 box" >
 
                 <div v-if="media.nu_type === 1">
                     <b-link @click="redirectTo(media.nm_link)">
                         <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
                     </b-link>
-                    <h6 class="mt-1">
-                        {{media.nm_title}}
-                    </h6>
-                    <h6>{{media.dt_date | date}}</h6>
+                   
                 </div>
 
                 <div v-if="media.nu_type === 2"  >
                     <b-embed type="iframe"  :src="media.nm_link"></b-embed>
-                    <h6 class="mt-2">
-                        {{media.nm_subtitle}}
-                    </h6>
-                    <h6>{{media.dt_date | date}}</h6>
                 </div>
             
                 <div v-if="media.nu_type === 3" >
+                
                     <b-link v-b-modal.play-sound @click="playSound(media.nm_audio_path)"> 
-                        <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
+                        <b-icon icon="headphones" class="h1 icon"></b-icon>
                     </b-link>
-                    <h6 class="mt-2">
-                        {{media.nm_subtitle}}
-                    </h6>
-                    <h6>{{media.dt_date | date}}</h6>
+                    <b-img class="image" fluid :src="media.nm_image_path" ></b-img>
+                    
+                </div>
+
+                <div v-if="media.nu_type === 4">
+                    <b-link @click="redirectTo(media.nm_link)">
+                        <b-img-lazy class="image" fluid :src="media.nm_image_path"></b-img-lazy>
+                    </b-link>
+
                 </div>
             </slide>
             
@@ -73,7 +72,7 @@
 <style scoped>
     .image {
         width: 100%;
-        height: 200px;
+        height: 180px;
         object-fit: cover;
         object-position: center;
     }
@@ -90,5 +89,25 @@
     .audio-play:hover {
         color: green;
     }
+
+    .box {
+        border: 2px solid #333;
+    }
+
+    .icon {
+        position: absolute;
+        z-index: 1000;
+        margin-top: 80px;
+        margin-left: 150px;
+        color: #ffffff;
+        background-color: rgba(51, 51, 51, 0.342);
+        border-radius: 5px;
+    }
+
+    .icon:hover {
+        background-color: rgb(48, 163, 48);
+    }
+
+    
     
 </style>

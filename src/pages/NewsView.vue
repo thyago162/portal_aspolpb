@@ -57,7 +57,7 @@
                 </b-card>
            </b-col>
            <b-col v-if="token && administrator === 1">
-               <b-button size="sm" @click="$router.push({name: 'form-news', query: {id: news.id_news}})" variant="info">
+               <b-button size="sm" @click="$router.push({name: 'form-news', params: {id: news.id_news}})" variant="info">
                    <b-icon icon="pencil"></b-icon>
                </b-button>
            </b-col>

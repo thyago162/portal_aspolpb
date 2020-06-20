@@ -6,14 +6,14 @@
                 <nav class="icons mr-4">
 
                     <div class="block-icon ml-2">
-                        <a >
+                        <a href="https://www.instagram.com/aspolpb/?hl=pt-br" target="_blank">
                             <font-awesome-icon :icon="['fab', 'instagram']" 
                              class="icon alt personal-icons" />
                         </a>
                     </div>
 
                     <div class="block-icon ml-2">>
-                         <a >
+                         <a href="https://pt-br.facebook.com/aspolpb/" target="_blank">
                             <font-awesome-icon :icon="['fab', 'facebook-f']" 
                             class="icon alt personal-icons facebook-icon" />
                         </a>

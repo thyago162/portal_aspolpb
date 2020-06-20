@@ -12,7 +12,7 @@
                     </b-col>
                 </b-row>
                
-                <b-link class="card-news-title">
+                <b-link class="card-news-title" :to="{name: 'visualizar-noticias', params: {title: news.nm_title}}">
                     <h6 class="mt-1 " >
                         {{news.nm_title}}
                     </h6>

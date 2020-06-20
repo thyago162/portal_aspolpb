@@ -48,54 +48,66 @@
           </b-form-group>
 
           <b-row class="mt-4 mb-4 ml-1 mr-1" :style="{backgroundColor: 'gray', color: '#fff'}">
-              <b-col>
-                  <h4 class="mt-2">Endereço</h4>
-              </b-col>
+            <b-col>
+              <h4 class="mt-2">Endereço</h4>
+            </b-col>
           </b-row>
 
-          <b-form-group>
-            <b-form-checkbox
-              name="checkbox-1"
-              :value="0"
-              :unchecked-value="1"
-              v-model="address"
-            >Não possui endereço?</b-form-checkbox>
-          </b-form-group>
+          <b-row class="mt-3">
+            <b-col>
+              <b-form-group label="Cep">
+                <b-input-group>
+                  <b-form-input
+                    trim
+                    placeholder="Apenas números"
+                    v-model="form.nm_cep"
+                    type="text"
+                  />
+                  <b-input-group-append>
+                    <b-button variant="default" @click="searchCep">
+                      <b-icon icon="search"></b-icon>Buscar
+                      <b-spinner small label="Small Spinner" class="ml-1" v-show="loadingAddress"></b-spinner>
+                    </b-button>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+              <b-form-group label="Rua">
+                <b-form-input v-model="form.nm_street" />
+              </b-form-group>
 
-          <b-form-group label="Cep">
-            <b-input-group>
-              <b-form-input trim placeholder="Apenas números" v-model="form.nm_cep" type="text" />
-              <b-input-group-append>
-                <b-button variant="default" @click="searchCep">
-                  <b-icon icon="search"></b-icon>Buscar
-                  <b-spinner small label="Small Spinner" class="ml-1" v-show="loadingAddress"></b-spinner>
-                </b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-          <b-form-group label="Rua">
-            <b-form-input v-model="form.nm_street" />
-          </b-form-group>
+              <b-form-group label="Número">
+                <b-form-input v-model="form.nm_number" />
+              </b-form-group>
 
-          <b-form-group label="Número">
-            <b-form-input v-model="form.nu_number" type="number" min="0" />
-          </b-form-group>
+              <b-form-group label="Complemento">
+                <b-form-input placeholder="Ex: apt 000" v-model="form.nm_complement" />
+              </b-form-group>
 
-          <b-form-group label="Complemento">
-            <b-form-input placeholder="Ex: apt 000" v-model="form.nm_complement" />
-          </b-form-group>
+              <b-form-group label="Bairro">
+                <b-form-input v-model="form.nm_neighbohood" />
+              </b-form-group>
 
-          <b-form-group label="Bairro">
-            <b-form-input v-model="form.nm_neighbohood" />
-          </b-form-group>
+              <b-form-group label="Estado">
+                <b-form-select v-model="form.nm_uf" @input="getCities()">
+                  <b-form-select-option
+                    v-for="(uf, index) in ufs"
+                    :key="index"
+                    :value="uf.sigla"
+                  >{{uf.nome}}</b-form-select-option>
+                </b-form-select>
+              </b-form-group>
 
-          <b-form-group label="Cidade">
-            <b-form-input v-model="form.nm_city" />
-          </b-form-group>
-
-          <b-form-group label="UF">
-            <b-form-input placeholder="Ex: PB" v-model="form.nm_uf"></b-form-input>
-          </b-form-group>
+              <b-form-group label="Cidade">
+                <b-form-select v-model="form.nm_city">
+                  <b-form-select-option
+                    v-for="(city, index) in cities"
+                    :key="index"
+                    :value="city.nome"
+                  >{{city.nome}}</b-form-select-option>
+                </b-form-select>
+              </b-form-group>
+            </b-col>
+          </b-row>
 
           <b-form-group>
             <Image-Upload
@@ -116,12 +128,14 @@
         </form>
       </b-col>
     </b-row>
-    <hr/>
+    <hr />
     <b-row>
-        <b-col class="buttons">
-            <b-button variant="danger" class="mr-2">Sair</b-button>
-            <b-button variant="success" >Salvar</b-button>
-        </b-col>
+      <b-col class="buttons">
+        <b-button variant="danger" class="mr-2">Sair</b-button>
+        <b-button variant="success" @click="formSubmited()">
+          <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>Salvar
+        </b-button>
+      </b-col>
     </b-row>
     <SessionOff ref="session" />
     <ModalError ref="error" :errors="errors" />
@@ -135,12 +149,12 @@ import ModalError from "../error/ModalError";
 import ImageUpload from "../image/ImageUpload";
 
 export default {
-
   created() {
     this.getAgreement();
+    this.getUfs();
   },
-
   mounted() {
+    window.console.log(this.$route.params);
     this.splitSocialNetwork();
     this.hasAddress();
   },
@@ -163,7 +177,25 @@ export default {
   },
   data() {
     return {
-      form: {},
+      ufs: [],
+      cities: [],
+      form: {
+        id_agreement: "",
+        nm_title: "",
+        nm_content: "",
+        nm_image_path: "",
+        nm_file_path: "",
+        nm_link: "",
+        nm_social_network_link: "",
+        nm_category: "",
+        nm_city: "",
+        nm_cep: "",
+        nm_street: "",
+        nm_number: "",
+        nm_neighbohood: "",
+        nm_complement: "",
+        nm_uf: ""
+      },
       loading: false,
       doc: null,
       errors: {},
@@ -202,8 +234,7 @@ export default {
         { value: "Vestuário", text: "Vestuário" },
         { value: "Outros", text: "Outros" }
       ],
-      loadingAddress: false,
-      address: 1
+      loadingAddress: false
     };
   },
 
@@ -250,9 +281,8 @@ export default {
               this.errors = res.data.result;
             } else {
               this.$store.dispatch("agreement");
-              this.$refs["agreement"].hide();
-              this.formControl = 1;
-              this.address = 1;
+              this.$store.dispatch("images", "");
+              this.$router.push({ name: "table-agreement" });
             }
           }
         });
@@ -268,27 +298,29 @@ export default {
         image = this.file;
       }
 
-      let form = new FormData();
-      form.append("id_agreement", this.form.id_agreement);
-      form.append("nm_title", this.form.nm_title);
-      form.append("nm_content", this.form.nm_content);
-      form.append("nm_image_path", this.form.nm_image_path);
-      form.append("nm_file_path", this.form.nm_file_path);
-      form.append("nm_link", this.form.nm_link);
-      form.append("nm_social_network_link", this.form.nm_social_network_link);
-      form.append("nm_category", this.form.nm_category);
-      form.append("nm_city", this.form.nm_city);
-      form.append("nm_cep", this.form.nm_cep);
-      form.append("nm_street", this.form.nm_street);
-      form.append("nu_number", this.form.nu_number);
-      form.append("nm_neighbohood", this.form.nm_neighbohood);
-      form.append("nm_complement", this.form.nm_complement);
-      form.append("nm_uf", this.form.nm_uf);
-      form.append("file", image);
-      form.append("doc", this.doc);
-      form.append("has_address", this.address);
+      let formData = new FormData();
+      formData.append("id_agreement", this.form.id_agreement);
+      formData.append("nm_title", this.form.nm_title);
+      formData.append("nm_content", this.form.nm_content);
+      formData.append("nm_image_path", this.form.nm_image_path);
+      formData.append("nm_file_path", this.form.nm_file_path);
+      formData.append("nm_link", this.form.nm_link);
+      formData.append(
+        "nm_social_network_link",
+        this.form.nm_social_network_link
+      );
+      formData.append("nm_category", this.form.nm_category);
+      formData.append("nm_city", this.form.nm_city);
+      formData.append("nm_cep", this.form.nm_cep);
+      formData.append("nm_street", this.form.nm_street);
+      formData.append("nm_number", this.form.nm_number);
+      formData.append("nm_neighbohood", this.form.nm_neighbohood);
+      formData.append("nm_complement", this.form.nm_complement);
+      formData.append("nm_uf", this.form.nm_uf);
+      formData.append("file", image);
+      formData.append("doc", this.doc);
 
-      return form;
+      return formData;
     },
 
     joinSocialNetworkLinks() {
@@ -349,30 +381,50 @@ export default {
     },
 
     hasAddress() {
-      this.item.nm_cep != null ? (this.address = 1) : (this.address = 0);
+      this.form.nm_cep != null ? (this.address = 1) : (this.address = 0);
     },
 
     getAgreement() {
-        
-        let id = this.$route.params.id;
+      let id = this.$route.params.id;
 
-        if (Number.isInteger(id)) {
+      if (Number.isInteger(id)) {
         this.$http
-          .get("agreement/" + id, {
+          .get("agreement/show/" + id, {
             headers: {
-              Authorization: "Bearer " +this.token
+              Authorization: "Bearer " + this.token
             }
           })
           .then(res => {
             if (res.status === 200) {
               this.form = res.data.result.agreement;
-              window.console.log(this.form);
             }
           })
           .catch(err => {
             window.console.log(err);
           });
       }
+    },
+
+    getUfs() {
+      this.$http(
+        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+      ).then(res => {
+        if (res.status === 200) {
+          this.ufs = res.data;
+        }
+      });
+    },
+
+    getCities() {
+      this.$http(
+        "https://servicodados.ibge.gov.br/api/v1/localidades/estados/" +
+          this.form.nm_uf +
+          "/municipios"
+      ).then(res => {
+        if (res.status === 200) {
+          this.cities = res.data;
+        }
+      });
     }
   }
 };

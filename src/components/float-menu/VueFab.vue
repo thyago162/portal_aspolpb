@@ -4,6 +4,7 @@
     :main-icon="mainIcon"
     :bg-color="bgColor"
     :actions="fabActions"
+    @inicio="home"
     @noticias="news" @institucional="about" @convenios="agreement" @associados="associated"
     @midias="media" @arquivos="file" @usuarios="user" @relatorios="dashboard"
   ></fab>
@@ -22,6 +23,11 @@ export default {
       position: "button-right",
       mainIcon: "menu",
       fabActions: [
+        {
+          name: 'inicio',
+          icon: "home",
+          tooltip: 'Início'
+        },
         {
           name: "noticias",
           icon: "article",
@@ -67,6 +73,9 @@ export default {
   },
 
   methods: {
+    home() {
+      this.$router.push({name: 'home'});
+    },
     news() {
       this.$router.push({ name: "table-news" });
     },

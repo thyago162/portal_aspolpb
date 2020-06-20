@@ -171,7 +171,7 @@
         </b-navbar>
         <Auth />
         <ResetPassword />
-        <VueFab v-if="token  != null" />
+        <VueFab v-if="token  != null && user.administrator == 1" />
         
     </div>  
 </template>
@@ -201,11 +201,6 @@
 
             user: function() {
                 return this.$store.getters.getLoggedIn;
-            },
-
-            administrator: function() {
-                let user = this.$session.get('user');
-                return user ? user.administrator : 0
             }
         },
 

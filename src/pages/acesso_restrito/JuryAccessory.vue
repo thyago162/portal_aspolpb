@@ -24,7 +24,7 @@
                                     
                                 </b-col>
                                 <b-col>
-                                    <b-button :style="{float: 'right'}" v-b-modal.jury-accessory-form @click="resetModal()">
+                                    <b-button size="sm" variant="warning" :style="{float: 'right'}" v-b-modal.jury-accessory-form @click="resetModal()" v-if="token != null && user.administrator === 1">
                                         <b-icon icon="pencil"></b-icon>
                                     </b-button>
                                 </b-col>

@@ -4,7 +4,7 @@
 
     <b-row class="header-title">
       <b-col lg="11" class="title">
-        <h5>CAMPANHAS</h5>
+        <h5>IDENTIDADE VISUAL</h5>
       </b-col>
     </b-row>
 

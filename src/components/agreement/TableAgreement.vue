@@ -3,7 +3,6 @@
     <b-row class="header-title">
       <b-col class="title" lg="11">
         <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'cp-menu'}">Painel de Controle</b-link>/
           Convênios
         </h5>
       </b-col>
@@ -70,6 +69,7 @@ export default {
       fields: [
         { key: "nm_title", label: "Nome", sortable: true },
         { key: "nm_category", label: "Categoria", sortable: true },
+        {key : 'nm_city', label: 'Cidade', sortable:  true},
         { key: "edit", label: "" },
         { key: "remove", label: "" }
       ],
@@ -89,7 +89,7 @@ export default {
     removeItem(id) {
       if (confirm("Dejesa realmente remover?")) {
         this.$http
-          .delete("agreement/" + id, {
+          .delete("agreement/"+ id, {
             headers: {
               Authorization: "Bearer " + this.token
             }

@@ -22,6 +22,7 @@
           :style="{float: 'right'}"
           variant="primary" 
           @click="$router.push({name: 'form-transparency', params: {id: 'novo'}})"
+          v-if="token != null && user.administrator === 1"
         >
           Nova gestão
         </b-button>
@@ -50,6 +51,10 @@ export default {
 
     transparency: function() {
       return this.$store.getters.getTransparency;
+    },
+
+    user: function() {
+      return this.$session.get('user');
     }
   },
 

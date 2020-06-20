@@ -68,7 +68,6 @@ export default {
      })
      .then(res => {
          if (res.status === 200) {
-             window.console.log(res.data.result.transparencyFile)
              this.files = res.data.result.transparencyFile
          }
      })

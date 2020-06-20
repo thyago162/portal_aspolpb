@@ -181,6 +181,7 @@
                     form.append('name',this.formData.name);
                     form.append('email',this.formData.email);
                     form.append('password',this.formData.password);
+                    form.append('password_confirmation', this.formData.confirmation)
 
                     this.$http.post('register',form)
                     .then(res => {

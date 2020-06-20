@@ -17,10 +17,10 @@
         </div>
 
         <div v-bind:class="[activeClass, pendingClass]">
-          <h5>Atualizado: 18/06/2020</h5>
+          <h5>Atualizado: </h5>
         </div>
 
-        <b-button variant="info"  @click="$router.push({name: 'form-associated', params: {id: associated.id_associated}})">
+        <b-button variant="info"  @click="$router.push({name: 'form-associated', params: {id: associated.nm_email}})">
           <b-icon icon="pen"></b-icon>
         </b-button>
       </b-col>

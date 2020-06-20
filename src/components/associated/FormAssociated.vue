@@ -25,28 +25,15 @@
       <b-col cols="11">
         <form @submit.stop.prevent="formSubmited">
           <b-form-group label="Matrícula">
-            <b-form-input
-              type="text"
-              v-model="form.nu_registration"
-              placeholder="Apenas números"
-            />
+            <b-form-input type="text" v-model="form.nu_registration" placeholder="Apenas números" />
           </b-form-group>
 
           <b-form-group label="Nome">
-            <b-form-input
-              type="text"
-              v-model="form.nm_name"
-              :placeholder="user.name"
-              readonly
-            />
+            <b-form-input type="text" v-model="form.nm_name" :placeholder="user.name" readonly />
           </b-form-group>
 
           <b-form-group label="Cpf">
-            <b-form-input
-              type="text"
-              v-model="form.nm_cpf"
-              placeholder="Apenas números"
-            />
+            <b-form-input type="text" v-model="form.nm_cpf" placeholder="Apenas números" />
           </b-form-group>
 
           <b-form-group label="Email">
@@ -56,20 +43,12 @@
           <b-row>
             <b-col lg="3">
               <b-form-group label="DDD">
-                <b-form-input
-                  type="text"
-                  v-model="form.nm_ddd"
-                  placeholder="Apenas números"
-                />
+                <b-form-input type="text" v-model="form.nm_ddd" placeholder="Apenas números" />
               </b-form-group>
             </b-col>
             <b-col>
               <b-form-group label="Telefone">
-                <b-form-input
-                  type="text"
-                  v-model="form.nm_phone"
-                  placeholder="Apenas números"
-                />
+                <b-form-input type="text" v-model="form.nm_phone" placeholder="Apenas números" />
               </b-form-group>
             </b-col>
           </b-row>
@@ -82,11 +61,7 @@
           </b-form-group>
 
           <b-form-group label="Cédula de identidade (RG)">
-            <b-form-input
-              type="number"
-              v-model="form.nu_rg"
-              placeholder="Apenas números"
-            />
+            <b-form-input type="number" v-model="form.nu_rg" placeholder="Apenas números" />
           </b-form-group>
 
           <b-form-group label="Data de nascimento">
@@ -150,12 +125,7 @@
 
           <b-form-group label="Cep" class="mt-3">
             <b-input-group>
-              <b-form-input
-                trim
-                placeholder="Apenas números"
-                v-model="form.nm_cep"
-                type="text"
-              />
+              <b-form-input trim placeholder="Apenas números" v-model="form.nm_cep" type="text" />
               <b-input-group-append>
                 <b-button variant="default" @click="searchCep">
                   <b-icon icon="search"></b-icon>Buscar
@@ -172,7 +142,7 @@
           <b-row>
             <b-col lg="3">
               <b-form-group label="Número">
-                <b-form-input v-model="form.nu_number" />
+                <b-form-input v-model="form.nm_number" />
               </b-form-group>
             </b-col>
             <b-col>
@@ -304,7 +274,6 @@
               required
             >Autorizo descontar a contribuição conforme estabelecido na alínea "c", do art. 4º, do estatuto social desta entidade, em folha de pagamento ou débito em conta bancária, bem como contribuições extraordinárias votadas em Assembléia em favor da Aspol/PB.</b-form-checkbox>
           </b-form-group>
-          {{form.authorize}}
 
           <b-row>
             <b-col class="buttons">
@@ -317,49 +286,52 @@
     </b-row>
 
     <ModalError ref="error" :errors="errors" />
+    <SessionOff ref="session" />
   </b-container>
 </template>
 
 <script>
 import ModalError from "../error/ModalError";
-export default {
+import SessionOff from "../session/Session";
 
+export default {
   created() {
-    this.getAssociated()
+    this.getAssociated();
   },
 
   components: {
-    ModalError
+    ModalError,
+    SessionOff
   },
 
   data() {
     return {
       form: {
-          nu_registration: "",
-          nm_name: "",
-          nm_cpf: "",
-          nm_email: "",
-          nm_ddd: "",
-          nm_phone: "",
-          ch_sex: "",
-          nu_rg: "",
-          dt_birthday: "",
-          nm_civil_state: "",
-          nm_education_level: "",
-          nm_office: "",
-          nm_office_class: "",
-          nm_super_stocking: "",
-          nm_sectional_stocking: "",
-          nm_work_unit: "",
-          nm_municipality_work_unit: "",
-          nm_cep: "",
-          nm_street: "",
-          nu_number: "",
-          nm_complement: "",
-          nm_neighbohood: "",
-          nm_city: "",
-          nm_uf: "",
-          authorize: 0
+        nu_registration: "",
+        nm_name: "",
+        nm_cpf: "",
+        nm_email: "",
+        nm_ddd: "",
+        nm_phone: "",
+        ch_sex: "",
+        nu_rg: "",
+        dt_birthday: "",
+        nm_civil_state: "",
+        nm_education_level: "",
+        nm_office: "",
+        nm_office_class: "",
+        nm_super_stocking: "",
+        nm_sectional_stocking: "",
+        nm_work_unit: "",
+        nm_municipality_work_unit: "",
+        nm_cep: "",
+        nm_street: "",
+        nm_number: "",
+        nm_complement: "",
+        nm_neighbohood: "",
+        nm_city: "",
+        nm_uf: "",
+        authorize: 0
       },
       dependents: [],
       dependentName: "",
@@ -387,31 +359,35 @@ export default {
     },
 
     user: function() {
-        return this.$session.get('user')
-      }
+      return this.$session.get("user");
+    },
+
+    token: function() {
+      return this.$session.get('jwt');
+    }
   },
 
   methods: {
     getAssociated() {
       let id = this.$route.params.id;
 
-      if (Number.isInteger(id)) {
-        this.$http
-          .get("associated/show/" + id, {
-            headers: {
-              Authorization: "Bearer " +this.token
+      this.$http
+        .get("associated/show/email/" + id, {
+          headers: {
+            Authorization: "Bearer "+this.token
+          }
+        })
+        .then(res => {
+          if (res.status === 200) {
+            if (res.data.token_failure) {
+              this.$refs.session.$refs.session.show();
             }
-          })
-          .then(res => {
-            if (res.status === 200) {
-              this.form = res.data.result.associated;
-            }
-          })
-          .catch(err => {
-            window.console.log(err);
-          });
-      }
-
+            this.form = res.data.result.associated;
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+        });
     },
 
     searchCep() {
@@ -436,7 +412,7 @@ export default {
       this.loading = true;
 
       let form = new FormData();
-      
+
       form.append("nu_registration", this.form.nu_registration);
       form.append("nm_name", this.user.name);
       form.append("nm_cpf", this.form.nm_cpf);
@@ -447,32 +423,26 @@ export default {
       form.append("nu_rg", this.form.nu_rg);
       form.append("dt_birthday", this.form.dt_birthday);
       form.append("nm_civil_state", this.form.nm_civil_state);
-      form.append(
-        "nm_education_level",
-        this.form.nm_education_level
-      );
+      form.append("nm_education_level", this.form.nm_education_level);
       form.append("nm_office", this.form.nm_office);
       form.append("nm_office_class", this.form.mn_office_class);
       form.append("nm_super_stocking", this.form.nm_super_stocking);
-      form.append(
-        "nm_sectional_stocking",
-        this.form.nm_sectional_stocking
-      );
+      form.append("nm_sectional_stocking", this.form.nm_sectional_stocking);
       form.append("nm_work_unit", this.form.nm_work_unit);
       form.append(
         "nm_municipality_work_unit",
         this.form.nm_municipality_work_unit
       );
       form.append("st_confirmation", this.form.authorize);
-      form.append('id_address', this.form.fk_address);
+      form.append("id_address", this.form.fk_address);
       form.append("nm_cep", this.form.nm_cep);
       form.append("nm_street", this.form.nm_street);
-      form.append("nu_number", this.form.nu_number);
+      form.append("nm_number", this.form.nm_number);
       form.append("nm_neighbohood", this.form.nm_neighbohood);
       form.append("nm_city", this.form.nm_city);
       form.append("nm_complement", this.form.nm_complement);
       form.append("nm_uf", this.form.nm_uf);
-      form.append('st_active', 0);
+      form.append("st_active", 0);
 
       this.$http
         .post("associated", form, {
@@ -505,8 +475,7 @@ export default {
                         this.errors = res.data.result;
                         this.$refs.error.$refs["modal-error"].show();
                       } else {
-                        alert("Dados enviados com successo.");
-                        this.$router.push({name: 'home'})
+                        this.$router.push({ name: "home" });
                       }
                     }
                   })

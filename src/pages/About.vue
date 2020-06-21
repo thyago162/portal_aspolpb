@@ -1,12 +1,12 @@
 <template>
     <b-container fluid class="mb-3">
-        <b-row class="header-title">
-            <b-col lg="11" class="title">
+        <b-row class="header-title ml-1 mr-1">
+            <b-col class="title">
                 <h5>QUEM SOMOS</h5>
             </b-col>
         </b-row>
-        <b-row class="mt-4 align-body" >
-            <b-col lg="11" >
+        <b-row class="mt-4 align-body mr-1" >
+            <b-col  >
                 <b-tabs class="ml-4" v-if="about">
                     <b-tab title="Presidência" @click="getAbout(office.presidency)">
                         <div class="about">

@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="mb-3">
-    <b-row class="header-title">
-      <b-col class="title" lg="11">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">
           <b-link class="navigation-link" :to="{name: 'table-agreement'}">Convênios</b-link>/
           Formulário
@@ -9,7 +9,7 @@
       </b-col>
     </b-row>
 
-    <b-row class="mt-4 ml-5 mr-5">
+    <b-row class="mt-4 ml-1 mr-1">
       <b-col>
         <form @submit.stop.prevent="formSubmited">
           <b-form-group label="Categoria">

@@ -1,13 +1,13 @@
 <template>
     <b-container fluid class="mb-3">
 
-        <b-row class="header-title">
-            <b-col class="title" lg="11">
+        <b-row class="header-title ml-1 mr-1">
+            <b-col class="title" >
                 <h5>NOSSA HISTORIA</h5>
             </b-col>
         </b-row>
-        <b-row class="mb-4 mt-3 align-body">
-            <b-col lg="11">
+        <b-row class="mb-4 mt-3 align-body ml-1 mr-1">
+            <b-col >
                 <b-button variant="warning" class="mt-2" :style="{float: 'right'}" v-if="administrator == 1">
                     <b-icon icon="pencil" v-b-modal.form-history></b-icon>
                 </b-button>

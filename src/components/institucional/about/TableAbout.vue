@@ -1,14 +1,14 @@
 <template>
   <b-container fluid>
-    <b-row class="header-title">
-      <b-col class="title" lg="11">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">
            Quem somos
         </h5>
       </b-col>
     </b-row>
     <b-row class="mt-4">
-      <b-col class="mr-5">
+      <b-col class="mr-2">
         <b-button
           size="sm"
           variant="primary"
@@ -20,7 +20,7 @@
       </b-col>
     </b-row>
 
-    <b-row class="ml-5 mr-5">
+    <b-row class="ml-1 mr-1">
       <b-col class="mt-3">
         <b-table
           :fields="fields"

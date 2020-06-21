@@ -1,14 +1,14 @@
 <template>
   <b-container fluid>
-    <b-row class="header-title">
-      <b-col class="title" lg="11">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">
           <b-link class="navigation-link" :to="{name: 'table-user'}">Usuários</b-link>/ Painel
         </h5>
       </b-col>
     </b-row>
 
-    <b-row class="mt-5 ml-5 mr-5">
+    <b-row class="mt-5 ml-1 mr-1">
       <b-col lg="8">
         <b-input-group>
           <template v-slot:prepend>
@@ -26,7 +26,7 @@
       </b-col>
     </b-row>
 
-    <b-row class="ml-5 mr-5 mt-4">
+    <b-row class=" mr-1 ml-1 mt-3">
       <b-col>
         <b-table
           :fields="fields"

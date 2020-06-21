@@ -1,14 +1,14 @@
 <template>
   <b-container fluid class="mb-3">
-    <b-row class="header-title">
-      <b-col class="title" lg="11">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">
           Transparência
         </h5>
       </b-col>
     </b-row>
 
-    <b-row class="mt-3 ml-5 mr-5">
+    <b-row class="mt-3 ml-1 mr-1">
       <b-col>
         <h4>
           <b>Atenção:</b> Estas informações são de interesse exclusivo dos associados, portanto é proibida sua publicação e/ou divulgação para outros públicos, devendo ser cumprido, conforme estabelece o inciso III, do art. 7º, do Estatuto.
@@ -16,7 +16,7 @@
       </b-col>
     </b-row>
 
-    <b-row class="mt-3 ml-5 mr-5">
+    <b-row class="mt-3 ml-1 mr-1">
       <b-col>
         <b-button
           :style="{float: 'right'}"

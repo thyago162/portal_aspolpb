@@ -1,13 +1,13 @@
 <template>
-    <b-container>
-        <b-row class="header-title">
-            <b-col lg="11" class="title">
+    <b-container fluid>
+        <b-row class="header-title ml-1 mr-1">
+            <b-col class="title">
                 <h5>RELATÓRIOS</h5>
             </b-col>
         </b-row>
 
-        <b-row >
-            <b-col class="geral">
+        <b-row class="mt-3 ml-1 mr-1">
+            <b-col >
                 <h4>
                     Visão Geral
                 </h4>
@@ -15,13 +15,13 @@
         </b-row>
 
         <b-row class="mt-3">
-            <b-col cols="12" >
+            <b-col >
                 <Abstract />
             </b-col>
         </b-row>
 
-        <b-row>
-            <b-col lg="11" class="mt-4 agreement">
+        <b-row class="ml-1 mr-1">
+            <b-col class="mt-4 agreement">
                 <h4>Convênios</h4>
                 <b-row>
                     <b-col>
@@ -58,12 +58,4 @@
         margin-top: 10px;
     }
 
-    .geral {
-        margin-top: 20px;
-        margin-left: 35px;
-    }
-
-    .agreement {
-        margin-left: 35px;
-    }
 </style>

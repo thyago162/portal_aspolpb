@@ -2,14 +2,14 @@
 
   <b-container fluid class="mb-3">
 
-    <b-row class="header-title">
-      <b-col lg="11" class="title">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title">
         <h5>IDENTIDADE VISUAL</h5>
       </b-col>
     </b-row>
 
-    <b-row>
-      <b-col lg="11">
+    <b-row class="mt-3 ml-1 mr-1">
+      <b-col>
         <b-button
           class="mt-2 float-right"
           variant="primary"

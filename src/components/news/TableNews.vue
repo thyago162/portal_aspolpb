@@ -1,13 +1,13 @@
 <template>
   <b-container fluid>
-   <b-row class="header-title">
-      <b-col class="title" lg="11">
+   <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">
            Notícias
         </h5>
       </b-col>
     </b-row>
-    <b-row class="mt-5 ml-5 mr-5">
+    <b-row class="mt-5 ml-1 mr-1">
       <b-col>
         <b-row>
           <b-col>

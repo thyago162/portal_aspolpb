@@ -1,11 +1,11 @@
 <template>
   <b-container fluid class="mb-3">
-     <b-row class="header-title">
-      <b-col class="title" lg="11">
+     <b-row class="header-title ml-1 mr-1">
+      <b-col class="title">
         <h5 class="mt-2">Associados</h5>
       </b-col>
     </b-row>
-    <b-row class="mt-4 ml-5 mr-5">
+    <b-row class="mt-4 ml-1 mr-1">
       <b-col lg="5">
         <b-input-group>
           <template v-slot:prepend>
@@ -17,7 +17,7 @@
         </b-input-group>
       </b-col>
     </b-row>
-    <b-row class="mt-3 ml-5 mr-5">
+    <b-row class="mt-3 ml-1 mr-1">
       <b-col>
         <b-table :fields="fields" :items="associated">
           <template v-slot:cell(show_details)="row" hover striped >

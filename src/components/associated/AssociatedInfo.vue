@@ -1,12 +1,12 @@
 <template>
   <b-container fluid>
-    <b-row class="header-title">
-      <b-col class="title" lg="11">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">Dados do associado</h5>
       </b-col>
     </b-row>
 
-    <b-row class="mt-5 ml-4 mr-5">
+    <b-row class="mt-5 ml-1 mr-1">
       <b-col :style="{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}">
         <div v-bind:class="[activeClass, pendingClass]">
           <h5>{{user.name}}</h5>

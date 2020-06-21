@@ -1,6 +1,6 @@
 <template>
   <b-container fluid>
-    <b-row class="mt-3 ml-5 mr-5">
+    <b-row class="mt-3 ml-1 mr-1">
       <b-col>
         
         <form @submit.stop.prevent="formSubmited">

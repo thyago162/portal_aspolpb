@@ -1,14 +1,14 @@
 <template >
     <b-container fluid  class="mb-3">
 
-        <b-row class="header-title mt-3" >
-            <b-col lg="11" class="title" >
+        <b-row class="header-title mt-3 ml-1 mr-1" >
+            <b-col class="title" >
                 <h5 class="mt-2">NOTÍCIAS</h5>
             </b-col>
         </b-row>
         
-        <b-row  class="align-body">
-            <b-col lg="11"  >
+        <b-row  class="align-body ml-1 mr-1">
+            <b-col   >
                 <b-table :fields="fields" :items="news.data" :per-page="news.per_page" 
                     :current-page="currentPage" id="news-table" borderless>
 

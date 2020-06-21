@@ -114,7 +114,7 @@ h5 {
 }
 
 .media-title {
-  width: 325px;
+  max-width: 315px;
   position: absolute;
   display: flex;
   flex-direction: row;

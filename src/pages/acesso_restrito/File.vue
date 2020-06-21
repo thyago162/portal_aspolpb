@@ -1,12 +1,12 @@
 <template>
     <b-container fluid class="mb-3">
-        <b-row class="header-title mt-3" >
-           <b-col class="title" lg="11">
+        <b-row class="header-title mt-3 ml-1 mr-1" >
+           <b-col class="title" >
                 <h5>ARQUIVOS</h5>
            </b-col>
         </b-row>
-        <b-row class="mt-4 mb-4 align-body">
-            <b-col lg="11">
+        <b-row class="mt-4 ml-1 mr-1 mb-4 align-body">
+            <b-col >
                 <b-table :items="items" :fields="fields" striped hover>
                     <template v-slot:cell(file)="row">
                         <b-button variant="default" @click="downloadFile(row.item.nm_file_path)">

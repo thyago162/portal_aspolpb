@@ -1,18 +1,18 @@
 <template>
   <b-container fluid class="mb-3">
-    <b-row class="header-title">
-      <b-col class="title" lg="11">
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title" >
         <h5 class="mt-2">Novo cadastro</h5>
       </b-col>
     </b-row>
 
-    <b-row class="mt-4 ml-5 mr-5">
+    <b-row class="mt-4 ml-1 mr-1">
       <b-col>
         <p>À Ilma. Sra. Presidente da Associação dos Policiais Civis de Carreira da Paraíba, VENHO, requerer a Vossa Senhoria deferimento da minha filiação nesta respeitada Associação, atendendo aos termos estatutários e legais.</p>
       </b-col>
     </b-row>
 
-    <b-row class="mt-3 ml-5 mr-5">
+    <b-row class="mt-3 ml-1 mr-1">
       <b-col>
         <h5>
           <b>Dados Pessoais</b>
@@ -21,7 +21,7 @@
       </b-col>
     </b-row>
 
-    <b-row class="mt-3 ml-5 mr-5">
+    <b-row class="mt-3 ml-1 mr-1">
       <b-col cols="11">
         <form @submit.stop.prevent="formSubmited">
           <b-form-group label="Matrícula">

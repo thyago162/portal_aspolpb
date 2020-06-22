@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="mb-3">
     <b-row class="header-title ml-1 mr-1">
-      <b-col class="title" >
+      <b-col class="title">
         <h5 class="mt-2">Novo cadastro</h5>
       </b-col>
     </b-row>
@@ -363,7 +363,7 @@ export default {
     },
 
     token: function() {
-      return this.$session.get('jwt');
+      return this.$session.get("jwt");
     }
   },
 
@@ -371,23 +371,27 @@ export default {
     getAssociated() {
       let id = this.$route.params.id;
 
-      this.$http
-        .get("associated/show/email/" + id, {
-          headers: {
-            Authorization: "Bearer "+this.token
-          }
-        })
-        .then(res => {
-          if (res.status === 200) {
-            if (res.data.token_failure) {
-              this.$refs.session.$refs.session.show();
+      if (id.length > 0) {
+        this.$http
+          .get("associated/show/email/" + id, {
+            headers: {
+              Authorization: "Bearer " + this.token
             }
-            this.form = res.data.result.associated;
-          }
-        })
-        .catch(err => {
-          window.console.log(err);
-        });
+          })
+          .then(res => {
+            if (res.status === 200) {
+              if (res.data.token_failure) {
+                this.$refs.session.$refs.session.show();
+              }
+              res.data.result.associated != null
+                ? (this.form = res.data.result.associated)
+                : (this.form = {});
+            }
+          })
+          .catch(err => {
+            window.console.log(err);
+          });
+      }
     },
 
     searchCep() {
@@ -470,6 +474,10 @@ export default {
                   .then(res => {
                     if (res.status === 200) {
                       this.loading = false;
+
+                      if (res.data.token_failure) {
+                        this.$refs.session.$refs.session.show();
+                      }
 
                       if (res.data.result.error) {
                         this.errors = res.data.result;

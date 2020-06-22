@@ -6,16 +6,16 @@
       </b-col>
       <b-col>
         <b-tabs pills>
-          <b-tab title="Certidões" @click="getFiles('certidoes')">
+          <b-tab title="Certidões" @click="getFiles('Certidão')">
               <TransparencyFiles :files="files" />
           </b-tab>
-          <b-tab title="Contabilidade" @click="getFiles('contabilidade')">
+          <b-tab title="Contabilidade" @click="getFiles('Contabilidade')">
               <TransparencyFiles :files="files" />
           </b-tab>
-          <b-tab title="Financeiro" @click="getFiles('financeiro')">
+          <b-tab title="Financeiro" @click="getFiles('Financeiro')">
               <TransparencyFiles :files="files" />
           </b-tab>
-          <b-tab title="Outros" @click="getFiles('outros')">
+          <b-tab title="Outros" @click="getFiles('Outros')">
               <TransparencyFiles :files="files" />
           </b-tab>
         </b-tabs>

@@ -19,7 +19,7 @@ export default {
 
   data() {
     return {
-      bgColor: "red",
+      bgColor: "#333333",
       position: "button-right",
       mainIcon: "menu",
       fabActions: [

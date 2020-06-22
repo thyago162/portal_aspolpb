@@ -113,7 +113,7 @@ export default {
       ],
       bgColor: "#778899",
       position: "top-right",
-      perPage: 5,
+      perPage: 10,
       currentPage: 1,
       search: "",
       visibility: false,

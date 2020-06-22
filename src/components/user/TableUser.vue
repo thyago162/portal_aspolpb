@@ -20,7 +20,7 @@
         </b-input-group>
       </b-col>
       <b-col lg="1">
-        <JsonCvs :data="users">
+        <JsonCvs :data="users.data">
           <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}" />
         </JsonCvs>
       </b-col>
@@ -30,11 +30,12 @@
       <b-col>
         <b-table
           :fields="fields"
-          :items="users"
+          :items="users.data"
           striped
           hover
           :per-page="perPage"
           :current-page="currentPage"
+          id="table-users"
         >
           <template v-slot:cell(created_at)="row">
             <span v-if="row.item.created_at">{{row.item.created_at | fullDate}}</span>
@@ -49,10 +50,11 @@
         <div class="overflow-auto">
           <b-pagination
             align="center"
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
+            v-model="users.current_page"
+            :total-rows="users.total"
+            :per-page="users.per_page"
+            aria-controls="table-users"
+            @input="getUsers()"
           ></b-pagination>
         </div>
       </b-col>
@@ -72,12 +74,12 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("users", this.token);
+    this.$store.dispatch("users", {token: this.token, page: 1});
   },
 
   data() {
     return {
-      perPage: 5,
+      perPage: 10,
       currentPage: 1,
       fields: [
         { key: "name", label: "Nome", sortable: true },
@@ -129,6 +131,11 @@ export default {
             }
           });
       }
+    },
+
+    getUsers() {
+      this.$store.dispatch('users',{token: this.token, page: this.users.current_page});
+
     }
   }
 };

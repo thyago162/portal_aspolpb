@@ -204,10 +204,11 @@ export default new Vuex.Store({
             })
         },
 
-        users({commit}, token) {
-            axios.get('users', {
+        users({commit}, data) {
+            
+            axios.get('users?page='+data.page, {
                 headers: {
-                    Authorization: 'Bearer '+token
+                    Authorization: 'Bearer '+data.token
                 }
             })
             .then(res => {

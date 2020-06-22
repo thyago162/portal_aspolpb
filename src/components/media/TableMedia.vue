@@ -91,7 +91,7 @@ export default {
 
   data() {
     return {
-      perPage: 5,
+      perPage: 10,
       errors: {},
       currentPage: 1,
       nuType: ["Noticias", "Vídeos", "Audíos", "Redes Sociais"],

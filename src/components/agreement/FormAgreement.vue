@@ -44,7 +44,7 @@
           </b-form-group>
 
           <b-form-group label="Conteúdo">
-            <VueEditor :editorToolbar="customToolbar" v-model="form.nm_content" />
+            <VueEditor  v-model="form.nm_content" />
           </b-form-group>
 
           <b-row class="mt-4 mb-4 ml-1 mr-1" :style="{backgroundColor: 'gray', color: '#fff'}">
@@ -131,9 +131,9 @@
     <hr />
     <b-row>
       <b-col class="buttons">
-        <b-button variant="danger" class="mr-2">Sair</b-button>
         <b-button variant="success" @click="formSubmited()">
-          <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>Salvar
+          Salvar
+          <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
         </b-button>
       </b-col>
     </b-row>
@@ -203,26 +203,7 @@ export default {
       facebook: " ",
       twitter: " ",
       socialNetworks: "",
-      customToolbar: [
-        [{ font: [] }],
-        [{ header: [false, 1, 2, 3, 4, 5, 6] }],
-        [{ size: ["small", false, "large", "huge"] }],
-        ["bold", "italic", "underline", "strike"],
-        [
-          { align: "" },
-          { align: "center" },
-          { align: "right" },
-          { align: "justify" }
-        ],
-        [{ header: 1 }, { header: 2 }],
-        ["blockquote", "code-block"],
-        [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-        [{ script: "sub" }, { script: "super" }],
-        [{ indent: "-1" }, { indent: "+1" }],
-        [{ color: [] }, { background: [] }],
-        [{ direction: "rtl" }],
-        ["clean"]
-      ],
+      
       options: [
         { value: "Alimentação", text: "Alimentação" },
         { value: "Beleza", text: "Beleza" },

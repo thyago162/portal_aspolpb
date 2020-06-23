@@ -69,7 +69,6 @@
     <hr />
     <b-row>
       <b-col class="buttons">
-        <b-button variant="info" class="mr-2" @click="clearForm()">Resetar</b-button>
         <b-button variant="success" @click="formSubmited()">
           Salvar
           <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>

@@ -46,7 +46,7 @@
                 <b-tab title="Detalhes">
                   <TransparencyCard :item="row.item" />
                 </b-tab>
-                <b-tab title="Adicionar documento">
+                <b-tab title="Adicionar documento" v-if="token != null && user.administrator === 1">
                   <TransparencyFileForm :id="row.item.id_transparency" />
                 </b-tab>
               </b-tabs>

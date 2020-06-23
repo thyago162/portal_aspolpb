@@ -277,7 +277,6 @@
 
           <b-row>
             <b-col class="buttons">
-              <b-button variant="info" class="mr-2">Limpar</b-button>
               <b-button variant="success" @click="formSubmited()">Salvar</b-button>
             </b-col>
           </b-row>

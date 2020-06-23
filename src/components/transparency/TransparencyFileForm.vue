@@ -16,9 +16,6 @@
             <b-form-select :options="options" v-model="form.nm_type_doc"></b-form-select>
           </b-form-group>
 
-          <b-form-group label="Ano do documento">
-            <b-form-input type="date" placeholder="Ex: 2020" v-model="form.dt_date" />
-          </b-form-group>
         </form>
       </b-col>
     </b-row>
@@ -89,7 +86,6 @@ export default {
       form.append("nm_name", this.form.nm_name);
       form.append("nm_file_path", this.form.nm_file_path);
       form.append("nm_type_doc", this.form.nm_type_doc);
-      form.append("dt_date", this.form.dt_date);
       form.append("fk_transparency", this.id);
       form.append("file", this.file);
 
@@ -126,7 +122,6 @@ export default {
       this.form.nm_name = "";
       this.form.nm_file_path = "";
       this.form.nm_type_doc = "";
-      this.form.dt_date = "";
       (this.form.fk_transparency = ""), (this.file = null);
     }
   }

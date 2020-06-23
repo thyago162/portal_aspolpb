@@ -54,7 +54,7 @@
                 </b-row>
                 <b-row  class="mt-3" >
                     <b-col :class="active ? 'details-show' : 'details-hide'"  >
-                        <b-card-text v-html="item.nm_content"></b-card-text>
+                        <b-card-text v-html="item.nm_content" class="content"></b-card-text>
                     </b-col>
                 </b-row>
             </b-container>
@@ -147,6 +147,17 @@
 
     .card-icon {
         display: none;
+    }
+
+    .content >>> p {
+        text-align: justify;
+    }
+    .content >>> img {
+        width: 100%;
+        height: 700px;
+        object-fit: contain;
+        object-position: center;
+        
     }
 
     @media screen and (max-width: 500px) {

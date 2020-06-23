@@ -14,20 +14,6 @@
             <b-form-input type="text" v-model="form.nm_management_name" />
           </b-form-group>
 
-          <b-row>
-            <b-col>
-              <b-form-group label="Início do mandato">
-                <b-form-input type="date" v-model="form.nu_start" />
-              </b-form-group>
-            </b-col>
-
-            <b-col>
-              <b-form-group label="Fim do mandato">
-                <b-form-input type="date" v-model="form.nu_end" />
-              </b-form-group>
-            </b-col>
-          </b-row>
-
           <b-form-group>
             <VueEditor v-model="form.nm_content" />
           </b-form-group>
@@ -77,8 +63,6 @@ export default {
     return {
       form: {
         nm_management_name: "",
-        nu_start: "",
-        nu_end: "",
         nm_content: ""
       },
       loading: false,
@@ -119,8 +103,6 @@ export default {
       form.append('id_transparency', this.form.id_transparency);
       form.append("nm_management_name", this.form.nm_management_name);
       form.append("nm_content", this.form.nm_content);
-      form.append("nu_start", this.form.nu_start);
-      form.append("nu_end", this.form.nu_end);
 
       this.$http
         .post("transparency", form, {

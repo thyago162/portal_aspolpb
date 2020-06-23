@@ -6,9 +6,6 @@
           <b-icon icon="arrow-bar-down"></b-icon>
         </a>
       </template>
-      <template v-slot:cell(dt_date)="row">
-        <span>{{row.item.dt_date | date}}</span>
-      </template>
 
       <template v-slot:cell(delete)="row" v-if="token != null && user.administrator === 1">
         <b-button size="sm" variant="danger" @click="deleteFile(row.item.id_transparency_file)">
@@ -27,7 +24,6 @@ export default {
     return {
       fields: [
         { key: "nm_name", label: "Nome do arquivo" },
-        { key: "dt_date", label: "Data", sortable: true },
         { key: "download", label: "" },
         { key: "delete", label: "" }
       ]

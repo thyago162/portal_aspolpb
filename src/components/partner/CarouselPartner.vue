@@ -3,8 +3,8 @@
        <carousel :perPageCustom="customSlide" :autoplay="true" :autoplayTimeout="4000" 
         paginationColor="#cccccc" :autoplayHoverPause="true"> 
            <slide v-for="(agreement, index) in agreements" :key="index">
-               <b-img fluid :src="agreement.nm_image_path" 
-                class="ml-5 image-partner" @click="openLink(agreement.nm_link)"></b-img>
+               <b-img-lazy fluid :src="agreement.nm_image_path" 
+                class="ml-5 image-partner" @click="openLink(agreement.nm_link)"></b-img-lazy>
            </slide>
        </carousel>
    </div>
@@ -18,7 +18,7 @@
 
         data() {
             return {
-                customSlide: [[1400,4], [1000,3], [800,3], [400,2], [300,2]]
+                customSlide: [[1400,5], [1000,3], [800,3], [400,2], [300,2]]
             }
         },
 
@@ -45,8 +45,10 @@
     }
 
     .image-partner {
-        max-width: 150px;
-        max-height: 150px;
+        width: 100%;
+        max-height: 200px;
+        object-fit:contain;
+        object-position: center;
     }
 
     @media screen and (max-width: 1200px){

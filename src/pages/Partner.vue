@@ -8,7 +8,7 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-col lg="12">
+            <b-col>
                 <carousel-partner :agreements="agreement"  />
             </b-col>
         </b-row>

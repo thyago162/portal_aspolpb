@@ -4,7 +4,7 @@
         paginationColor="#cccccc" :autoplayHoverPause="true"> 
            <slide v-for="(agreement, index) in agreements" :key="index">
                <b-img-lazy fluid :src="agreement.nm_image_path" 
-                class="ml-5 image-partner" @click="openLink(agreement.nm_link)"></b-img-lazy>
+                class="image-partner" @click="openLink(agreement.nm_link)"></b-img-lazy>
            </slide>
        </carousel>
    </div>
@@ -35,13 +35,6 @@
 
     .partners {
         margin-top: 20px;
-    }
-
-    .partners-carousel {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
     }
 
     .image-partner {

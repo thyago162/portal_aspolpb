@@ -49,3 +49,10 @@ Vue.filter('newsContent', function(value) {
 
     return  `${modifyText[0]}${modifyText[1]}... `
 })
+
+Vue.filter('title', function(value) {
+    let text = value.toLowerCase();
+
+    return text.charAt(0).toUpperCase() + text.slice(1)
+})
+ 

@@ -173,6 +173,10 @@
             height: 20px;
         }
 
+        .more-news-title {
+            margin-top: 50px;
+        }
+
         h5 {
             font-size: 12px;
         }

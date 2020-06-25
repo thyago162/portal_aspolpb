@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid >
+    <b-container fluid  >
         <b-row class="partner-title">
             <b-col class="ml-2">
                 <div class="partner-title-block">

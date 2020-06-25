@@ -118,7 +118,7 @@
 
     }
 
-    @media screen and (max-width: 416px) {
+    @media screen and (max-width: 500px) {
         .card-header {
             display: none;
         }
@@ -137,6 +137,7 @@
         
         .card-news {
             height: 290px;
+            margin-bottom: 20px;
         }
     }
 

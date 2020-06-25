@@ -18,7 +18,7 @@
 
         data() {
             return {
-                customSlide: [[1400,5], [1000,3], [800,3], [400,2], [300,2]]
+                customSlide: [[1400,5], [1000,3], [800,3], [400,2]]
             }
         },
 
@@ -46,7 +46,7 @@
 
     .image-partner {
         width: 100%;
-        max-height: 200px;
+        max-height: 180px;
         object-fit:contain;
         object-position: center;
     }
@@ -68,9 +68,10 @@
     }
 
     @media screen and (max-width: 500px){
+
         .image-partner {
-            width: 80px;
-            max-height: 80px;
+            width: 100%;
+            max-height: 120px;
         }
         
     }

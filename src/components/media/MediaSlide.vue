@@ -3,13 +3,14 @@
     <carousel :perPageCustom="customSlide" class="ml-2 mt-4 mb-3">
       <slide v-for="(media, index) in medias" :key="index" class="mr-2 box">
         <div v-if="media.nu_type === 1">
-          <b-link @click="redirectTo(media.nm_link)">
-            <div class="media-title">
-              <p>{{media.nm_title}}</p>
-            </div>
-          </b-link>
-
-          <b-img class="image" fluid :src="media.nm_image_path"></b-img>
+          <div class="image">
+            <b-img fluid :src="media.nm_image_path"></b-img>
+          </div>
+          <div>
+            <b-link @click="redirectTo(media.nm_link)">
+              <p>{{media.nm_title | title}}</p>
+            </b-link>
+          </div>
         </div>
 
         <div v-if="media.nu_type === 2">
@@ -24,13 +25,10 @@
         </div>
 
         <div v-if="media.nu_type === 4">
-          <b-link @click="redirectTo(media.nm_link)">
-            <div class="media-title">
-              <p>{{media.nm_title }}</p>
-            </div>
-          </b-link>
-
           <b-img-lazy class="image" fluid :src="media.nm_image_path"></b-img-lazy>
+          <b-link @click="redirectTo(media.nm_link)">
+            <p>{{media.nm_title | title }}</p>
+          </b-link>
         </div>
       </slide>
     </carousel>
@@ -80,6 +78,7 @@ export default {
   height: 250px;
   object-fit: cover;
   object-position: center;
+  border: 2px solid #333;
 }
 
 span {
@@ -95,9 +94,20 @@ h5 {
   color: green;
 }
 
-.box {
-  border: 2px solid #333;
+.box p {
+  text-align: justify;
+  color: #333;
+  text-decoration: none;
+  width: 100%;
+  font-size: 14px;
 }
+
+.box p:hover {
+  color: black;
+  font-weight: bolder;
+  text-decoration: none;
+}
+
 
 .icon {
   position: absolute;
@@ -111,22 +121,5 @@ h5 {
 
 .icon:hover {
   background-color: rgb(48, 163, 48);
-}
-
-.media-title {
-  max-width: 315px;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  bottom: 0px;
-  background-color: rgba(51, 51, 51, 0.73);
-  color: #fff;
-  font-size: 14px;
-}
-
-.media-title:hover {
-  font-weight: bolder;
 }
 </style>

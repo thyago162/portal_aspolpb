@@ -11,6 +11,7 @@ import '../plugins/vue2editor';
 import '../plugins/font-awesome';
 import '../plugins/vue-carousel';
 import '../plugins/social-sharing';
+import '../plugins/vue-fab';
 
 //Filtros
 import '../filter/vue-filter';

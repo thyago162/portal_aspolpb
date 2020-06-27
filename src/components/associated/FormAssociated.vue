@@ -25,7 +25,7 @@
       <b-col cols="11">
         <form @submit.stop.prevent="formSubmited">
           <b-form-group label="Matrícula">
-            <b-form-input type="text" v-model="form.nu_registration" placeholder="Apenas números" />
+            <b-form-input type="text" v-model="form.nu_registration" placeholder="Apenas números" max="6"/>
           </b-form-group>
 
           <b-form-group label="Nome">
@@ -33,7 +33,7 @@
           </b-form-group>
 
           <b-form-group label="Cpf">
-            <b-form-input type="text" v-model="form.nm_cpf" placeholder="Apenas números" />
+            <b-form-input type="text" v-model="form.nm_cpf" placeholder="Apenas números" max="11" />
           </b-form-group>
 
           <b-form-group label="Email">
@@ -43,12 +43,12 @@
           <b-row>
             <b-col lg="3">
               <b-form-group label="DDD">
-                <b-form-input type="text" v-model="form.nm_ddd" placeholder="Apenas números" />
+                <b-form-input type="text" v-model="form.nm_ddd" placeholder="Apenas números" max="2" />
               </b-form-group>
             </b-col>
             <b-col>
               <b-form-group label="Telefone">
-                <b-form-input type="text" v-model="form.nm_phone" placeholder="Apenas números" />
+                <b-form-input type="text" v-model="form.nm_phone" placeholder="Apenas números" max="9" />
               </b-form-group>
             </b-col>
           </b-row>
@@ -61,7 +61,7 @@
           </b-form-group>
 
           <b-form-group label="Cédula de identidade (RG)">
-            <b-form-input type="number" v-model="form.nu_rg" placeholder="Apenas números" />
+            <b-form-input type="number" v-model="form.nu_rg" placeholder="Apenas números" max="7" />
           </b-form-group>
 
           <b-form-group label="Data de nascimento">
@@ -459,37 +459,42 @@ export default {
               this.errors = res.data.result;
               this.$refs.error.$refs["modal-error"].show();
             } else {
-              this.dependents.forEach(item => {
-                let form = new FormData();
-                form.append("nm_dependent_name", item.name);
-                form.append("dt_dependent_birthday", item.birthday);
-                form.append(
-                  "fk_associated",
-                  res.data.result.associated.id_associated
-                );
+              if (this.dependents.length > 0) {
+                this.dependents.forEach(item => {
+                  let form = new FormData();
+                  form.append("nm_dependent_name", item.name);
+                  form.append("dt_dependent_birthday", item.birthday);
+                  form.append(
+                    "fk_associated",
+                    res.data.result.associated.id_associated
+                  );
 
-                this.$http
-                  .post("associated-dependents", form)
-                  .then(res => {
-                    if (res.status === 200) {
-                      this.loading = false;
+                  this.$http
+                    .post("associated-dependents", form)
+                    .then(res => {
+                      if (res.status === 200) {
+                        this.loading = false;
 
-                      if (res.data.token_failure) {
-                        this.$refs.session.$refs.session.show();
+                        if (res.data.token_failure) {
+                          this.$refs.session.$refs.session.show();
+                        }
+
+                        if (res.data.result.error) {
+                          this.errors = res.data.result;
+                          this.$refs.error.$refs["modal-error"].show();
+                        } else {
+                          alert('Solicitação de cadastro enviada com sucesso!')
+                          this.$router.push({ name: "home" });
+                        }
                       }
-
-                      if (res.data.result.error) {
-                        this.errors = res.data.result;
-                        this.$refs.error.$refs["modal-error"].show();
-                      } else {
-                        this.$router.push({ name: "home" });
-                      }
-                    }
-                  })
-                  .catch(err => {
-                    this.errors.push(err);
-                  });
-              });
+                    })
+                    .catch(err => {
+                      this.errors.push(err);
+                    });
+                });
+              }
+              alert('Solicitação de cadastro enviada com sucesso!')
+              this.$router.push({ name: "home" });
             }
           }
         });

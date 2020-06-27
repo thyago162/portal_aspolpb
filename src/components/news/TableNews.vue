@@ -1,24 +1,25 @@
 <template>
   <b-container fluid>
-   <b-row class="header-title ml-1 mr-1">
-      <b-col class="title" >
-        <h5 class="mt-2">
-           Notícias
-        </h5>
+    <b-row class="header-title ml-1 mr-1">
+      <b-col class="title">
+        <h5 class="mt-2">Notícias</h5>
       </b-col>
     </b-row>
     <b-row class="mt-5 ml-1 mr-1">
       <b-col>
         <b-row>
           <b-col>
-            <b-input-group>
-              <template v-slot:prepend>
-                <b-input-group-text>
-                  <b-icon icon="search"></b-icon>
-                </b-input-group-text>
-              </template>
-              <b-form-input v-model="search" />
-            </b-input-group>
+            <b-form inline>
+              <b-input-group>
+                <template v-slot:prepend>
+                  <b-input-group-text>
+                    <b-icon icon="search"></b-icon>
+                  </b-input-group-text>
+                </template>
+                <b-form-input v-model="search" />
+              </b-input-group>
+              <b-button variant="primary" type="button" class="ml-1" @click="searchNews()">Buscar</b-button>
+            </b-form>
           </b-col>
           <b-col>
             <b-button
@@ -111,37 +112,23 @@ export default {
         { key: "edit", label: "" },
         { key: "delete", label: "" }
       ],
-      bgColor: "#778899",
-      position: "top-right",
       perPage: 10,
       currentPage: 1,
       search: "",
       visibility: false,
-      errors: []
+      errors: [],
+      newsSearched: []
     };
   },
 
   computed: {
     news() {
-      if (this.search.length > 0) {
-        var vm = this;
+      if (this.newsSearched.data) {
 
-        return this.$store.getters.getNews.filter(function(item) {
-          return (
-            item.nm_title.toLowerCase().indexOf(vm.search.toLowerCase()) !== -1
-          );
-        });
+        return this.newsSearched;
       } else {
         return this.$store.getters.getNews;
       }
-    },
-
-    rows() {
-      return this.news.length;
-    },
-
-    itemsBkp() {
-      return this.news;
     },
 
     token: function() {
@@ -165,7 +152,7 @@ export default {
               }
 
               if (res.data.length == 0) {
-                this.$store.dispatch("news",1);
+                this.$store.dispatch("news", 1);
                 alert("Notícia removida");
               }
 
@@ -202,6 +189,22 @@ export default {
 
     getNews() {
       this.$store.dispatch("news", this.news.current_page);
+    },
+
+    searchNews() {
+      let formData = new FormData();
+      formData.append("search", this.search);
+
+      this.$http
+        .post("news/search", formData)
+        .then(res => {
+          if (res.status === 200) {
+            this.newsSearched = res.data.result.news;
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+        });
     }
   }
 };

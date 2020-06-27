@@ -1,32 +1,36 @@
 <template>
   <b-container fluid>
     <b-row class="header-title ml-1 mr-1">
-      <b-col class="title" >
+      <b-col class="title">
         <h5 class="mt-2">
           <b-link class="navigation-link" :to="{name: 'table-user'}">Usuários</b-link>/ Painel
         </h5>
       </b-col>
     </b-row>
 
-    <b-row class="mt-5 ml-1 mr-1">
-      <b-col lg="8">
-        <b-input-group>
-          <template v-slot:prepend>
-            <b-input-group-text>
-              <b-icon icon="search"></b-icon>
-            </b-input-group-text>
-          </template>
-          <b-form-input v-model="search" />
-        </b-input-group>
+    <b-row class="mt-4 ml-1 mr-1">
+      <b-col lg="6">
+        <b-form inline>
+          <b-input-group>
+            <template v-slot:prepend>
+              <b-input-group-text>
+                <b-icon icon="search"></b-icon>
+              </b-input-group-text>
+            </template>
+            <b-form-input v-model="search" type="text" />
+          </b-input-group>
+          <b-button class="ml-1" type="button" variant="primary" @click="searchUser()">Buscar</b-button>
+        </b-form>
       </b-col>
-      <b-col lg="1">
-        <JsonCvs :data="users.data">
+
+      <b-col lg="5">
+        <JsonCvs :data="users.data" :style="{float: 'right'}">
           <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}" />
         </JsonCvs>
       </b-col>
     </b-row>
 
-    <b-row class=" mr-1 ml-1 mt-3">
+    <b-row class="mr-1 ml-1 mt-4">
       <b-col>
         <b-table
           :fields="fields"
@@ -54,7 +58,7 @@
             :total-rows="users.total"
             :per-page="users.per_page"
             aria-controls="table-users"
-            @input="getUsers()"
+            @input="getUser()"
           ></b-pagination>
         </div>
       </b-col>
@@ -74,12 +78,13 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("users", {token: this.token, page: 1});
+    this.$store.dispatch("users", { token: this.token, page: 1 });
   },
 
   data() {
     return {
       perPage: 10,
+      userSearch: [],
       currentPage: 1,
       fields: [
         { key: "name", label: "Nome", sortable: true },
@@ -94,15 +99,16 @@ export default {
   },
 
   computed: {
-    rows: function() {
-      return this.user ? this.user.lenght : 0;
-    },
-
     token: function() {
       return this.$session.get("jwt");
     },
 
     users: function() {
+      
+      if (this.userSearch.data) {
+        return this.userSearch;
+      }
+
       return this.$store.getters.getUsers;
     }
   },
@@ -126,23 +132,40 @@ export default {
                 this.errors.push(res.data.result.error);
                 this.visibility = true;
               } else {
-                this.$store.dispatch("users");
+                this.$store.dispatch("users", { token: this.token, page: 1 });
               }
             }
           });
       }
     },
 
-    getUsers() {
-      this.$store.dispatch('users',{token: this.token, page: this.users.current_page});
+    getUser() {
+      this.$store.dispatch("users", {
+        token: this.token,
+        page: this.users.current_page
+      });
+    },
 
+    searchUser() {
+      let formData = new FormData();
+      formData.append("search", this.search);
+
+      this.$http
+        .post("user/search", formData)
+        .then(res => {
+          if (res.status === 200) {
+            this.userSearch = res.data.result.users;
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+        });
     }
   }
 };
 </script>
 
 <style scoped>
-
 .user-search {
   width: 80%;
   text-indent: 12px;

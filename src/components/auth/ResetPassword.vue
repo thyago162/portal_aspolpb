@@ -42,8 +42,17 @@
 
                 <div v-if="step === 2">
                   <b-form-group label="Nova senha">
-                    <b-form-input type="password" v-model="password" />
+                    <b-form-input type="password" id="password-reset" v-model="password" />
                   </b-form-group>
+
+                  <b-popover target="password-reset" triggers="hover" placement="top">
+                    <template v-slot:title>A senha deve conter</template>
+
+                    <p>Pelo menos 1 caractere especial</p>
+                    <p>Pelo menos 1 letra maiscula</p>
+                    <p>Pelo menos 1 letra minuscula</p>
+                    <p>Pelo menos 1 número</p>
+                  </b-popover>
 
                   <b-form-group label="Confirmar senha">
                     <b-form-input type="password" v-model="confirmation" />
@@ -65,7 +74,7 @@ export default {
   components: { ModalErro },
   data() {
     return {
-      step: 0,
+      step: 2,
       btnTitle: ["Enviar", "Confirmar", "Resetar"],
       email: "",
       password: "",
@@ -101,12 +110,16 @@ export default {
       form.append("email", this.email);
 
       this.$http.post("reset-password-email", form).then(res => {
+        this.loading = false;
         if (res.status === 200) {
-          this.loading = false;
           alert("Email enviado com successo.");
           this.step = 1;
           this.user = res.data.result.user;
-        }
+        } 
+      }).catch(err => {
+        this.loading = false;
+        window.console.log(err);
+        alert('Falha ao enviar o e-mail');
       });
     },
 
@@ -151,7 +164,7 @@ export default {
           }
         })
         .catch(err => {
-          window.console.log(err)
+          window.console.log(err);
         });
     }
   }

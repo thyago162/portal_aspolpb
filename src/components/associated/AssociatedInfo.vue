@@ -1,36 +1,38 @@
 <template>
   <b-container fluid>
     <b-row class="header-title ml-1 mr-1">
-      <b-col class="title" >
+      <b-col class="title">
         <h5 class="mt-2">Dados do associado</h5>
       </b-col>
     </b-row>
 
     <b-row class="mt-5 ml-1 mr-1">
       <b-col :style="{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}">
-        <div v-bind:class="[activeClass, pendingClass]">
+        <div :class="isActive">
           <h5>{{user.name}}</h5>
         </div>
 
-        <div v-bind:class="[activeClass, pendingClass]">
+        <div :class="isActive">
           <h5>Situação: {{associated.st_active === 1 ? 'Ativo' : 'Pendente'}}</h5>
         </div>
-
-        <div v-bind:class="[activeClass, pendingClass]">
-          <h5>Atualizado: </h5>
+        <div v-bind:class="isActive">
+          <h5>Atualizado:{{associated.updated_at}}</h5>
         </div>
 
-        <b-button variant="info"  @click="$router.push({name: 'form-associated', params: {id: associated.nm_email}})">
+        <b-button
+          variant="info"
+          @click="$router.push({name: 'form-associated', params: {id: associated.nm_email}})"
+        >
           <b-icon icon="pen"></b-icon>
         </b-button>
       </b-col>
     </b-row>
 
-   <b-row class="mt-3">
-     <b-col>
+    <b-row class="mt-3">
+      <b-col>
         <AssociatedView :item="associated" />
-     </b-col>
-   </b-row>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -54,17 +56,19 @@ export default {
       return this.$session.get("jwt");
     },
 
-    isaAtive: function() {
-      return this.associated.st_active === 0 ? false : true;
+    isActive: function() {
+      return {
+        active: this.associated.st_active === 1,
+        pending: this.associated.st_active === 0
+      };
     }
   },
 
   data() {
     return {
       associated: [],
-      activeClass: 'active',
-      pendingClass: 'pending'
-  
+      activeClass: "active",
+      pendingClass: "pending"
     };
   },
 
@@ -90,7 +94,6 @@ export default {
 </script>
 
 <style scoped>
-
 .active {
   background: rgb(25, 74, 15);
   background: linear-gradient(
@@ -98,7 +101,7 @@ export default {
     rgba(25, 74, 15, 1) 13%,
     rgba(27, 225, 8, 1) 100%
   );
-   display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
@@ -114,7 +117,7 @@ export default {
     rgba(172, 102, 20, 1) 13%,
     rgba(225, 204, 8, 1) 100%
   );
-   display: flex;
+  display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;

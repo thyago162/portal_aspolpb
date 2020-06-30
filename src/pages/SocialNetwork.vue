@@ -29,7 +29,6 @@
 
         data() {
             return {
-                customSlide: [[1360,4], [1000, 3], [768,2], [500,1], [300,1]],
                 socialNetwork: []
             }
         },
@@ -62,18 +61,6 @@
     .social-midia-head {
         border-bottom: 3px solid rgb(189,22,34);
         margin-top: 20px;
-    }
-
-    .social-network-image {
-        height: 252px;
-        max-height: 252px;
-    }
-
-    img {
-        max-height: 250px;
-        height: 250px;
-        object-fit: cover;
-        object-position:initial;
     }
 
     .social-midia-title {

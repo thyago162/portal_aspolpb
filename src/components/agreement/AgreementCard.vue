@@ -64,11 +64,14 @@
                 <b-row v-if="item.nm_street">
                     <b-col>
                         <b-card-text>
-                           Rua {{item.nm_street}}, Nº {{item.nu_number}}, 
+                           <span v-if="item.nm_street != null"> Rua {{item.nm_street}},</span> 
+                           <span v-if="item.nm_number">Nº {{item.nm_number}}  </span>
                             {{item.nm_neighbohood}}
                         </b-card-text>
                         <b-card-text>
-                            {{item.nm_city}} / {{item.nm_uf}} - Cep: {{item.nm_cep}}
+                            <span v-if="item.nm_city != null">{{item.nm_city}} /</span>  
+                            <span v-if="item.nm_uf != null">{{item.nm_uf}} - </span>
+                            <span v-if="item.nm_cep != null">Cep: {{item.nm_cep}}</span>
                         </b-card-text>
                     </b-col>
                 </b-row>

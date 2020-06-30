@@ -6,26 +6,26 @@
       </b-col>
     </b-row>
     <b-row class="mt-4 mb-3 align-body ml-2 mr-2">
-      <b-col class="background">
+      <b-col >
         <h4 class="mt-2 ml-2">Aspol no jornal</h4>
         <MediaSlide :medias="newspapers" />
       </b-col>
     </b-row>
     <b-row class="mt-3 mb-3 align-body ml-2 mr-2">
-      <b-col>
+      <b-col class="background">
         <h4 class="mt-2 ml-2">Aspol na rádio</h4>
         <MediaSlide :medias="audios" />
       </b-col>
     </b-row>
     <b-row class="align-body mt-3 ml-2 mr-2">
-      <b-col class="background">
+      <b-col >
         <h4 class="mt-2 ml-2">Aspol na TV</h4>
         <MediaSlide :medias="videos" />
       </b-col>
     </b-row>
 
     <b-row class="align-body mt-3 ml-2 mr-2">
-      <b-col>
+      <b-col class="background">
         <h4 class="mt-2">Aspol nas redes sociais</h4>
         <MediaSlide :medias="socialNetwork" />
       </b-col>

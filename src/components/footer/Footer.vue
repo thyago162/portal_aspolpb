@@ -47,10 +47,14 @@
                             </div>
                             <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">ÁREA RESTRITA</b-link>
-                                <b-link class="personal-link-option">TRANSPARÊNCIA</b-link>
-                                <b-link class="personal-link-option">SUGESTÕES</b-link>
-                                <b-link class="personal-link-option">ASSESSORIA JURÍDICA</b-link>
-                                <b-link class="personal-link-option">ARQUIVOS</b-link>
+                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth >TRANSPARÊNCIA</b-link>
+                                <b-link class="personal-link-option" v-else :to="{name: 'transparencia'}" >TRANSPARÊNCIA</b-link>
+                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth>SUGESTÕES</b-link>
+                                <b-link class="personal-link-option" v-else :to="{name: 'sugestoes'}">SUGESTÕES</b-link>
+                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth>ASSESSORIA JURÍDICA</b-link>
+                                <b-link class="personal-link-option" v-else :to="{name: 'assessoria-juridica'}">ASSESSORIA JURÍDICA</b-link>
+                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth>ARQUIVOS</b-link>
+                                <b-link class="personal-link-option" v-else :to="{name: 'arquivos'}">ARQUIVOS</b-link>
                             </div>
                         </nav>
                         
@@ -73,6 +77,11 @@
 <script>
     
     export default {
+        computed: {
+            token: function() {
+                return this.$session.get('jwt');
+            }
+        }
         
     }
 </script>

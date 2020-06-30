@@ -55,7 +55,7 @@ export default new Router({
             path: '/noticias/:title',
             component: NewsView,
             name: 'visualizar-noticias',
-            props: { default: true, sidebar: false} 
+            props: { default: true, sidebar: false }
 
         },
         {
@@ -97,7 +97,7 @@ export default new Router({
             path: '/associados/formulario/:id',
             component: FormAssociated,
             name: 'form-associated',
-            props: { default: true, sidebar: false}
+            props: { default: true, sidebar: false }
         },
         {
             path: '/acesso-restrito',
@@ -129,11 +129,11 @@ export default new Router({
                 path: 'noticias/painel',
                 component: TableNews,
                 name: 'table-news'
-            },{
+            }, {
                 path: 'noticias/formulario/:id',
                 component: FormNews,
                 name: 'form-news',
-                props: { default: true, sidebar: false}
+                props: { default: true, sidebar: false }
             },
             {
                 path: 'institucional/painel',
@@ -151,7 +151,7 @@ export default new Router({
                 path: 'convenios/formulario/:id',
                 component: FormAgreement,
                 name: 'form-agreement',
-                props: { default: true, sidebar: false}
+                props: { default: true, sidebar: false }
             }, {
                 path: 'associados/painel',
                 component: TableAssociated,
@@ -164,7 +164,7 @@ export default new Router({
                 path: 'midias-sociais/formulario/:id',
                 component: FormMedia,
                 name: 'form-media',
-                props: { default: true, sidebar: false}
+                props: { default: true, sidebar: false }
             }, {
                 path: 'arquivos/painel',
                 component: TableFile,
@@ -173,7 +173,7 @@ export default new Router({
                 path: 'arquivos/formulario/:id',
                 component: FormFile,
                 name: 'form-file',
-                props: { default: true, sidebar: false}
+                props: { default: true, sidebar: false }
             }, {
                 path: 'usuarios/painel',
                 component: TableUser,

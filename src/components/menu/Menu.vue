@@ -63,81 +63,73 @@
             </b-button>
           </b-nav-item>
 
-          <b-nav-item-dropdown v-if="token == null" no-caret>
+          <b-nav-item-dropdown no-caret>
             <template v-slot:button-content>
               <b-button size="sm" class="personal-btn">
                 <span>
                   AREA RESTRITA
-                  <b-icon icon="lock-fill"></b-icon>
+                  <b-icon v-if="token == null" icon="lock-fill"></b-icon>
+                  <b-icon v-else icon="unlock-fill"></b-icon>
                 </span>
               </b-button>
             </template>
             <b-dropdown-item>
-              <b-link class="personal-link" v-b-modal.auth>
-                <b-icon icon="person-fill"></b-icon> <span class="ml-1">LOGIN</span>
+              <b-link class="personal-link" v-b-modal.auth v-if="token == null">
+                <b-icon icon="person-fill"></b-icon>
+                <span class="ml-1">LOGIN</span>
               </b-link>
             </b-dropdown-item>
             <b-dropdown-item>
-              <b-link class="personal-link" disabled>
-                <b-icon icon="eye-fill"></b-icon> <span class="ml-1">TRANSPARÊNCIA</span>
+              <b-link class="personal-link" v-if="token == null" v-b-modal.auth>
+                <b-icon icon="eye-fill"></b-icon>
+                <span class="ml-1">TRANSPARÊNCIA</span>
+              </b-link>
+
+              <b-link class="personal-link" :to="{name: 'transparencia'}" v-else>
+                <b-icon icon="eye-fill"></b-icon>
+                <span class="ml-1">TRANSPARÊNCIA</span>
               </b-link>
             </b-dropdown-item>
 
             <b-dropdown-item>
-              <b-link class="personal-link" disabled>
-                <b-icon icon="chat-fill"></b-icon><span class="ml-1">SUGESTÕES</span>
+              <b-link class="personal-link" v-if="token == null" v-b-modal.auth>
+                <b-icon icon="chat-fill"></b-icon>
+                <span class="ml-1">SUGESTÕES</span>
+              </b-link>
+              <b-link class="personal-link" :to="{name: 'sugestoes'}" v-else>
+                <b-icon icon="chat-fill"></b-icon>
+                <span class="ml-1">SUGESTÕES</span>
               </b-link>
             </b-dropdown-item>
 
             <b-dropdown-item>
-              <b-link class="personal-link" disabled>
-                <b-icon icon="tag-fill"></b-icon><span class="ml-1">ACESSORIA JURÍDICA</span>
+              <b-link class="personal-link" v-if="token == null" v-b-modal.auth>
+                <b-icon icon="tag-fill"></b-icon>
+                <span class="ml-1">ACESSORIA JURÍDICA</span>
+              </b-link>
+              <b-link class="personal-link" :to="{name: 'assessoria-juridica'}" v-else>
+                <b-icon icon="tag-fill"></b-icon>
+                <span class="ml-1">ACESSORIA JURÍDICA</span>
               </b-link>
             </b-dropdown-item>
             <b-dropdown-item>
-              <b-link class="personal-link" disabled>
-                <b-icon icon="folder-fill"></b-icon><span class="ml-1">ARQUIVOS</span>
+              <b-link class="personal-link" v-if="token == null" v-b-modal.auth>
+                <b-icon icon="folder-fill"></b-icon>
+                <span class="ml-1">ARQUIVOS</span>
               </b-link>
-            </b-dropdown-item>
-          </b-nav-item-dropdown>
-
-          <b-nav-item-dropdown v-else no-caret>
-            <template v-slot:button-content>
-              <b-button size="sm" class="personal-btn">
-                <span>
-                  AREA RESTRITA
-                  <b-icon icon="unlock-fill"></b-icon>
-                </span>
-              </b-button>
-            </template>
-            <b-dropdown-item>
-              <b-link class="personal-link" :to="{name: 'transparencia'}">
-                <b-icon icon="eye-fill"></b-icon><span class="ml-1">TRANSPARÊNCIA</span>
+              <b-link class="personal-link" :to="{name: 'arquivos'}" v-else>
+                <b-icon icon="folder-fill"></b-icon>
+                <span class="ml-1">ARQUIVOS</span>
               </b-link>
             </b-dropdown-item>
 
-            <b-dropdown-item>
-              <b-link class="personal-link" :to="{name: 'sugestoes'}">
-                <b-icon icon="chat-fill"></b-icon><span class="ml-1">SUGESTÕES</span>
-              </b-link>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
-              <b-link class="personal-link" :to="{name: 'assessoria-juridica'}">
-                <b-icon icon="tag-fill"></b-icon><span class="ml-1">ACESSORIA JURÍDICA</span>
-              </b-link>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <b-link class="personal-link" :to="{name: 'arquivos'}">
-                <b-icon icon="folder-fill"></b-icon><span class="ml-1">ARQUIVOS</span>
-              </b-link>
-            </b-dropdown-item>
-
-            <b-dropdown-item>
+            <b-dropdown-item v-if="token != null">
               <b-link class="personal-link" v-b-toggle.menu-lateral>
-                <b-icon icon="gear-wide-connected"></b-icon><span class="ml-1">PAINEL DE CONTROLE</span>
+                <b-icon icon="gear-wide-connected"></b-icon>
+                <span class="ml-1">PAINEL DE CONTROLE</span>
               </b-link>
             </b-dropdown-item>
+
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown no-caret v-if="token != null">
@@ -148,39 +140,37 @@
               </span>
             </template>
             <b-dropdown-item>
-              <b-link class="personal-link" :to="{name: 'user'}">Email e Senha</b-link>
+              <b-link class="personal-link" :to="{name: 'user'}">EMAIL E SENHA</b-link>
             </b-dropdown-item>
 
             <b-dropdown-item>
-              <b-link class="personal-link" :to="{name: 'associated-info'}">Dados do associado</b-link>
+              <b-link class="personal-link" :to="{name: 'associated-info'}">DADOS DO ASSOCIADO</b-link>
             </b-dropdown-item>
 
             <b-dropdown-item>
-              <b-link class="personal-link" @click="logout">Sair</b-link>
+              <b-link class="personal-link" @click="logout">SAIR</b-link>
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <Auth />
     <ResetPassword />
-    <VueFab  />
+    <VueFab />
   </div>
 </template>
 
 <script>
-import Auth from "../auth/Auth";
 import ResetPassword from "../auth/ResetPassword";
 import VueFab from "../float-menu/VueFab";
 
 export default {
   components: {
-    Auth,
     ResetPassword,
     VueFab
   },
 
   mounted() {
+    window.console.log(this.$refs["auth"]);
     this.verifyToken();
     this.isLoggedIn();
   },
@@ -293,4 +283,3 @@ export default {
   }
 }
 </style>
-

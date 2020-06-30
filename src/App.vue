@@ -1,6 +1,7 @@
 <template>
   <div class="app">
     
+    <Auth ref="auth"/>
     <Menu />
     <Sidebar />
     <router-view />
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+  import Auth from './components/auth/Auth';
   import Menu from './components/menu/Menu';
   import Footer from './components/footer/Footer';
   import Sidebar from './components/sidebar/Sidebar';
@@ -27,6 +29,7 @@
       Footer,
       Menu,
       Sidebar,
+      Auth
     },
 
   }

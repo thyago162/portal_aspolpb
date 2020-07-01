@@ -44,7 +44,7 @@
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}" :to="{name: 'contato'}">CONTATOS</b-link>
                             </div>
                             <div class="menu-options">
-                                <b-link class="personal-link" :style="{fontWeight: 'bold'}" :to="{name: 'convênios'}">CONVÊNIOS</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}" :to="{name: 'convênio'}">CONVÊNIOS</b-link>
                             </div>
                             
                             <div class="menu-options">

@@ -1,17 +1,15 @@
 <template>
-    <b-container fluid>
+    <b-container fluid class="mb-3">
 
-       <b-row>
-           <b-col class="contact-head ml-5">
-               <div class="contact-title">
-                  <h5 class="mt-2">CONTATO</h5>
-               </div>
-           </b-col>
-       </b-row>
+       <b-row class="header-title ml-1 mr-1">
+            <b-col class="title" >
+                <h5>CONTATO</h5>
+            </b-col>
+        </b-row>
 
        <b-row class="mt-3">
           
-           <b-col xl="5">
+           <b-col xl="5" :style="{borderRight: '1px solid #ccc'}">
                <div class="ml-5">
                 <h4 class="mt-4 " :style="{fontWeight: 'bold'}">CONTATE-NOS</h4>
                 <h6 class="mt-5">
@@ -26,7 +24,7 @@
                </div>
            </b-col>
 
-           <b-col>
+           <b-col >
                <h6 class="mt-3 ml-5">Goole Maps</h6>
                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.7849294422113!2d-34.854495085518714!3d-7.150848694836667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x2810d91be6f16563!2sAspol%20-%20PB%20-%20Sede%20Jo%C3%A3o%20Pessoa!5e0!3m2!1spt-BR!2sbr!4v1583281694938!5m2!1spt-BR!2sbr"  
                     frameborder="0" style="border:0;" class="google-maps" ></iframe>
@@ -80,7 +78,9 @@
 </script>
 
 <style scoped>
-
+     h5 {
+        margin-top: 10px;
+    }
     .contact-head {
         margin-top: 20px;
         border-bottom: 3px solid red;

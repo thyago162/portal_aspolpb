@@ -30,30 +30,32 @@
                             </div>
                             <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">INSTITUCIONAL</b-link>
-                                <b-link class="personal-link-option">QUEM SOMOS</b-link>
-                                <b-link class="personal-link-option">NOSSA HISTÓRIA</b-link>
-                                <b-link class="personal-link-option">CAMPANHA</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'sobre'}">QUEM SOMOS</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'historia'}">NOSSA HISTÓRIA</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'campanhas'}">CAMPANHA</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'identidade-visual'}">IDENTIDADE VISUAL</b-link>
                             </div>
                             <div  class=" menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">MÍDIA</b-link>
-                                <b-link class="personal-link-option">NOTICIAS</b-link>
-                                <b-link class="personal-link-option">ASPOL NA MÍDIA</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'noticias'}">NOTICIAS</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'media-view'}">ASPOL NA MÍDIA</b-link>
                             </div>
                             <div class="menu-options">
-                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">CONTATOS</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}" :to="{name: 'contato'}">CONTATOS</b-link>
                             </div>
                             <div class="menu-options">
-                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">CONVÊNIOS</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}" :to="{name: 'convênios'}">CONVÊNIOS</b-link>
                             </div>
+                            
                             <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">ÁREA RESTRITA</b-link>
-                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth >TRANSPARÊNCIA</b-link>
+                                <b-link class="personal-link-option" v-if="this.token == null" v-b-modal.auth >TRANSPARÊNCIA</b-link>
                                 <b-link class="personal-link-option" v-else :to="{name: 'transparencia'}" >TRANSPARÊNCIA</b-link>
-                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth>SUGESTÕES</b-link>
+                                <b-link class="personal-link-option" v-if="this.token == null" v-b-modal.auth>SUGESTÕES</b-link>
                                 <b-link class="personal-link-option" v-else :to="{name: 'sugestoes'}">SUGESTÕES</b-link>
-                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth>ASSESSORIA JURÍDICA</b-link>
+                                <b-link class="personal-link-option" v-if="this.token == null" v-b-modal.auth>ASSESSORIA JURÍDICA</b-link>
                                 <b-link class="personal-link-option" v-else :to="{name: 'assessoria-juridica'}">ASSESSORIA JURÍDICA</b-link>
-                                <b-link class="personal-link-option" v-if="token == null" v-b-modal.auth>ARQUIVOS</b-link>
+                                <b-link class="personal-link-option" v-if="this.token == null" v-b-modal.auth>ARQUIVOS</b-link>
                                 <b-link class="personal-link-option" v-else :to="{name: 'arquivos'}">ARQUIVOS</b-link>
                             </div>
                         </nav>

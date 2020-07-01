@@ -53,6 +53,11 @@
           <b-nav-item>
             <b-link :to="{name: 'convênio'}" class="personal-link">CONVÊNIOS</b-link>
           </b-nav-item>
+
+          <b-nav-item>
+            <b-link :to="{name: 'contato'}" class="personal-link">CONTATO</b-link>
+          </b-nav-item>
+
           <b-nav-item v-if="token != null">
             <b-button
               size="sm"

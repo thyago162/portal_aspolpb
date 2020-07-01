@@ -46,6 +46,10 @@
           <b-icon icon="pie-chart-fill"></b-icon>
           <span class="ml-2">Relatórios</span>
         </b-nav-item>
+        <b-nav-item v-b-modal.warning-form >
+          <b-icon icon="aspect-ratio"></b-icon>
+          <span class="ml-2">Avisos</span>
+          </b-nav-item>
       </b-nav>
 
       <template v-slot:footer="{ hide }">

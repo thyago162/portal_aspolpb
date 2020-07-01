@@ -7,6 +7,7 @@
     cancel-title="Fechar"
     :ok-title="btnTitle[step]"
     header-text-variant="light"
+    @hide="resetModal"
   >
     <b-container fluid>
       <b-row>
@@ -74,7 +75,7 @@ export default {
   components: { ModalErro },
   data() {
     return {
-      step: 2,
+      step: 0,
       btnTitle: ["Enviar", "Confirmar", "Resetar"],
       email: "",
       password: "",
@@ -109,18 +110,21 @@ export default {
       let form = new FormData();
       form.append("email", this.email);
 
-      this.$http.post("reset-password-email", form).then(res => {
-        this.loading = false;
-        if (res.status === 200) {
-          alert("Email enviado com successo.");
-          this.step = 1;
-          this.user = res.data.result.user;
-        } 
-      }).catch(err => {
-        this.loading = false;
-        window.console.log(err);
-        alert('Falha ao enviar o e-mail');
-      });
+      this.$http
+        .post("reset-password-email", form)
+        .then(res => {
+          this.loading = false;
+          if (res.status === 200) {
+            alert("Email enviado com successo.");
+            this.step = 1;
+            this.user = res.data.result.user;
+          }
+        })
+        .catch(err => {
+          this.loading = false;
+          window.console.log(err);
+          alert("Falha ao enviar o e-mail");
+        });
     },
 
     stepTwo() {
@@ -166,6 +170,15 @@ export default {
         .catch(err => {
           window.console.log(err);
         });
+    },
+
+    resetModal() {
+      this.email = "";
+      this.password = "";
+      this.confirmation = "";
+      this.step = 0;
+      this.error = [];
+      this.user = [];
     }
   }
 };

@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       fields: [
-        { key: "nm_name", label: "Nome do arquivo" },
+        { key: "nm_name", label: "Nome do arquivo", sortable: true },
         { key: "download", label: "" },
         { key: "delete", label: "" }
       ]

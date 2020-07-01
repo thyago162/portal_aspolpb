@@ -142,8 +142,8 @@
     }
 
     @media screen  and (max-width: 375px){
-        .card-news-title {
-            font-size: 10px;
+        .card-news {
+            margin-bottom: 60px;
         }
         
     }

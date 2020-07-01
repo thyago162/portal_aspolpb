@@ -10,7 +10,6 @@
     <b-row class="mt-4">
       <b-col class="mr-2">
         <b-button
-          size="sm"
           variant="primary"
           @click="$router.push({name: 'form-about', params: {id: 'novo'}})"
           style="float: right"

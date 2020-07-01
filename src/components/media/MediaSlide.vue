@@ -2,14 +2,15 @@
   <div>
     <carousel :perPageCustom="customSlide" class="ml-2 mt-4 mb-3">
       <slide v-for="(media, index) in medias" :key="index" class="mr-2 box">
-        <div v-if="media.nu_type === 1">
-          <div class="image">
-            <b-img fluid :src="media.nm_image_path"></b-img>
-          </div>
-          <div>
-            <b-link @click="redirectTo(media.nm_link)">
-              <p>{{media.nm_title | title}}</p>
-            </b-link>
+        <div
+          v-if="media.nu_type === 1"
+          :style="{backgroundImage: 'url('+media.nm_image_path+')'}"
+          class="image"
+        >
+          <div class="block-title" >
+            <b-link
+              @click="redirectTo(media.nm_link)"
+            >{{media.nm_title | title}}</b-link>
           </div>
         </div>
 
@@ -24,11 +25,14 @@
           <b-img class="image" fluid :src="media.nm_image_path"></b-img>
         </div>
 
-        <div v-if="media.nu_type === 4">
-          <b-img-lazy class="image" fluid :src="media.nm_image_path"></b-img-lazy>
-          <b-link @click="redirectTo(media.nm_link)">
-            <p>{{media.nm_title | title }}</p>
-          </b-link>
+        <div
+          v-if="media.nu_type === 4"
+          :style="{backgroundImage: 'url('+media.nm_image_path+')'}"
+          class="image"
+        >
+          <div class="block-title">
+            <b-link @click="redirectTo(media.nm_link)">{{media.nm_title | title }}</b-link>
+          </div>
         </div>
       </slide>
     </carousel>
@@ -49,9 +53,9 @@ export default {
     return {
       item: "",
       customSlide: [
-        [1360, 4],
-        [1000, 3],
-        [800, 2],
+        [1360, 3],
+        [1024, 3],
+        [768, 2],
         [500, 1],
         [300, 1]
       ]
@@ -59,10 +63,9 @@ export default {
   },
 
   methods: {
+
     redirectTo(link) {
-      link.search("http") > 0
-        ? window.open(link)
-        : window.open("http://" + link);
+        window.open(link)
     },
 
     playSound(media) {
@@ -75,10 +78,23 @@ export default {
 <style scoped>
 .image {
   width: 100%;
-  height: 250px;
-  object-fit: cover;
-  object-position: center;
+  height: 270px;
   border: 2px solid #333;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.block-title {
+  background-color: rgba(51, 51, 51, 0.849);
+  bottom: 0%;
+}
+
+.block-title a {
+  color: #ffffff;
+  font-weight: bolder;
 }
 
 span {
@@ -107,7 +123,6 @@ h5 {
   font-weight: bolder;
   text-decoration: none;
 }
-
 
 .icon {
   position: absolute;

@@ -169,8 +169,11 @@
             },
 
             resetModal() {
+                
                 this.visibility = false;
                 this.errors = [];
+                this.form.nm_image_path = '';
+                this.form.name = '';
             }
         }
         

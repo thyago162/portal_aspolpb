@@ -23,17 +23,28 @@
 
     <b-row class="mt-3 ml-1 mr-1">
       <b-col cols="11">
+
+        <b-alert variant="warning" dismissible :show="true">
+          Os campos com asteriscos são obrigatórios
+        </b-alert>
+
         <form @submit.stop.prevent="formSubmited">
-          <b-form-group label="Matrícula">
-            <b-form-input type="text" v-model="form.nu_registration" placeholder="Apenas números" max="6"/>
+          <b-form-group label="Matrícula *">
+            <b-form-input
+              type="text"
+              v-model="form.nu_registration"
+              placeholder="Apenas números"
+              max="6"
+              :state="state.registration"
+            />
           </b-form-group>
 
           <b-form-group label="Nome">
             <b-form-input type="text" v-model="form.nm_name" :placeholder="user.name" readonly />
           </b-form-group>
 
-          <b-form-group label="Cpf">
-            <b-form-input type="text" v-model="form.nm_cpf" placeholder="Apenas números" max="11" />
+          <b-form-group label="Cpf *">
+            <b-form-input type="text" :state="state.cpf" v-model="form.nm_cpf" placeholder="Apenas números" max="11" />
           </b-form-group>
 
           <b-form-group label="Email">
@@ -42,34 +53,46 @@
 
           <b-row>
             <b-col lg="3">
-              <b-form-group label="DDD">
-                <b-form-input type="text" v-model="form.nm_ddd" placeholder="Apenas números" max="2" />
+              <b-form-group label="DDD *">
+                <b-form-input
+                  type="text"
+                  v-model="form.nm_ddd"
+                  placeholder="Apenas números"
+                  :max="2"
+                  :state="state.ddd"
+                />
               </b-form-group>
             </b-col>
             <b-col>
-              <b-form-group label="Telefone">
-                <b-form-input type="text" v-model="form.nm_phone" placeholder="Apenas números" max="9" />
+              <b-form-group label="Telefone *">
+                <b-form-input
+                  type="text"
+                  v-model="form.nm_phone"
+                  placeholder="Apenas números"
+                  :max="9"
+                  :state="state.phone"
+                />
               </b-form-group>
             </b-col>
           </b-row>
 
-          <b-form-group label="Sexo">
-            <b-form-select v-model="form.ch_sex">
+          <b-form-group label="Sexo *">
+            <b-form-select v-model="form.ch_sex" :state="state.sex">
               <b-form-select-option value="M">Masculino</b-form-select-option>
               <b-form-select-option value="F">Feminino</b-form-select-option>
             </b-form-select>
           </b-form-group>
 
-          <b-form-group label="Cédula de identidade (RG)">
-            <b-form-input type="number" v-model="form.nu_rg" placeholder="Apenas números" max="7" />
+          <b-form-group label="Cédula de identidade (RG) *">
+            <b-form-input :state="state.rg" type="number" v-model="form.nu_rg" placeholder="Apenas números" max="7" />
           </b-form-group>
 
-          <b-form-group label="Data de nascimento">
-            <b-form-input type="date" v-model="form.dt_birthday" />
+          <b-form-group label="Data de nascimento *">
+            <b-form-input type="date" :state="state.date" v-model="form.dt_birthday" />
           </b-form-group>
 
-          <b-form-group label="Estado Civil">
-            <b-form-select v-model="form.nm_civil_state">
+          <b-form-group label="Estado Civil *">
+            <b-form-select v-model="form.nm_civil_state" :state="state.civilState">
               <b-form-select-option value="solteiro">Solteiro(a)</b-form-select-option>
               <b-form-select-option value="casado">Casado(a)</b-form-select-option>
               <b-form-select-option value="separado">Separado(a)</b-form-select-option>
@@ -79,8 +102,8 @@
             </b-form-select>
           </b-form-group>
 
-          <b-form-group label="Grau de Escolaridade">
-            <b-form-select v-model="form.nm_education_level">
+          <b-form-group label="Grau de Escolaridade *">
+            <b-form-select v-model="form.nm_education_level" :state="state.educationLevel">
               <b-form-select-option value="Ensino Superior (Completo)">Ensino Superior (completo)</b-form-select-option>
               <b-form-select-option
                 value="Ensino Superior (Incompleto)"
@@ -147,7 +170,7 @@
             </b-col>
             <b-col>
               <b-form-group label="Complemento">
-                <b-form-input v-model="form.nm_complement" />
+                <b-form-input v-model="form.nm_complement" type="text" />
               </b-form-group>
             </b-col>
           </b-row>
@@ -156,18 +179,25 @@
             <b-form-input placeholder v-model="form.nm_neighbohood" />
           </b-form-group>
 
-          <b-row>
-            <b-col>
-              <b-form-group label="Cidade">
-                <b-form-input v-model="form.nm_city" />
+         <b-form-group label="Estado *">
+                <b-form-select v-model="form.nm_uf" @input="getCities()" :state="state.uf">
+                  <b-form-select-option
+                    v-for="(uf, index) in ufs"
+                    :key="index"
+                    :value="uf.sigla"
+                  >{{uf.nome}}</b-form-select-option>
+                </b-form-select>
               </b-form-group>
-            </b-col>
-            <b-col lg="2">
-              <b-form-group label="UF">
-                <b-form-input v-model="form.nm_uf" />
+
+              <b-form-group label="Cidade *">
+                <b-form-select v-model="form.nm_city"  :state="state.city">
+                  <b-form-select-option
+                    v-for="(city, index) in cities"
+                    :key="index"
+                    :value="city.nome"
+                  >{{city.nome}}</b-form-select-option>
+                </b-form-select>
               </b-form-group>
-            </b-col>
-          </b-row>
 
           <b-row class="mt-3">
             <b-col>
@@ -177,8 +207,8 @@
             </b-col>
           </b-row>
 
-          <b-form-group label="Cargo" class="mt-3">
-            <b-form-select v-model="form.nm_office">
+          <b-form-group label="Cargo *" class="mt-3">
+            <b-form-select v-model="form.nm_office" :state="state.office">
               <b-form-select-option value="Agente de Investigação">Agente de Investigação</b-form-select-option>
               <b-form-select-option value="Escrivão da Polícia">Escrivão da Polícia</b-form-select-option>
               <b-form-select-option value="Agente Operacional">Agente Operacional</b-form-select-option>
@@ -197,7 +227,7 @@
           </b-form-group>
 
           <b-form-group label="Classe">
-            <b-form-select v-model="form.nm_office_class">
+            <b-form-select v-model="form.nm_office_class" :state="state.class">
               <b-form-select-option value="E">E</b-form-select-option>
               <b-form-select-option value="1º">1º</b-form-select-option>
               <b-form-select-option value="2º">2º</b-form-select-option>
@@ -206,7 +236,7 @@
           </b-form-group>
 
           <b-form-group label="Lotação (Superintendência)">
-            <b-form-select v-model="form.nm_super_stocking">
+            <b-form-select v-model="form.nm_super_stocking" :state="state.superStocking">
               <b-form-select-option value="1º">1º</b-form-select-option>
               <b-form-select-option value="2º">2º</b-form-select-option>
               <b-form-select-option value="3º">3º</b-form-select-option>
@@ -215,7 +245,7 @@
           </b-form-group>
 
           <b-form-group label="Lotação (Seccional)">
-            <b-form-select v-model="form.nm_sectional_stocking">
+            <b-form-select v-model="form.nm_sectional_stocking" :state="state.sectionalStokng">
               <b-form-select-option
                 v-for="(sectional, index) in sectionalStocking"
                 :key="index"
@@ -228,7 +258,7 @@
             <b-form-input v-model="form.nm_work_unit" type="text" />
           </b-form-group>
 
-          <b-form-group label="Município da Unidade que trabalha">
+          <b-form-group label="Município da Unidade que trabalha" :state="state.workUnity">
             <b-form-input type="text" v-model="form.nm_municipality_work_unit" />
           </b-form-group>
 
@@ -292,10 +322,12 @@
 <script>
 import ModalError from "../error/ModalError";
 import SessionOff from "../session/Session";
+import {validate} from '../../config'
 
 export default {
   created() {
     this.getAssociated();
+    this.getUfs();
   },
 
   components: {
@@ -306,32 +338,34 @@ export default {
   data() {
     return {
       form: {
-        nu_registration: "",
-        nm_name: "",
-        nm_cpf: "",
-        nm_email: "",
-        nm_ddd: "",
-        nm_phone: "",
-        ch_sex: "",
-        nu_rg: "",
-        dt_birthday: "",
-        nm_civil_state: "",
-        nm_education_level: "",
-        nm_office: "",
-        nm_office_class: "",
-        nm_super_stocking: "",
-        nm_sectional_stocking: "",
-        nm_work_unit: "",
-        nm_municipality_work_unit: "",
-        nm_cep: "",
-        nm_street: "",
-        nm_number: "",
-        nm_complement: "",
-        nm_neighbohood: "",
-        nm_city: "",
-        nm_uf: "",
+        nu_registration: null,
+        nm_name: '',
+        nm_cpf: '',
+        nm_email: '',
+        nm_ddd: '',
+        nm_phone: '',
+        ch_sex: '',
+        nu_rg: '',
+        dt_birthday: '',
+        nm_civil_state: '',
+        nm_education_level: '',
+        nm_office: '',
+        nm_office_class: '',
+        nm_super_stocking: '',
+        nm_sectional_stocking: '',
+        nm_work_unit: '',
+        nm_municipality_work_unit: '',
+        nm_cep: '',
+        nm_street: '',
+        nm_number: '',
+        nm_complement: '',
+        nm_neighbohood: '',
+        nm_city: '',
+        nm_uf: '',
         authorize: 0
       },
+      cities: [],
+      ufs: [],
       dependents: [],
       dependentName: "",
       dependentBirthday: "",
@@ -342,7 +376,8 @@ export default {
       errors: {},
       loading: false,
       visibility: false,
-      loadingAddress: false
+      loadingAddress: false,
+      state: {}
     };
   },
 
@@ -413,7 +448,7 @@ export default {
 
     formSubmited() {
       this.loading = true;
-
+      this.requiredFields();
       let form = new FormData();
 
       form.append("nu_registration", this.form.nu_registration);
@@ -483,7 +518,7 @@ export default {
                           this.errors = res.data.result;
                           this.$refs.error.$refs["modal-error"].show();
                         } else {
-                          alert('Solicitação de cadastro enviada com sucesso!')
+                          alert("Solicitação de cadastro enviada com sucesso!");
                           this.$router.push({ name: "home" });
                         }
                       }
@@ -493,7 +528,7 @@ export default {
                     });
                 });
               }
-              alert('Solicitação de cadastro enviada com sucesso!')
+              alert("Solicitação de cadastro enviada com sucesso!");
               this.$router.push({ name: "home" });
             }
           }
@@ -519,6 +554,47 @@ export default {
       if (this.formControl > 1) {
         parseInt((this.formControl -= 1));
       }
+    },
+      getUfs() {
+      this.$http(
+        "https://servicodados.ibge.gov.br/api/v1/localidades/estados"
+      ).then(res => {
+        if (res.status === 200) {
+          this.ufs = res.data;
+        }
+      });
+    },
+
+    getCities() {
+      this.$http(
+        "https://servicodados.ibge.gov.br/api/v1/localidades/estados/" +
+          this.form.nm_uf +
+          "/municipios"
+      ).then(res => {
+        if (res.status === 200) {
+          this.cities = res.data;
+        }
+      });
+    },
+
+    requiredFields() {
+      this.state.registration = validate(this.form.nu_registration);
+      this.state.cpf = validate(this.form.nm_cpf);
+      this.state.ddd = validate(this.form.nm_ddd);
+      this.state.phone = validate(this.form.nm_phone);
+      this.state.sex = validate(this.form.ch_sex);
+      this.state.rg = validate(this.form.nu_rg);
+      this.state.date = validate(this.form.dt_birthday);
+      this.state.civilState = validate(this.form.nm_civil_state);
+      this.state.educationLevel = validate(this.form.educationLevel);
+      this.state.city = validate(this.form.nm_city);
+      this.state.uf = validate(this.form.nm_uf);
+      this.state.office = validate(this.form.nm_office);
+      this.state.officeClass = validate(this.form.nm_office_class);
+      this.state.sectionalStocking = validate(this.form.sectionalStocking);
+      this.state.superStocking = validate(this.form.nm_super_stocking);
+      this.state.workUnity = validate(this.form.nm_work_unit)
+
     }
   }
 };

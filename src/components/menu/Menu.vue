@@ -1,7 +1,7 @@
 <template>
   <div class="menu" id="menu">
     <b-navbar toggleable="xl" type="dark" variant="light">
-      <b-navbar-brand>
+      <b-navbar-brand :to="{name: 'home'}" >
         <img
           src="../../assets/images/logo_aspol_02.png"
           alt="Aspolpb"
@@ -123,7 +123,7 @@
               </b-link>
             </b-dropdown-item>
 
-            <b-dropdown-item v-if="token != null">
+            <b-dropdown-item v-if="token != null && user.administrator == 1">
               <b-link class="personal-link" v-b-toggle.menu-lateral>
                 <b-icon icon="gear-wide-connected"></b-icon>
                 <span class="ml-1">PAINEL DE CONTROLE</span>
@@ -135,7 +135,7 @@
           <b-nav-item-dropdown no-caret v-if="token != null">
             <template v-slot:button-content>
               <span class="personal-link">
-                MINHA CONTA
+                {{user.name}}
                 <b-icon icon="person-lines-fill"></b-icon>
               </span>
             </template>

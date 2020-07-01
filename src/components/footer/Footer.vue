@@ -63,8 +63,9 @@
     
                 <b-row>
                     <b-col class="address-footer">
-                        <p>Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - Bancários, (83) 3506-3429</p>
-                        <p>João Pessoa - PB, 58053-110</p>
+                        <p>Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - </p>
+                        <p :style="{marginTop: '-17px'}">Bancários, João Pessoa - PB, CEP.: 58053-110 </p>
+                        <p>Contato: (83) 3506-3429</p>
                     </b-col>
                 </b-row>
             </b-container>

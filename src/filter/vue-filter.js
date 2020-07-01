@@ -1,11 +1,17 @@
 import Vue from 'vue';
 
 Vue.filter('date', function (value) {
+    if (value == undefined) {
+        value = '';
+    }
     return value.split('-').reverse().join('/')
 })
 
 Vue.filter('name', function (value) {
-    
+    if (value == undefined) {
+        value = '';
+    }
+
     let userName = value.split(" ");
     return  userName[0].toUpperCase();
         
@@ -34,6 +40,9 @@ Vue.filter('namedDate', function (value) {
 
 Vue.filter('fileName', function(value) {
    let name = "Arquivo";
+   if (value == undefined) {
+       value = '';
+   }
    let extension = value.split('.');
 
    return `${name}.${extension[1]}`  

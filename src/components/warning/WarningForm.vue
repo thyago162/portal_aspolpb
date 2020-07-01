@@ -10,13 +10,19 @@
             </b-button>
         </template>
 
+        <b-alert
+          variant="warning"
+          dismissible
+          :show="true"
+        >Os campos com asteriscos são obrigatórios</b-alert>
+
         <form @submit.stop.prevent="formSubmited">
 
             <b-container fluid>
                 <b-row>
                     <b-col lg="12">
-                         <b-form-group label="Ativar">
-                            <b-form-radio-group v-model="form.st_status">
+                         <b-form-group label="Ativar *">
+                            <b-form-radio-group v-model="form.st_status" :state="state.status">
                                 <b-form-radio :value="1" >Sim</b-form-radio>
                                 <b-form-radio :value="0" >Não</b-form-radio>
                             </b-form-radio-group>
@@ -82,6 +88,7 @@
     import VueCropper from 'vue-cropperjs';
     import SessionOff from '../session/Session';
     import ModalError from '../error/ModalError';
+    import {validate} from '../../config'
 
     export default {
 
@@ -90,7 +97,7 @@
         components: {
             VueCropper,
             SessionOff,
-            ModalError
+            ModalError,
         },
 
         data() {
@@ -101,6 +108,7 @@
                 ],
                 file: null,
                 errors: {},
+                state: {},
                 loading: false,
                 cropImg: '',
                 imgSrc: ''
@@ -121,6 +129,7 @@
             handleOk(bvModalEvt){
                 this.loading = true;
                 bvModalEvt.preventDefault();
+                this.requiredFields();
                 this.save();
             },
 
@@ -256,6 +265,10 @@
                })
 
             },
+
+            requiredFields() {
+                this.state.status = validate(this.form.st_status)
+            }
         }
         
     }

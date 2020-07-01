@@ -8,29 +8,31 @@
     </b-row>
     <b-row class="mt-4 ml-1 mr-1">
       <b-col  v-show="!preview">
-        {{file}}
+        <b-alert variant="warning" dismissible :show="true">
+          Os campos com asteriscos são obrigatórios
+        </b-alert>
        
         <form @submit.stop.prevent="formSubmited()" enctype="multipart/form-data" class="mt-3">
-          <b-form-group label="Título">
-            <b-form-input type="text" v-model="form.nm_title" required name="nm_title"></b-form-input>
+          <b-form-group label="Título *">
+            <b-form-input type="text"  v-model="form.nm_title" required name="nm_title" :state="state.title"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Subtítulo">
             <b-form-input type="text" v-model="form.nm_subtitle" />
           </b-form-group>
 
-          <b-form-group label="Data">
-            <b-form-datepicker id="form-news-data" v-model="form.dt_date" class="mb-2"></b-form-datepicker>
+          <b-form-group label="Data *">
+            <b-form-datepicker id="form-news-data" v-model="form.dt_date" :state="state.date" class="mb-2"></b-form-datepicker>
           </b-form-group>
 
-          <b-form-group label="Destacar" class="ml-4">
-            <b-form-radio-group v-model="form.st_highlights" required>
+          <b-form-group label="Destacar *" class="ml-4">
+            <b-form-radio-group v-model="form.st_highlights" :state="state.highlight">
               <b-form-radio :value="0" default name="no-highlights">Não</b-form-radio>
               <b-form-radio :value="1" name="yes-highlights">Sim</b-form-radio>
             </b-form-radio-group>
           </b-form-group>
 
-          <b-form-group label="Conteúdo">
+          <b-form-group label="Conteúdo *" >
             <vue-editor id="editor" v-model="form.nm_content"></vue-editor>
           </b-form-group>
 
@@ -117,6 +119,7 @@ import ImageUpload from "../image/ImageUpload";
 import ModalError from "../error/ModalError";
 import SessionOff from "../session/Session";
 import PreviewNews from "./PreviewNews";
+import {validate} from '../../config'
 
 export default {
   components: {
@@ -147,7 +150,8 @@ export default {
       isPublishing: null,
       preview: false,
       title: "",
-      errors: {}
+      errors: {},
+      state: {}
     };
   },
 
@@ -202,15 +206,16 @@ export default {
 
     formSubmited() {
       this.loading = true;
+      this.requiredFields()
       this.saveNews();
     },
 
-    handleOk: function(bvModalEvt) {
-      bvModalEvt.preventDefault();
+    handleOk: function() {
       this.form.st_active = 1;
       this.formSubmited();
     },
     saveNews() {
+
       let image = null;
       let formData = new FormData();
       let cropImage = this.$store.getters.getCropImage;
@@ -254,7 +259,7 @@ export default {
               } else {
                 this.$store.dispatch("news", 1);
                 this.$router.push({name: 'table-news'})
-                this.$store.dispatch('images','')
+                this.$store.dispatch('images',null)
 
                 this.errors = {};
               }
@@ -281,6 +286,7 @@ export default {
         .then(res => {
           if (res.status === 200) {
             this.form.nm_image_path = "";
+            this.$store.dispatch("images", null);
           }
         });
     },
@@ -337,6 +343,12 @@ export default {
       this.loading = true;
       this.saveNews();
     },
+
+    requiredFields() {
+      this.state.title =  validate(this.form.nm_title)
+      this.state.date = validate(this.form.dt_date)
+      this.state.highlight = validate(this.form.st_highlights)
+    }
 
   }
 };

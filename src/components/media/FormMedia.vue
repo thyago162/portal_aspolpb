@@ -12,9 +12,9 @@
         <form @submit.stop.prevent="formSubmited" class="mb-2">
           <b-form-group label="Tipo da notícia">
             <b-form-radio-group
-              required
               @input="selectedOption(form.nu_type)"
               v-model="form.nu_type"
+              :state="state.type"
             >
               <b-form-radio :value="1">Notícias</b-form-radio>
               <b-form-radio :value="2">Vídeos</b-form-radio>
@@ -24,7 +24,7 @@
           </b-form-group>
 
           <b-form-group label="Título">
-            <b-form-input type="text" v-model="form.nm_title" required />
+            <b-form-input type="text" :state="state.title" v-model="form.nm_title" required />
           </b-form-group>
 
           <b-form-group label="Link" v-if="selected != 3">
@@ -32,7 +32,7 @@
           </b-form-group>
 
           <b-form-group label="Data">
-            <b-form-input type="date" v-model="form.dt_date"></b-form-input>
+            <b-form-input type="date" :state="state.date" v-model="form.dt_date"></b-form-input>
           </b-form-group>
 
           <b-form-group label="Audio" v-if="selected == 3">
@@ -84,6 +84,7 @@
 import ImageUpload from "../image/ImageUpload";
 import SessionOff from "../session/Session";
 import ModalError from "../error/ModalError";
+import {validate} from '../../config'
 
 export default {
 
@@ -115,7 +116,8 @@ export default {
       form: {},
       countdown: 0,
       loading: false,
-      audio: null
+      audio: null,
+      state: {}
     };
   },
 
@@ -138,6 +140,7 @@ export default {
 
     formSubmited() {
       this.loading = true;
+      this.requiredFields();
       this.saveNetwork();
     },
 
@@ -212,6 +215,12 @@ export default {
       this.form.nm_image_path = '';
       this.form.nm_audio_path = '';
       this.form.nu_type = '';
+    },
+
+     requiredFields() {
+      this.state.title =  validate(this.form.nm_title)
+      this.state.date = validate(this.form.dt_date)
+      this.state.type = validate(this.form.nu_type)
     }
   }
 };

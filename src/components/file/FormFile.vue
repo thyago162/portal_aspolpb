@@ -10,9 +10,12 @@
 
     <b-row class="mt-3 ml-1 mr-1">
       <b-col>
+        <b-alert variant="warning" dismissible :show="true">
+          Os campos com asteriscos são obrigatórios
+        </b-alert>
         <b-form @submit.stop.prevent="formSubmited">
-          <b-form-group label="Nome do arquivo">
-            <b-form-input type="text" v-model="form.nm_name" />
+          <b-form-group label="Nome do arquivo *">
+            <b-form-input type="text" v-model="form.nm_name" :state="state.name"/>
           </b-form-group>
           <b-form-group label="Arquivo">
             <b-form-file v-model="file" :state="Boolean(file)"></b-form-file>
@@ -28,7 +31,6 @@
     </b-row>
     <b-row>
       <b-col class="buttons">
-        <b-button class="mr-2" variant="info">Resetar</b-button>
         <b-button variant="success" @click="formSubmited()">Salvar</b-button>
       </b-col>
     </b-row>
@@ -40,6 +42,7 @@
 <script>
 import ModalError from "../error/ModalError";
 import SessionOff from "../session/Session";
+import {validate} from '../../config'
 
 export default {
   mounted() {
@@ -54,11 +57,13 @@ export default {
   data() {
     return {
       file: null,
-      form: {},
       loading: false,
       countdown: 0,
+      value: "",
+      form: {},
+      state: {},
       errors: {},
-      value: ""
+      
     };
   },
 
@@ -92,6 +97,7 @@ export default {
 
     formSubmited() {
       this.loading = true;
+      this.requiredFields();
       this.save();
     },
 
@@ -131,6 +137,10 @@ export default {
       this.form.nm_name = "";
       this.form.nm_file_path = "";
       this.file = null;
+    },
+
+    requiredFields() {
+      this.state.name = validate(this.form.nm_name)
     }
   }
 };

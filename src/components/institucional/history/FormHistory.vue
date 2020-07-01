@@ -10,9 +10,14 @@
         </template>
 
         <ErroMessage :errors="errors" :visibility="visibility" />
+        <b-alert
+          variant="warning"
+          dismissible
+          :show="true"
+        >Os campos com asteriscos são obrigatórios</b-alert>
 
         <form @submit.stop.prevent="formSubmited">
-            <b-form-group label="Conteúdo">
+            <b-form-group label="Conteúdo *">
                 <vue-editor v-model="form.nm_content"></vue-editor>
             </b-form-group>
         </form>

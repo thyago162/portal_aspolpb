@@ -9,7 +9,7 @@
     </b-row>
 
     <b-row class="mt-4 ml-1 mr-1">
-      <b-col lg="6">
+      <b-col cols="11">
         <b-form inline>
           <b-input-group>
             <template v-slot:prepend>
@@ -17,13 +17,13 @@
                 <b-icon icon="search"></b-icon>
               </b-input-group-text>
             </template>
-            <b-form-input v-model="search" type="text" />
+            <b-form-input v-model.lazy="search" type="text" />
           </b-input-group>
           <b-button class="ml-1" type="button" variant="primary" @click="searchUser()">Buscar</b-button>
         </b-form>
       </b-col>
 
-      <b-col lg="5">
+      <b-col cols="1">
         <JsonCvs :data="users.data" :style="{float: 'right'}">
           <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}" />
         </JsonCvs>
@@ -41,6 +41,22 @@
           :current-page="currentPage"
           id="table-users"
         >
+          <template v-slot:cell(show_details)="row">
+            <b-button variant="info" size="sm" @click="row.toggleDetails">Permissão</b-button>
+          </template>
+
+          <template v-slot:row-details="row">
+            <b-form inline>
+              <span>Administrador</span>
+              <b-form-radio-group v-model="selected" :options="options" class="ml-2"></b-form-radio-group>
+              <b-button
+                variant="success"
+                size="sm"
+                @click="changePermission(row.item.id_user)"
+              >Alterar</b-button>
+            </b-form>
+          </template>
+
           <template v-slot:cell(created_at)="row">
             <span v-if="row.item.created_at">{{row.item.created_at | fullDate}}</span>
           </template>
@@ -49,6 +65,11 @@
             <b-button size="sm" class="mr-2" @click="deleteUser(row.item)" variant="danger">
               <b-icon icon="trash"></b-icon>
             </b-button>
+          </template>
+
+          <template v-slot:cell(administrator)="row">
+            <b-icon v-if="row.item.administrator === 1" icon="check-square-fill" class="h5"></b-icon>
+            <b-icon v-else icon="check-square" class="h5"></b-icon>
           </template>
         </b-table>
         <div class="overflow-auto">
@@ -64,17 +85,20 @@
       </b-col>
     </b-row>
     <SessionOff ref="session" />
+    <ErroMessage ref="error" :errors="errors" />
   </b-container>
 </template>
 
 <script>
 import SessionOff from "../session/Session";
+import ErroMessage from "../error/ModalError";
 import JsonCvs from "vue-json-csv";
 
 export default {
   components: {
     JsonCvs,
-    SessionOff
+    SessionOff,
+    ErroMessage
   },
 
   created() {
@@ -90,11 +114,18 @@ export default {
         { key: "name", label: "Nome", sortable: true },
         { key: "email", label: "Email" },
         { key: "created_at", label: "Data de registro" },
-        { key: "edit", label: "" },
+        { key: "administrator", label: "Administrador", sortable: true },
+        { key: "show_details", label: "" },
         { key: "delete", label: "" }
       ],
       search: "",
-      countdown: 0
+      countdown: 0,
+      selected: "",
+      options: [
+        { text: "Sim", value: 1 },
+        { text: "Não", value: 0 }
+      ],
+      errors: []
     };
   },
 
@@ -104,7 +135,6 @@ export default {
     },
 
     users: function() {
-      
       if (this.userSearch.data) {
         return this.userSearch;
       }
@@ -117,7 +147,7 @@ export default {
     deleteUser(id) {
       if (confirm("Deseja realmente excluir?")) {
         this.$http
-          .delete("user/" + id, {
+          .delete("users/" + id, {
             headers: {
               Authorization: "Bearer " + this.token
             }
@@ -129,7 +159,7 @@ export default {
               }
 
               if (res.data.result.error) {
-                this.errors.push(res.data.result.error);
+                this.errors = res.data.result;
                 this.visibility = true;
               } else {
                 this.$store.dispatch("users", { token: this.token, page: 1 });
@@ -160,7 +190,39 @@ export default {
         .catch(err => {
           window.console.log(err);
         });
+    },
+
+    changePermission(id) {
+      if (confirm("Deseja prosseguir?")) {
+        this.$http
+          .put(
+            "users/permission/" + id,
+            {
+              administrator: this.selected
+            },
+            {
+              headers: {
+                Authorization: "bearer " + this.token
+              }
+            }
+          )
+          .then(res => {
+            if (res.status === 200) {
+              if (res.data.token_failure) {
+                this.$refs.session.$refs.session.show();
+              }
+
+              if (res.data.result.error) {
+                this.errors = res.data.result;
+                this.visibility = true;
+              } else {
+                this.$store.dispatch("users", { token: this.token, page: 1 });
+              }
+            }
+          });
+      }
     }
+
   }
 };
 </script>

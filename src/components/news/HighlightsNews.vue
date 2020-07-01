@@ -6,10 +6,6 @@
             <b-link :to="{name: 'visualizar-noticias', params: {title: title}}" class="personal-link">
                 <h5 :style="{ color: '#ffffff'}">{{highlights.nm_title}}</h5>
             </b-link>
-            
-            <h6 :style="{color: '#ffffff'}" v-if=" highlights.nm_subtitle != 'null'">
-                {{highlights.nm_subtitle}}
-            </h6>
         </div>
         
     </b-col>

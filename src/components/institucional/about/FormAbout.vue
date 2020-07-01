@@ -3,18 +3,25 @@
     <b-row class="header-title ml-1 mr-1">
       <b-col class="title">
         <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'table-about'}"> Quem somos </b-link> / Formulário</h5>
+          <b-link class="navigation-link" :to="{name: 'table-about'}">Quem somos</b-link>/ Formulário
+        </h5>
       </b-col>
     </b-row>
     <b-row class="mt-4 ml-1 mr-1">
       <b-col>
+        <b-alert
+          variant="warning"
+          dismissible
+          :show="true"
+        >Os campos com asteriscos são obrigatórios</b-alert>
         <b-form @submit.stop.prevent="sendForm">
-          <b-form-group label="Cargo">
+          <b-form-group label="Cargo *">
             <b-form-radio-group
               class="mt-1"
               required
               v-model="form.fk_advice"
               @input="selectedOption"
+              :state="state.advice"
             >
               <b-form-radio :value="1">Presidência</b-form-radio>
               <b-form-radio :value="2">Diretoria</b-form-radio>
@@ -23,12 +30,17 @@
             </b-form-radio-group>
           </b-form-group>
 
-          <b-form-group label="Nome" class="mt-1">
-            <b-form-input placeholder="Nome completo" type="text" required v-model="form.nm_name" />
+          <b-form-group label="Nome *" class="mt-1">
+            <b-form-input
+              placeholder="Nome completo"
+              type="text"
+              :state="state.name"
+              v-model="form.nm_name"
+            />
           </b-form-group>
 
-          <b-form-group label="Cargo">
-            <b-form-input required v-model="form.nm_office" />
+          <b-form-group label="Cargo *">
+            <b-form-input required v-model="form.nm_office" :state="state.office" />
           </b-form-group>
 
           <b-form-group label="Telefone" v-if="selected == 1">
@@ -71,7 +83,7 @@
         </b-form>
       </b-col>
     </b-row>
-    <hr/>
+    <hr />
     <b-row>
       <b-col class="buttons">
         <b-button variant="warning" class="mr-2" @click="clearForm()">Limpar</b-button>
@@ -90,6 +102,8 @@
 import ImageUpload from "../../image/ImageUpload";
 import ModalError from "../../error/ModalError";
 import SessionOff from "../../session/Session";
+import { validate } from "../../../config";
+
 export default {
   created() {
     this.clearForm();
@@ -108,7 +122,8 @@ export default {
       loading: false,
       countdown: 0,
       selected: 1,
-      about: {}
+      about: {},
+      state: {}
     };
   },
 
@@ -134,6 +149,7 @@ export default {
 
     sendForm() {
       this.loading = true;
+      this.requiredFields();
       this.save();
     },
 
@@ -177,7 +193,7 @@ export default {
               this.errors = res.data.result;
             } else {
               this.$store.dispatch("about");
-              this.$router.push({name: 'table-about'})
+              this.$router.push({ name: "table-about" });
             }
           }
         })
@@ -218,7 +234,7 @@ export default {
       let id = this.$route.params.id;
 
       if (Number.isInteger(id)) {
-        this.$http("about/show/" + id,)
+        this.$http("about/show/" + id)
           .then(res => {
             if (res.status === 200) {
               this.about = res.data.result.about;
@@ -231,14 +247,20 @@ export default {
     },
 
     clearForm() {
-      this.form.id_about = ""
+      this.form.id_about = "";
       this.form.nm_name = "";
       this.form.nm_office = "";
       this.form.nm_ddd = "";
       this.form.nm_phone = "";
       this.form.fk_advice = "";
       this.form.nm_image_path = "";
-      this.$store.dispatch('images', "");
+      this.$store.dispatch("images", "");
+    },
+
+    requiredFields() {
+      this.state.advice = validate(this.form.fk_advice);
+      this.state.name = validate(this.form.nm_name);
+      this.state.office = validate(this.form.nm_office);
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <b-container fluid class="mb-3">
     <b-row class="header-title ml-1 mr-1">
-      <b-col class="title" >
+      <b-col class="title">
         <h5 class="mt-2">
           <b-link class="navigation-link" :to="{name: 'table-agreement'}">Convênios</b-link>/
           Formulário
@@ -11,19 +11,25 @@
 
     <b-row class="mt-4 ml-1 mr-1">
       <b-col>
+        <b-alert
+          variant="warning"
+          dismissible
+          :show="true"
+        >Os campos com asteriscos são obrigatórios</b-alert>
         <form @submit.stop.prevent="formSubmited">
-          <b-form-group label="Categoria">
-            <b-form-select v-model="form.nm_category" :options="options"></b-form-select>
+          <b-form-group label="Categoria *">
+            <b-form-select v-model="form.nm_category" :options="options" :state="state.category"></b-form-select>
           </b-form-group>
-          <b-form-group label="Nome">
+          <b-form-group label="Nome *">
             <b-form-input
               type="text"
               v-model="form.nm_title"
               placeholder="Nome da empresa convêniada"
+              :state="state.name"
             />
           </b-form-group>
 
-          <b-form-group label="Contrato">
+          <b-form-group label="Contrato *">
             <b-form-file accept="application/pdf" v-model="doc" :state="Boolean(file)"></b-form-file>
           </b-form-group>
 
@@ -43,8 +49,8 @@
             <b-form-input v-model="twitter" type="text" />
           </b-form-group>
 
-          <b-form-group label="Conteúdo">
-            <VueEditor  v-model="form.nm_content" />
+          <b-form-group label="Conteúdo *">
+            <VueEditor v-model="form.nm_content" />
           </b-form-group>
 
           <b-row class="mt-4 mb-4 ml-1 mr-1" :style="{backgroundColor: 'gray', color: '#fff'}">
@@ -87,8 +93,8 @@
                 <b-form-input v-model="form.nm_neighbohood" />
               </b-form-group>
 
-              <b-form-group label="Estado">
-                <b-form-select v-model="form.nm_uf" @input="getCities()">
+              <b-form-group label="Estado *">
+                <b-form-select v-model="form.nm_uf" @input="getCities()" :state="state.uf">
                   <b-form-select-option
                     v-for="(uf, index) in ufs"
                     :key="index"
@@ -97,8 +103,8 @@
                 </b-form-select>
               </b-form-group>
 
-              <b-form-group label="Cidade">
-                <b-form-select v-model="form.nm_city">
+              <b-form-group label="Cidade *">
+                <b-form-select v-model="form.nm_city" :state="state.city">
                   <b-form-select-option
                     v-for="(city, index) in cities"
                     :key="index"
@@ -147,6 +153,7 @@ import SessionOff from "../session/Session";
 import { VueEditor } from "vue2-editor";
 import ModalError from "../error/ModalError";
 import ImageUpload from "../image/ImageUpload";
+import { validate } from "../../config";
 
 export default {
   created() {
@@ -154,7 +161,6 @@ export default {
     this.getUfs();
   },
   mounted() {
-    window.console.log(this.$route.params);
     this.splitSocialNetwork();
     this.hasAddress();
   },
@@ -178,6 +184,7 @@ export default {
   data() {
     return {
       ufs: [],
+      state: {},
       cities: [],
       form: {
         id_agreement: "",
@@ -203,7 +210,7 @@ export default {
       facebook: " ",
       twitter: " ",
       socialNetworks: "",
-      
+
       options: [
         { value: "Alimentação", text: "Alimentação" },
         { value: "Beleza", text: "Beleza" },
@@ -262,7 +269,7 @@ export default {
               this.errors = res.data.result;
             } else {
               this.$store.dispatch("agreement");
-              this.$store.dispatch("images", "");
+              this.$store.dispatch("images", null);
               this.$router.push({ name: "table-agreement" });
             }
           }
@@ -271,6 +278,7 @@ export default {
 
     fillForm() {
       let image = null;
+      this.requiredForms();
       let crop = this.$store.getters.getCropImage;
 
       if (crop) {
@@ -357,6 +365,7 @@ export default {
         .then(res => {
           if (res.status === 200) {
             this.form.nm_image_path = "";
+            this.$store.dispatch("images", null);
           }
         });
     },
@@ -406,6 +415,13 @@ export default {
           this.cities = res.data;
         }
       });
+    },
+
+    requiredForms() {
+      this.state.category = validate(this.form.nm_category);
+      this.state.name = validate(this.form.nm_name);
+      this.state.uf = validate(this.form.nm_uf);
+      this.state.city = validate(this.form.nm_city);
     }
   }
 };

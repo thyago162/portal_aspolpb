@@ -16,7 +16,7 @@
           <h5>Situação: {{associated.st_active === 1 ? 'Ativo' : 'Pendente'}}</h5>
         </div>
         <div v-bind:class="isActive">
-          <h5>Atualizado:{{associated.updated_at}}</h5>
+          <h5>{{associated.updated_at | fullDate}}</h5>
         </div>
 
         <b-button

@@ -2,15 +2,12 @@
   <div>
     <carousel :perPageCustom="customSlide" class="ml-2 mt-4 mb-3">
       <slide v-for="(media, index) in medias" :key="index" class="mr-2 box">
-        <div
-          v-if="media.nu_type === 1"
-          :style="{backgroundImage: 'url('+media.nm_image_path+')'}"
-          class="image"
-        >
-          <div class="block-title" >
-            <b-link
-              @click="redirectTo(media.nm_link)"
-            >{{media.nm_title | title}}</b-link>
+        <div v-if="media.nu_type === 1">
+          <b-img-lazy :src="media.nm_image_path" class="image"></b-img-lazy>
+          <div class="image-title">
+            <b-link @click="redirectTo(media.nm_link)">
+              <span>{{media.nm_title | title}}</span>
+            </b-link>
           </div>
         </div>
 
@@ -25,13 +22,12 @@
           <b-img class="image" fluid :src="media.nm_image_path"></b-img>
         </div>
 
-        <div
-          v-if="media.nu_type === 4"
-          :style="{backgroundImage: 'url('+media.nm_image_path+')'}"
-          class="image"
-        >
-          <div class="block-title">
-            <b-link @click="redirectTo(media.nm_link)">{{media.nm_title | title }}</b-link>
+        <div v-if="media.nu_type === 4">
+          <b-img-lazy :src="media.nm_image_path" class="image"></b-img-lazy>
+          <div class="image-title">
+            <b-link @click="redirectTo(media.nm_link)">
+              <span>{{media.nm_title | title }}</span>
+            </b-link>
           </div>
         </div>
       </slide>
@@ -54,7 +50,7 @@ export default {
       item: "",
       customSlide: [
         [1360, 3],
-        [1024, 3],
+        [1024, 2],
         [768, 2],
         [500, 1],
         [300, 1]
@@ -63,9 +59,8 @@ export default {
   },
 
   methods: {
-
     redirectTo(link) {
-        window.open(link)
+      window.open(link);
     },
 
     playSound(media) {
@@ -77,26 +72,23 @@ export default {
 
 <style scoped>
 .image {
-  width: 100%;
+  width: 419px;
   height: 270px;
   border: 2px solid #333;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 }
 
-.block-title {
+.image-title {
+  position: absolute;
+  width: 419px;
+  bottom: 0px;
   background-color: rgba(51, 51, 51, 0.849);
-  bottom: 0%;
+  text-align: center;
 }
 
-.block-title a {
+.image-title a {
   color: #ffffff;
-  font-weight: bolder;
+  text-align: center;
 }
-
 span {
   font-size: 16px;
   font-weight: bolder;
@@ -136,5 +128,21 @@ h5 {
 
 .icon:hover {
   background-color: rgb(48, 163, 48);
+}
+
+@media screen and (max-width: 500px) {
+  .image {
+    height: 250px;
+    width: 98%;
+  }
+
+  .image-title {
+    width: 98%;
+    text-align: center;
+  }
+
+  .image-title a {
+    font-size: 12px;
+  }
 }
 </style>

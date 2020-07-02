@@ -2,7 +2,7 @@
   <div>
     <b-row class="header">
       <b-col>
-        <b-img-lazy fluid-grow :src="image" class="image"></b-img-lazy>
+        <b-img-lazy :blank="true" fluid-grow :src="image" class="image"></b-img-lazy>
       </b-col>
     </b-row>
     <b-row>
@@ -67,10 +67,6 @@ export default {
 <style scoped>
 .header {
   height: 400px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 50%;
-  background-position: center;
 }
 
 .image {

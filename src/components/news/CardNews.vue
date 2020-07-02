@@ -1,8 +1,8 @@
 <template>
     <div class="card-news ml-1" >
         <b-card no-body img-right v-for="(news,index) in cardnews " :key="index" :style="{borderLeft: '4px solid darkslategrey'}">
-            <b-card-header :style="{width: '25%'}">
-                <b-img-lazy v-bind="mainProps" :src="news.nm_image_path" height: auto ></b-img-lazy>
+            <b-card-header :style="{width: '25%'}" class="card-header">
+                <b-img-lazy  class='card-news-image' v-bind="mainProps" :src="news.nm_image_path" height: auto ></b-img-lazy>
             </b-card-header>
 
             <b-card-body :style="{width: '75%'}">
@@ -38,7 +38,6 @@
                     fluidGrow: true,
                     blank: true,
                     blankColor: '#bbb',
-                    class: 'card-news-image'
                 }
             }
         },
@@ -96,57 +95,37 @@
 
     }
 
-    @media screen  and (max-width: 1024){
-        .card-news-title {
-            font-size: 18px;
-        }
-
-        .card-news-subtitle {
-            font-size: 16px;
-        }
-        
-    }
-
-    @media screen and (max-width: 768px) {
-        .card-news-title {
-            font-size: 14px;
-        }
-
-        .card-news-subtitle {
-            font-size: 12px;
-        }
-
-    }
-
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 1024px){
         .card-header {
             display: none;
         }
 
-        .card-news-title {
-            font-size: 12px;
-        }
+       h6 {
+           font-size: 15px;
+       }
 
-        .card-news-date {
-            font-size: 12px;
-        }
-
-        .card-news-subtitle {
-            font-size: 10px;
-        }
-        
-        .card-news {
-            height: 290px;
-            margin-bottom: 20px;
-        }
-    }
-
-    @media screen  and (max-width: 375px){
-        .card-news {
-            margin-bottom: 60px;
-        }
+       .card-header {
+           display: block;
+       }
         
     }
 
+      @media screen and (max-width: 768px){
+          .card-news {
+              margin-top: 10px;
+          }
+      }
+
+      @media screen  and (max-width: 500px) {
+        .card-header {
+            display: none;
+        }
+
+        .card {
+            width: 96%;
+            margin-left: 5px;
+            margin-bottom: 10px;
+        }
+      }
 
 </style>

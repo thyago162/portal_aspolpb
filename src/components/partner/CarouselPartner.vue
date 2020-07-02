@@ -3,7 +3,7 @@
        <carousel :perPageCustom="customSlide" :autoplay="true" :autoplayTimeout="4000" 
         paginationColor="#cccccc" :autoplayHoverPause="true"> 
            <slide v-for="(agreement, index) in agreements" :key="index">
-               <b-img-lazy fluid :src="agreement.nm_image_path" 
+               <b-img-lazy :fluid-grow="true" :blank="true" :src="agreement.nm_image_path" 
                 class="image-partner" @click="openLink(agreement.nm_link)"></b-img-lazy>
            </slide>
        </carousel>

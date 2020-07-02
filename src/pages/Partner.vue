@@ -32,7 +32,6 @@
                 return this.$store.getters.getAgreement;
             }
         },
-        
     }
 </script>
 

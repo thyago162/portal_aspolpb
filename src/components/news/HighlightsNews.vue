@@ -1,123 +1,120 @@
 <template>
-    <b-col class="ml-1 mr-1 image-highlights" 
-        v-bind:style="{ backgroundImage: 'url('+ image +')'}" >
-        
-        <div class="highlights-title">
-            <b-link :to="{name: 'visualizar-noticias', params: {title: title}}" class="personal-link">
-                <h5 :style="{ color: '#ffffff'}">{{highlights.nm_title}}</h5>
-            </b-link>
-        </div>
-        
-    </b-col>
+  <div class="ml-1 mr-1 image-highlights">
+    <b-img-lazy class="image mt-2" :src="image" v-bind="mainProps"></b-img-lazy>
+    <b-link :to="{name: 'visualizar-noticias', params: {title: title}}" class="block-title">
+      <figcaption class="image-title">{{highlights.nm_title}}</figcaption>
+    </b-link>
+  </div>
 </template>
 
 <script>
-    export default {
-        props: ['highlights'],
+export default {
+  props: ["highlights"],
+  data() {
+    return {
+      mainProps: {
+        fluidGrow: false,
+        blank: true,
+        blankColor: "#bbb"
+      }
+    };
+  },
 
-        computed: {
-            image() {
-                return this.highlights.nm_image_path;
-            },
-            title: function() {
-                return this.highlights ? 
-                this.highlights.nm_title :
-                 ''
-            },
-            
-
-        },
+  computed: {
+    image() {
+      return this.highlights.nm_image_path == undefined
+        ? ""
+        : this.highlights.nm_image_path;
+    },
+    title: function() {
+      return this.highlights ? this.highlights.nm_title : "";
     }
+  }
+};
 </script>
 
 <style  scoped>
+.highlights-title {
+  background-color: rgba(24, 23, 23, 0.719);
+  position: absolute;
+  width: 100%;
+  bottom: 0%;
+}
 
-    .highlights-title {
-        background-color: rgba(24, 23, 23, 0.719);
-        position: absolute;
-        width: 100%;
-        bottom: 0%;
-    }
+.image {
+  max-height: 412px;
+  width: 637.5px;
+  object-fit: cover;
+  object-position: center;
+}
 
-    .highlights-title h5, h6{
-        color: #ffffff;
-        text-align: center;
-        margin-top: 10px;
-    }
+.image-title {
+  position: absolute;
+  max-width: 637.5px;
+  background-color: rgba(51, 51, 51, 0.726);
+  color: #ffffff;
+  bottom: 0px;
+  font-weight: bolder;
+  text-align: center;
+}
 
-    .image-highlights {
-        height: 412px;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50% 50%;
-        background-position: center;
-        display: flex;
-        flex-direction: row;
-        justify-content:center;
-        align-items: baseline;
-        margin-top: 10px;
-    }
+@media screen and (max-width: 1024px) {
+  h5 {
+    font-size: 18px;
+  }
 
-    .personal-link {
-        text-decoration: none;
-    }
+  h6 {
+    font-size: 16px;
+  }
+}
 
-    h5:hover {
-        font-weight: bolder;
+@media screen and (max-width: 768px) {
+  .image-highlights {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
 
-    }
-    @media screen and (max-width: 1024px) {
-        h5 {
-            font-size: 18px;
-        }
+  .block-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: center;
+    margin-top: -10px;
+  }
 
-        h6 {
-            font-size: 16px;
-        }
-    }
 
-    @media screen and (max-width: 768px) {
-        .image-highlights {
-            height: 300px;
-        }
-    }
+}
 
-    @media screen and (max-width: 416px) {
-        .image-highlights {
-            height: 200px;
-        }
+@media screen and (max-width: 500px) {
+  .image {
+    max-height: 250px;
+    width: 100%;
+  }
 
-        h5 {
-            font-size: 12px;
-        }
+  .block-title {
+    display: none;
+  }
 
-        h6 {
-            display: none;
-        }
-        
-    }
+  h5 {
+    font-size: 12px;
+  }
 
-    @media screen and (max-width: 375px) {
-        .highlights {
-            width: 95%;
-            margin-top: 10px;
-        }
+  h6 {
+    display: none;
+  }
+}
 
-        .image-highlights {
-            height: 180px;
-        }
+@media screen and (max-width: 375px) {
+  .highlights {
+    margin-top: 10px;
+  }
 
-        h5 {
-            font-size: 11px;
-        }
+  .image {
+    width: 100%;
+    height: 180px;
+  }
 
-        h6 {
-           display: none;
-        }
-
-        .image-highlights {
-            margin-top: 0px;
-        }
-    }
-
+}
 </style>

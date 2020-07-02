@@ -8,10 +8,10 @@
             </b-col>
             </b-row>
             <b-row  class="highlights">
-                <b-col xl="6" > 
+                <b-col sm="12" md="12" lg="8" xl="6" > 
                     <highlights-news :highlights="highlights"/>
                 </b-col>
-                <b-col xl="6"  class="highlights">
+                <b-col lg="4" sm="12" md="12" xl="6"  class="highlights">
                     <card-news :cardnews="cardNews" />
                 </b-col>
             </b-row>

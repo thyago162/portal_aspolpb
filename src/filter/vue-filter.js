@@ -18,6 +18,10 @@ Vue.filter('name', function (value) {
 })
 
 Vue.filter('fullDate', function (value) {
+    if (value == undefined) {
+        value = '';
+    }
+
     let date =  value.split(' ')
 
     return date[0].split('-').reverse().join('/') +' '+ date[1]

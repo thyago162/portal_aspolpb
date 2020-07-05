@@ -42,21 +42,27 @@
         <b-col class="body">
           <div class="form">
             <form @submit.stop.prevent="sendForm" :style="{width: '80%'}">
-              <b-form-group label="Nome" v-show="!auth">
+              <b-form-group label="Nome completo *" v-show="!auth">
                 <b-form-input
                   type="text"
-                  placeholder="Nome completo"
                   autocomplete
                   v-model="formData.name"
                   required
                   min="10"
                 />
               </b-form-group>
+              
+              <b-form-group label="Cpf *" v-show="!auth">
+                <b-form-input type="text" trim autocomplete v-model="formData.cpf"/>
+              </b-form-group>
+
+              <b-form-group label="Matrícula *" v-show="!auth">
+                <b-form-input type="text" trim v-model="formData.registration" />
+              </b-form-group>
 
               <b-form-group label="Email">
                 <b-form-input
                   type="email"
-                  placeholder="email@example.com.br"
                   autocomplete
                   v-model="formData.email"
                   required
@@ -157,6 +163,8 @@ export default {
       formData: {
         name: "",
         email: "",
+        cpf: "",
+        registration: "",
         password: "",
         confirmation: ""
       },
@@ -199,6 +207,8 @@ export default {
         let form = new FormData();
         form.append("name", this.formData.name);
         form.append("email", this.formData.email);
+        form.append("cpf", this.formData.cpf);
+        form.append("registration_number", this.formData.registration);
         form.append("password", this.formData.password);
         form.append("password_confirmation", this.formData.confirmation);
         this.$http.post("register", form).then(res => {
@@ -207,7 +217,7 @@ export default {
             this.$refs["auth"].hide();
             this.resetModal();
             this.auth = true;
-            alert("Usuário cadastrado com sucesso");
+            alert("Solicitação de cadastro enviada, estamos analisado os dados e um e-mail ser-a enviado com a confirmação do registro!");
           } else {
             this.loading = false;
             this.$refs.error.$refs["modal-error"].show();

@@ -73,7 +73,7 @@ export default {
 <style scoped>
 .image {
   width: 419px;
-  height: 270px;
+  height: 300px;
   border: 2px solid #333;
 }
 

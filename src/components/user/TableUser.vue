@@ -17,7 +17,11 @@
                 <b-icon icon="search"></b-icon>
               </b-input-group-text>
             </template>
-            <b-form-input v-model.lazy="search" type="text" />
+            <b-form-input
+              v-model.lazy="search"
+              type="search"
+              placeholder="Buscar por nome ou email"
+            />
           </b-input-group>
           <b-button class="ml-1" type="button" variant="primary" @click="searchUser()">Buscar</b-button>
         </b-form>
@@ -42,27 +46,46 @@
           id="table-users"
         >
           <template v-slot:cell(show_details)="row">
-            <b-button variant="info" size="sm" @click="row.toggleDetails">Permissão</b-button>
+            <b-button variant="info" size="sm" @click="row.toggleDetails">Configuração</b-button>
           </template>
 
           <template v-slot:row-details="row">
-            <b-form inline>
-              <span>Administrador</span>
-              <b-form-radio-group v-model="selected" :options="options" class="ml-2"></b-form-radio-group>
+            <div class="teste">
+              <b-form inline>
+                <span>Administrador</span>
+                <b-form-radio-group v-model="selected" :options="options" class="ml-2"></b-form-radio-group>
+                <b-button
+                  variant="success"
+                  size="sm"
+                  @click="changePermission(row.item.id_user)"
+                >Alterar</b-button>
+              </b-form>
+
               <b-button
-                variant="success"
+                variant="light"
                 size="sm"
-                @click="changePermission(row.item.id_user)"
-              >Alterar</b-button>
-            </b-form>
+                v-if="!row.item.email_verified_at"
+                @click="accountActivation(row.item.id_user,1)"
+              >Ativar conta</b-button>
+
+              <b-button
+                variant="outline-light"
+                size="sm"
+                v-if="row.item.email_verified_at"
+                @click="accountActivation(row.item.id_user, 0)"
+              >Desativar conta</b-button>
+            </div>
           </template>
 
-          <template v-slot:cell(created_at)="row">
-            <span v-if="row.item.created_at">{{row.item.created_at | fullDate}}</span>
+          <template v-slot:cell(account_activation)="row">
+            <b-button variant="default" size="sm">
+              <b-icon icon="circle-fill" variant="success" v-if="row.item.email_verified_at"></b-icon>
+              <b-icon icon="circle-fill" variant="warning" v-else></b-icon>
+            </b-button>
           </template>
 
           <template v-slot:cell(delete)="row">
-            <b-button size="sm" class="mr-2" @click="deleteUser(row.item)" variant="danger">
+            <b-button size="sm" class="mr-2" @click="deleteUser(row.item.id_user)" variant="danger">
               <b-icon icon="trash"></b-icon>
             </b-button>
           </template>
@@ -113,8 +136,10 @@ export default {
       fields: [
         { key: "name", label: "Nome", sortable: true },
         { key: "email", label: "Email" },
-        { key: "created_at", label: "Data de registro" },
+        { key: "cpf", label: "Cpf" },
+        { key: "registration_number", label: "Matrícula" },
         { key: "administrator", label: "Administrador", sortable: true },
+        { key: "account_activation", label: "Ativo", sortable: true },
         { key: "show_details", label: "" },
         { key: "delete", label: "" }
       ],
@@ -221,8 +246,36 @@ export default {
             }
           });
       }
-    }
+    },
 
+    accountActivation(id, active) {
+      this.$http
+        .put(
+          "users/account-confirmation/" + id,
+          {
+            active: active
+          },
+          {
+            headers: {
+              Authorization: "bearer " + this.token
+            }
+          }
+        )
+        .then(res => {
+          if (res.status === 200) {
+            if (res.data.token_failure) {
+              this.$refs.session.$refs.session.show();
+            }
+
+            if (res.data.result.error) {
+              this.errors = res.data.result;
+              this.visibility = true;
+            } else {
+              this.$store.dispatch("users", { token: this.token, page: 1 });
+            }
+          }
+        });
+    }
   }
 };
 </script>
@@ -237,5 +290,15 @@ export default {
   position: absolute;
   margin-top: -33px;
   margin-left: 2px;
+}
+
+.teste {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
 }
 </style>

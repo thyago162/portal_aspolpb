@@ -1,7 +1,7 @@
 <template>
     <footer class="page-footer font-small footer">
         <b-container fluid>
-            <b-container>
+            <b-container fluid>
                 <b-row>
                     <b-col class="footer-head">
                         <span  >Siga a Aspol nas redes sociais</span>
@@ -38,7 +38,7 @@
                             <div  class=" menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}">MÍDIA</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'noticias'}">NOTICIAS</b-link>
-                                <b-link class="personal-link-option" :to="{name: 'media-view'}">ASPOL NA MÍDIA</b-link>
+                                <b-link class="personal-link-option" :to="{name: 'midia-view'}">ASPOL NA MÍDIA</b-link>
                             </div>
                             <div class="menu-options">
                                 <b-link class="personal-link" :style="{fontWeight: 'bold'}" :to="{name: 'contato'}">CONTATOS</b-link>
@@ -65,9 +65,14 @@
     
                 <b-row>
                     <b-col class="address-footer">
-                        <p>Rua Empresário João Rodrigues Alves, Nº 125 - Sala 1401 Torre A - </p>
+                        <p>Rua Empresário João Rodrigues Alves, Nº 125, Empresarial Delta Center, Sala 1401 Torre A – </p>
                         <p :style="{marginTop: '-17px'}">Bancários, João Pessoa - PB, CEP.: 58053-110 </p>
                         <p>Contato: (83) 3506-3429</p>
+                    </b-col>
+                </b-row>
+                <b-row class="mt-3">
+                    <b-col>
+                        <p :style="{float: 'left'}">© 2020 Associação dos policiais civis de carreira da Paraíba . Todos os direitos reservados.</p>
                     </b-col>
                 </b-row>
             </b-container>

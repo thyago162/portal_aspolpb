@@ -5,7 +5,7 @@
         <img
           src="../../assets/images/logo_aspol_02.png"
           alt="Aspolpb"
-          class="d-inline-block align-top logo ml-5"
+          class="d-inline-block align-top logo"
         />
       </b-navbar-brand>
 
@@ -222,6 +222,7 @@ export default {
   width: 200px;
   height: 90px;
   margin-top: -10px;
+  margin-left: 50px;
 }
 
 .personal-link {
@@ -241,19 +242,17 @@ export default {
   margin-top: -4px;
 }
 
-@media screen and (max-width: 1299) {
-  .associated {
-    width: 130px;
-  }
-}
-
 @media screen and (max-width: 1024px) {
   .personal-link {
     font-size: 14px;
   }
 
+  .logo {
+    margin-left: 0px;
+  }
+
   .list {
-    font-size: 27px;
+    font-size: 37px;
   }
 }
 
@@ -261,7 +260,7 @@ export default {
   .logo {
     width: 100px;
     height: 50px;
-    margin-left: 0;
+    margin-left: 0px;
   }
 
   .personal-link {

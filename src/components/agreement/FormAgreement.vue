@@ -1,151 +1,152 @@
 <template>
-  <b-container fluid class="mb-3">
-    <b-row class="header-title ml-1 mr-1">
-      <b-col class="title">
-        <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'table-agreement'}">Convênios</b-link>/
-          Formulário
-        </h5>
-      </b-col>
-    </b-row>
+  <b-overlay :show="loading">
+    <b-container fluid class="mb-3">
+      <b-row class="header-title ml-1 mr-1">
+        <b-col class="title">
+          <h5 class="mt-2">
+            <b-link class="navigation-link" :to="{name: 'table-agreement'}">Convênios</b-link>/
+            Formulário
+          </h5>
+        </b-col>
+      </b-row>
 
-    <b-row class="mt-4 ml-1 mr-1">
-      <b-col>
-        <b-alert
-          variant="warning"
-          dismissible
-          :show="true"
-        >Os campos com asteriscos são obrigatórios</b-alert>
-        <form @submit.stop.prevent="formSubmited">
-          <b-form-group label="Categoria *">
-            <b-form-select v-model="form.nm_category" :options="options" :state="state.category"></b-form-select>
-          </b-form-group>
-          <b-form-group label="Nome *">
-            <b-form-input
-              type="text"
-              v-model="form.nm_title"
-              placeholder="Nome da empresa convêniada"
-              :state="state.name"
-            />
-          </b-form-group>
+      <b-row class="mt-4 ml-1 mr-1">
+        <b-col>
+          <b-alert
+            variant="warning"
+            dismissible
+            :show="true"
+          >Os campos com asteriscos são obrigatórios</b-alert>
+          <form @submit.stop.prevent="formSubmited">
+            <b-form-group label="Categoria *">
+              <b-form-select v-model="form.nm_category" :options="options" :state="state.category"></b-form-select>
+            </b-form-group>
+            <b-form-group label="Nome *">
+              <b-form-input
+                type="text"
+                v-model="form.nm_title"
+                placeholder="Nome da empresa convêniada"
+                :state="state.name"
+              />
+            </b-form-group>
 
-          <b-form-group label="Contrato *">
-            <b-form-file accept="application/pdf" v-model="doc" :state="Boolean(file)"></b-form-file>
-          </b-form-group>
+            <b-form-group label="Contrato *">
+              <b-form-file accept="application/pdf" v-model="doc" :state="Boolean(file)"></b-form-file>
+            </b-form-group>
 
-          <b-form-group label="Site">
-            <b-form-input v-model="form.nm_link" placeholder="Site da empresa, com http" />
-          </b-form-group>
+            <b-form-group label="Site">
+              <b-form-input v-model="form.nm_link" placeholder="Site da empresa, com http" />
+            </b-form-group>
 
-          <b-form-group label="Instagram">
-            <b-form-input v-model="instagram" type="text" placeholder="Instagram da empresa" />
-          </b-form-group>
+            <b-form-group label="Instagram">
+              <b-form-input v-model="instagram" type="text" placeholder="Instagram da empresa" />
+            </b-form-group>
 
-          <b-form-group label="Facebook">
-            <b-form-input v-model="facebook" type="text" />
-          </b-form-group>
+            <b-form-group label="Facebook">
+              <b-form-input v-model="facebook" type="text" />
+            </b-form-group>
 
-          <b-form-group label="Twitter">
-            <b-form-input v-model="twitter" type="text" />
-          </b-form-group>
+            <b-form-group label="Twitter">
+              <b-form-input v-model="twitter" type="text" />
+            </b-form-group>
 
-          <b-form-group label="Conteúdo *">
-            <VueEditor v-model="form.nm_content" />
-          </b-form-group>
+            <b-form-group label="Conteúdo *">
+              <VueEditor v-model="form.nm_content" />
+            </b-form-group>
 
-          <b-row class="mt-4 mb-4 ml-1 mr-1" :style="{backgroundColor: 'gray', color: '#fff'}">
-            <b-col>
-              <h4 class="mt-2">Endereço</h4>
-            </b-col>
-          </b-row>
+            <b-row class="mt-4 mb-4 ml-1 mr-1" :style="{backgroundColor: 'gray', color: '#fff'}">
+              <b-col>
+                <h4 class="mt-2">Endereço</h4>
+              </b-col>
+            </b-row>
 
-          <b-row class="mt-3">
-            <b-col>
-              <b-form-group label="Cep">
-                <b-input-group>
-                  <b-form-input
-                    trim
-                    placeholder="Apenas números"
-                    v-model="form.nm_cep"
-                    type="text"
-                  />
-                  <b-input-group-append>
-                    <b-button variant="default" @click="searchCep">
-                      <b-icon icon="search"></b-icon>Buscar
-                      <b-spinner small label="Small Spinner" class="ml-1" v-show="loadingAddress"></b-spinner>
-                    </b-button>
-                  </b-input-group-append>
-                </b-input-group>
-              </b-form-group>
-              <b-form-group label="Rua">
-                <b-form-input v-model="form.nm_street" />
-              </b-form-group>
+            <b-row class="mt-3">
+              <b-col>
+                <b-form-group label="Cep">
+                  <b-input-group>
+                    <b-form-input
+                      trim
+                      placeholder="Apenas números"
+                      v-model="form.nm_cep"
+                      type="text"
+                    />
+                    <b-input-group-append>
+                      <b-button variant="default" @click="searchCep">
+                        <b-icon icon="search"></b-icon>Buscar
+                        <b-spinner small label="Small Spinner" class="ml-1" v-show="loadingAddress"></b-spinner>
+                      </b-button>
+                    </b-input-group-append>
+                  </b-input-group>
+                </b-form-group>
+                <b-form-group label="Rua">
+                  <b-form-input v-model="form.nm_street" />
+                </b-form-group>
 
-              <b-form-group label="Número">
-                <b-form-input v-model="form.nm_number" />
-              </b-form-group>
+                <b-form-group label="Número">
+                  <b-form-input v-model="form.nm_number" />
+                </b-form-group>
 
-              <b-form-group label="Complemento">
-                <b-form-input placeholder="Ex: apt 000" v-model="form.nm_complement" />
-              </b-form-group>
+                <b-form-group label="Complemento">
+                  <b-form-input placeholder="Ex: apt 000" v-model="form.nm_complement" />
+                </b-form-group>
 
-              <b-form-group label="Bairro">
-                <b-form-input v-model="form.nm_neighbohood" />
-              </b-form-group>
+                <b-form-group label="Bairro">
+                  <b-form-input v-model="form.nm_neighbohood" />
+                </b-form-group>
 
-              <b-form-group label="Estado *">
-                <b-form-select v-model="form.nm_uf" @input="getCities()" :state="state.uf">
-                  <b-form-select-option
-                    v-for="(uf, index) in ufs"
-                    :key="index"
-                    :value="uf.sigla"
-                  >{{uf.nome}}</b-form-select-option>
-                </b-form-select>
-              </b-form-group>
+                <b-form-group label="Estado *">
+                  <b-form-select v-model="form.nm_uf" @input="getCities()" :state="state.uf">
+                    <b-form-select-option
+                      v-for="(uf, index) in ufs"
+                      :key="index"
+                      :value="uf.sigla"
+                    >{{uf.nome}}</b-form-select-option>
+                  </b-form-select>
+                </b-form-group>
 
-              <b-form-group label="Cidade *">
-                <b-form-select v-model="form.nm_city" :state="state.city">
-                  <b-form-select-option
-                    v-for="(city, index) in cities"
-                    :key="index"
-                    :value="city.nome"
-                  >{{city.nome}}</b-form-select-option>
-                </b-form-select>
-              </b-form-group>
-            </b-col>
-          </b-row>
+                <b-form-group label="Cidade *">
+                  <b-form-select v-model="form.nm_city" :state="state.city">
+                    <b-form-select-option
+                      v-for="(city, index) in cities"
+                      :key="index"
+                      :value="city.nome"
+                    >{{city.nome}}</b-form-select-option>
+                  </b-form-select>
+                </b-form-group>
+              </b-col>
+            </b-row>
 
-          <b-form-group>
-            <Image-Upload
-              :id="form.id_agreement"
-              folder="public/agreement"
-              :path="form.nm_image_path"
-              size="150x150"
-            />
-            <span v-if="form.nm_image_path">
-              {{form.nm_image_path | fileName }}
-              <b-button size="sm" variant="default" @click="deleteImage()">
-                <b-icon icon="trash" variant="danger" />
-              </b-button>
-            </span>
-          </b-form-group>
+            <b-form-group>
+              <Image-Upload
+                :id="form.id_agreement"
+                folder="public/agreement"
+                :path="form.nm_image_path"
+                size="150x150"
+              />
+              <span v-if="form.nm_image_path">
+                {{form.nm_image_path | fileName }}
+                <b-button size="sm" variant="default" @click="deleteImage()">
+                  <b-icon icon="trash" variant="danger" />
+                </b-button>
+              </span>
+            </b-form-group>
 
-          <b-img v-if="form.nm_image_path" :src="form.nm_image_path"></b-img>
-        </form>
-      </b-col>
-    </b-row>
-    <hr />
-    <b-row>
-      <b-col class="buttons">
-        <b-button variant="success" @click="formSubmited()">
-          Salvar
-          <b-spinner class="ml-1" label="Spinning" small v-show="loading"></b-spinner>
-        </b-button>
-      </b-col>
-    </b-row>
-    <SessionOff ref="session" />
-    <ModalError ref="error" :errors="errors" />
-  </b-container>
+            <b-img v-if="form.nm_image_path" :src="form.nm_image_path"></b-img>
+          </form>
+        </b-col>
+      </b-row>
+      <hr />
+      <b-row>
+        <b-col class="buttons">
+          <b-button variant="success" @click="formSubmited()">
+            Salvar
+          </b-button>
+        </b-col>
+      </b-row>
+      <SessionOff ref="session" />
+      <ModalError ref="error" :errors="errors" />
+    </b-container>
+  </b-overlay>
 </template>
 
 <script>
@@ -258,9 +259,8 @@ export default {
           }
         })
         .then(res => {
+          this.loading = false;
           if (res.status === 200) {
-            this.loading = false;
-
             if (res.data.token_failure) {
               this.$refs.session.$refs.session.show();
             }
@@ -318,10 +318,13 @@ export default {
     },
 
     searchCep() {
+      this.loading = true;
       this.loadingAddress = true;
       let cep = this.form.nm_cep;
 
-      this.$http("http://viacep.com.br/ws/" + cep + "/json/").then(res => {
+      this.$http("http://viacep.com.br/ws/" + cep + "/json/")
+      .then(res => {
+        this.loading = false;
         if (res.status === 200) {
           let result = res.data;
           this.form.nm_street = result.logradouro;
@@ -347,6 +350,7 @@ export default {
     },
 
     deleteImage() {
+      this.loading = true;
       let formData = new FormData();
 
       formData.append("table", "agreements");
@@ -363,6 +367,7 @@ export default {
           }
         })
         .then(res => {
+          this.loading = false;
           if (res.status === 200) {
             this.form.nm_image_path = "";
             this.$store.dispatch("images", null);
@@ -375,6 +380,7 @@ export default {
     },
 
     getAgreement() {
+      
       let id = this.$route.params.id;
 
       if (Number.isInteger(id)) {

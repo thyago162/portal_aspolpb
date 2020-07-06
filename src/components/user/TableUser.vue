@@ -1,115 +1,127 @@
 <template>
-  <b-container fluid>
-    <b-row class="header-title ml-1 mr-1">
-      <b-col class="title">
-        <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'table-user'}">Usuários</b-link>/ Painel
-        </h5>
-      </b-col>
-    </b-row>
+  <b-overlay :show="loading" >
+    <b-container fluid>
+      <b-row class="header-title ml-1 mr-1">
+        <b-col class="title">
+          <h5 class="mt-2">
+            <b-link class="navigation-link" :to="{name: 'table-user'}">Usuários</b-link>/ Painel
+          </h5>
+        </b-col>
+      </b-row>
 
-    <b-row class="mt-4 ml-1 mr-1">
-      <b-col cols="11">
-        <b-form inline>
-          <b-input-group>
-            <template v-slot:prepend>
-              <b-input-group-text>
-                <b-icon icon="search"></b-icon>
-              </b-input-group-text>
-            </template>
-            <b-form-input
-              v-model.lazy="search"
-              type="search"
-              placeholder="Buscar por nome ou email"
+      <b-row class="mt-4 ml-1 mr-1">
+        <b-col cols="11">
+          <b-form inline>
+            <b-input-group>
+              <template v-slot:prepend>
+                <b-input-group-text>
+                  <b-icon icon="search"></b-icon>
+                </b-input-group-text>
+              </template>
+              <b-form-input
+                v-model.lazy="search"
+                type="search"
+                placeholder="Buscar por nome ou email"
+              />
+            </b-input-group>
+            <b-button class="ml-1" type="button" variant="primary" @click="searchUser()">Buscar</b-button>
+          </b-form>
+        </b-col>
+
+        <b-col cols="1">
+          <JsonCvs :data="users.data" :style="{float: 'right'}">
+            <font-awesome-icon
+              icon="file-csv"
+              size="2x"
+              class="icon alt"
+              :style="{float: 'right'}"
             />
-          </b-input-group>
-          <b-button class="ml-1" type="button" variant="primary" @click="searchUser()">Buscar</b-button>
-        </b-form>
-      </b-col>
+          </JsonCvs>
+        </b-col>
+      </b-row>
 
-      <b-col cols="1">
-        <JsonCvs :data="users.data" :style="{float: 'right'}">
-          <font-awesome-icon icon="file-csv" size="2x" class="icon alt" :style="{float: 'right'}" />
-        </JsonCvs>
-      </b-col>
-    </b-row>
+      <b-row class="mr-1 ml-1 mt-4">
+        <b-col>
+          <b-table
+            :fields="fields"
+            :items="users.data"
+            striped
+            hover
+            :per-page="perPage"
+            :current-page="currentPage"
+            id="table-users"
+          >
+            <template v-slot:cell(show_details)="row">
+              <b-button variant="info" size="sm" @click="row.toggleDetails">Configuração</b-button>
+            </template>
 
-    <b-row class="mr-1 ml-1 mt-4">
-      <b-col>
-        <b-table
-          :fields="fields"
-          :items="users.data"
-          striped
-          hover
-          :per-page="perPage"
-          :current-page="currentPage"
-          id="table-users"
-        >
-          <template v-slot:cell(show_details)="row">
-            <b-button variant="info" size="sm" @click="row.toggleDetails">Configuração</b-button>
-          </template>
+            <template v-slot:row-details="row">
+              <div class="teste">
+                <b-form inline>
+                  <span>Administrador</span>
+                  <b-form-radio-group v-model="selected" :options="options" class="ml-2"></b-form-radio-group>
+                  <b-button
+                    variant="success"
+                    size="sm"
+                    @click="changePermission(row.item.id_user)"
+                  >Alterar</b-button>
+                </b-form>
 
-          <template v-slot:row-details="row">
-            <div class="teste">
-              <b-form inline>
-                <span>Administrador</span>
-                <b-form-radio-group v-model="selected" :options="options" class="ml-2"></b-form-radio-group>
                 <b-button
-                  variant="success"
+                  variant="light"
                   size="sm"
-                  @click="changePermission(row.item.id_user)"
-                >Alterar</b-button>
-              </b-form>
+                  v-if="!row.item.email_verified_at"
+                  @click="accountActivation(row.item.id_user,1)"
+                >Ativar conta</b-button>
 
+                <b-button
+                  variant="outline-light"
+                  size="sm"
+                  v-if="row.item.email_verified_at"
+                  @click="accountActivation(row.item.id_user, 0)"
+                >Desativar conta</b-button>
+              </div>
+            </template>
+
+            <template v-slot:cell(account_activation)="row">
+              <b-button variant="default" size="sm">
+                <b-icon icon="circle-fill" variant="success" v-if="row.item.email_verified_at"></b-icon>
+                <b-icon icon="circle-fill" variant="warning" v-else></b-icon>
+              </b-button>
+            </template>
+
+            <template v-slot:cell(delete)="row">
               <b-button
-                variant="light"
                 size="sm"
-                v-if="!row.item.email_verified_at"
-                @click="accountActivation(row.item.id_user,1)"
-              >Ativar conta</b-button>
+                class="mr-2"
+                @click="deleteUser(row.item.id_user)"
+                variant="danger"
+              >
+                <b-icon icon="trash"></b-icon>
+              </b-button>
+            </template>
 
-              <b-button
-                variant="outline-light"
-                size="sm"
-                v-if="row.item.email_verified_at"
-                @click="accountActivation(row.item.id_user, 0)"
-              >Desativar conta</b-button>
-            </div>
-          </template>
-
-          <template v-slot:cell(account_activation)="row">
-            <b-button variant="default" size="sm">
-              <b-icon icon="circle-fill" variant="success" v-if="row.item.email_verified_at"></b-icon>
-              <b-icon icon="circle-fill" variant="warning" v-else></b-icon>
-            </b-button>
-          </template>
-
-          <template v-slot:cell(delete)="row">
-            <b-button size="sm" class="mr-2" @click="deleteUser(row.item.id_user)" variant="danger">
-              <b-icon icon="trash"></b-icon>
-            </b-button>
-          </template>
-
-          <template v-slot:cell(administrator)="row">
-            <b-icon v-if="row.item.administrator === 1" icon="check-square-fill" class="h5"></b-icon>
-            <b-icon v-else icon="check-square" class="h5"></b-icon>
-          </template>
-        </b-table>
-        <div class="overflow-auto">
-          <b-pagination
-            align="center"
-            v-model="users.current_page"
-            :total-rows="users.total"
-            :per-page="users.per_page"
-            aria-controls="table-users"
-            @input="getUser()"
-          ></b-pagination>
-        </div>
-      </b-col>
-    </b-row>
-    <SessionOff ref="session" />
-    <ErroMessage ref="error" :errors="errors" />
-  </b-container>
+            <template v-slot:cell(administrator)="row">
+              <b-icon v-if="row.item.administrator === 1" icon="check-square-fill" class="h5"></b-icon>
+              <b-icon v-else icon="check-square" class="h5"></b-icon>
+            </template>
+          </b-table>
+          <div class="overflow-auto">
+            <b-pagination
+              align="center"
+              v-model="users.current_page"
+              :total-rows="users.total"
+              :per-page="users.per_page"
+              aria-controls="table-users"
+              @input="getUser()"
+            ></b-pagination>
+          </div>
+        </b-col>
+      </b-row>
+      <SessionOff ref="session" />
+      <ErroMessage ref="error" :errors="errors" />
+    </b-container>
+  </b-overlay>
 </template>
 
 <script>
@@ -150,7 +162,8 @@ export default {
         { text: "Sim", value: 1 },
         { text: "Não", value: 0 }
       ],
-      errors: []
+      errors: [],
+      loading: false
     };
   },
 
@@ -171,6 +184,7 @@ export default {
   methods: {
     deleteUser(id) {
       if (confirm("Deseja realmente excluir?")) {
+        this.loading = true;
         this.$http
           .delete("users/" + id, {
             headers: {
@@ -178,6 +192,7 @@ export default {
             }
           })
           .then(res => {
+            this.loading = false;
             if (res.status === 200) {
               if (res.data.token_failure) {
                 this.$refs.session.$refs.session.show();
@@ -202,12 +217,14 @@ export default {
     },
 
     searchUser() {
+      this.loading = true;
       let formData = new FormData();
       formData.append("search", this.search);
 
       this.$http
         .post("user/search", formData)
         .then(res => {
+          this.loading = false;
           if (res.status === 200) {
             this.userSearch = res.data.result.users;
           }
@@ -219,6 +236,7 @@ export default {
 
     changePermission(id) {
       if (confirm("Deseja prosseguir?")) {
+        this.loading = true;
         this.$http
           .put(
             "users/permission/" + id,
@@ -232,6 +250,7 @@ export default {
             }
           )
           .then(res => {
+            this.loading = false;
             if (res.status === 200) {
               if (res.data.token_failure) {
                 this.$refs.session.$refs.session.show();
@@ -249,6 +268,7 @@ export default {
     },
 
     accountActivation(id, active) {
+      this.loading = true;
       this.$http
         .put(
           "users/account-confirmation/" + id,
@@ -262,6 +282,7 @@ export default {
           }
         )
         .then(res => {
+          this.loading = false;
           if (res.status === 200) {
             if (res.data.token_failure) {
               this.$refs.session.$refs.session.show();

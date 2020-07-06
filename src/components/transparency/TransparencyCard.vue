@@ -5,7 +5,9 @@
         <div v-html="item.nm_content"></div>
       </b-col>
       <b-col>
+        <b-overlay :show="loading">
         <b-tabs pills>
+          
           <b-tab title="Certidões" @click="getFiles('Certidão')">
               <TransparencyFiles :files="files" />
           </b-tab>
@@ -18,7 +20,9 @@
           <b-tab title="Outros" @click="getFiles('Outros')">
               <TransparencyFiles :files="files" />
           </b-tab>
+          
         </b-tabs>
+        </b-overlay>
       </b-col>
     </b-row>
   </b-container>
@@ -35,11 +39,16 @@ export default {
       TransparencyFiles
   },
 
+  created(){
+    this.getFiles('Certidão')
+  },
+
   props: ["item"],
 
   data() {
     return {
       show: false,
+      loading: false,
       files: []
     };
   },
@@ -57,6 +66,7 @@ export default {
     },
 
     getFiles(type) {
+      this.loading = true;
      this.$http('transparency-file/show', {
          params: {
              fk_transparency: this.item.id_transparency,
@@ -67,6 +77,7 @@ export default {
          }
      })
      .then(res => {
+       this.loading = false;
          if (res.status === 200) {
              this.files = res.data.result.transparencyFile
          }

@@ -8,19 +8,13 @@
     :ok-title="btnTitle[step]"
     header-text-variant="light"
     @hide="resetModal"
+    no-close-on-backdrop
   >
+  <b-overlay :show="loading">
     <b-container fluid>
       <b-row>
         <b-col class="logo">
           <b-img :src="image" width="250px" height="120px"></b-img>
-        </b-col>
-      </b-row>
-
-      <b-row v-show="loading">
-        <b-col
-          :style="{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}"
-        >
-          <b-spinner></b-spinner>
         </b-col>
       </b-row>
 
@@ -36,7 +30,7 @@
                 </div>
 
                 <div v-if="step === 1">
-                  <b-form-group label="Informe o código de 4 digitos enviado para o seu e-mail">
+                  <b-form-group label="Informe o código de 6 digitos enviado para o seu e-mail">
                     <b-form-input type="text" v-model="code" />
                   </b-form-group>
                 </div>
@@ -66,6 +60,7 @@
       </b-row>
       <ModalErro :errors="error" ref="error" />
     </b-container>
+    </b-overlay>
   </b-modal>
 </template>
 
@@ -82,7 +77,7 @@ export default {
       confirmation: "",
       loading: false,
       code: "",
-      user: [],
+      idUser: "",
       error: [],
       image: require("../../assets/images/logo_aspol_02.png")
     };
@@ -116,8 +111,9 @@ export default {
           this.loading = false;
           if (res.status === 200) {
             alert("Email enviado com successo.");
+
             this.step = 1;
-            this.user = res.data.result.user;
+            this.idUser = res.data.result.id;
           }
         })
         .catch(err => {
@@ -130,7 +126,7 @@ export default {
     stepTwo() {
       let form = new FormData();
       form.append("token", this.code);
-      form.append("id", this.user.id_user);
+      form.append("id", this.idUser);
 
       this.$http.post("reset-password-code", form).then(res => {
         if (res.status === 200) {
@@ -141,6 +137,7 @@ export default {
           } else {
             alert("Token verificado!");
             this.step = 2;
+            this.idUser = res.data.result.id;
           }
         }
       });
@@ -148,7 +145,7 @@ export default {
 
     stepThree() {
       let form = new FormData();
-      form.append("id", this.user.id_user);
+      form.append("id", this.idUser);
       form.append("step", this.step);
       form.append("password", this.password);
       form.append("password_confirmation", this.confirmation);
@@ -160,10 +157,10 @@ export default {
             this.loading = false;
             if (res.data.result.error) {
               this.error = res.data.result;
+              this.step = 2;
               this.$refs.error.$refs["modal-error"].show();
             } else {
               alert("A senha foi resetada.");
-              this.step = 0;
             }
           }
         })

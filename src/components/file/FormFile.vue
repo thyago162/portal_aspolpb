@@ -1,48 +1,52 @@
 <template>
-  <b-container fluid class="mb-3">
-    <b-row class="header-title ml-1 mr-1">
-      <b-col class="title" >
-        <h5 class="mt-2">
-          <b-link class="navigation-link" :to="{name: 'table-file'}">Arquivos</b-link>/ Formulário
-        </h5>
-      </b-col>
-    </b-row>
+  <b-overlay :show="loading">
+    <b-container fluid class="mb-3">
+      <b-row class="header-title ml-1 mr-1">
+        <b-col class="title">
+          <h5 class="mt-2">
+            <b-link class="navigation-link" :to="{name: 'table-file'}">Arquivos</b-link>/ Formulário
+          </h5>
+        </b-col>
+      </b-row>
 
-    <b-row class="mt-3 ml-1 mr-1">
-      <b-col>
-        <b-alert variant="warning" dismissible :show="true">
-          Os campos com asteriscos são obrigatórios
-        </b-alert>
-        <b-form @submit.stop.prevent="formSubmited">
-          <b-form-group label="Nome do arquivo *">
-            <b-form-input type="text" v-model="form.nm_name" :state="state.name"/>
-          </b-form-group>
-          <b-form-group label="Arquivo">
-            <b-form-file v-model="file" :state="Boolean(file)"></b-form-file>
-          </b-form-group>
-        </b-form>
-      </b-col>
-    </b-row>
+      <b-row class="mt-3 ml-1 mr-1">
+        <b-col>
+          <b-alert
+            variant="warning"
+            dismissible
+            :show="true"
+          >Os campos com asteriscos são obrigatórios</b-alert>
+          <b-form @submit.stop.prevent="formSubmited">
+            <b-form-group label="Nome do arquivo *">
+              <b-form-input type="text" v-model="form.nm_name" :state="state.name" />
+            </b-form-group>
+            <b-form-group label="Arquivo">
+              <b-form-file v-model="file" :state="Boolean(file)"></b-form-file>
+            </b-form-group>
+          </b-form>
+        </b-col>
+      </b-row>
 
-    <b-row class="ml-1 mr-1">
-      <b-col>
-        <hr />
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col class="buttons">
-        <b-button variant="success" @click="formSubmited()">Salvar</b-button>
-      </b-col>
-    </b-row>
-    <SessionOff ref="session" />
-    <ModalError ref="error" :errors="errors" />
-  </b-container>
+      <b-row class="ml-1 mr-1">
+        <b-col>
+          <hr />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col class="buttons">
+          <b-button variant="success" @click="formSubmited()">Salvar</b-button>
+        </b-col>
+      </b-row>
+      <SessionOff ref="session" />
+      <ModalError ref="error" :errors="errors" />
+    </b-container>
+  </b-overlay>
 </template>
 
 <script>
 import ModalError from "../error/ModalError";
 import SessionOff from "../session/Session";
-import {validate} from '../../config'
+import { validate } from "../../config";
 
 export default {
   mounted() {
@@ -62,8 +66,7 @@ export default {
       value: "",
       form: {},
       state: {},
-      errors: {},
-      
+      errors: {}
     };
   },
 
@@ -104,7 +107,7 @@ export default {
     save() {
       let formData = new FormData();
 
-      formData.append('id_file', this.form.id_file);
+      formData.append("id_file", this.form.id_file);
       formData.append("nm_name", this.form.nm_name);
       formData.append("nm_file_path", this.form.nm_file_path);
 
@@ -127,7 +130,7 @@ export default {
               this.errors = res.data.result;
             } else {
               this.$store.disptach("file", this.token);
-              this.$router.push({name: 'table-file'});
+              this.$router.push({ name: "table-file" });
             }
           }
         });
@@ -140,7 +143,7 @@ export default {
     },
 
     requiredFields() {
-      this.state.name = validate(this.form.nm_name)
+      this.state.name = validate(this.form.nm_name);
     }
   }
 };

@@ -1,4 +1,5 @@
 <template>
+<b-overlay :show="loading">
   <b-container fluid>
     <b-row class="header-title ml-1 mr-1">
       <b-col class="title" >
@@ -9,16 +10,6 @@
     </b-row>
 
     <b-row class="mt-5 ml-1 mr-1">
-      <b-col lg="8">
-        <b-input-group>
-          <template v-slot:prepend>
-            <b-input-group-text>
-              <b-icon icon="search"></b-icon>
-            </b-input-group-text>
-          </template>
-          <b-form-input v-model="search" />
-        </b-input-group>
-      </b-col>
       <b-col>
         <b-button
           v-b-modal.form-file
@@ -81,6 +72,7 @@
     </b-row>
     <SessionOff ref="session" />
   </b-container>
+  </b-overlay>
 </template>
 
 <script>
@@ -108,7 +100,8 @@ export default {
       currentPage: 1,
       search: "",
       countdown: 0,
-      item: []
+      item: [],
+      loading: false
     };
   },
 
@@ -134,6 +127,7 @@ export default {
 
     deletefiles(item) {
       if (confirm("Deseja realmente excluir?")) {
+        this.loading = true;
         this.$http
           .delete("file/" + item.id_file, {
             headers: {
@@ -141,6 +135,7 @@ export default {
             }
           })
           .then(res => {
+            this.loading = false;
             if (res.status === 200) {
               if (res.data.token_failure) {
                 this.$refs.session.$refs.session.show();

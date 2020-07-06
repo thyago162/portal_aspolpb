@@ -1,92 +1,94 @@
 <template>
-  <b-container fluid>
-    <b-row class="header-title ml-1 mr-1">
-      <b-col class="title">
-        <h5 class="mt-2">Notícias</h5>
-      </b-col>
-    </b-row>
-    <b-row class="mt-5 ml-1 mr-1">
-      <b-col>
-        <b-row>
-          <b-col>
-            <b-form inline>
-              <b-input-group>
-                <template v-slot:prepend>
-                  <b-input-group-text>
-                    <b-icon icon="search"></b-icon>
-                  </b-input-group-text>
+  <b-overlay :show="loading">
+    <b-container fluid>
+      <b-row class="header-title ml-1 mr-1">
+        <b-col class="title">
+          <h5 class="mt-2">Notícias</h5>
+        </b-col>
+      </b-row>
+      <b-row class="mt-5 ml-1 mr-1">
+        <b-col>
+          <b-row>
+            <b-col>
+              <b-form inline>
+                <b-input-group>
+                  <template v-slot:prepend>
+                    <b-input-group-text>
+                      <b-icon icon="search"></b-icon>
+                    </b-input-group-text>
+                  </template>
+                  <b-form-input v-model="search" type="search" />
+                </b-input-group>
+                <b-button variant="primary" type="button" class="ml-1" @click="searchNews()">Buscar</b-button>
+              </b-form>
+            </b-col>
+            <b-col>
+              <b-button
+                @click="$router.push({name: 'form-news', params: {id: 'novo'}})"
+                variant="primary"
+                :style="{float: 'right'}"
+              >
+                <b-icon icon="plus"></b-icon>novo item
+              </b-button>
+            </b-col>
+          </b-row>
+
+          <b-row class="mt-3">
+            <b-col>
+              <b-table
+                :fields="fields"
+                :items="news.data"
+                striped
+                hover
+                :per-page="perPage"
+                :current-page="currentPage"
+                id="table-news"
+              >
+                <template v-slot:cell(edit)="row">
+                  <b-button
+                    size="sm"
+                    @click="$router.push({name: 'form-news', params: {id: row.item.id_news}})"
+                    variant="info"
+                    v-b-modal.form-news
+                    class="ml-1"
+                  >
+                    <b-icon icon="pen"></b-icon>
+                  </b-button>
                 </template>
-                <b-form-input v-model="search" />
-              </b-input-group>
-              <b-button variant="primary" type="button" class="ml-1" @click="searchNews()">Buscar</b-button>
-            </b-form>
-          </b-col>
-          <b-col>
-            <b-button
-              @click="$router.push({name: 'form-news', params: {id: 'novo'}})"
-              variant="primary"
-              :style="{float: 'right'}"
-            >
-              <b-icon icon="plus"></b-icon>novo item
-            </b-button>
-          </b-col>
-        </b-row>
 
-        <b-row class="mt-3">
-          <b-col>
-            <b-table
-              :fields="fields"
-              :items="news.data"
-              striped
-              hover
-              :per-page="perPage"
-              :current-page="currentPage"
-              id="table-news"
-            >
-              <template v-slot:cell(edit)="row">
-                <b-button
-                  size="sm"
-                  @click="$router.push({name: 'form-news', params: {id: row.item.id_news}})"
-                  variant="info"
-                  v-b-modal.form-news
-                  class="ml-1"
-                >
-                  <b-icon icon="pen"></b-icon>
-                </b-button>
-              </template>
+                <template v-slot:cell(delete)="row">
+                  <b-button size="sm" @click="deleteNews(row.item.id_news)" variant="danger">
+                    <b-icon icon="trash"></b-icon>
+                  </b-button>
+                </template>
 
-              <template v-slot:cell(delete)="row">
-                <b-button size="sm" @click="deleteNews(row.item.id_news)" variant="danger">
-                  <b-icon icon="trash"></b-icon>
-                </b-button>
-              </template>
+                <template v-slot:cell(dt_date)="row">{{row.item.dt_date | date }}</template>
 
-              <template v-slot:cell(dt_date)="row">{{row.item.dt_date | date }}</template>
+                <template v-slot:cell(st_active)="row">
+                  <b-icon icon="circle-fill" v-if="row.item.st_active === 1" variant="success"></b-icon>
+                  <b-icon icon="circle-fill" v-else variant="warning"></b-icon>
+                </template>
+              </b-table>
 
-              <template v-slot:cell(st_active)="row">
-                <b-icon icon="circle-fill" v-if="row.item.st_active === 1" variant="success"></b-icon>
-                <b-icon icon="circle-fill" v-else variant="warning"></b-icon>
-              </template>
-            </b-table>
+              <div class="mt-3">
+                <b-pagination
+                  align="center"
+                  v-model="news.current_page"
+                  :total-rows="news.total"
+                  :per-page="news.per_page"
+                  aria-controls="table-news"
+                  @input="getNews()"
+                ></b-pagination>
+              </div>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
 
-            <div class="mt-3">
-              <b-pagination
-                align="center"
-                v-model="news.current_page"
-                :total-rows="news.total"
-                :per-page="news.per_page"
-                aria-controls="table-news"
-                @input="getNews()"
-              ></b-pagination>
-            </div>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
-
-    <SessionOff ref="session" />
-    <ModalError ref="error" :errors="errors" />
-  </b-container>
+      <SessionOff ref="session" />
+      <ModalError ref="error" :errors="errors" />
+    </b-container>
+  </b-overlay>
 </template>
 
 <script>
@@ -117,14 +119,14 @@ export default {
       search: "",
       visibility: false,
       errors: [],
-      newsSearched: []
+      newsSearched: [],
+      loading: false,
     };
   },
 
   computed: {
     news() {
       if (this.newsSearched.data) {
-
         return this.newsSearched;
       } else {
         return this.$store.getters.getNews;
@@ -139,6 +141,7 @@ export default {
   methods: {
     deleteNews(id) {
       if (confirm("Deseja realmente exluir?")) {
+        this.loading = true;
         this.$http
           .delete("news/" + id, {
             headers: {
@@ -146,6 +149,7 @@ export default {
             }
           })
           .then(res => {
+            this.loading = false;
             if (res.status === 200) {
               if (res.data.token_failure) {
                 this.$refs.session.$refs.session.show();
@@ -192,12 +196,14 @@ export default {
     },
 
     searchNews() {
+      this.loading = true;
       let formData = new FormData();
       formData.append("search", this.search);
 
       this.$http
         .post("news/search", formData)
         .then(res => {
+          this.loading = false;
           if (res.status === 200) {
             this.newsSearched = res.data.result.news;
           }

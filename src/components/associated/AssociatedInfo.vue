@@ -2,11 +2,11 @@
   <b-container fluid>
     <b-row class="header-title ml-1 mr-1">
       <b-col class="title">
-        <h5 class="mt-2">Dados do associado</h5>
+        <h5 class="mt-2">DADOS DO ASSOCIADO</h5>
       </b-col>
     </b-row>
 
-    <b-row class="mt-5 ml-1 mr-1">
+    <b-row class="mt-5 ml-1 mr-1" v-if="associated">
       <b-col :style="{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}">
         <div :class="isActive">
           <h5>{{user.name}}</h5>
@@ -15,8 +15,8 @@
         <div :class="isActive">
           <h5>Situação: {{associated.st_active === 1 ? 'Ativo' : 'Pendente'}}</h5>
         </div>
-        <div v-bind:class="isActive">
-          <h5>{{associated.updated_at}}</h5>
+        <div v-bind:class="isActive" v-if="associated.updated_at">
+          <h5>{{associated.updated_at | fullDate}}</h5>
         </div>
 
         <b-button
@@ -27,8 +27,11 @@
         </b-button>
       </b-col>
     </b-row>
+    <h5 v-else class="mt-5 mb-5 ml-5">
+      Nenhum dado a ser exibido
+    </h5>
 
-    <b-row class="mt-3">
+    <b-row class="mt-3" v-if="associated">
       <b-col>
         <AssociatedView :item="associated" />
       </b-col>
@@ -82,7 +85,6 @@ export default {
         .then(res => {
           if (res.status === 200) {
             this.associated = res.data.result.associated;
-            window.console.log(this.associated);
           }
         })
         .catch(err => {

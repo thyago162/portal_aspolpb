@@ -110,11 +110,11 @@
             <b-dropdown-item>
               <b-link class="personal-link" v-if="token == null" v-b-modal.auth>
                 <b-icon icon="tag-fill"></b-icon>
-                <span class="ml-1">ACESSORIA JURÍDICA</span>
+                <span class="ml-1">ASSESSORIA JURÍDICA</span>
               </b-link>
               <b-link class="personal-link" :to="{name: 'assessoria-juridica'}" v-else>
                 <b-icon icon="tag-fill"></b-icon>
-                <span class="ml-1">ACESSORIA JURÍDICA</span>
+                <span class="ml-1">ASSESSORIA JURÍDICA</span>
               </b-link>
             </b-dropdown-item>
             <b-dropdown-item>

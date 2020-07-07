@@ -7,11 +7,11 @@
                 </div>
             </b-col>
             </b-row>
-            <b-row  class="highlights">
-                <b-col sm="12" md="12" lg="8" xl="6" > 
+            <b-row  >
+                <b-col sm="12" md="12" lg="7" xl="6" class="mt-2"> 
                     <highlights-news :highlights="highlights"/>
                 </b-col>
-                <b-col lg="4" sm="12" md="12" xl="6"  class="highlights">
+                <b-col lg="5" sm="12" md="12" xl="6" class="mt-3" >
                     <card-news :cardnews="cardNews" />
                 </b-col>
             </b-row>
@@ -120,10 +120,6 @@
     .news-title h5 {
         margin-top: 10px;
         font-weight: bold;
-    }
-
-    .highlights {
-        margin-top: 10px;
     }
 
     .more-news-title {

@@ -26,17 +26,17 @@
                     <b-col >
                         <nav class="menu-footer">
                             <div >
-                                <b-link class="personal-link " :style="{fontWeight: 'bold'}">INICIO</b-link>
+                                <b-link class="personal-link " :style="{fontWeight: 'bold'}" :to="{name: 'home'}">INÍCIO</b-link>
                             </div>
                             <div class="menu-options">
-                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">INSTITUCIONAL</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}" disabled>INSTITUCIONAL</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'sobre'}">QUEM SOMOS</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'historia'}">NOSSA HISTÓRIA</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'campanhas'}">CAMPANHA</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'identidade-visual'}">IDENTIDADE VISUAL</b-link>
                             </div>
                             <div  class=" menu-options">
-                                <b-link class="personal-link" :style="{fontWeight: 'bold'}">MÍDIA</b-link>
+                                <b-link class="personal-link" :style="{fontWeight: 'bold'}" disabled>MÍDIA</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'noticias'}">NOTICIAS</b-link>
                                 <b-link class="personal-link-option" :to="{name: 'midia-view'}">ASPOL NA MÍDIA</b-link>
                             </div>
@@ -72,7 +72,7 @@
                 </b-row>
                 <b-row class="mt-3">
                     <b-col>
-                        <p :style="{float: 'left'}">© 2020 Associação dos policiais civis de carreira da Paraíba . Todos os direitos reservados.</p>
+                        <p :style="{float: 'left'}">© 2020 Associação dos policiais civis de carreira da Paraíba - CNPJ: 08.451.523/0001-66. Todos os direitos reservados.</p>
                     </b-col>
                 </b-row>
             </b-container>

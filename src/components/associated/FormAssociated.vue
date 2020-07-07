@@ -35,7 +35,8 @@
               <b-form-input
                 type="text"
                 v-model="form.nu_registration"
-                placeholder="Apenas números"
+                :placeholder="user.registration_number"
+                readonly
                 max="6"
                 :state="state.registration"
               />
@@ -50,7 +51,8 @@
                 type="text"
                 :state="state.cpf"
                 v-model="form.nm_cpf"
-                placeholder="Apenas números"
+                :placeholder="user.cpf"
+                readonly
                 max="11"
               />
             </b-form-group>
@@ -475,9 +477,9 @@ export default {
       this.requiredFields();
       let form = new FormData();
 
-      form.append("nu_registration", this.form.nu_registration);
+      form.append("nu_registration", this.user.registration_number);
       form.append("nm_name", this.user.name);
-      form.append("nm_cpf", this.form.nm_cpf);
+      form.append("nm_cpf", this.user.cpf);
       form.append("nm_email", this.user.email);
       form.append("nm_ddd", this.form.nm_ddd);
       form.append("nm_phone", this.form.nm_phone);
@@ -529,7 +531,7 @@ export default {
                   );
 
                   this.$http
-                    .post("associated-dependents", form)
+                    .post("associated-dependent", form)
                     .then(res => {
                       if (res.status === 200) {
                         this.loading = false;

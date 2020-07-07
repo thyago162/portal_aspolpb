@@ -49,8 +49,8 @@ export default {
     return {
       item: "",
       customSlide: [
-        [1360, 3],
-        [1024, 2],
+        [1360, 4],
+        [1024, 3],
         [768, 2],
         [500, 1],
         [300, 1]
@@ -72,14 +72,14 @@ export default {
 
 <style scoped>
 .image {
-  width: 419px;
-  height: 300px;
+  width: 300px;
+  height: 270px;
   border: 2px solid #333;
 }
 
 .image-title {
   position: absolute;
-  width: 419px;
+  width: 300px;
   bottom: 0px;
   background-color: rgba(51, 51, 51, 0.849);
   text-align: center;
@@ -130,9 +130,19 @@ h5 {
   background-color: rgb(48, 163, 48);
 }
 
+@media screen and (max-width: 768px) {
+  .image {
+    width: 100%;
+  }
+
+  .image-title {
+    width: 361px;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .image {
-    height: 250px;
+    height: 280px;
     width: 98%;
   }
 

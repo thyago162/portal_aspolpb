@@ -1,7 +1,7 @@
 <template>
-  <div class="ml-1 mr-1 image-highlights">
+  <div class="image-highlights mb-3">
     <b-img-lazy class="image mt-2" :src="image" v-bind="mainProps"></b-img-lazy>
-    <b-link :to="{name: 'visualizar-noticias', params: {title: title}}" class="block-title">
+    <b-link :to="{name: 'visualizar-noticias', params: {title: title}}">
       <figcaption class="image-title">{{highlights.nm_title}}</figcaption>
     </b-link>
   </div>
@@ -35,7 +35,7 @@ export default {
 
 <style  scoped>
 .highlights-title {
-  background-color: rgba(24, 23, 23, 0.719);
+  background-color: rgba(24, 23, 23, 0.774);
   position: absolute;
   width: 100%;
   bottom: 0%;
@@ -50,51 +50,66 @@ export default {
 
 .image-title {
   position: absolute;
-  max-width: 637.5px;
+  width: 637.5px;
   background-color: rgba(51, 51, 51, 0.726);
   color: #ffffff;
-  bottom: 0px;
   font-weight: bolder;
   text-align: center;
+  margin-top: -60px;
+  max-height: 100px;
+  font-size: 20px;
 }
-
 @media screen and (max-width: 1024px) {
-  h5 {
-    font-size: 18px;
+  .image {
+    max-height: 396px;
+    width: 570.5px;
+    object-fit: cover;
+    object-position: center;
   }
 
-  h6 {
+  .image-title {
+    width: 570.5px;
     font-size: 16px;
+    margin-top: -50px;
   }
+  
 }
 
 @media screen and (max-width: 768px) {
-  .image-highlights {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-  }
-
-  .block-title {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    align-items: center;
-    margin-top: -10px;
-  }
-
-
-}
-
-@media screen and (max-width: 500px) {
+  
   .image {
-    max-height: 250px;
+    height: 450px;
     width: 100%;
   }
 
-  .block-title {
-    display: none;
+  .image-title {
+    width: 738px;
+    margin-top: -26px;
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .image {
+    height: 270px;
+  }
+
+  .image-title {
+    width: 383.5px;
+    margin-top: -70px;
+  }
+
+}
+
+@media screen and (max-width: 411px) {
+  .image {
+    height: 250px;
+    width: 100%;
+  }
+
+  .image-title {
+    width: 380.5px;
+    margin-top: -70px;
   }
 
   h5 {
@@ -105,16 +120,30 @@ export default {
     display: none;
   }
 }
-
 @media screen and (max-width: 375px) {
-  .highlights {
-    margin-top: 10px;
+  .image {
+    height: 250px;
+  }
+
+  .image-title {
+   width: calc(100% - 30px);
+  }
+
+}
+
+@media screen and (max-width: 320px) {
+  .image-title {
+    margin-top: -95px;
   }
 
   .image {
-    width: 100%;
-    height: 180px;
+    height: 230px;
   }
+
+   .image-title {
+    margin-top: -72px;
+  }
+
 
 }
 </style>

@@ -72,7 +72,7 @@
                 </b-row>
                 <b-row class="mt-3">
                     <b-col>
-                        <p :style="{float: 'left'}">© 2020 Associação dos policiais civis de carreira da Paraíba - CNPJ: 08.451.523/0001-66. Todos os direitos reservados.</p>
+                        <p :style="{float: 'left'}">© 2020 Associação dos Policiais Civis de Carreira da Paraíba - CNPJ: 08.451.523/0001-66. Todos os direitos reservados.</p>
                     </b-col>
                 </b-row>
             </b-container>

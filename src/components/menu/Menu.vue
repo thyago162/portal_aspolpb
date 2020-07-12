@@ -58,11 +58,11 @@
             <b-link :to="{name: 'contato'}" class="personal-link">CONTATO</b-link>
           </b-nav-item>
 
-          <b-nav-item v-if="token != null">
+          <b-nav-item >
             <b-button
               size="sm"
               class="personal-btn associated"
-              @click="$router.push({name: 'form-associated', params: {id: 'novo'}})"
+              @click="$router.push({name: 'form-associated'})"
             >
               <span>ASSOCIE-SE</span>
             </b-button>

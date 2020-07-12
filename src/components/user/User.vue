@@ -21,10 +21,6 @@
         <b-form-input v-model="form.cpf" readonly/>
       </b-form-group>
 
-      <b-form-group label="Matrícula">
-        <b-form-input v-model="form.registration_number" readonly />
-      </b-form-group>
-
       <b-form-group label="Password">
         <b-form-input v-model="form.password" :readonly="lock" placeholder="*************" />
       </b-form-group>

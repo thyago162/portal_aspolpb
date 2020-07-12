@@ -16,7 +16,6 @@
         </b-button>
       </template>
 
-      <ErroMessage :errors="errors" :visibility="visibility" />
       <b-alert variant="warning" dismissible :show="true">Os campos com asteriscos são obrigatórios</b-alert>
 
       <form @submit.stop.prevent="formSubmited">

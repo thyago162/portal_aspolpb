@@ -5,7 +5,7 @@
       img-right
       v-for="(news,index) in cardnews "
       :key="index"
-      :style="{borderLeft: '4px solid darkslategrey'}"
+      :style="{border: 'none', borderBottom: '1px solid gray'}"
     >
       <b-card-header
         :style="{width: '25%'}"

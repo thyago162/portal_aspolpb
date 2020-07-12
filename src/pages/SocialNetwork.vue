@@ -55,7 +55,7 @@
 
 <style scoped>
     .social-midia {
-        background-color: lightgray;
+        
     }
 
     .social-midia-head {

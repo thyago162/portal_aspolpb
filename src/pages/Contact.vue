@@ -20,7 +20,7 @@
                 </h6>
                 <h6>João Pessoa - CEP: 58.053-110</h6>
                 <p class="mt-3">Telefone: (83) 3506-3429</p>
-                <p>E-mail: secretaria@aspolpb.com.br</p>
+                <p>E-mail: secretaria.aspolpb@gmail.com</p>
                </div>
            </b-col>
 

@@ -94,10 +94,9 @@ export default new Router({
             name: 'midia-view'
         },
         {
-            path: '/associados/formulario/:id',
+            path: '/associados/formulario',
             component: FormAssociated,
             name: 'form-associated',
-            props: { default: true, sidebar: false }
         },
         {
             path: '/acesso-restrito',

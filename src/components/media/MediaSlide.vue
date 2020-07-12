@@ -74,7 +74,7 @@ export default {
 .image {
   width: 300px;
   height: 270px;
-  border: 2px solid #333;
+  border:inset 1px #333;
 }
 
 .image-title {

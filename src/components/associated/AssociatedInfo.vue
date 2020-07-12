@@ -18,13 +18,6 @@
         <div v-bind:class="isActive" v-if="associated.updated_at">
           <h5>{{associated.updated_at | fullDate}}</h5>
         </div>
-
-        <b-button
-          variant="info"
-          @click="$router.push({name: 'form-associated', params: {id: associated.nm_email}})"
-        >
-          <b-icon icon="pen"></b-icon>
-        </b-button>
       </b-col>
     </b-row>
     <h5 v-else class="mt-5 mb-5 ml-5">

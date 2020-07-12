@@ -90,7 +90,6 @@
 
 <style scoped>
     .news {
-        background-color: lightgray;
     }
 
     .news-row {

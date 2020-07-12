@@ -35,15 +35,14 @@
               <b-form-input
                 type="text"
                 v-model="form.nu_registration"
-                :placeholder="user.registration_number"
-                readonly
+                placeholder="Matrícula"
                 max="6"
                 :state="state.registration"
               />
             </b-form-group>
 
             <b-form-group label="Nome">
-              <b-form-input type="text" v-model="form.nm_name" :placeholder="user.name" readonly />
+              <b-form-input type="text" v-model="form.nm_name" placeholder="Nome completo" />
             </b-form-group>
 
             <b-form-group label="Cpf *">
@@ -51,19 +50,13 @@
                 type="text"
                 :state="state.cpf"
                 v-model="form.nm_cpf"
-                :placeholder="user.cpf"
-                readonly
+                placeholder="Apenas números"
                 max="11"
               />
             </b-form-group>
 
             <b-form-group label="Email">
-              <b-form-input
-                type="email"
-                v-model="form.nm_email"
-                readonly
-                :placeholder="user.email"
-              />
+              <b-form-input type="email" v-model="form.nm_email" />
             </b-form-group>
 
             <b-row>
@@ -340,31 +333,27 @@
       </b-row>
 
       <ModalError ref="error" :errors="errors" />
-      <SessionOff ref="session" />
     </b-container>
   </b-overlay>
 </template>
 
 <script>
 import ModalError from "../error/ModalError";
-import SessionOff from "../session/Session";
 import { validate } from "../../config";
 
 export default {
   created() {
-    this.getAssociated();
     this.getUfs();
   },
 
   components: {
     ModalError,
-    SessionOff
   },
 
   data() {
     return {
       form: {
-        nu_registration: null,
+        nu_registration: "",
         nm_name: "",
         nm_cpf: "",
         nm_email: "",
@@ -428,32 +417,6 @@ export default {
   },
 
   methods: {
-    getAssociated() {
-      let id = this.$route.params.id;
-
-      if (id.length > 0) {
-        this.$http
-          .get("associated/show/email/" + id, {
-            headers: {
-              Authorization: "Bearer " + this.token
-            }
-          })
-          .then(res => {
-            if (res.status === 200) {
-              if (res.data.token_failure) {
-                this.$refs.session.$refs.session.show();
-              }
-              res.data.result.associated != null
-                ? (this.form = res.data.result.associated)
-                : (this.form = {});
-            }
-          })
-          .catch(err => {
-            window.console.log(err);
-          });
-      }
-    },
-
     searchCep() {
       this.loadingAddress = true;
       let cep = this.form.nm_cep;
@@ -477,10 +440,10 @@ export default {
       this.requiredFields();
       let form = new FormData();
 
-      form.append("nu_registration", this.user.registration_number);
-      form.append("nm_name", this.user.name);
-      form.append("nm_cpf", this.user.cpf);
-      form.append("nm_email", this.user.email);
+      form.append("nu_registration", this.form.nu_registration);
+      form.append("nm_name", this.form.nm_name);
+      form.append("nm_cpf", this.form.nm_cpf);
+      form.append("nm_email", this.form.nm_email);
       form.append("nm_ddd", this.form.nm_ddd);
       form.append("nm_phone", this.form.nm_phone);
       form.append("ch_sex", this.form.ch_sex);
@@ -535,10 +498,6 @@ export default {
                     .then(res => {
                       if (res.status === 200) {
                         this.loading = false;
-
-                        if (res.data.token_failure) {
-                          this.$refs.session.$refs.session.show();
-                        }
 
                         if (res.data.result.error) {
                           this.errors = res.data.result;

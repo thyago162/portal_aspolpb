@@ -14,7 +14,7 @@
 
                     <template v-slot:cell(card)="row">
 
-                        <b-card v-if="row.item.st_active === 1" img-left no-body >
+                        <b-card v-if="row.item.st_active === 1" img-left no-body class="card" >
                             <b-card-header v-if="row.item.nm_image_path" class="card-header" >
                                 <b-img :src="row.item.nm_image_path" fluid class="image-header"/>
                             </b-card-header>
@@ -89,6 +89,10 @@
 </script>
 
 <style scoped>
+    .card {
+        border: none;
+        border-bottom: 1px solid lightgray;
+    }
 
     a {
         text-decoration: none;

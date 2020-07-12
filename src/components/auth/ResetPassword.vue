@@ -31,7 +31,7 @@
 
                 <div v-if="step === 1">
                   <b-form-group label="Informe o código de 6 digitos enviado para o seu e-mail">
-                    <b-form-input type="text" v-model="code" />
+                    <b-form-input type="number" v-model="code" />
                   </b-form-group>
                 </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <b-overlay :show="loading" >
+  <b-overlay :show="loading">
     <b-container fluid>
       <b-row class="header-title ml-1 mr-1">
         <b-col class="title">
@@ -80,6 +80,11 @@
                   v-if="row.item.email_verified_at"
                   @click="accountActivation(row.item.id_user, 0)"
                 >Desativar conta</b-button>
+
+                <b-button
+                  @click="accountVerification(row.item.id_user)"
+                  variant="outline-light"
+                >Verificar dados</b-button>
               </div>
             </template>
 
@@ -149,7 +154,6 @@ export default {
         { key: "name", label: "Nome", sortable: true },
         { key: "email", label: "Email" },
         { key: "cpf", label: "Cpf" },
-        { key: "registration_number", label: "Matrícula" },
         { key: "administrator", label: "Administrador", sortable: true },
         { key: "account_activation", label: "Ativo", sortable: true },
         { key: "show_details", label: "" },
@@ -257,8 +261,8 @@ export default {
               }
 
               if (res.data.result.error) {
+                this.$refs.error.$refs["modal-error"].show();
                 this.errors = res.data.result;
-                this.visibility = true;
               } else {
                 this.$store.dispatch("users", { token: this.token, page: 1 });
               }
@@ -289,12 +293,36 @@ export default {
             }
 
             if (res.data.result.error) {
+              this.$refs.error.$refs["modal-error"].show();
               this.errors = res.data.result;
-              this.visibility = true;
             } else {
               this.$store.dispatch("users", { token: this.token, page: 1 });
             }
           }
+        });
+    },
+
+    accountVerification(id) {
+      this.loading = true;
+      this.$http("users/account-check/" + id, {
+        headers: {
+          Authorization: "Bearer " + this.token
+        }
+      })
+        .then(res => {
+          this.loading = false;
+          if (res.status === 200) {
+            if (res.data.result.error) {
+              this.$refs.error.$refs["modal-error"].show();
+              this.errors = res.data.result;
+            } else {
+              alert("Não há dados divergentes");
+            }
+          }
+        })
+        .catch(err => {
+          window.console.log(err);
+          this.loading = false;
         });
     }
   }

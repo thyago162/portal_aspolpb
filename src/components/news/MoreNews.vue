@@ -59,8 +59,7 @@
 <style scoped>
     .card-more-news {
         border: none;
-        border-left: 4px solid darkslategrey;
-        background-color: lightgray;
+        border-left: 2px solid darkslategrey;
         margin: 20px 10px 5px 5px;
         width: 48%;
         height: 110px;

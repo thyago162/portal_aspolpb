@@ -9,20 +9,21 @@
     ok-only
     ok-title="Enviar"
     ok-variant="danger"
-    @ok="handleOk()"
+    @ok="handleOk"
   >
-
-    <form @submit.stop.prevent="formSubmited">
-      <b-form-group label="Selecione os dados a serem corrigidos.">
-        <b-form-checkbox-group :options="options" v-model="selected"></b-form-checkbox-group>
-      </b-form-group>
-      <div>
-        <h6 :style="{fontWeight: 'bolder'}">Dados escolhidos</h6>
-        <div class="selected-data">
-          <p v-for="(value, index) in selected" :key="index">{{ value }},</p>
+    <b-overlay :show="loading">
+      <form @submit.stop.prevent="formSubmited">
+        <b-form-group label="Selecione os dados a serem corrigidos.">
+          <b-form-checkbox-group :options="options" v-model="selected"></b-form-checkbox-group>
+        </b-form-group>
+        <div>
+          <h6 :style="{fontWeight: 'bolder'}">Dados escolhidos</h6>
+          <div class="selected-data">
+            <p v-for="(value, index) in selected" :key="index">{{ value }},</p>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </b-overlay>
   </b-modal>
 </template>
 
@@ -75,10 +76,10 @@ export default {
   },
 
   methods: {
-    handleOk(vbModalEvt) {
+    handleOk(event) {
       this.loading = true;
 
-      vbModalEvt.preventDefault();
+      event.preventDefault();
       this.formSubmited();
     },
 
@@ -86,8 +87,8 @@ export default {
       let form = new FormData();
 
       form.append("selected", this.selected);
-      form.append("name", this.item.nm_name);
-      form.append("email", this.item.nm_email);
+      form.append("name", this.item[0].nm_name);
+      form.append("email", this.item[0].nm_email);
 
       this.$http
         .post("associated/correct-data", form, {
@@ -97,9 +98,24 @@ export default {
         })
         .then(res => {
           if (res.status === 200) {
-            alert("E-mail enviado com sucesso");
             this.loading = false;
+            if (res.data.token_failure) {
+              this.$refs.session.$refs.session.show();
+            }
+
+            if (res.data.result.error) {
+              this.$refs.error.$refs["modal-error"].show();
+              this.errors = res.data.result;
+            } else {
+              this.$refs['correct-data'].hide();
+              alert("E-mail enviado com sucesso");
+             
+            }
           }
+        })
+        .catch(err => {
+          this.loading = false;
+          window.console.log(err);
         });
     }
   }

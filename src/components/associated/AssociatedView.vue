@@ -32,32 +32,14 @@
             <b-list-group>
               <b-list-group-item v-for="(dependent, index) in dependents" :key="index">
                 <div class="dependents">
-                  <b-form inline>
-                    <span>Nome:</span>
-                    <b-form-input
-                      class="ml-1"
-                      :placeholder="dependent.nm_dependent_name"
-                      v-model="name"
-                      readonly
-                    />
-                    <span class="ml-5">Data de nascimento:</span>
-                    <b-form-input
-                      class="ml-1"
-                      :placeholder="dependent.dt_dependent_birthday"
-                      v-model="birthday"
-                      readonly
-                    />
-
-                    <b-button
-                      class="ml-2"
-                      variant="success"
-                      @click="setDependent(dependent)"
-                      disabled
-                    >Alterar</b-button>
-                  </b-form>
-                  <b-button variant="danger" size="sm">
-                    <b-icon icon="trash"></b-icon>
-                  </b-button>
+                  <span>Nome:</span>
+                  {{dependent.nm_dependent_name}}
+                  <span
+                    class="ml-5"
+                  >Data de nascimento:</span>
+                  <span>Data de nascimento</span>
+                  {{dependent.dt_dependent_birthday}}
+                  <b-icon icon="trash"></b-icon>
                 </div>
               </b-list-group-item>
             </b-list-group>
@@ -102,16 +84,10 @@ export default {
   methods: {
     setDependent(param) {
       let id = param.id_associated_dependent;
-      let name =
-        this.name.length > 0
-          ? this.name
-          : param.nm_dependent_name;
+      let name = this.name.length > 0 ? this.name : param.nm_dependent_name;
 
       let birthday =
-        this.birthday.length > 0
-          ? this.birthday
-          : param.dt_dependent_birthday;
-
+        this.birthday.length > 0 ? this.birthday : param.dt_dependent_birthday;
 
       this.$http
         .put(

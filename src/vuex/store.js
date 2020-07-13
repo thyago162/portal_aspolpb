@@ -231,10 +231,10 @@ export default new Vuex.Store({
             })
         },
 
-        associated({commit},token) {
-            axios.get('associated', {
+        associated({commit}, data) {
+            axios.get('associated?page='+data.id, {
                 headers: {
-                    Authorization: 'Bearer '+token
+                    Authorization: 'Bearer '+data.token
                 }
             })
             .then(res => {

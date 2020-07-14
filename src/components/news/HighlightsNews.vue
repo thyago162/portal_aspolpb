@@ -95,7 +95,7 @@ export default {
   }
 
   .image-title {
-    width: 383.5px;
+    width: calc(100% - 30px);
     margin-top: -70px;
   }
 
@@ -108,7 +108,7 @@ export default {
   }
 
   .image-title {
-    width: 380.5px;
+    width: calc(100% - 30px);
     margin-top: -70px;
   }
 

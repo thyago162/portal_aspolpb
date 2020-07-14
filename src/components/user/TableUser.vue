@@ -51,9 +51,16 @@
             :current-page="currentPage"
             id="table-users"
           >
+
+          <template v-slot:cell(cpf)="row">
+            <span>{{row.item.cpf | cpf}}</span>
+          </template>
+
             <template v-slot:cell(show_details)="row">
               <b-button variant="info" size="sm" @click="row.toggleDetails">Configuração</b-button>
             </template>
+
+
 
             <template v-slot:row-details="row">
               <div class="teste">

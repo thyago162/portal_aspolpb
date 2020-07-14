@@ -31,6 +31,9 @@
             :per-page="perPage"
             id="table-associated"
           >
+          <template v-slot:cell(nm_cpf)="row">
+            <span>{{row.item.nm_cpf | cpf }}</span>
+          </template>
             <template v-slot:cell(st_active)="row">
               <b-icon variant="success" icon="check-square-fill" v-if="row.item.st_active == 1" />
               <b-icon icon="check-square" v-else />

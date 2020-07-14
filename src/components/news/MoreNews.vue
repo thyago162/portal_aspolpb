@@ -105,6 +105,10 @@
         .card-subtitle {
             display: none;
         }
+
+        .card-title {
+            font-size: 14px;
+        }
         
     }
 

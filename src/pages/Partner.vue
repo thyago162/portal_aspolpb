@@ -72,15 +72,24 @@ h5 {
   }
 }
 
-@media screen and (max-width: 724px) {
+@media screen and (max-width: 768px) {
+  .social-midia-title {
+    width: 120px;
+    height: 30px;
+  }
+
   h5 {
-    font-size: 18px;
+    font-size: 14px;
   }
 }
 
 @media screen and (max-width: 500px) {
+  .social-midia-title {
+    width: 90px;
+    height: 20px;
+  }
   h5 {
-    font-size: 15px;
+    font-size: 11px;
   }
 
   .partner-title-block {

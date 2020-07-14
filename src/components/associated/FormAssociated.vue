@@ -245,11 +245,11 @@
             </b-form-group>
 
             <b-form-group label="Classe">
-              <b-form-select v-model="form.nm_office_class" :state="state.class">
-                <b-form-select-option value="E">E</b-form-select-option>
+              <b-form-select v-model="form.nm_office_class" :state="state.officeClass">
                 <b-form-select-option value="1º">1º</b-form-select-option>
                 <b-form-select-option value="2º">2º</b-form-select-option>
                 <b-form-select-option value="3º">3º</b-form-select-option>
+                <b-form-select-option value="E">E</b-form-select-option>
               </b-form-select>
             </b-form-group>
 
@@ -452,7 +452,7 @@ export default {
       form.append("nm_civil_state", this.form.nm_civil_state);
       form.append("nm_education_level", this.form.nm_education_level);
       form.append("nm_office", this.form.nm_office);
-      form.append("nm_office_class", this.form.mn_office_class);
+      form.append("nm_office_class", this.form.nm_office_class);
       form.append("nm_super_stocking", this.form.nm_super_stocking);
       form.append("nm_sectional_stocking", this.form.nm_sectional_stocking);
       form.append("nm_work_unit", this.form.nm_work_unit);

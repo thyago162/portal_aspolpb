@@ -31,9 +31,9 @@
             :per-page="perPage"
             id="table-associated"
           >
-          <template v-slot:cell(nm_cpf)="row">
-            <span>{{row.item.nm_cpf | cpf }}</span>
-          </template>
+            <template v-slot:cell(nm_cpf)="row">
+              <span>{{row.item.nm_cpf | cpf }}</span>
+            </template>
             <template v-slot:cell(st_active)="row">
               <b-icon variant="success" icon="check-square-fill" v-if="row.item.st_active == 1" />
               <b-icon icon="check-square" v-else />
@@ -240,21 +240,24 @@ export default {
               this.errors = res.data.result;
             } else {
               alert("Ação bem sucedida, associado desativado");
-              this.$store.dispatch("associated", this.token);
+              this.$store.dispatch("associated", {
+                page: this.associated.currentPage,
+                token: this.token
+              });
             }
           });
       }
     },
 
     searchMembership() {
-       this.loading = true;
+      this.loading = true;
       let formData = new FormData();
       formData.append("search", this.search);
 
       this.$http
         .post("associated/search", formData, {
           headers: {
-            Authorization: 'Bearer '+this.token
+            Authorization: "Bearer " + this.token
           }
         })
         .then(res => {
@@ -267,8 +270,7 @@ export default {
           window.console.log(err);
           this.loading = false;
         });
-        
-      }
+    }
   }
 };
 </script>

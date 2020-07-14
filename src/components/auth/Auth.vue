@@ -1,21 +1,21 @@
 <template>
-  <b-overlay :show="loading">
-    <b-modal
-      id="auth"
-      :title="title"
-      @ok="handleOk"
-      @reset="resetModal"
-      no-close-on-backdrop
-      @cancel="resetModal"
-      :ok-title="btnTitle"
-      ref="auth"
-      hide-header
-      size="lg"
-      cancel-title="Fechar"
-      ok-variant="danger"
-      cancel-variant="dark"
-      @hide="resetModal"
-    >
+  <b-modal
+    id="auth"
+    :title="title"
+    @ok="handleOk"
+    @reset="resetModal"
+    no-close-on-backdrop
+    @cancel="resetModal"
+    :ok-title="btnTitle"
+    ref="auth"
+    hide-header
+    size="lg"
+    cancel-title="Fechar"
+    ok-variant="danger"
+    cancel-variant="dark"
+    @hide="resetModal"
+  >
+    <b-overlay :show="loading">
       <template v-slot:modal-footer="{ok, cancel}">
         <b-button @click="cancel()" size="md" variant="dark">
           <span :style="{fontWeight: 'bolder'}">Fechar</span>
@@ -133,9 +133,10 @@
           </b-col>
         </b-row>
       </b-container>
+
       <ModalError ref="error" :errors="errors" />
-    </b-modal>
-  </b-overlay>
+    </b-overlay>
+  </b-modal>
 </template>
 
 <script>

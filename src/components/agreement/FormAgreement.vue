@@ -30,7 +30,7 @@
               />
             </b-form-group>
 
-            <b-form-group label="Contrato *">
+            <b-form-group label="Contrato">
               <b-form-file accept="application/pdf" v-model="doc" :state="Boolean(file)"></b-form-file>
             </b-form-group>
 

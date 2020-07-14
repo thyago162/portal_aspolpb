@@ -74,7 +74,8 @@
           <b-col>
             <b-card-text>
               <span v-if="item.nm_street != null">Rua {{item.nm_street}},</span>
-              <span v-if="item.nm_number">Nº {{item.nm_number}}</span>
+              <span v-if="item.nm_number">Nº {{item.nm_number}}, </span> 
+              <span v-if="item.nm_complement"> - {{item.nm_complement}}</span>
               {{item.nm_neighbohood}}
             </b-card-text>
             <b-card-text>

@@ -45,8 +45,12 @@
               </b-button>
             </template>
 
-            <template v-slot:cell(nu_type)="row">
-              <span>{{nuType[row.item.nu_type]}}</span>
+            <template v-slot:cell(dt_date)="row">
+              <span>{{row.item.dt_date | date}}</span>
+            </template>
+
+            <template v-slot:cell(type)="row">
+              <span>{{nuType[row.item.nu_type -1]}}</span>
             </template>
           </b-table>
 
@@ -99,7 +103,7 @@ export default {
       fields: [
         { key: "nm_title", label: "Título", sortable: true },
         { key: "dt_date", label: "Data de publicação", sortable: true },
-        { key: "nu_type", label: "Categoria", sortable: true },
+        { key: "type", label: "Categoria", sortable: true },
         { key: "edit", label: "" },
         { key: "delete", label: "" }
       ]

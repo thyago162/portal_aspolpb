@@ -1,12 +1,12 @@
 <template>
   <div>
-    <carousel :perPageCustom="customSlide" class="ml-2 mt-4 mb-3">
+    <carousel :perPageCustom="customSlide" class="ml-2 mt-4 mb-3" >
       <slide v-for="(media, index) in medias" :key="index" class="mr-2 box">
         <div v-if="media.nu_type === 1">
           <b-img-lazy :src="media.nm_image_path" class="image"></b-img-lazy>
           <div class="image-title">
             <b-link @click="redirectTo(media.nm_link)">
-              <span>{{media.nm_title | title}}</span>
+              <span>{{media.nm_title }}</span>
             </b-link>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <b-img-lazy :src="media.nm_image_path" class="image"></b-img-lazy>
           <div class="image-title">
             <b-link @click="redirectTo(media.nm_link)">
-              <span>{{media.nm_title | title }}</span>
+              <span>{{media.nm_title  }}</span>
             </b-link>
           </div>
         </div>

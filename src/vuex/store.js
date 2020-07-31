@@ -154,7 +154,7 @@ export default new Vuex.Store({
             if (typeof id == 'undefined') {
                 id = 1
             }
-            axios.get('media')
+            axios.get('media?page='+id)
             .then(res => {
                 commit('setMedia', res.data.result.media);
             })

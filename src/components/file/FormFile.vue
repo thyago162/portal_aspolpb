@@ -72,7 +72,7 @@ export default {
 
   computed: {
     token() {
-      return this.$store.getters.getToken;
+      return this.$session.get("jwt");
     }
   },
 
@@ -115,7 +115,7 @@ export default {
       this.$http
         .post("file", formData, {
           headers: {
-            Authorization: "Bearer " + this.token
+            Authorization: "Bearer "+this.token
           }
         })
         .then(res => {

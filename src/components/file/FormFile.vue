@@ -110,6 +110,7 @@ export default {
       formData.append("id_file", this.form.id_file);
       formData.append("nm_name", this.form.nm_name);
       formData.append("nm_file_path", this.form.nm_file_path);
+      formData.append("file", this.file);
 
       this.$http
         .post("file", formData, {
